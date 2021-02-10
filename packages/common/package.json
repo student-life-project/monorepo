@@ -1,0 +1,9 @@
+{
+  "name": "@student_life/common",
+  "version": "0.0.0",
+  "description": "common components, utilities and libs for packages",
+  "main": "index.js",
+  "author": "erickmx<erickblanc96@gmail.com>",
+  "license": "MIT",
+  "private": true
+}

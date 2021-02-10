@@ -1,0 +1,30 @@
+{
+  "name": "student_life",
+  "version": "1.0.0",
+  "description": "project to help foreign students to find a temporal home meanwhile study",
+  "main": "index.js",
+  "author": "erickmx<erickblanc96@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@commitlint/config-lerna-scopes": "^11.0.0",
+    "husky": "^5.0.9",
+    "lerna": "^3.22.1"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional",
+      "@commitlint/config-lerna-scopes"
+    ]
+  }
+}

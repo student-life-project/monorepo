@@ -1,0 +1,12 @@
+{
+  "name": "@student_life/backend",
+  "version": "0.0.0",
+  "description": "backend application for lessers and students as API",
+  "main": "index.js",
+  "author": "erickmx<erickblanc96@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@student_life/common": "^0.0.0"
+  }
+}

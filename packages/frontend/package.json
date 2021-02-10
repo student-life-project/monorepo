@@ -1,0 +1,12 @@
+{
+  "name": "@student_life/frontend",
+  "version": "0.0.0",
+  "description": "frontend application for lessers and students",
+  "main": "index.js",
+  "author": "erickmx<erickblanc96@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@student_life/common": "^0.0.0"
+  }
+}
