@@ -76,3 +76,31 @@ https://www.npmjs.com/package/cross-env
 
 ## frontend
 
+https://talohana.com/blog/boost-your-typescript-project
+
+https://codeburst.io/continuous-integration-lint-staged-husky-pre-commit-hook-test-setup-47f8172924fc
+
+## tailwind
+
+https://www.npmjs.com/package/eslint-plugin-tailwind
+
+https://www.google.com/search?ei=M4okYLzhLsLYtAXBiKaoCw&q=tailwind+lint+npm&oq=tailwind+lint+npm&gs_lcp=CgZwc3ktYWIQAzoHCAAQRxCwAzoGCAAQFhAeOgUIIRCgAVCqO1jUQmCVRmgBcAJ4AIABmAGIAZoFkgEDMC41mAEAoAEBqgEHZ3dzLXdpesgBCMABAQ&sclient=psy-ab&ved=0ahUKEwj8xrHu2ODuAhVCLK0KHUGECbUQ4dUDCA0&uact=5
+
+https://eslint.org/docs/developer-guide/shareable-configs
+
+https://github.com/okonet/lint-staged#configuration
+
+https://www.google.com/search?q=nextjs+lerna+typescript&oq=nextjs+lerna+typescript&aqs=chrome..69i57.8886j0j1&sourceid=chrome&ie=UTF-8
+
+https://josephluck.co.uk/blog/next-typescript-monorepo
+
+https://github.com/outsrc/monorepo
+
+https://www.google.com/search?q=create+react+app+component+library&oq=create+react+app+component+library&aqs=chrome..69i57.10478j0j1&sourceid=chrome&ie=UTF-8
+
+https://jibin.tech/monorepo-with-create-react-app/
+
+
+
+
+
