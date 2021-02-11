@@ -62,6 +62,10 @@ https://typicode.github.io/husky/#/?id=%2f%3fid
 
 [@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional)
 
+[lint-staged](https://github.com/sudo-suhas/lint-staged-multi-pkg)
+
+https://talohana.com/blog/boost-your-typescript-project
+
 
 ## cross-env
 
