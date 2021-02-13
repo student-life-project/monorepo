@@ -8,6 +8,8 @@ https://blog.bitsrc.io/11-tools-to-build-a-monorepo-in-2021-7ce904821cc2
 
 https://medium.com/@jsilvax/a-workflow-guide-for-lerna-with-yarn-workspaces-60f97481149d
 
+https://webman.pro/blog/how-to-setup-typescript-path-aliases-in-lerna-monorepo/
+
 https://medium.com/@NiGhTTraX/how-to-set-up-a-typescript-monorepo-with-lerna-c6acda7d4559
 
 https://medium.com/@NiGhTTraX/making-typescript-monorepos-play-nice-with-other-tools-a8d197fdc680
