@@ -4,6 +4,10 @@
 
 https://blog.bitsrc.io/11-tools-to-build-a-monorepo-in-2021-7ce904821cc2
 
+https://medium.com/javascript-in-plain-english/building-a-nextjs-monorepo-ecd21ac04928
+
+https://dev.to/stereobooster/typescript-monorepo-for-react-project-3cpa
+
 ### lerna / yarn workspaces
 
 https://medium.com/@jsilvax/a-workflow-guide-for-lerna-with-yarn-workspaces-60f97481149d
@@ -115,5 +119,9 @@ https://medium.com/@admin_86118/testing-typescript-node-with-jest-6bf5db18119c
 https://enbonnet.me/article/46/usar-eslint-y-prettier-en-proyectos-typescript
 
 
+### react typescript component library
 
+https://dev.to/asaschachar/feature-flags-in-react-19fd
+
+https://medium.com/swlh/develop-and-publish-a-react-component-library-using-create-react-app-typescript-8f73bb66335b
 
