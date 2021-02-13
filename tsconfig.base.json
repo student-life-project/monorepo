@@ -16,7 +16,8 @@
         "noFallthroughCasesInSwitch": true,
 
         "paths": {
-            "@student_life/common": ["../common"]
+            "@student_life/common": ["../common"],
+            "@student_life/common/*": ["../common/*"]
         }
     }
 }
