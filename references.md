@@ -10,6 +10,8 @@ https://medium.com/@jsilvax/a-workflow-guide-for-lerna-with-yarn-workspaces-60f9
 
 https://webman.pro/blog/how-to-setup-typescript-path-aliases-in-lerna-monorepo/
 
+https://github.com/lerna/lerna-changelog
+
 https://medium.com/@NiGhTTraX/how-to-set-up-a-typescript-monorepo-with-lerna-c6acda7d4559
 
 https://medium.com/@NiGhTTraX/making-typescript-monorepos-play-nice-with-other-tools-a8d197fdc680
@@ -40,6 +42,8 @@ https://github.com/nrwl/nx-console/issues/961
 ## lerna
 
 https://github.com/lerna/lerna/issues/1846
+
+https://dev.to/try_catch/top-5-handy-lerna-flags-for-your-monorepo-10fa
 
 
 ## husky / commitlint
@@ -102,6 +106,13 @@ https://www.google.com/search?q=create+react+app+component+library&oq=create+rea
 
 https://jibin.tech/monorepo-with-create-react-app/
 
+## jest
+
+http://orlandobayo.com/blog/monorepo-testing-using-jest/
+
+https://medium.com/@admin_86118/testing-typescript-node-with-jest-6bf5db18119c
+
+https://enbonnet.me/article/46/usar-eslint-y-prettier-en-proyectos-typescript
 
 
 
