@@ -4,15 +4,15 @@ import { withKnobs, text, boolean, color } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import README from './README.md';
-import Button from '.';
+import Button from './index';
 
 const stories = storiesOf('Button', module);
 
 stories.addDecorator(withKnobs);
 stories.addParameters({
   readme: {
-    content: README
-  }
+    content: README,
+  },
 });
 
 stories.add('default', () => {
