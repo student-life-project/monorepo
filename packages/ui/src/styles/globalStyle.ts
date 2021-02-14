@@ -1,4 +1,9 @@
+import { Theme } from '@emotion/react';
+
 export default {
-    colorPrimary: '#3e9f92', 
-    colorSecondary: '#8892b0',
-  };
+  color: {
+    primary: 'hotpink',
+    positive: 'green',
+    negative: 'red',
+  },
+} as Theme;

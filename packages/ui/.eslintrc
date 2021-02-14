@@ -1,5 +1,11 @@
 {
     "extends": "../../.eslintrc.base",
-    "plugins": ["react", "react-hooks"],
-    "ignorePatterns": "dist/"
+    "plugins": ["react", "react-hooks", "@emotion"],
+    "ignorePatterns": "dist/",
+    "rules": {
+        "react/prop-types": 0,
+        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+        "no-use-before-define": "off",
+        "react/jsx-props-no-spreading": "warn"
+    }
 }

@@ -1,7 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 
-import styled from "@emotion/styled";
-import {ThemeProvider} from "@emotion/react"
+import styled from '@emotion/styled';
 
 export type Props = {
   children: React.ReactNode;
@@ -12,30 +11,17 @@ export type Props = {
   dataTestId?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-interface IButton {
-    color?: string;
-}
-
-const theme = {
-    color: {
-      primary: 'hotpink',
-      positive: "green",
-      negative: "red"
-    }
-  }
-  
-
-const _Button = styled.button`
-color: ${({color, theme}) => color || theme.color.primary};
-backgroundColor: white;
-    borderWidth: 1:
-    borderColor: ${({ color }) => color || theme.color.primary};
+const ButtonStyled = styled.button<Props>`
+    color: ${({ color, theme }) => color || theme.color.primary};
+    backgroundColor: white;
+    border-width: 1:
+    border-xolor: ${({ color, theme }) => color || theme.color.primary};
     padding: 15px 32px;
     transition: all 250ms;
     
     &:not([disabled])&:hover {
       color: white;
-      backgroundColor: ${({ color }) => color || theme.color.primary};
+      background-color: ${({ color, theme }) => color || theme.color.primary};
     }
 
     &:focus {
@@ -48,19 +34,18 @@ backgroundColor: white;
     }
 
   & label {
-    fontWeight: bold;
+    font-weight: bold;
   }
-`
+`;
 
 const Button: React.FC<Props> = ({
   children,
-  onClick = () => {},
+  onClick = () => 'empty',
   disabled = false,
   type = 'submit',
   color = '',
-  dataTestId = 'button'
+  dataTestId = 'button',
 }) => {
-
   const handleClick = () => {
     if (!disabled && onClick) onClick();
   };
@@ -69,17 +54,14 @@ const Button: React.FC<Props> = ({
     color,
     type,
     onClick: handleClick,
-    
     disabled,
-    'data-testid': dataTestId
+    'data-testid': dataTestId,
   };
 
   return (
-      <ThemeProvider theme={theme}>
-    <_Button {...rootProps}>
+    <ButtonStyled {...rootProps}>
       <span>{children}</span>
-    </_Button>
-      </ThemeProvider>
+    </ButtonStyled>
   );
 };
 
