@@ -125,3 +125,6 @@ https://dev.to/asaschachar/feature-flags-in-react-19fd
 
 https://medium.com/swlh/develop-and-publish-a-react-component-library-using-create-react-app-typescript-8f73bb66335b
 
+https://dev.to/sadnessojisan/storybook-with-preact-ts-goober-4ghk
+
+https://daveceddia.com/tailwind-create-react-app/#production

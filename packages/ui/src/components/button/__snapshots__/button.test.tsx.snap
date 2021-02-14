@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button render() renders a reset button 1`] = `
+<button
+  class="css-17a9ggc"
+  color=""
+  data-testid="button"
+  type="reset"
+>
+  <span>
+    <div>
+      I am a button
+    </div>
+  </span>
+</button>
+`;
+
+exports[`Button render() renders a submit button 1`] = `
+<button
+  class="css-17a9ggc"
+  color=""
+  data-testid="button"
+  type="submit"
+>
+  <span>
+    <div>
+      I am a button
+    </div>
+  </span>
+</button>
+`;

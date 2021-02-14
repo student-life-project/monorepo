@@ -1,0 +1,5 @@
+{
+    "extends": "../../.eslintrc.base",
+    "plugins": ["react", "react-hooks"],
+    "ignorePatterns": "dist/"
+}

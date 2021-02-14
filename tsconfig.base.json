@@ -17,7 +17,9 @@
 
         "paths": {
             "@student_life/common": ["../common"],
-            "@student_life/common/*": ["../common/*"]
+            "@student_life/common/*": ["../common/*"],
+            "@student_life/ui": ["../ui"],
+            "@student_life/ui/*": ["../ui/*"]
         }
     }
 }
