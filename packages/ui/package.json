@@ -13,18 +13,18 @@
     "@types/react-dom": "^17.0.0",
     "chokidar-cli": "^2.1.0",
     "npm-run-all": "^4.1.5",
+    "postcss": "^8.2.7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.2",
     "tailwindcss": "^2.0.3",
     "typescript": "^4.2.3",
-    "web-vitals": "^1.0.1",
-    "yarn-run-all": "^3.1.1"
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
     "build:tailwind": "tailwind build src/tailwind.css -o src/tailwind.output.css",
     "watch:tailwind": "chokidar 'src/**/*.css' 'src/**/*.scss' --ignore src/tailwind.output.css -c 'yarn run build:tailwind'",
-    "dev": "yarn-run-all build:tailwind --parallel watch:tailwind dev:react",
+    "dev": "npm-run-all build:tailwind --parallel watch:tailwind dev:react",
     "dev:react": "react-scripts start",
     "prebuild": "run-s build:tailwind",
     "build": "react-scripts build",
@@ -65,6 +65,7 @@
     "@storybook/react": "^6.1.17",
     "chokidar-cli": "^2.1.0",
     "eslint-config-airbnb": "^18.2.1",
+    "npm-run-all": "^4.1.5",
     "storybook-readme": "^5.0.9",
     "yarn-run-all": "^3.1.1"
   },
