@@ -21,5 +21,8 @@
     "*.{js,jsx,ts,tsx}": [
       "eslint --cache --fix"
     ]
+  },
+  "dependencies": {
+    "typescript": "^4.2.3"
   }
 }

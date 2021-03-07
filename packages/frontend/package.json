@@ -11,7 +11,8 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "@student_life/common": "^0.0.0"
+    "@student_life/common": "^0.0.0",
+    "typescript": "^4.2.3"
   },
   "devDependencies": {
     "eslint": "^7.19.0",
