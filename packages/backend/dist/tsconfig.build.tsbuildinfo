@@ -1372,7 +1372,7 @@
         "affectsGlobalScope": false
       },
       "../src/main.ts": {
-        "version": "e25d9bd8f80b6ffbcc8826ed1b407e747e4fbe346c5bab62cbe5837da4eeb189",
+        "version": "eff1a55236024028d19f02624b339bd8c6170812bbb92f1af7d843a26de19521",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
         "affectsGlobalScope": false
       },
@@ -2190,6 +2190,7 @@
       "noUnusedParameters": true,
       "noImplicitReturns": true,
       "noFallthroughCasesInSwitch": true,
+      "skipLibCheck": true,
       "paths": {
         "@student_life/common": [
           "../common"
@@ -5412,53 +5413,9 @@
       "../../../node_modules/@types/connect/index.d.ts",
       "../../../node_modules/@types/cookiejar/index.d.ts",
       "../../../node_modules/@types/eslint-scope/index.d.ts",
-      [
-        "../../../node_modules/@types/eslint-scope/node_modules/@types/eslint/helpers.d.ts",
-        [
-          {
-            "file": "../../../node_modules/@types/eslint-scope/node_modules/@types/eslint/helpers.d.ts",
-            "start": 5,
-            "length": 7,
-            "messageText": "Duplicate identifier 'Prepend'.",
-            "category": 1,
-            "code": 2300,
-            "relatedInformation": [
-              {
-                "file": "../../../node_modules/@types/eslint/helpers.d.ts",
-                "start": 5,
-                "length": 7,
-                "messageText": "'Prepend' was also declared here.",
-                "category": 3,
-                "code": 6203
-              }
-            ]
-          }
-        ]
-      ],
+      "../../../node_modules/@types/eslint-scope/node_modules/@types/eslint/helpers.d.ts",
       "../../../node_modules/@types/eslint-scope/node_modules/@types/eslint/index.d.ts",
-      [
-        "../../../node_modules/@types/eslint/helpers.d.ts",
-        [
-          {
-            "file": "../../../node_modules/@types/eslint/helpers.d.ts",
-            "start": 5,
-            "length": 7,
-            "messageText": "Duplicate identifier 'Prepend'.",
-            "category": 1,
-            "code": 2300,
-            "relatedInformation": [
-              {
-                "file": "../../../node_modules/@types/eslint-scope/node_modules/@types/eslint/helpers.d.ts",
-                "start": 5,
-                "length": 7,
-                "messageText": "'Prepend' was also declared here.",
-                "category": 3,
-                "code": 6203
-              }
-            ]
-          }
-        ]
-      ],
+      "../../../node_modules/@types/eslint/helpers.d.ts",
       "../../../node_modules/@types/eslint/index.d.ts",
       "../../../node_modules/@types/estree/index.d.ts",
       "../../../node_modules/@types/express-serve-static-core/index.d.ts",
