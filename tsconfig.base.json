@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "removeComments": true,
+
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+
+        "skipLibCheck": true,
+
+        "paths": {
+            "@student_life/common": ["../common"],
+            "@student_life/common/*": ["../common/*"],
+            "@student_life/ui": ["../ui"],
+            "@student_life/ui/*": ["../ui/*"]
+        }
+    },
+    "exclude": [
+        "node_modules", 
+        "test", 
+        "dist", 
+        "**/*spec.ts",
+        "./node_modules",
+        "./node_modules/*",
+        "./node_modules/@types/node/index.d.ts",
+    ]
+}

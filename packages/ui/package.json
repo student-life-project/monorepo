@@ -1,0 +1,77 @@
+{
+  "name": "@student_life/ui",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/jest": "^11.2.0",
+    "@emotion/react": "^11.1.5",
+    "@emotion/styled": "^11.1.5",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "chokidar-cli": "^2.1.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.2.7",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.2",
+    "tailwindcss": "^2.0.3",
+    "typescript": "^4.2.3",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "build:tailwind": "tailwind build src/tailwind.css -o src/tailwind.output.css",
+    "watch:tailwind": "chokidar 'src/**/*.css' 'src/**/*.scss' --ignore src/tailwind.output.css -c 'yarn run build:tailwind'",
+    "dev": "npm-run-all build:tailwind --parallel watch:tailwind dev:react",
+    "dev:react": "react-scripts start",
+    "prebuild": "run-s build:tailwind",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "test:ci": "CI=1 react-scripts test",
+    "eject": "react-scripts eject",
+    "start": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "yarn lint -- --fix",
+    "precommit": "lint-staged"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^6.1.17",
+    "@storybook/addon-essentials": "^6.1.17",
+    "@storybook/addon-knobs": "^6.1.17",
+    "@storybook/addon-links": "^6.1.17",
+    "@storybook/node-logger": "^6.1.17",
+    "@storybook/preset-create-react-app": "^3.1.5",
+    "@storybook/react": "^6.1.17",
+    "chokidar-cli": "^2.1.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "npm-run-all": "^4.1.5",
+    "storybook-readme": "^5.0.9",
+    "yarn-run-all": "^3.1.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --cache --fix"
+    ]
+  }
+}
