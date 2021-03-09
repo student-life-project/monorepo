@@ -1,7 +1,6 @@
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -18,11 +17,41 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
     "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react"
+    "jsxImportSource": "@emotion/react",
+    "sourceMap": true,
+    "removeComments": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "rootDir": "./src",
+    "outDir": "./lib",
+    "declaration": true
   },
   "include": [
-    "src"
+    "**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "test",
+    "dist",
+    "build"
+  ],
+  "plugins": [
+    {
+      "name": "typescript-xwind-plugin",
+      "config": "../../tailwind.config.js", //Absolute filepath to tailwind config
+      "ignoreErrors": null, //regex pattern string or null
+      "tags": [
+        "tw",
+        "xw"
+      ] //tags that trigger xwind plugin
+    }
   ]
 }

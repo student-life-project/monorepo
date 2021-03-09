@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import Button, { Props } from '.';
@@ -13,7 +12,7 @@ describe('Button', () => {
       disabled: false,
       type: 'submit',
       color: '',
-      dataTestId: 'button'
+      dataTestId: 'button',
     };
   });
 

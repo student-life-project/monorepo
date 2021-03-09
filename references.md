@@ -28,8 +28,6 @@ https://www.google.com/search?ei=zjgjYKzvK4qwsAW1o4KoDg&q=lerna+mono+repo+smart+
 
 https://www.google.com/search?q=lerna+vs+yarn+workspaces&oq=lerna+vs+yarn+workspaces&aqs=chrome..69i57.20094j0j1&sourceid=chrome&ie=UTF-8
 
-
-
 ### NX
 
 https://www.npmjs.com/package/create-nx-workspace
@@ -42,13 +40,11 @@ https://nx.dev/latest/angular/tutorial/05-add-node-app
 
 https://github.com/nrwl/nx-console/issues/961
 
-
 ## lerna
 
 https://github.com/lerna/lerna/issues/1846
 
 https://dev.to/try_catch/top-5-handy-lerna-flags-for-your-monorepo-10fa
-
 
 ## husky / commitlint
 
@@ -76,11 +72,9 @@ https://typicode.github.io/husky/#/?id=%2f%3fid
 
 https://talohana.com/blog/boost-your-typescript-project
 
-
 ## cross-env
 
 https://www.npmjs.com/package/cross-env
-
 
 ## backend
 
@@ -118,7 +112,6 @@ https://medium.com/@admin_86118/testing-typescript-node-with-jest-6bf5db18119c
 
 https://enbonnet.me/article/46/usar-eslint-y-prettier-en-proyectos-typescript
 
-
 ### react typescript component library
 
 https://dev.to/asaschachar/feature-flags-in-react-19fd
@@ -129,6 +122,11 @@ https://dev.to/sadnessojisan/storybook-with-preact-ts-goober-4ghk
 
 https://daveceddia.com/tailwind-create-react-app/#production
 
+### Create Libraries
+
+https://blog.dennisokeeffe.com/blog/2020-12-02-building-a-ui-component-library-with-react-and-typescript/
+
+https://www.tsmean.com/articles/how-to-write-a-typescript-library/
 
 ### need to be classfied
 
@@ -169,7 +167,6 @@ https://github.com/emotion-js/emotion/issues/1262
 https://www.smashingmagazine.com/2020/09/component-library-react-emotion/
 
 https://dev.to/blundert/create-react-app-import-modules-using-aliases-with-webpack-and-typescript-49o0
-
 
 https://leerob.io/blog/ui-component-library-with-styled-components
 

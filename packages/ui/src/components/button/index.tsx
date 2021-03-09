@@ -1,7 +1,6 @@
 import React from 'react';
 
 import styled from '@emotion/styled';
-import { ThemeProvider } from '@emotion/react';
 
 export type Props = {
   children: React.ReactNode;
@@ -12,17 +11,8 @@ export type Props = {
   dataTestId?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const themeDefault = {
-  colors: {
-    primary: 'hotpink',
-    positive: 'green',
-    negative: 'red',
-  },
-};
-
 const ButtonStyled = styled.button<Props>`
   color: ${({ color, theme }) => {
-    console.log({ theme });
     return color || theme.colors?.primary;
   }};
   background-color: white;
@@ -72,11 +62,9 @@ const Button: React.FC<Props> = ({
   };
 
   return (
-    <ThemeProvider theme={themeDefault}>
-      <ButtonStyled {...rootProps}>
-        <span>{children}</span>
-      </ButtonStyled>
-    </ThemeProvider>
+    <ButtonStyled {...rootProps}>
+      <span>{children}</span>
+    </ButtonStyled>
   );
 };
 

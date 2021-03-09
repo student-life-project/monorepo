@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { Global } from '@emotion/react';
 import xw from 'xwind';
 
-import { useStore } from '../src/store';
+import { useStore } from '../store';
 
 function App({ Component, pageProps }: AppProps): JSX.Element {
   const store = useStore(pageProps.initialReduxState);
