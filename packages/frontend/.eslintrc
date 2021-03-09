@@ -62,6 +62,9 @@
         ],
         "react/jsx-one-expression-per-line": "off",
         "no-underscore-dangle": "off",
-        "react/jsx-props-no-spreading": "off"
+        "react/jsx-props-no-spreading": "off",
+        "import/no-unresolved": "off",
+        "import/extensions": "off",
+        "import/no-extraneous-dependencies": "off",
     }
 }

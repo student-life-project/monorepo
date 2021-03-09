@@ -1,15 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-
-interface ITitle {
-  hasBorder: boolean;
-}
-
-const Title = styled.h1<ITitle>`
+const Title = styled.h1 `
   color: red;
-  ${({ hasBorder }) =>
-    hasBorder &&
-    css`
+  ${({ hasBorder }) => hasBorder &&
+    css `
       border: solid 1px red;
     `}
 
@@ -17,5 +11,5 @@ const Title = styled.h1<ITitle>`
     color: green;
   }
 `;
-
 export default Title;
+//# sourceMappingURL=Title.js.map

@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import xw from 'xwind';
 
+import { Title } from '@student_life/ui';
+
 const Button = styled.button(xw`
   relative
   w-64 min-w-full
@@ -37,6 +39,10 @@ export const Home: NextPage = () => {
         <h1 className="title">
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+
+        <Title hasBorder>
+          Welcome to <a href="https://nextjs.org">Next.js!</a>
+        </Title>
 
         <p>Current locale: {locale}</p>
         <p>Default locale: {defaultLocale}</p>
