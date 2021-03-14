@@ -1,13 +1,17 @@
+/* eslint-disable no-alert */
+/* eslint-disable prettier/prettier */
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import styled from '@emotion/styled';
+// import styled from '@emotion/styled';
 import xw from 'xwind';
 
 import { Title } from '@student_life/ui';
+import Button from '../components/Button';
 
+/*
 const Button = styled.button(xw`
   relative
   w-64 min-w-full
@@ -23,6 +27,24 @@ const Button = styled.button(xw`
   active:bg-blue-700
   transition duration-150 ease-in-out
 `);
+*/
+
+const Icon = () => (
+  <svg
+    css={xw`w-4 h-4`}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+    />
+  </svg>
+);
 
 export const Home: NextPage = () => {
   const router = useRouter();
@@ -54,12 +76,14 @@ export const Home: NextPage = () => {
         </p>
 
         <Button
+          FPrimary
           type="button"
           onClick={() => {
             window.alert('With typescript and Jest');
           }}
         >
-          Test Button
+          <Icon />
+          <span css={xw`mx-2`}>Test button</span>
         </Button>
 
         <div className="grid">
@@ -229,7 +253,8 @@ export const Home: NextPage = () => {
             flex-direction: column;
           }
         }
-      `}</style>
+      `}
+      </style>
 
       <style jsx global>{`
         html,
@@ -244,7 +269,8 @@ export const Home: NextPage = () => {
         * {
           box-sizing: border-box;
         }
-      `}</style>
+      `}
+      </style>
     </div>
   );
 };
