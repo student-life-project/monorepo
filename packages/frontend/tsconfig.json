@@ -21,7 +21,22 @@
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
-    "jsxImportSource": "@emotion/react"
+    "jsxImportSource": "@emotion/react",
+    "baseUrl": ".",
+    "paths": {
+      "@": [
+        "src"
+      ],
+      "@/*": [
+        "src/*"
+      ],
+      "@/components": [
+        "src/components"
+      ],
+      "@/components/*": [
+        "src/components/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules",
@@ -33,5 +48,16 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.js"
+  ],
+  "plugins": [
+    {
+      "name": "typescript-xwind-plugin",
+      "config": "../../tailwind.config.js", //Absolute filepath to tailwind config
+      "ignoreErrors": null, //regex pattern string or null
+      "tags": [
+        "tw",
+        "xw"
+      ] //tags that trigger xwind plugin
+    }
   ]
 }
