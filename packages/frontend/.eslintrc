@@ -1,11 +1,13 @@
 {
     "parser": "@typescript-eslint/parser",
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "react-hooks"
     ],
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
         "plugin:@typescript-eslint/recommended",
         "../../.eslintrc.base",
         // Uncomment the following lines to enable eslint-config-prettier
@@ -66,5 +68,6 @@
         "import/no-unresolved": "off",
         "import/extensions": "off",
         "import/no-extraneous-dependencies": "off",
+        "import/prefer-default-export": "off",
     }
 }

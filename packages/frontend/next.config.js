@@ -1,6 +1,5 @@
 const witTM = require('next-transpile-modules')([
   '@student_life/common',
-  '@student_life/ui',
 ]);
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -16,7 +15,6 @@ module.exports = withPlugins(plugins, {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@student_life/common': require.resolve('@student_life/common'),
-      '@student_life/ui': require.resolve('@student_life/ui'),
     };
 
     return config;

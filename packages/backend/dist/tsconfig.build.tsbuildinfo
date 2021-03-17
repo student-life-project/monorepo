@@ -2052,8 +2052,8 @@
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/react-syntax-highlighter/index.d.ts": {
-        "version": "83800fe6ed3ecb114e0ddb6f82f9ac621e2847fa6f77f9f04a56c0c51d13a162",
-        "signature": "83800fe6ed3ecb114e0ddb6f82f9ac621e2847fa6f77f9f04a56c0c51d13a162",
+        "version": "68091402dea57057029df54260e87ea29e9c8538c82a4480efb40d3313b70237",
+        "signature": "68091402dea57057029df54260e87ea29e9c8538c82a4480efb40d3313b70237",
         "affectsGlobalScope": true
       },
       "../../../node_modules/@types/react-textarea-autosize/index.d.ts": {
