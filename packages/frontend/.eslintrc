@@ -13,6 +13,8 @@
         // Uncomment the following lines to enable eslint-config-prettier
         // Is not enabled right now to avoid issues with the Next.js repo
         "prettier",
+        "plugin:jsx-a11y/recommended",
+        "plugin:tailwind/recommended"
     ],
     "env": {
         "es6": true,
@@ -69,5 +71,8 @@
         "import/extensions": "off",
         "import/no-extraneous-dependencies": "off",
         "import/prefer-default-export": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "error",
+        "tailwind/class-order": "error"
     }
 }

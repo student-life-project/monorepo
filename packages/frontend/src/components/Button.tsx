@@ -1,6 +1,6 @@
+import styled from '@emotion/styled';
 import { memo } from 'react';
 import xw from 'xwind';
-import styled from '@emotion/styled';
 
 type IButton = {
   FPrimary?: boolean;

@@ -1,19 +1,19 @@
 /* eslint-disable no-alert */
-import { useState } from 'react';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import xw from 'xwind';
+
+import Accordion from '@/components/Accordion';
 import Button from '@/components/Button';
+import Checkbox from '@/components/Checkbox';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
-import Checkbox from '@/components/Checkbox';
 import Radio from '@/components/Radio';
 import Select from '@/components/Select';
-import Textarea from '@/components/Textarea';
 import Switch from '@/components/Switch';
-import Accordion from '@/components/Accordion';
-
+import Textarea from '@/components/Textarea';
 import { Logo } from '@/icons';
 
 const Icon = () => (
