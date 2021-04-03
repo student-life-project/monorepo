@@ -29,13 +29,15 @@
     "test:ci": "lerna run test:ci --stream",
     "start:front": "lerna run start --scope=\"@student_life/frontend\" --stream",
     "start:back": "lerna run start --scope=\"@student_life/backend\" --stream",
-    "start:ui": "lerna run start --scope=\"@student_life/ui\" --stream"
+    "start:ui": "lerna run start --scope=\"@student_life/ui\" --stream",
+    "add:svg": "lerna run add:svg --stream"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@commitlint/config-lerna-scopes": "^11.0.0",
     "@emotion/eslint-plugin": "^11.2.0",
+    "@svgr/cli": "^5.5.0",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.27",
     "@types/source-map-support": "^0.5.3",
