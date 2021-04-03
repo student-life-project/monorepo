@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import xw from 'xwind';
 import Button from '@/components/Button';
 
+import { Logo } from '@/icons';
+
 const Icon = () => (
   <svg
     css={xw`w-4 h-4`}
@@ -35,7 +37,9 @@ export const Home: NextPage = () => {
       </Head>
 
       <main>
-        <h1 className="title">
+        <Logo css={xw`w-1/4 h-1/4`} />
+
+        <h1 className="title" css={xw`mx-2 font-maven text-crazy`}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
@@ -43,7 +47,7 @@ export const Home: NextPage = () => {
         <p>Default locale: {defaultLocale}</p>
         <p>Configured locales: {JSON.stringify(locales)}</p>
 
-        <p className="description">
+        <p className="description" css={xw`font-montserrat text-crazy`}>
           Get started by editing
           <code>pages/index.tsx</code>
         </p>
@@ -56,7 +60,7 @@ export const Home: NextPage = () => {
           }}
         >
           <Icon />
-          <span css={xw`mx-2`}>Test button</span>
+          <span css={xw`mx-2 font-maven font-montserrat`}>Test button</span>
         </Button>
 
         <div className="grid">

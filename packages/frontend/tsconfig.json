@@ -35,6 +35,12 @@
       ],
       "@/components/*": [
         "src/components/*"
+      ],
+      "@/public": [
+        "public"
+      ],
+      "@/public/*": [
+        "public/*"
       ]
     }
   },
