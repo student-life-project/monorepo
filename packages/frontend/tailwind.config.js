@@ -18,7 +18,7 @@ module.exports = {
     },
     fontFamily: {
       maven: ['Maven Pro', 'Helvetica', 'Arial', 'sans-serif'],
-      montserrat: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif']
+      montserrat: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'],
     },
   },
   variants: {},

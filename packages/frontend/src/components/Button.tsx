@@ -2,14 +2,12 @@ import { memo } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
-interface IBtn {
+type IButton = {
   FPrimary?: boolean;
   FSecondary?: boolean;
   FSuccess?: boolean;
   FDanger?: boolean;
   FWarning?: boolean;
-  FInfo?: boolean;
-  FDark?: boolean;
   BPrimary?: boolean;
   BSecondary?: boolean;
   BSuccess?: boolean;
@@ -19,9 +17,10 @@ interface IBtn {
   round?: boolean;
   large?: boolean;
   small?: boolean;
-}
+  children: React.ReactNode;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Btn = styled.button<IBtn>`
+const Btn = styled.button<IButton>`
   ${xw`
     flex
     px-5 
@@ -30,10 +29,13 @@ const Btn = styled.button<IBtn>`
     font-bold
     text-white 
     rounded-md
+    focus:ring
     items-center
     duration-500
     transition ease-in
-    focus:outline-black
+    focus:outline-none
+    focus:ring-offset-1
+    focus:border-blue-300
   `}
 
   ${({ FPrimary }) => FPrimary && xw`bg-blue-500 hover:bg-blue-600`}
@@ -63,7 +65,8 @@ const Btn = styled.button<IBtn>`
     xw`text-yellow-600 border border-yellow-600 hover:bg-yellow-100`}
 
   ${({ disabled }) =>
-    disabled && xw`bg-gray-300 hover:bg-gray-300 cursor-not-allowed`}
+    disabled &&
+    xw`text-gray-600 border border-gray-300 bg-gray-300 hover:bg-gray-300 cursor-not-allowed`}
 
   ${({ round }) => round && xw`rounded-full`}
 
@@ -72,6 +75,8 @@ const Btn = styled.button<IBtn>`
   ${({ small }) => small && xw`text-xs py-2 px-4`}
 `;
 
-const Button = ({ children, ...props }) => <Btn {...props}>{children}</Btn>;
+const Button: React.FC<IButton> = ({ children, ...props }) => (
+  <Btn {...props}>{children}</Btn>
+);
 
 export default memo(Button);
