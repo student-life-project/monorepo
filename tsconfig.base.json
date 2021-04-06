@@ -20,7 +20,8 @@
             "@student_life/common/*": [
                 "../common/*"
             ],
-        }
+        },
+        "strictPropertyInitialization": false
     },
     "exclude": [
         "node_modules",

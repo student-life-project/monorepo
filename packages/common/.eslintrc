@@ -1,4 +1,6 @@
 {
-    "extends": ["../../.eslintrc.base"],
-    "ignorePatterns": "dist/"
+    "extends": [
+        "../../.eslintrc.base"
+    ],
+    "ignorePatterns": "dist/",
 }

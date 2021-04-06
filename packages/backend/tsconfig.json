@@ -12,5 +12,16 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true
+  },
+  "exclude": [
+    "dist"
+  ],
+  "paths": {
+    "@": [
+      "./src"
+    ],
+    "@/*": [
+      "./src/*"
+    ]
   }
 }
