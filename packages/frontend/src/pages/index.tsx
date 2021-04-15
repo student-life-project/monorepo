@@ -8,13 +8,14 @@ import xw from 'xwind';
 import Accordion from '@/components/Accordion';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
+import Footer from '@/components/Footer';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
 import Radio from '@/components/Radio';
 import Select from '@/components/Select';
 import Switch from '@/components/Switch';
 import Textarea from '@/components/Textarea';
-import { Logo } from '@/icons';
+import { Im01 } from '@/icons';
 
 const Icon = () => (
   <svg
@@ -66,11 +67,11 @@ export const Home: NextPage = () => {
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>Student Life</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Logo css={xw`w-1/4 h-1/4`} />
+      <Im01 css={xw`w-1/4 h-1/4`} />
 
       <h1 className="title" css={xw`mx-2 font-maven text-crazy`}>
         Welcome to <a href="https://nextjs.org">Next.js!</a>
@@ -127,6 +128,131 @@ export const Home: NextPage = () => {
 
       <div css={xw`grid grid-cols-2 md:grid-cols-5 gap-y-5 gap-x-2`}>
         <Button
+          FPrimary
+          type="button"
+          onClick={() => {
+            window.alert('With typescript and Jest');
+          }}
+        >
+          <span css={xw`w-full mx-2`}>Test button</span>
+        </Button>
+
+        <Button
+          FSecondary
+          type="button"
+          onClick={() => {
+            window.alert('With typescript and Jest');
+          }}
+        >
+          <span css={xw`w-full mx-2`}>Test button</span>
+        </Button>
+
+        <Button
+          FSuccess
+          type="button"
+          onClick={() => {
+            window.alert('With typescript and Jest');
+          }}
+        >
+          <span css={xw`w-full mx-2`}>Test button</span>
+        </Button>
+
+        <Button
+          FDanger
+          type="button"
+          onClick={() => {
+            window.alert('With typescript and Jest');
+          }}
+        >
+          <span css={xw`w-full mx-2`}>Test button</span>
+        </Button>
+
+        <Button
+          FWarning
+          type="button"
+          onClick={() => {
+            window.alert('With typescript and Jest');
+          }}
+        >
+          <span css={xw`w-full mx-2`}>Test button</span>
+        </Button>
+
+        <Button
+          BPrimary
+          type="button"
+          onClick={() => {
+            window.alert('With typescript and Jest');
+          }}
+        >
+          <span css={xw`w-full mx-2`}>Test button</span>
+        </Button>
+
+        <Button
+          BSecondary
+          type="button"
+          onClick={() => {
+            window.alert('With typescript and Jest');
+          }}
+        >
+          <span css={xw`w-full mx-2`}>Test button</span>
+        </Button>
+
+        <Button
+          BSuccess
+          type="button"
+          onClick={() => {
+            window.alert('With typescript and Jest');
+          }}
+        >
+          <span css={xw`w-full mx-2`}>Test button</span>
+        </Button>
+
+        <Button
+          BDanger
+          type="button"
+          onClick={() => {
+            window.alert('With typescript and Jest');
+          }}
+        >
+          <span css={xw`w-full mx-2`}>Test button</span>
+        </Button>
+
+        <Button
+          BWarning
+          type="button"
+          onClick={() => {
+            window.alert('With typescript and Jest');
+          }}
+        >
+          <span css={xw`w-full mx-2`}>Test button</span>
+        </Button>
+
+        <a href="https://nextjs.org/learn" className="card">
+          <h3>Learn &rarr;</h3>
+          <p>Learn about Next.js in an interactive course with quizzes!</p>
+        </a>
+
+        <a
+          href="https://github.com/vercel/next.js/tree/master/examples"
+          className="card"
+        >
+          <h3>Examples &rarr;</h3>
+          <p>Discover and deploy boilerplate example Next.js projects.</p>
+        </a>
+
+        <a
+          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          className="card"
+        >
+          <h3>Deploy &rarr;</h3>
+          <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
+        </a>
+      </div>
+      <h1 className="title">Buttons</h1>
+
+      <div css={xw`grid grid-cols-2 md:grid-cols-5 gap-y-5 gap-x-2`}>
+        <Button
+          round
           FPrimary
           type="button"
           onClick={() => {
@@ -783,27 +909,59 @@ export const Home: NextPage = () => {
         </div>
       </form>
 
-      <h1 className="title">Accordion</h1>
-
-      <Accordion title="Hola">
-        <p>Nena</p>
-        <p>Nena</p>
-        <p>Nena</p>
-      </Accordion>
-
-      <Accordion title="Hola">
-        <p>Nena</p>
-        <p>Nena</p>
-        <p>Nena</p>
-      </Accordion>
-
-      <Accordion title="Hola">
-        <p>Nena</p>
-        <p>Nena</p>
-        <p>Nena</p>
-      </Accordion>
-
       <h1 className="title">Text</h1>
+
+      <div css={xw`container`}>
+        <div css={xw`grid grid-cols-1 gap-y-3 gap-x-5`}>
+          <Accordion title="Lorem ipsum dolor sit, amet consectetur adipisicing elit.">
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit
+              omnis tempore ullam incidunt tenetur maiores autem, voluptas
+              dolorem, ipsam praesentium esse sed ducimus maxime nemo vitae
+              necessitatibus error! Quibusdam, laboriosam.
+            </p>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit
+              omnis tempore ullam incidunt tenetur maiores autem, voluptas
+              dolorem, ipsam praesentium esse sed ducimus maxime nemo vitae
+              necessitatibus error! Quibusdam, laboriosam.
+            </p>
+          </Accordion>
+
+          <Accordion title="Lorem ipsum dolor sit, amet consectetur adipisicing elit tempore ullam incidunt tenetur maiores autem.">
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit.,
+              voluptas dolorem, ipsam praesentium esse sed ducimus maxime nemo
+              vitae necessitatibus error! Quibusdam, laboriosam.
+            </p>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit
+              omnis tempore ullam incidunt tenetur maiores autem, voluptas
+              dolorem, ipsam praesentium esse sed ducimus maxime nemo vitae
+              necessitatibus error! Quibusdam, laboriosam.
+            </p>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit
+              omnis tempore ullam incidunt tenetur maiores autem, voluptas
+              dolorem, ipsam praesentium esse sed ducimus maxime nemo vitae
+              necessitatibus error! Quibusdam, laboriosam.
+            </p>
+          </Accordion>
+
+          <Accordion title="Lorem ipsum dolor sit">
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit
+              omnis tempore ullam incidunt tenetur maiores autem, voluptas
+              dolorem, ipsam praesentium esse sed ducimus maxime nemo vitae
+              necessitatibus error! Quibusdam, laboriosam.
+            </p>
+          </Accordion>
+        </div>
+      </div>
+
+      <h1 className="title">Footer</h1>
+
+      <Footer />
 
       <style jsx>
         {`
