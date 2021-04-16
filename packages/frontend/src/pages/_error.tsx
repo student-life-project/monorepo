@@ -1,4 +1,5 @@
 import { NextPage } from 'next';
+import Link from 'next/link';
 import xw from 'xwind';
 
 import Button from '@/components/Button';
@@ -24,9 +25,11 @@ const Error: NextPage<IError> = ({ statusCode, message }) => {
         >
           <h1 css={xw`text-4xl font-bold font-maven`}>Error {statusCode}</h1>
           <p css={xw`font-montserrat break-words`}>{message}</p>
-          <Button FPrimary css={xw`w-full self-center lg:w-1/2`}>
-            <span css={xw`mx-2 w-full`}>Ir al inicio</span>
-          </Button>
+          <Link href="/">
+            <Button FPrimary css={xw`w-full self-center lg:w-1/2`}>
+              <span css={xw`mx-2 w-full`}>Ir al inicio</span>
+            </Button>
+          </Link>
         </section>
       </div>
     </div>
