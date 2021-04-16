@@ -1,8 +1,10 @@
-import { memo } from 'react';
+/* eslint-disable-next-line simple-import-sort/imports */
 import xw from 'xwind';
 import styled from '@emotion/styled';
+import Link from 'next/link';
+import { memo } from 'react';
 
-import { Lg01 } from '@/icons';
+import { Lg03 } from '@/icons';
 
 const FooterStyle = styled.footer`
   ${xw`
@@ -27,11 +29,13 @@ const Footer = () => (
   <FooterStyle>
     <Content>
       <Info1>
-        <a
-          css={xw`flex font-medium items-center md:justify-start justify-center text-white`}
-        >
-          <Lg01 css={xw``} />
-        </a>
+        <Link href="/">
+          <a
+            css={xw`flex font-medium items-center md:justify-start justify-center text-white`}
+          >
+            <Lg03 css={xw``} />
+          </a>
+        </Link>
       </Info1>
 
       <div
@@ -43,13 +47,19 @@ const Footer = () => (
           </h2>
           <nav css={xw`list-none mb-10`}>
             <li>
-              <a css={xw`text-gray-400 hover:text-white`}>Registrarse</a>
+              <Link href="/register">
+                <a css={xw`text-gray-400 hover:text-white`}>Registrarse</a>
+              </Link>
             </li>
             <li>
-              <a css={xw`text-gray-400 hover:text-white`}>Iniciar Sesión</a>
+              <Link href="/login">
+                <a css={xw`text-gray-400 hover:text-white`}>Iniciar Sesión</a>
+              </Link>
             </li>
             <li>
-              <a css={xw`text-gray-400 hover:text-white`}>Alojamientos</a>
+              <Link href="/rentals">
+                <a css={xw`text-gray-400 hover:text-white`}>Alojamientos</a>
+              </Link>
             </li>
           </nav>
         </div>
@@ -59,19 +69,25 @@ const Footer = () => (
           </h2>
           <nav css={xw`list-none mb-10`}>
             <li>
-              <a css={xw`text-gray-400 hover:text-white`}>
-                Terminos y Condiciones
-              </a>
+              <Link href="/terms-and-conditions">
+                <a css={xw`text-gray-400 hover:text-white`}>
+                  Terminos y Condiciones
+                </a>
+              </Link>
             </li>
             <li>
-              <a css={xw`text-gray-400 hover:text-white`}>
-                Preguntas Frecuentes
-              </a>
+              <Link href="/faqs">
+                <a css={xw`text-gray-400 hover:text-white`}>
+                  Preguntas Frecuentes
+                </a>
+              </Link>
             </li>
             <li>
-              <a css={xw`text-gray-400 hover:text-white`}>
-                Aviso de Privacidad
-              </a>
+              <Link href="/privacy">
+                <a css={xw`text-gray-400 hover:text-white`}>
+                  Aviso de Privacidad
+                </a>
+              </Link>
             </li>
           </nav>
         </div>
@@ -81,7 +97,9 @@ const Footer = () => (
           </h2>
           <nav css={xw`list-none mb-10`}>
             <li>
-              <a css={xw`text-gray-400 hover:text-white`}>Comunidad :D</a>
+              <Link href="/comunity">
+                <a css={xw`text-gray-400 hover:text-white`}>Comunidad :D</a>
+              </Link>
             </li>
           </nav>
         </div>
@@ -93,7 +111,7 @@ const Footer = () => (
         css={xw`container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row`}
       >
         <p css={xw`text-gray-400 text-sm text-center sm:text-left`}>
-          © Student Life. 2021. Share your best!
+          © Student Life. {new Date().getFullYear()}. Share your best!
         </p>
       </div>
     </div>
