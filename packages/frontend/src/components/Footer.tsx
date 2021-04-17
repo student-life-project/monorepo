@@ -4,18 +4,20 @@ import styled from '@emotion/styled';
 import NextLink, { LinkProps } from 'next/link';
 import { memo } from 'react';
 
-import { Lg03 } from '@/icons';
+import { Lg01 } from '@/icons';
 
 const FooterStyle = styled.footer`
   ${xw`
     container w-screen
-    text-gray-400 bg-gray-900 
+    border-t border-gray-900
+    font-montserrat
   `}
 `;
 
 const Content = styled.div`
   ${xw`
     container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col
+    border-b border-gray-900
   `}
 `;
 
@@ -28,14 +30,16 @@ const Info1 = styled.div`
 const Link: React.FC<LinkProps> = ({ href, children, ...linkSettings }) => {
   return (
     <NextLink href={href} {...linkSettings}>
-      <a css={xw`text-gray-400 hover:text-white`}>{children}</a>
+      <a css={xw`text-gray-400 hover:text-gray-300 hover:cursor-pointer`}>
+        {children}
+      </a>
     </NextLink>
   );
 };
 
 const TitleSection = styled.h2`
   ${xw`
-    font-medium text-white tracking-widest text-sm mb-3
+    font-medium text-gray-400 tracking-widest text-sm mb-3
   `}
 `;
 
@@ -53,7 +57,7 @@ const Footer = () => (
           <a
             css={xw`flex font-medium items-center md:justify-start justify-center text-white`}
           >
-            <Lg03 />
+            <Lg01 />
           </a>
         </Link>
       </Info1>
@@ -100,14 +104,12 @@ const Footer = () => (
       </div>
     </Content>
 
-    <div css={xw`bg-gray-800 bg-opacity-75`}>
-      <div
-        css={xw`container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row`}
-      >
-        <p css={xw`text-gray-400 text-sm text-center sm:text-left`}>
-          &#169; Student Life. {new Date().getFullYear()}. Share your best!
-        </p>
-      </div>
+    <div
+      css={xw`container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row`}
+    >
+      <p css={xw`text-gray-400 text-sm text-center sm:text-left`}>
+        &#169; Student Life. {new Date().getFullYear()}. Share your best!
+      </p>
     </div>
   </FooterStyle>
 );
