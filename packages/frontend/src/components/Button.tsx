@@ -24,6 +24,8 @@ type IButton = {
 const Btn = styled.button<IButton>`
   ${xw`
     flex
+    justify-center
+    items-center
     px-5 
     py-2.5
     text-sm 
