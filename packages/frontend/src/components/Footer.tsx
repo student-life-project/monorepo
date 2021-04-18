@@ -53,13 +53,13 @@ const Footer = () => (
   <FooterStyle>
     <Content>
       <Info1>
-        <Link href="/">
+        <NextLink href="/">
           <a
             css={xw`flex font-medium items-center md:justify-start justify-center text-white`}
           >
             <Lg01 />
           </a>
-        </Link>
+        </NextLink>
       </Info1>
 
       <div
