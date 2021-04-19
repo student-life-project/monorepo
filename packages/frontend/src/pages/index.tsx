@@ -67,7 +67,7 @@ export const Home: NextPage = () => {
   return (
     <>
       <NavBar allowPublish allowRegister allowLogin />
-      <div className="container">
+      <div className="container" css={xw`pt-16`}>
         <Head>
           <title>Student Life</title>
           <link rel="icon" href="/favicon.ico" />
