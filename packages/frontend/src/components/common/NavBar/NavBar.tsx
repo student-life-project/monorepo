@@ -35,7 +35,7 @@ const NavBar: FC<INavBar> = ({
 }) => {
   return (
     <nav
-      css={xw`fixed bg-white grid grid-cols-5 w-full h-16 border-b border-gray-900 font-montserrat md:gap-8 lg:gap-4 xl:gap-0`}
+      css={xw`z-20 shadow-md fixed bg-white grid grid-cols-5 w-full h-16 border-b border-gray-900 font-montserrat md:gap-8 lg:gap-4 xl:gap-0`}
     >
       <Link href="/">
         <a
