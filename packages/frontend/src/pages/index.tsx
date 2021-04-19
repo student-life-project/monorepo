@@ -978,6 +978,7 @@ export const Home: NextPage = () => {
               flex-direction: column;
               justify-content: center;
               align-items: center;
+              padding-top: 4rem;
             }
 
             main {

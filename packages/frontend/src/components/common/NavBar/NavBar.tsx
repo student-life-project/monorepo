@@ -1,11 +1,14 @@
+/* eslint-disable-next-line simple-import-sort/imports */
+import xw from 'xwind';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
-import xw from 'xwind';
 
 import Button from '@/components/Button';
 import SearchBar from '@/components/common/SearchBar/SearchBarContainer';
 import { Im06, Is01 } from '@/icons';
+
+import MobileMenu from './MobileMenu';
 
 interface INavBar {
   allowPublish?: boolean;
@@ -20,6 +23,7 @@ const Anchor = styled.a`
     text-blue-600
     hover:text-blue-800
     cursor-pointer
+    text-center
   `}
 `;
 
@@ -31,7 +35,7 @@ const NavBar: FC<INavBar> = ({
 }) => {
   return (
     <nav
-      css={xw`grid grid-cols-5 w-full h-16 border-b border-gray-900 font-montserrat`}
+      css={xw`fixed bg-white grid grid-cols-5 w-full h-16 border-b border-gray-900 font-montserrat md:gap-8 lg:gap-4 xl:gap-0`}
     >
       <Link href="/">
         <a
@@ -61,7 +65,7 @@ const NavBar: FC<INavBar> = ({
         )}
         {allowLogin && (
           <Link href="/login">
-            <Anchor css={xw`mx-4`}>Iniciar Sesión</Anchor>
+            <Anchor css={xw`md:mx-4 lg:mx-2 xl:mx-4`}>Iniciar Sesión</Anchor>
           </Link>
         )}
         {allowRegister && (
@@ -69,6 +73,11 @@ const NavBar: FC<INavBar> = ({
             <Anchor css={xw`mr-4`}>Registrarse</Anchor>
           </Link>
         )}
+      </div>
+      <div
+        css={xw`flex justify-end items-center w-full col-span-1 pr-3 md:hidden`}
+      >
+        <MobileMenu />
       </div>
     </nav>
   );
