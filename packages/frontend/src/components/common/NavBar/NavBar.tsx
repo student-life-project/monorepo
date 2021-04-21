@@ -8,15 +8,9 @@ import Button from '@/components/Button';
 import SearchBar from '@/components/common/SearchBar/SearchBarContainer';
 import { Im06, Is01 } from '@/icons';
 
-import MobileMenu from './MobileMenu';
+import { INavBar } from '@/types';
 
-interface INavBar {
-  allowPublish?: boolean;
-  allowRegister?: boolean;
-  allowLogin?: boolean;
-  allowRequest?: boolean;
-  isLogedIn?: boolean;
-}
+import MobileMenu from './MobileMenu';
 
 const Anchor = styled.a`
   ${xw`
@@ -32,6 +26,7 @@ const NavBar: FC<INavBar> = ({
   allowLogin,
   allowRegister,
   allowRequest,
+  isLogedIn,
 }) => {
   return (
     <nav
@@ -77,7 +72,13 @@ const NavBar: FC<INavBar> = ({
       <div
         css={xw`flex justify-end items-center w-full col-span-1 pr-3 md:hidden`}
       >
-        <MobileMenu />
+        <MobileMenu
+          allowLogin={allowLogin}
+          allowPublish={allowPublish}
+          allowRegister={allowRegister}
+          allowRequest={allowRequest}
+          isLogedIn={isLogedIn}
+        />
       </div>
     </nav>
   );
