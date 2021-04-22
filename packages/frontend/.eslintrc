@@ -37,7 +37,6 @@
         "@typescript-eslint/member-delimiter-style": 0,
         "@typescript-eslint/no-explicit-any": 0,
         "@typescript-eslint/no-var-requires": 0,
-        "@typescript-eslint/no-use-before-define": 0,
         "@typescript-eslint/no-unused-vars": [
             2,
             {
@@ -74,6 +73,11 @@
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "error",
         "tailwind/class-order": "error",
-        "jsx-a11y/anchor-is-valid": "warn"
+        "jsx-a11y/anchor-is-valid": "warn",
+        // note you must disable the base rule as it can report incorrect errors
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": [
+            "error"
+        ]
     }
 }
