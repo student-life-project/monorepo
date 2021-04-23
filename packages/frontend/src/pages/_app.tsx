@@ -1,8 +1,10 @@
-import type { AppProps } from 'next/app';
+import { Global } from '@emotion/react';
+import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import { Provider } from 'react-redux';
-import { Global } from '@emotion/react';
 import xw from 'xwind';
+
+import { configServerSideCredentials } from '@/services/api';
 
 import { useStore } from '../store';
 
@@ -35,5 +37,19 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
     </>
   );
 }
+
+App.getInitialProps = async ({ Component, ctx }: AppContext) => {
+  configServerSideCredentials(ctx.req);
+
+  const componentProps = Component.getInitialProps
+    ? await Component.getInitialProps(ctx)
+    : {};
+
+  return {
+    pageProps: {
+      ...componentProps,
+    },
+  };
+};
 
 export default App;

@@ -3,4 +3,7 @@
         "../../.eslintrc.base"
     ],
     "ignorePatterns": "dist/",
+    "rules": {
+        "import/prefer-default-export": "off"
+    },
 }
