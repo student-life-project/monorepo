@@ -1,3 +1,4 @@
+import { EUserType, IUser } from '@student_life/common';
 import { AxiosError } from 'axios';
 import Cookie from 'js-cookie';
 import { ThunkAction } from 'redux-thunk';
@@ -13,7 +14,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
 } from '@/store/types/user';
-import { ILoginResponse, IUser } from '@/types';
+import { ILoginResponse } from '@/types';
 
 interface ILoginCredentials {
   email: string;
@@ -104,6 +105,13 @@ export const login = (
         path: '/',
         // httpOnly: true,
       });
+
+      Cookie.set('userId', data.userId, {
+        expires: new Date(data.expiration),
+        secure: process.env.NODE_ENV !== 'development',
+        path: '/',
+        // httpOnly: true,
+      });
     }
 
     dispatch(loginSuccessAction(data));
@@ -150,7 +158,9 @@ export const fetchUserData = (
 
     const data: IUser = {
       firstName: `fulanito ${userId}`,
-    };
+      email: `email_${userId}@email.com`,
+      type: EUserType.OWNER,
+    } as IUser;
 
     dispatch(fetchUserDataSuccessAction(data));
   } catch (error) {

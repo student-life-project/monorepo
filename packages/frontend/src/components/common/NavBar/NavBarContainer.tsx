@@ -1,9 +1,10 @@
+import { EUserType } from '@student_life/common';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { logoutAction } from '@/store/actions/user';
-import { isUserAuthenticated } from '@/store/selectors/user';
+import { isUserAuthenticated, userSelector } from '@/store/selectors/user';
 
 import NavBar from './NavBar';
 
@@ -23,6 +24,7 @@ const NavBarContainer: FC<INavBarContainer> = ({
   const dispatch = useDispatch();
   const router = useRouter();
   const isUserAutenticated = useSelector(isUserAuthenticated);
+  const userData = useSelector(userSelector);
 
   const onLogoutClick = () => {
     dispatch(logoutAction());
@@ -34,9 +36,13 @@ const NavBarContainer: FC<INavBarContainer> = ({
       isLogedIn={isUserAutenticated}
       onLogoutClick={onLogoutClick}
       allowLogin={allowLogin}
-      allowPublish={allowPublish}
+      allowPublish={
+        (!isUserAutenticated && allowPublish) ||
+        userData.type === EUserType.OWNER
+      }
       allowRegister={allowRegister}
       allowRequest={allowRequest}
+      user={userData}
     />
   );
 };

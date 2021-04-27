@@ -1,3 +1,4 @@
+import { IUser } from '@student_life/common';
 import { AxiosError } from 'axios';
 
 import { IUserAction } from '@/store/actions/user';
@@ -10,7 +11,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
 } from '@/store/types/user';
-import { ILoginResponse, IUser } from '@/types';
+import { ILoginResponse } from '@/types';
 
 export interface IState {
   user: IUser;

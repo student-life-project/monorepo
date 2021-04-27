@@ -9,6 +9,9 @@ import { FC, useState } from 'react';
 import { Triangle } from '@/icons';
 import { INavBar } from '@/types';
 
+import { EUserType } from '@student_life/common';
+import UserButton from './UserButton';
+
 const MenuItem = styled.li`
   ${xw`
     cursor-pointer
@@ -23,6 +26,7 @@ const MobileMenu: FC<INavBar> = ({
   allowRequest,
   isLogedIn,
   onLogoutClick,
+  user,
 }) => {
   const [displayMenu, setDisplayMenu] = useState(false);
 
@@ -43,6 +47,13 @@ const MobileMenu: FC<INavBar> = ({
           <Triangle
             css={xw`block fill-current text-white w-4 h-4 absolute right-0 top-0 mr-2 -mt-3 z-0`}
           />
+          {isLogedIn && (
+            <MenuItem>
+              <Link href="/profile">
+                <UserButton>{user?.email}</UserButton>
+              </Link>
+            </MenuItem>
+          )}
           {allowPublish && (
             <MenuItem>
               <Link href="/rental-place/create">
@@ -51,9 +62,21 @@ const MobileMenu: FC<INavBar> = ({
             </MenuItem>
           )}
           {allowRequest && (
-            <a href="mailto:erick@gmail.com?Subject=Necesito%20asistencia%20con%20una%20situación">
+            <a href="mailto:example@email.com?Subject=Necesito%20asistencia%20con%20una%20situación">
               Enviar una solicitud
             </a>
+          )}
+          <MenuItem>
+            <Link href="/profile/messages">
+              <a>Mensajes</a>
+            </Link>
+          </MenuItem>
+          {user?.type === EUserType.OWNER && (
+            <MenuItem>
+              <Link href="/profile/publications">
+                <a>Publicaciones</a>
+              </Link>
+            </MenuItem>
           )}
           {!isLogedIn ? (
             <>

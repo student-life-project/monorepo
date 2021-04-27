@@ -1,6 +1,4 @@
-export interface IUser {
-  firstName: string;
-}
+import type { IUser } from '@student_life/common';
 
 export interface ILoginResponse {
   token: string;
@@ -15,4 +13,5 @@ export interface INavBar {
   allowRequest?: boolean;
   isLogedIn?: boolean;
   onLogoutClick: () => void;
+  user?: IUser;
 }
