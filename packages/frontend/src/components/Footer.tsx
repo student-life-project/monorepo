@@ -11,6 +11,7 @@ const FooterStyle = styled.footer`
     container w-screen
     border-t border-gray-900
     font-montserrat
+    mx-auto
   `}
 `;
 

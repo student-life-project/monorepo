@@ -2,13 +2,15 @@ import { AxiosError } from 'axios';
 
 import { IUserAction } from '@/store/actions/user';
 import {
+  FETCH_USER_FAILURE,
+  FETCH_USER_PEDING,
+  FETCH_USER_SUCCESS,
   LOGIN_FAILURE,
   LOGIN_PENDING,
   LOGIN_SUCCESS,
   LOGOUT,
 } from '@/store/types/user';
-
-import { ILoginResponse, IUser } from '../../types';
+import { ILoginResponse, IUser } from '@/types';
 
 export interface IState {
   user: IUser;
@@ -56,7 +58,28 @@ const reducer = (
     case LOGOUT:
       return {
         ...initialState,
-      } as IState;
+      };
+    case FETCH_USER_PEDING:
+      return {
+        ...state,
+        user: {} as IUser,
+        error: null,
+        isFetching: true,
+      };
+    case FETCH_USER_SUCCESS:
+      return {
+        ...state,
+        user: payload.data,
+        isFetching: false,
+        error: null,
+      };
+    case FETCH_USER_FAILURE:
+      return {
+        ...state,
+        user: {} as IUser,
+        error: payload.error,
+        isFetching: false,
+      };
     default:
       return state;
   }

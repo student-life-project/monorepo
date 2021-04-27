@@ -21,6 +21,8 @@ const MobileMenu: FC<INavBar> = ({
   allowPublish,
   allowRegister,
   allowRequest,
+  isLogedIn,
+  onLogoutClick,
 }) => {
   const [displayMenu, setDisplayMenu] = useState(false);
 
@@ -53,18 +55,28 @@ const MobileMenu: FC<INavBar> = ({
               Enviar una solicitud
             </a>
           )}
-          {allowLogin && (
-            <MenuItem css={xw`my-2`}>
-              <Link href="/login">
-                <a>Iniciar Sesión</a>
-              </Link>
-            </MenuItem>
-          )}
-          {allowRegister && (
+          {!isLogedIn ? (
+            <>
+              {allowLogin && (
+                <MenuItem css={xw`my-2`}>
+                  <Link href="/login">
+                    <a>Iniciar Sesión</a>
+                  </Link>
+                </MenuItem>
+              )}
+              {allowRegister && (
+                <MenuItem>
+                  <Link href="/register">
+                    <a>Registrarse</a>
+                  </Link>
+                </MenuItem>
+              )}
+            </>
+          ) : (
             <MenuItem>
-              <Link href="/register">
-                <a>Registrarse</a>
-              </Link>
+              <button type="button" onClick={onLogoutClick}>
+                Cerrar Sesión
+              </button>
             </MenuItem>
           )}
         </ul>

@@ -15,7 +15,6 @@ import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
-import type { TStore } from '@/store';
 import { login } from '@/store/actions/user';
 import { parseCookies } from '@/utils/cookie';
 
@@ -130,17 +129,8 @@ const Login: NextPage = () => {
   );
 };
 
-Login.getInitialProps = async ({
-  store,
-  req,
-  res,
-}: NextPageContext & { store: TStore }) => {
-  if (store) {
-    store.getState();
-  }
-
+Login.getInitialProps = async ({ req, res }: NextPageContext) => {
   const cookieData = parseCookies(req);
-  // console.log({ cookieData });
 
   if (cookieData.token) {
     if (!isServer()) {

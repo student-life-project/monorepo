@@ -5,6 +5,7 @@ export interface IUser {
 export interface ILoginResponse {
   token: string;
   expiration: Date | string;
+  userId: string;
 }
 
 export interface INavBar {
@@ -13,4 +14,5 @@ export interface INavBar {
   allowLogin?: boolean;
   allowRequest?: boolean;
   isLogedIn?: boolean;
+  onLogoutClick: () => void;
 }

@@ -9,3 +9,6 @@ export const isFetchingUserSelector = (state: TRootState) =>
   state.user.isFetching;
 
 export const errorUserSelector = (state: TRootState) => state.user.error;
+
+export const isUserAuthenticated = (state: TRootState) =>
+  Boolean(Object.keys(state.user.user).length);

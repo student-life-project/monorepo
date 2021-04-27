@@ -94,6 +94,7 @@ export const login = (
     const data: ILoginResponse = {
       expiration: exdate.toUTCString(),
       token: 'ABCD',
+      userId: '1',
     };
 
     if (credentials.rememberUser) {
@@ -101,7 +102,7 @@ export const login = (
         expires: new Date(data.expiration),
         secure: process.env.NODE_ENV !== 'development',
         path: '/',
-        httpOnly: true,
+        // httpOnly: true,
       });
     }
 
@@ -114,8 +115,45 @@ export const login = (
 
 export const logoutAction = (): ILogoutAction => {
   Cookie.remove('token');
+  Cookie.remove('userId');
 
   return {
     type: LOGOUT,
   };
+};
+
+export const fetchUserDataPendingAction = (): IFetchUserDataPendingAction => ({
+  type: FETCH_USER_PEDING,
+});
+
+export const fetchUserDataSuccessAction = (
+  userData: IUser,
+): IFetchUserDataSuccessAction => ({
+  type: FETCH_USER_SUCCESS,
+  data: userData,
+});
+
+export const fetchUserDataFailureAction = (
+  error: AxiosError,
+): IFetchUserDataFailureAction => ({
+  type: FETCH_USER_FAILURE,
+  error,
+});
+
+export const fetchUserData = (
+  userId: string,
+): ThunkAction<void, TRootState, unknown, IUserAction> => async (dispatch) => {
+  try {
+    dispatch(fetchUserDataPendingAction());
+
+    // const {data} = await api.get<IUser>(`/users/${userId}`);
+
+    const data: IUser = {
+      firstName: `fulanito ${userId}`,
+    };
+
+    dispatch(fetchUserDataSuccessAction(data));
+  } catch (error) {
+    dispatch(fetchUserDataFailureAction(error));
+  }
 };

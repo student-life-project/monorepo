@@ -27,6 +27,7 @@ const NavBar: FC<INavBar> = ({
   allowRegister,
   allowRequest,
   isLogedIn,
+  onLogoutClick,
 }) => {
   return (
     <nav
@@ -78,6 +79,7 @@ const NavBar: FC<INavBar> = ({
           allowRegister={allowRegister}
           allowRequest={allowRequest}
           isLogedIn={isLogedIn}
+          onLogoutClick={onLogoutClick}
         />
       </div>
     </nav>
