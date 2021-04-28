@@ -1,18 +1,28 @@
-import type { AppProps } from 'next/app';
-import Head from 'next/head';
-import { Provider } from 'react-redux';
 import { Global } from '@emotion/react';
+import type { AppContext, AppProps } from 'next/app';
+import Head from 'next/head';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 import xw from 'xwind';
 
-import { useStore } from '../store';
+import { configServerSideCredentials } from '@/services/api';
+import { fetchUserData, IUserAction } from '@/store/actions/user';
+import { TRootState } from '@/store/reducers';
+import { parseCookies } from '@/utils/cookie';
+import withReduxStore, { Props } from '@/utils/with-redux';
 
-function App({ Component, pageProps }: AppProps): JSX.Element {
-  const store = useStore(pageProps.initialReduxState);
-
+function App({
+  Component,
+  pageProps,
+  reduxStore,
+}: AppProps & Props): JSX.Element {
   return (
     <>
       <Head>
-        <title>Tailwindcss Emotion Example</title>
+        <title>Student Life</title>
+        <link rel="icon" href="/favicon.ico" />
+
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@800&family=Montserrat&display=swap"
@@ -29,11 +39,38 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
         styles={xw`XWIND_BASE XWIND_GLOBAL`}
       />
 
-      <Provider store={store}>
+      <Provider store={reduxStore}>
         <Component {...pageProps} />
       </Provider>
     </>
   );
 }
 
-export default App;
+App.getInitialProps = async ({
+  Component,
+  ctx,
+}: AppContext & { ctx: Props }) => {
+  configServerSideCredentials(ctx.req);
+
+  const cookieData = parseCookies(ctx.req);
+
+  if (cookieData.token) {
+    await (ctx.reduxStore.dispatch as ThunkDispatch<
+      TRootState,
+      unknown,
+      IUserAction
+    >)(fetchUserData(cookieData.userId));
+  }
+
+  const componentProps = Component.getInitialProps
+    ? await Component.getInitialProps(ctx)
+    : {};
+
+  return {
+    pageProps: {
+      ...componentProps,
+    },
+  };
+};
+
+export default withReduxStore((App as unknown) as React.ComponentClass<Props>);

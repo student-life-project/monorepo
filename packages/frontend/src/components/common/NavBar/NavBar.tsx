@@ -10,7 +10,9 @@ import { Im06, Is01 } from '@/icons';
 
 import { INavBar } from '@/types';
 
+import { IUser } from '@student_life/common';
 import MobileMenu from './MobileMenu';
+import UserMenu from './UserMenu';
 
 const Anchor = styled.a`
   ${xw`
@@ -27,6 +29,8 @@ const NavBar: FC<INavBar> = ({
   allowRegister,
   allowRequest,
   isLogedIn,
+  onLogoutClick,
+  user,
 }) => {
   return (
     <nav
@@ -58,15 +62,28 @@ const NavBar: FC<INavBar> = ({
             Enviar una solicitud
           </Anchor>
         )}
-        {allowLogin && (
-          <Link href="/login">
-            <Anchor css={xw`md:mx-4 lg:mx-2 xl:mx-4`}>Iniciar Sesión</Anchor>
-          </Link>
-        )}
-        {allowRegister && (
-          <Link href="/register">
-            <Anchor css={xw`mr-4`}>Registrarse</Anchor>
-          </Link>
+        {!isLogedIn ? (
+          <>
+            {allowLogin && (
+              <Link href="/login">
+                <Anchor css={xw`md:mx-4 lg:mx-2 xl:mx-4`}>
+                  Iniciar Sesión
+                </Anchor>
+              </Link>
+            )}
+            {allowRegister && (
+              <Link href="/register">
+                <Anchor css={xw`mr-4`}>Registrarse</Anchor>
+              </Link>
+            )}
+          </>
+        ) : (
+          <div css={xw`hidden mx-4 md:block`}>
+            <UserMenu
+              user={user || ({} as IUser)}
+              onLogoutClick={onLogoutClick}
+            />
+          </div>
         )}
       </div>
       <div
@@ -78,6 +95,8 @@ const NavBar: FC<INavBar> = ({
           allowRegister={allowRegister}
           allowRequest={allowRequest}
           isLogedIn={isLogedIn}
+          onLogoutClick={onLogoutClick}
+          user={user}
         />
       </div>
     </nav>

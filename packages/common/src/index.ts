@@ -12,3 +12,4 @@ export * from './types/School.type';
 export * from './types/Service.type';
 export * from './types/Student.type';
 export * from './types/User.type';
+export * from './utility/isServer';
