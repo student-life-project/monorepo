@@ -29,7 +29,7 @@ const UserMenu: FC<IUserMenu> = ({ user, onLogoutClick }) => {
 
   return (
     <div css={xw`font-montserrat`}>
-      <UserButton onClick={onClickUserButton} height="2rem" />
+      <UserButton onClick={onClickUserButton} height="3rem" />
       {displayMenu && (
         <ul
           css={xw`absolute mt-5 mr-2 right-0 p-4 bg-white border border-gray-100 shadow-lg`}

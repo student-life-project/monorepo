@@ -1,4 +1,4 @@
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 import xw from 'xwind';
@@ -16,9 +16,9 @@ const UserButton: FC<IUserButton> = ({ onClick, children, height }) => {
       css={xw`flex items-center focus:outline-none`}
     >
       <FontAwesomeIcon
-        icon={faUser}
+        icon={faUserCircle}
         height={height || '1.2rem'}
-        css={xw`mr-1 border border-gray-900 rounded-full bg-gray-200`}
+        css={xw`mr-1 text-gray-900 font-thin stroke-1`}
       />{' '}
       {children}
     </button>
