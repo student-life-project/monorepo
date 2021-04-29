@@ -48,6 +48,7 @@ export const Home: NextPage = () => {
             />
           </div>
         </div>
+        <div css={xw`py-12 border-b border-t border-gray-400`}>aa</div>
       </section>
       <Footer />
     </>

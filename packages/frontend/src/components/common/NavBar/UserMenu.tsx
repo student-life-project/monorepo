@@ -32,7 +32,7 @@ const UserMenu: FC<IUserMenu> = ({ user, onLogoutClick }) => {
       <UserButton onClick={onClickUserButton} height="3rem" />
       {displayMenu && (
         <ul
-          css={xw`absolute mt-4 mr-4 right-0 p-4 bg-white border border-gray-100 shadow-lg`}
+          css={xw`absolute mt-4 mr-4 right-0 p-4 bg-white border border-gray-100 shadow-lg rounded-sm`}
         >
           <Triangle
             css={xw`block fill-current text-white w-4 h-4 absolute right-0 top-0 mr-5 -mt-3 z-0`}

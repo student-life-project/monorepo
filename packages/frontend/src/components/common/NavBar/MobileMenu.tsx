@@ -35,7 +35,9 @@ const MobileMenu: FC<INavBar> = ({
   };
 
   return (
-    <div css={xw`flex justify-center text-gray-900 font-montserrat md:hidden`}>
+    <div
+      css={xw`flex justify-center text-gray-900 font-montserrat rounded-sm md:hidden`}
+    >
       <button type="button" css={xw`focus:outline-none`} onClick={onClick}>
         <FontAwesomeIcon icon={faBars} height="2.5rem" />
       </button>
