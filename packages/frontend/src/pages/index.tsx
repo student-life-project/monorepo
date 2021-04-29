@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 // import { ThunkDispatch } from 'redux-thunk';
 import xw from 'xwind';
 
+import VerticalCard from '@/components/common/Card/VerticalCard';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Footer from '@/components/Footer';
 import HeroImage from '@/components/home/HeroImage';
@@ -18,6 +19,35 @@ export const Home: NextPage = () => {
       <section css={xw`container mx-auto pt-16`}>
         {/* <a href='https://www.freepik.com/photos/business'>Business photo created by jcomp - www.freepik.com</a> */}
         <HeroImage url="/images/home_hero.jpg" name="hero_banner" />
+        <div
+          css={xw`w-full flex flex-col justify-center items-center my-20 flex-shrink flex-wrap md:flex-row md:justify-around`}
+        >
+          <div css={xw`pb-8 lg:pb-0`}>
+            <VerticalCard
+              rate={4}
+              rateNumber={10}
+              title="Comoda casa para descanso en Club de Golf Tequis"
+              pricePerMonth={1349}
+              imageUrl="/images/example_home.jpg" // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
+            />
+          </div>
+          <div css={xw`pb-8 px-4 lg:pb-0`}>
+            <VerticalCard
+              title="Comoda casa para descanso en Club de Golf Tequis"
+              pricePerMonth={50.25}
+              imageUrl="/images/example_home.jpg"
+            />
+          </div>
+          <div css={xw``}>
+            <VerticalCard
+              rate={2.5}
+              rateNumber={15}
+              title="Comoda casa para descanso en Club de Golf Tequis"
+              pricePerMonth={120.5}
+              imageUrl="/images/example_home.jpg"
+            />
+          </div>
+        </div>
       </section>
       <Footer />
     </>
