@@ -1,3 +1,4 @@
+import { faHome, faMapMarker } from '@fortawesome/free-solid-svg-icons';
 import { NextPage } from 'next';
 // import { ThunkDispatch } from 'redux-thunk';
 import xw from 'xwind';
@@ -5,6 +6,7 @@ import xw from 'xwind';
 import VerticalCard from '@/components/common/Card/VerticalCard';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Footer from '@/components/Footer';
+import GetStartedCard from '@/components/home/GetStartedCard';
 import HeroImage from '@/components/home/HeroImage';
 /*
 import { fetchUserData, IUserAction } from '@/store/actions/user';
@@ -48,7 +50,29 @@ export const Home: NextPage = () => {
             />
           </div>
         </div>
-        <div css={xw`py-12 border-b border-t border-gray-400`}>aa</div>
+        <div
+          css={xw`flex flex-col justify-center items-center py-12 border-b border-t border-gray-400 mx-2 lg:flex-row lg:justify-around`}
+        >
+          <div css={xw`mb-8 lg:mb-0`}>
+            <GetStartedCard
+              linkUrl="/rentals"
+              text="¿Estás buscando un cuarto para rentar?"
+              buttonText="Buscar Alojamiento"
+              imgUrl="/images/search_place.jpg" // <a href='https://www.freepik.es/fotos/casa'>Foto de Casa creado por wayhomestudio - www.freepik.es</a>
+              alt="rentals start"
+              icon={faHome}
+            />
+          </div>
+
+          <GetStartedCard
+            linkUrl="/publish"
+            text="¿Necesitas rentar una vivienda?"
+            buttonText="Publicar Alojamiento"
+            imgUrl="/images/start_publishing.jpg" // <a href='https://www.freepik.es/fotos/venta'>Foto de Venta creado por yanalya - www.freepik.es</a>
+            alt="publish rentals"
+            icon={faMapMarker}
+          />
+        </div>
       </section>
       <Footer />
     </>
