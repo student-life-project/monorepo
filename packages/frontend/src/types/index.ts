@@ -15,3 +15,8 @@ export interface INavBar {
   onLogoutClick: () => void;
   user?: IUser;
 }
+
+export interface IQueryCommonFilters {
+  limit?: number;
+  orderBy?: string;
+}

@@ -1,4 +1,5 @@
 const colors = require('tailwindcss/colors');
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
   darkMode: 'class',
@@ -19,6 +20,10 @@ module.exports = {
     fontFamily: {
       maven: ['Maven Pro', 'Helvetica', 'Arial', 'sans-serif'],
       montserrat: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'],
+    },
+    screens: {
+      xs: '375px',
+      ...defaultTheme.screens,
     },
   },
   variants: {},
