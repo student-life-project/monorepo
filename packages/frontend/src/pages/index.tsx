@@ -1,8 +1,13 @@
-import { faHome, faMapMarker } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheckCircle,
+  faHome,
+  faMapMarker,
+} from '@fortawesome/free-solid-svg-icons';
 import { NextPage } from 'next';
 // import { ThunkDispatch } from 'redux-thunk';
 import xw from 'xwind';
 
+import InstructionCard from '@/components/common/Card/InstructionCard';
 import VerticalCard from '@/components/common/Card/VerticalCard';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Footer from '@/components/Footer';
@@ -50,6 +55,48 @@ export const Home: NextPage = () => {
             />
           </div>
         </div>
+
+        <div css={xw`my-12 mx-4 md:mx-8 xl:mx-0`}>
+          <div css={xw`mb-8`}>
+            <InstructionCard
+              title="Sed ut perspiciatis unde omnis"
+              text="Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro."
+              stepsList={[
+                'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
+                'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
+                'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
+              ]}
+              listBullet={faCheckCircle}
+              imgUrl="/images/questions.jpg" // <a href='https://www.freepik.es/vectores/personas'>Vector de Personas creado por stories - www.freepik.es</a>
+            />
+          </div>
+          <div css={xw`mb-8`}>
+            <InstructionCard
+              title="Sed ut perspiciatis unde omnis"
+              text="Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro."
+              stepsList={[
+                'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
+                'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
+                'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
+              ]}
+              listBullet={faCheckCircle}
+              imgUrl="/images/questions.jpg" // <a href='https://www.freepik.es/vectores/personas'>Vector de Personas creado por stories - www.freepik.es</a>
+              reverse
+            />
+          </div>
+          <InstructionCard
+            title="Sed ut perspiciatis unde omnis"
+            text="Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro."
+            stepsList={[
+              'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
+              'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
+              'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
+            ]}
+            listBullet={faCheckCircle}
+            imgUrl="/images/questions.jpg" // <a href='https://www.freepik.es/vectores/personas'>Vector de Personas creado por stories - www.freepik.es</a>
+          />
+        </div>
+
         <div
           css={xw`flex flex-col justify-center items-center py-12 border-b border-t border-gray-400 mx-2 lg:flex-row lg:justify-around`}
         >
