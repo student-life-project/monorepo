@@ -3,8 +3,9 @@ import {
   faHome,
   faMapMarker,
 } from '@fortawesome/free-solid-svg-icons';
-import { NextPage } from 'next';
-// import { ThunkDispatch } from 'redux-thunk';
+import { NextPage, NextPageContext } from 'next';
+import { useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 import xw from 'xwind';
 
 import InstructionCard from '@/components/common/Card/InstructionCard';
@@ -13,13 +14,17 @@ import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Footer from '@/components/Footer';
 import GetStartedCard from '@/components/home/GetStartedCard';
 import HeroImage from '@/components/home/HeroImage';
-/*
-import { fetchUserData, IUserAction } from '@/store/actions/user';
+import { TStore } from '@/store';
+import {
+  getRentalPlaces,
+  IRentalPlacesAction,
+} from '@/store/actions/rentalTypes';
 import { TRootState } from '@/store/reducers';
-import { parseCookies } from '@/utils/cookie';
- */
+import { rentaPlacesSelector } from '@/store/selectors/rentalPlaces';
 
 export const Home: NextPage = () => {
+  const rentalPlaces = useSelector(rentaPlacesSelector);
+
   return (
     <>
       <NavBar allowPublish allowRegister allowLogin />
@@ -29,31 +34,31 @@ export const Home: NextPage = () => {
         <div
           css={xw`w-full flex flex-col justify-center items-center my-20 flex-shrink flex-wrap md:flex-row md:justify-around`}
         >
-          <div css={xw`pb-8 lg:pb-0`}>
-            <VerticalCard
-              rate={4}
-              rateNumber={10}
-              title="Comoda casa para descanso en Club de Golf Tequis"
-              pricePerMonth={1349}
-              imageUrl="/images/example_home.jpg" // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-            />
-          </div>
-          <div css={xw`pb-8 px-4 lg:pb-0`}>
-            <VerticalCard
-              title="Comoda casa para descanso en Club de Golf Tequis"
-              pricePerMonth={50.25}
-              imageUrl="/images/example_home.jpg"
-            />
-          </div>
-          <div css={xw``}>
-            <VerticalCard
-              rate={2.5}
-              rateNumber={15}
-              title="Comoda casa para descanso en Club de Golf Tequis"
-              pricePerMonth={120.5}
-              imageUrl="/images/example_home.jpg"
-            />
-          </div>
+          {rentalPlaces.map((rentalPlace, index) => {
+            const rateNumber = rentalPlace.scores && rentalPlace.scores.length;
+            const rate =
+              rentalPlace.scores &&
+              rentalPlace.scores.reduce(
+                (totalScore, score) => totalScore + score.score,
+                0,
+              ) / rateNumber;
+            const css =
+              index !== rentalPlaces.length - 1
+                ? xw`pb-8 md:pr-4 lg:pb-0`
+                : xw``;
+
+            return (
+              <div css={css} key={`rental_place${rentalPlace.id}`}>
+                <VerticalCard
+                  rate={rate && parseFloat(rate.toFixed(2))}
+                  rateNumber={rateNumber}
+                  title={rentalPlace.title}
+                  pricePerMonth={rentalPlace.price}
+                  imageUrl={rentalPlace.images?.[0]?.url}
+                />
+              </div>
+            );
+          })}
         </div>
 
         <div css={xw`my-12 mx-4 md:mx-8 xl:mx-0`}>
@@ -126,16 +131,16 @@ export const Home: NextPage = () => {
   );
 };
 
-/*
-export const getServerSideProps = async ({ store, req, res }) => {
-  const cookieData = parseCookies(req);
+Home.getInitialProps = async ({
+  reduxStore,
+}: NextPageContext & { reduxStore: TStore }) => {
+  await (reduxStore.dispatch as ThunkDispatch<
+    TRootState,
+    unknown,
+    IRentalPlacesAction
+  >)(getRentalPlaces({ limit: 3 }));
 
-  if (cookieData.token) {
-    await (store.dispatch as ThunkDispatch<TRootState, unknown, IUserAction>)(
-      fetchUserData(cookieData.userId),
-    );
-  }
+  return {};
 };
- */
 
 export default Home;

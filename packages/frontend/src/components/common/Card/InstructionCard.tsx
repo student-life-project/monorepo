@@ -45,16 +45,19 @@ const InstructionCard: FC<IInstructionCard> = ({
         <p css={xw`break-words mt-4 text-justify`}>{text}</p>
         <ul>
           {Boolean(stepsList?.length) &&
-            stepsList?.map((step) => (
-              <li css={xw`flex my-2`}>
-                <FontAwesomeIcon
-                  icon={listBullet}
-                  height="1.2rem"
-                  css={xw`text-gray-400 mr-1`}
-                />
-                <p>{step}</p>
-              </li>
-            ))}
+            stepsList?.map((step, index) => {
+              const key = index;
+              return (
+                <li css={xw`flex my-2`} key={`step_${step}_${key}`}>
+                  <FontAwesomeIcon
+                    icon={listBullet}
+                    height="1.2rem"
+                    css={xw`text-gray-400 mr-1`}
+                  />
+                  <p>{step}</p>
+                </li>
+              );
+            })}
         </ul>
       </div>
     </InstructionCardContainer>
