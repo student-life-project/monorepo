@@ -18,7 +18,7 @@ export const Home: NextPage = () => {
   return (
     <>
       <NavBar allowPublish allowRegister allowLogin />
-      <section css={xw`container mx-auto pt-16`}>
+      <section css={xw`max-w-3xl mx-auto pt-16 md:container`}>
         {/* <a href='https://www.freepik.com/photos/business'>Business photo created by jcomp - www.freepik.com</a> */}
         <HeroImage url="/images/home_hero.jpg" name="hero_banner" />
         <div
