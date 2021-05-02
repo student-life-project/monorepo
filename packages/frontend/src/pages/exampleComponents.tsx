@@ -7,7 +7,7 @@ import xw from 'xwind';
 import Accordion from '@/components/Accordion';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
-import NavBar from '@/components/common/NavBar/NavBar';
+import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Footer from '@/components/Footer';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
