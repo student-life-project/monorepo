@@ -20,3 +20,8 @@ export interface IQueryCommonFilters {
   limit?: number;
   orderBy?: string;
 }
+
+export interface IQuestionAnswer {
+  question: string;
+  answer: string;
+}
