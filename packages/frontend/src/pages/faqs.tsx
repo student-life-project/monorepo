@@ -1,7 +1,9 @@
 import { NextPage } from 'next';
 import xw from 'xwind';
 
+import BodyContainer from '@/components/common/BodyContainer';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
+import Title from '@/components/common/Title';
 import InfoCard from '@/components/faqs/InfoCard';
 import ListQuestions from '@/components/faqs/ListQuestons';
 import Footer from '@/components/Footer';
@@ -38,10 +40,8 @@ const FAQs: NextPage = () => {
   return (
     <>
       <NavBar allowRequest allowLogin />
-      <section
-        css={xw`max-w-3xl mx-auto pt-16 font-montserrat px-4 md:container`}
-      >
-        <h1 css={xw`my-12 text-3xl font-medium`}>¿Cómo podemos ayudarte?</h1>
+      <BodyContainer>
+        <Title>¿Cómo podemos ayudarte?</Title>
         <div
           css={xw`flex flex-col items-center justify-between mb-12 md:flex-row`}
         >
@@ -64,7 +64,7 @@ const FAQs: NextPage = () => {
           <h2 css={xw`w-full text-center mb-12 text-xl font-semibold`}>FAQ</h2>
           <ListQuestions questions={questions} />
         </div>
-      </section>
+      </BodyContainer>
       <Footer />
     </>
   );
