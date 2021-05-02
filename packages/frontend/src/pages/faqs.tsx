@@ -3,7 +3,36 @@ import xw from 'xwind';
 
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import InfoCard from '@/components/faqs/InfoCard';
+import ListQuestions from '@/components/faqs/ListQuestons';
 import Footer from '@/components/Footer';
+
+const questions = [
+  {
+    question: 'Pregunta #1',
+    answer:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. asdas aesa',
+  },
+  {
+    question: 'Pregunta #2',
+    answer:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. asdas aesa Amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.',
+  },
+  {
+    question: 'Pregunta #3',
+    answer:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. asdas aesa',
+  },
+  {
+    question: 'Pregunta #4',
+    answer:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. asdas aesa',
+  },
+  {
+    question: 'Pregunta #5',
+    answer:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. asdas aesa',
+  },
+];
 
 const FAQs: NextPage = () => {
   return (
@@ -30,6 +59,10 @@ const FAQs: NextPage = () => {
               body="Amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi."
             />
           </div>
+        </div>
+        <div css={xw`w-full mb-12`}>
+          <h2 css={xw`w-full text-center mb-12 text-xl font-semibold`}>FAQ</h2>
+          <ListQuestions questions={questions} />
         </div>
       </section>
       <Footer />
