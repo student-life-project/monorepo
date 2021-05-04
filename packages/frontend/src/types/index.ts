@@ -25,3 +25,8 @@ export interface IQuestionAnswer {
   question: string;
   answer: string;
 }
+
+export interface IBreadCrumb {
+  link: string;
+  text: string;
+}
