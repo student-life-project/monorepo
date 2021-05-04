@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import xw from 'xwind';
 
+import BodyContainer from '@/components/common/BodyContainer';
 import InstructionCard from '@/components/common/Card/InstructionCard';
 import VerticalCard from '@/components/common/Card/VerticalCard';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
@@ -28,7 +29,7 @@ export const Home: NextPage = () => {
   return (
     <>
       <NavBar allowPublish allowRegister allowLogin />
-      <section css={xw`max-w-3xl mx-auto pt-16 md:container`}>
+      <BodyContainer css={xw`px-0`}>
         {/* <a href='https://www.freepik.com/photos/business'>Business photo created by jcomp - www.freepik.com</a> */}
         <HeroImage url="/images/home_hero.jpg" name="hero_banner" />
         <div
@@ -125,7 +126,7 @@ export const Home: NextPage = () => {
             icon={faMapMarker}
           />
         </div>
-      </section>
+      </BodyContainer>
       <Footer />
     </>
   );

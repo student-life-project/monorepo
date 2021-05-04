@@ -30,7 +30,7 @@ const Verticalcard: FC<IVerticalCard> = ({
       />
       <section css={xw`w-full h-1/2 flex flex-col justify-end px-4 py-4`}>
         {rate && rateNumber && (
-          <RateSection score={rate} scoreCount={rateNumber} />
+          <RateSection score={String(rate)} scoreCount={rateNumber} />
         )}
         <p css={xw`text-sm break-words`}>{title}</p>
         <PriceSection currency="MXN" price={pricePerMonth} />
