@@ -29,15 +29,15 @@ const RadioContainer = styled.div`
 
 const Register: FC = () => {
   return (
-    <CenteredBody>
-      <Title css={xw`mt-0 mb-4`}>Te damos la bienvenida</Title>
+    <CenteredBody css={xw`px-4 sm:px-0`}>
+      <Title css={xw`text-center mt-0 mb-4`}>Te damos la bienvenida</Title>
       <p>
         <b css={xw`font-black`}>¿Ya te habias registrado?</b>{' '}
         <Link href="/login">
           <Anchor css={xw`font-black`}>Iniciar sesión</Anchor>
         </Link>
       </p>
-      <form action="" css={xw`grid gap-4 my-8 px-4 md:gap-8 md:grid-rows-5`}>
+      <form action="" css={xw`grid gap-4 my-8 md:gap-8 md:grid-rows-5`}>
         <DoubleFormSpace>
           <RadioContainer>
             <Radio name="student" label="Estudiante" checked />
@@ -120,7 +120,7 @@ const Register: FC = () => {
           />
         </div>
       </form>
-      <div css={xw`px-4 break-words`}>
+      <div css={xw`break-words`}>
         Al registrarte aceptas nuestros{' '}
         <Link href="terms">
           <Anchor>Términos de uso</Anchor>
