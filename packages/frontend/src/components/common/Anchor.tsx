@@ -8,6 +8,7 @@ const Anchor = styled.a`
     hover:text-blue-800
     cursor-pointer
     text-center
+    hover:underline
   `}
 `;
 

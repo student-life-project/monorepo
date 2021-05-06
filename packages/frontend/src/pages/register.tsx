@@ -1,9 +1,14 @@
 /* eslint-disable-next-line simple-import-sort/imports */
 import xw from 'xwind';
 import styled from '@emotion/styled';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { EUserType } from '@student_life/common';
 import Link from 'next/link';
-import { FC } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
+import Button from '@/components/Button';
 import Anchor from '@/components/common/Anchor';
 import CenteredBody from '@/components/common/CenteredBody';
 import Title from '@/components/common/Title';
@@ -27,7 +32,28 @@ const RadioContainer = styled.div`
   `}
 `;
 
+interface IRegisterData {
+  firstName: string;
+}
+
 const Register: FC = () => {
+  const [userType, setUserType] = useState(EUserType.STUDENT);
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, touchedFields },
+  } = useForm();
+
+  const onSubmit: SubmitHandler<IRegisterData> = (_data, _ev) => {
+    Object.values(_data);
+  };
+
+  const handleRadioChange = (ev: ChangeEvent<HTMLInputElement>) => {
+    const intValue = parseInt(ev.target.value, 10);
+
+    setUserType(intValue);
+  };
+
   return (
     <CenteredBody css={xw`px-4 sm:px-0`}>
       <Title css={xw`text-center mt-0 mb-4`}>Te damos la bienvenida</Title>
@@ -37,14 +63,29 @@ const Register: FC = () => {
           <Anchor css={xw`font-black`}>Iniciar sesión</Anchor>
         </Link>
       </p>
-      <form action="" css={xw`grid gap-4 my-8 md:gap-8 md:grid-rows-5`}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        css={xw`grid gap-4 my-8 md:gap-8 md:grid-rows-6`}
+      >
         <DoubleFormSpace>
           <RadioContainer>
-            <Radio name="student" label="Estudiante" checked />
+            <Radio
+              onChange={handleRadioChange}
+              name="student"
+              label="Estudiante"
+              value={EUserType.STUDENT}
+              checked={userType === EUserType.STUDENT}
+            />
           </RadioContainer>
 
           <RadioContainer>
-            <Radio name="renter" label="Arrendatario" checked={false} />
+            <Radio
+              onChange={handleRadioChange}
+              name="renter"
+              label="Arrendatario"
+              value={EUserType.OWNER}
+              checked={userType === EUserType.OWNER}
+            />
           </RadioContainer>
         </DoubleFormSpace>
         <DoubleFormSpace>
@@ -56,10 +97,8 @@ const Register: FC = () => {
               required
               id="first-name"
               type="text"
-              name="first-name"
-              // value={email}
               placeholder="Nombre"
-              // onChange={handleInputChange}
+              {...register('firstName', { required: true })}
             />
           </div>
           <div>
@@ -70,10 +109,8 @@ const Register: FC = () => {
               required
               id="last-name"
               type="text"
-              name="last-name"
-              // value={email}
               placeholder="Apellido"
-              // onChange={handleInputChange}
+              {...register('lastName', { required: true })}
             />
           </div>
         </DoubleFormSpace>
@@ -85,10 +122,8 @@ const Register: FC = () => {
             required
             id="email"
             type="email"
-            name="email"
-            // value={email}
             placeholder="Correo"
-            // onChange={handleInputChange}
+            {...register('email', { required: true })}
           />
         </div>
         <div>
@@ -99,11 +134,16 @@ const Register: FC = () => {
             required
             id="password"
             type="paasword"
-            name="password"
-            // value={email}
             placeholder="Contraseña"
-            // onChange={handleInputChange}
+            {...register('password', {
+              required: true,
+              minLength: {
+                value: 8,
+                message: 'Password must have at least 8 characters',
+              },
+            })}
           />
+          {errors.password && <p>{errors.password}</p>}
         </div>
         <div>
           <Label id="label-password-confirmed" htmlFor="password-confirmed">
@@ -113,11 +153,22 @@ const Register: FC = () => {
             required
             id="password-confirmed"
             type="password"
-            name="password-confirmed"
-            // value={email}
             placeholder="Contraseña"
-            // onChange={handleInputChange}
+            {...register('passwordConfirmed', {
+              required: true,
+              validate: (value: string) =>
+                value === touchedFields.password ||
+                'The passwords do not match',
+            })}
           />
+
+          {errors.passwordConfirmed && <p>{errors.passwordConfirmed}</p>}
+        </div>
+        <div>
+          <Button type="submit" FPrimary css={xw`w-full`}>
+            <span css={xw`mr-2`}>Iniciar Sesión</span>
+            <FontAwesomeIcon icon={faChevronRight} height=".875rem" />
+          </Button>
         </div>
       </form>
       <div css={xw`break-words`}>
