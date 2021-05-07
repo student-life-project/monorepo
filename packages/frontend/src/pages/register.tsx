@@ -3,9 +3,9 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { EUserType } from '@student_life/common';
+import { EUserType, isServer } from '@student_life/common';
 import Link from 'next/link';
-import { ChangeEvent, FC, useState, useRef } from 'react';
+import { ChangeEvent, useState, useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import Button from '@/components/Button';
@@ -15,6 +15,11 @@ import Title from '@/components/common/Title';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
 import Radio from '@/components/Radio';
+import { useDispatch } from 'react-redux';
+import { registerUser } from '@/store/actions/user';
+import { useRouter } from 'next/router';
+import { NextPage, NextPageContext } from 'next';
+import { parseCookies } from '@/utils/cookie';
 
 const DoubleFormSpace = styled.div`
   ${xw`
@@ -42,9 +47,15 @@ const ErrorMessage = styled.p`
 
 interface IRegisterData {
   firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmedPassword: string;
 }
 
-const Register: FC = () => {
+const Register: NextPage = () => {
+  const dispath = useDispatch();
+  const router = useRouter();
   const [userType, setUserType] = useState(EUserType.STUDENT);
   const {
     handleSubmit,
@@ -56,8 +67,14 @@ const Register: FC = () => {
   const passwordRef = useRef({});
   passwordRef.current = watch('password', '');
 
-  const onSubmit: SubmitHandler<IRegisterData> = (_data, _ev) => {
-    Object.values(_data);
+  const onSubmit: SubmitHandler<IRegisterData> = async (data) => {
+    await dispath(
+      registerUser({
+        ...data,
+        userType,
+      }),
+    );
+    router.push('/');
   };
 
   const handleRadioChange = (ev: ChangeEvent<HTMLInputElement>) => {
@@ -199,6 +216,27 @@ const Register: FC = () => {
       </div>
     </CenteredBody>
   );
+};
+
+Register.getInitialProps = async ({ req, res }: NextPageContext) => {
+  const cookieData = parseCookies(req);
+
+  if (cookieData.token) {
+    if (!isServer()) {
+      window.location.href = '/';
+      return {};
+    }
+
+    res?.writeHead(301, {
+      Location: '/',
+    });
+
+    res?.end();
+
+    return {};
+  }
+
+  return {};
 };
 
 export default Register;

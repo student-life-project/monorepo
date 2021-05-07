@@ -6,6 +6,13 @@ export interface ILoginResponse {
   userId: string;
 }
 
+export interface IRegisterResponse {
+  token: string;
+  expiration: Date | string;
+  userId: string;
+  userData: IUser;
+}
+
 export interface INavBar {
   allowPublish?: boolean;
   allowRegister?: boolean;
