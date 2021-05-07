@@ -5,7 +5,7 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EUserType } from '@student_life/common';
 import Link from 'next/link';
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useState, useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import Button from '@/components/Button';
@@ -32,6 +32,14 @@ const RadioContainer = styled.div`
   `}
 `;
 
+const ErrorMessage = styled.p`
+  ${xw`
+    text-xs
+    text-red-300
+    mt-2
+  `}
+`;
+
 interface IRegisterData {
   firstName: string;
 }
@@ -41,8 +49,12 @@ const Register: FC = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors, touchedFields },
+    watch,
+    formState: { errors },
   } = useForm();
+
+  const passwordRef = useRef({});
+  passwordRef.current = watch('password', '');
 
   const onSubmit: SubmitHandler<IRegisterData> = (_data, _ev) => {
     Object.values(_data);
@@ -136,14 +148,16 @@ const Register: FC = () => {
             type="paasword"
             placeholder="Contraseña"
             {...register('password', {
-              required: true,
+              required: 'You must specify a password',
               minLength: {
                 value: 8,
-                message: 'Password must have at least 8 characters',
+                message: 'La contraseña debe tener almenos 8 caracteres',
               },
             })}
           />
-          {errors.password && <p>{errors.password}</p>}
+          {errors.password && (
+            <ErrorMessage>{errors.password.message}</ErrorMessage>
+          )}
         </div>
         <div>
           <Label id="label-password-confirmed" htmlFor="password-confirmed">
@@ -157,12 +171,13 @@ const Register: FC = () => {
             {...register('passwordConfirmed', {
               required: true,
               validate: (value: string) =>
-                value === touchedFields.password ||
-                'The passwords do not match',
+                value === passwordRef.current || 'La contraseña no coincide',
             })}
           />
 
-          {errors.passwordConfirmed && <p>{errors.passwordConfirmed}</p>}
+          {errors.passwordConfirmed && (
+            <ErrorMessage>{errors.passwordConfirmed.message}</ErrorMessage>
+          )}
         </div>
         <div>
           <Button type="submit" FPrimary css={xw`w-full`}>
