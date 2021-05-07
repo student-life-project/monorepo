@@ -33,15 +33,21 @@ const RecoverPassword: NextPage = () => {
       <Title css={xw`text-center mt-0 mb-4 break-words`}>
         ¿Olvidaste tu contraseña?
       </Title>
-      <p css={xw`text-justify w-3/4 sm:w-1/2`}>
+      <p css={xw`text-justify sm:w-1/2`}>
         Para restaurar tu contraseña, ingresa tu dirección de correo
         electrónico. Es posible que tengas que consultar tu carpeta de spam o
         desbloquear la dirección{' '}
-        <a href="mailto:no-reply@studentlife.com">no-reply@studentlife.com</a>.
+        <a
+          href="mailto:no-reply@studentlife.com"
+          css={xw`text-blue-600 hover:text-blue-800 cursor-pointer text-center hover:underline`}
+        >
+          no-reply@studentlife.com
+        </a>
+        .
       </p>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        css={xw`grid gap-4 my-4 w-3/4 sm:w-1/2 md:gap-8 md:grid-rows-2`}
+        css={xw`grid gap-4 my-4 w-full sm:w-1/2 md:gap-8 md:grid-rows-2`}
       >
         <div>
           <Label>Correo</Label>
