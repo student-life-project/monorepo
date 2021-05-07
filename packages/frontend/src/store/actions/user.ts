@@ -13,13 +13,24 @@ import {
   LOGIN_PENDING,
   LOGIN_SUCCESS,
   LOGOUT,
+  REGISTER_USER_FAILURE,
+  REGISTER_USER_PENDING,
+  REGISTER_USER_SUCCESS,
 } from '@/store/types/user';
-import { ILoginResponse } from '@/types';
+import { ILoginResponse, IRegisterResponse } from '@/types';
 
 interface ILoginCredentials {
   email: string;
   password: string;
   rememberUser?: boolean;
+}
+
+interface IRegisterCredentials {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  userType: EUserType;
 }
 
 interface ILoginPendingAction {
@@ -53,6 +64,20 @@ interface IFetchUserDataFailureAction {
   error: AxiosError;
 }
 
+interface IRegisterUserPendingAction {
+  type: typeof REGISTER_USER_PENDING;
+}
+
+interface IRegisterUserSuccessAction {
+  type: typeof REGISTER_USER_SUCCESS;
+  data: IRegisterResponse;
+}
+
+interface IRegisterUserFailureAction {
+  type: typeof REGISTER_USER_FAILURE;
+  error: AxiosError;
+}
+
 export type IUserAction =
   | ILoginPendingAction
   | ILoginSuccessAction
@@ -60,7 +85,10 @@ export type IUserAction =
   | ILogoutAction
   | IFetchUserDataPendingAction
   | IFetchUserDataSuccessAction
-  | IFetchUserDataFailureAction;
+  | IFetchUserDataFailureAction
+  | IRegisterUserFailureAction
+  | IRegisterUserPendingAction
+  | IRegisterUserSuccessAction;
 
 export const loginPendingAction = (): ILoginPendingAction => ({
   type: LOGIN_PENDING,
@@ -165,5 +193,70 @@ export const fetchUserData = (
     dispatch(fetchUserDataSuccessAction(data));
   } catch (error) {
     dispatch(fetchUserDataFailureAction(error));
+  }
+};
+
+export const registerUserPending = (): IRegisterUserPendingAction => ({
+  type: REGISTER_USER_PENDING,
+});
+
+export const registerUserSuccess = (
+  data: IRegisterResponse,
+): IRegisterUserSuccessAction => ({
+  type: REGISTER_USER_SUCCESS,
+  data,
+});
+
+export const registerUserFailure = (
+  error: AxiosError,
+): IRegisterUserFailureAction => ({
+  type: REGISTER_USER_FAILURE,
+  error,
+});
+
+export const registerUser = (
+  credentials: IRegisterCredentials,
+): ThunkAction<void, TRootState, unknown, IUserAction> => async (dispatch) => {
+  try {
+    dispatch(registerUserPending());
+
+    /*
+    const { data } = await api.post<IRegisterResponse>('/register', {
+      ...credentials,
+    });
+    */
+
+    const exdate = new Date();
+    exdate.setDate(exdate.getDate() + 5);
+
+    const data: IRegisterResponse = {
+      expiration: exdate.toUTCString(),
+      token: 'ABCD',
+      userId: '1',
+      userData: {
+        email: credentials.email,
+        firstName: credentials.firstName,
+        password: credentials.password,
+        type: credentials.userType,
+      } as IUser,
+    };
+
+    Cookie.set('token', data.token, {
+      expires: new Date(data.expiration),
+      secure: process.env.NODE_ENV !== 'development',
+      path: '/',
+      // httpOnly: true,
+    });
+
+    Cookie.set('userId', data.userId, {
+      expires: new Date(data.expiration),
+      secure: process.env.NODE_ENV !== 'development',
+      path: '/',
+      // httpOnly: true,
+    });
+
+    dispatch(registerUserSuccess(data));
+  } catch (error) {
+    dispatch(registerUserFailure(error));
   }
 };

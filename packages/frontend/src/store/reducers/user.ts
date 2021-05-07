@@ -10,6 +10,8 @@ import {
   LOGIN_PENDING,
   LOGIN_SUCCESS,
   LOGOUT,
+  REGISTER_USER_PENDING,
+  REGISTER_USER_SUCCESS,
 } from '@/store/types/user';
 import { ILoginResponse } from '@/types';
 
@@ -80,6 +82,26 @@ const reducer = (
         user: {} as IUser,
         error: payload.error,
         isFetching: false,
+      };
+    case REGISTER_USER_PENDING:
+      return {
+        ...state,
+        user: {} as IUser,
+        error: null,
+        credentials: null,
+        isFetching: true,
+      };
+    case REGISTER_USER_SUCCESS:
+      return {
+        ...state,
+        user: payload.data.userData,
+        credentials: {
+          expiration: payload.data.expiration,
+          token: payload.data.token,
+          userId: payload.data.userId,
+        },
+        isFetching: false,
+        error: null,
       };
     default:
       return state;
