@@ -3,7 +3,7 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { EUserType, isServer } from '@student_life/common';
+import { EUserType } from '@student_life/common';
 import Link from 'next/link';
 import { ChangeEvent, useState, useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -19,7 +19,7 @@ import { useDispatch } from 'react-redux';
 import { registerUser } from '@/store/actions/user';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
-import { parseCookies } from '@/utils/cookie';
+import { redirectLoggedToHome } from '@/utils/redirectLoggedtoHome';
 
 const DoubleFormSpace = styled.div`
   ${xw`
@@ -219,22 +219,7 @@ const Register: NextPage = () => {
 };
 
 Register.getInitialProps = async ({ req, res }: NextPageContext) => {
-  const cookieData = parseCookies(req);
-
-  if (cookieData.token) {
-    if (!isServer()) {
-      window.location.href = '/';
-      return {};
-    }
-
-    res?.writeHead(301, {
-      Location: '/',
-    });
-
-    res?.end();
-
-    return {};
-  }
+  redirectLoggedToHome(req, res);
 
   return {};
 };
