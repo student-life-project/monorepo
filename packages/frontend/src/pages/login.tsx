@@ -3,7 +3,6 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isServer } from '@student_life/common';
 import { NextPage, NextPageContext } from 'next';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -16,7 +15,7 @@ import Checkbox from '@/components/Checkbox';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
 import { login } from '@/store/actions/user';
-import { parseCookies } from '@/utils/cookie';
+import { redirectLoggedToHome } from '@/utils/redirectLoggedtoHome';
 
 const InputSection = styled.div`
   ${xw`
@@ -114,7 +113,7 @@ const Login: NextPage = () => {
               name="remembermo"
             />
           </div>
-          <NextLink href="/password/recover">
+          <NextLink href="/recover-password">
             <Link css={xw`mt-3 text-sm`}>¿Olvidaste tu contraseña?</Link>
           </NextLink>
         </InputSection>
@@ -130,22 +129,7 @@ const Login: NextPage = () => {
 };
 
 Login.getInitialProps = async ({ req, res }: NextPageContext) => {
-  const cookieData = parseCookies(req);
-
-  if (cookieData.token) {
-    if (!isServer()) {
-      window.location.href = '/';
-      return {};
-    }
-
-    res?.writeHead(301, {
-      Location: '/',
-    });
-
-    res?.end();
-
-    return {};
-  }
+  redirectLoggedToHome(req, res);
 
   return {};
 };

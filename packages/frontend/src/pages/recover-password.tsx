@@ -1,6 +1,5 @@
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isServer } from '@student_life/common';
 import { NextPage, NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -11,7 +10,7 @@ import CenteredBody from '@/components/common/CenteredBody';
 import Title from '@/components/common/Title';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
-import { parseCookies } from '@/utils/cookie';
+import { redirectLoggedToHome } from '@/utils/redirectLoggedtoHome';
 // import { api } from '@/services/api';
 
 interface IRecoverForm {
@@ -22,10 +21,12 @@ const RecoverPassword: NextPage = () => {
   const { register, handleSubmit } = useForm();
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<IRecoverForm> = async (_data) => {
+  const onSubmit: SubmitHandler<IRecoverForm> = async (data) => {
     // const { data: token } = await api.post('/recover', { email: data.email });
     const token = 'asdasdbhjcdbchebqwdfyuqweg873643g2re3g21yoxdh87dgdxbi2';
-    router.push(`/reset-password?token=${token}`);
+    router.push(
+      `/reset-password?token=${token}&email=${encodeURIComponent(data.email)}`,
+    );
   };
 
   return (
@@ -71,22 +72,7 @@ const RecoverPassword: NextPage = () => {
   );
 };
 RecoverPassword.getInitialProps = async ({ req, res }: NextPageContext) => {
-  const cookieData = parseCookies(req);
-
-  if (cookieData.token) {
-    if (!isServer()) {
-      window.location.href = '/';
-      return {};
-    }
-
-    res?.writeHead(301, {
-      Location: '/',
-    });
-
-    res?.end();
-
-    return {};
-  }
+  redirectLoggedToHome(req, res);
 
   return {};
 };
