@@ -20,6 +20,6 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: NathanielHill/check-pr-label-action@v4.0.0
-      - with:
-          github-token: '${{ secrets.GITHUB_TOKEN }}'
-          valid-labels: 'bug, enhancement, documentation'
+        with:
+            github-token: '${{ secrets.GITHUB_TOKEN }}'
+            valid-labels: 'bug, enhancement, documentation'
