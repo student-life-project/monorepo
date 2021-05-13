@@ -46,7 +46,7 @@ jobs:
         MONGODB_CLUSTER: ${{ secrets.MONGODB_CLUSiTER }}
         MONGODB_DB: ${¨{ secrets.MONGODB_DB }}
         REACT_APP_AUTH0_DOMAIN: ${{ secrets.REACT_APP_AUTH0_DOMAIN }}
-        REACT_APP_AUTH0_CLIENT_ID: $secrets.REACT_APP_AUTH0_CLIENT_ID
+        REACT_APP_AUTH0_CLIENT_ID: ${{ secrets.REACT_APP_AUTH0_CLIENT_ID }}
 
     # Configure Docker to use the gcloud command-line tool as a credential
     # helper for authentication
@@ -57,14 +57,14 @@ jobs:
     - name: Build
       run: |-
         docker build . --tag "gcr.io/$PROJECT_ID/$GCE_INSTANCE-image:$GITHUB_SHA" \
-          --build-arg MONGODB_USER=$MONGODB_USER \
-          --build-arg MONGODB_PASSWORD=$MONGODB_PASSWORD \
-          --build-arg MONGODB_URL=$MONGODB_URL \
-          --build-arg MONGODB_CLUSTER=$secrets.MONGODB_CLUSiTER \
-          --build-arg MONGODB_DB=$secrets.MONGODB_DB \
-          --build-arg REACT_APP_AUTH0_DOMAIN=$secrets.REACT_APP_AUTH0_DOMAIN \
-          --build-arg REACT_APP_AUTH0_CLIENT_ID=${{ secrets.REACT_APP_AUTH0_CLIENT_ID }} \
-          --build-arg NODE_ENV=production 
+          --build-arg ARG_MONGODB_USER=$MONGODB_USER \
+          --build-arg ARG_MONGODB_PASSWORD=$MONGODB_PASSWORD \
+          --build-arg ARG_MONGODB_URL=$MONGODB_URL \
+          --build-arg ARG_MONGODB_CLUSTER=$secrets.MONGODB_CLUSiTER \
+          --build-arg ARG_MONGODB_DB=$secrets.MONGODB_DB \
+          --build-arg ARG_REACT_APP_AUTH0_DOMAIN=$secrets.REACT_APP_AUTH0_DOMAIN \
+          --build-arg ARG_REACT_APP_AUTH0_CLIENT_ID=$REACT_APP_AUTH0_CLIENT_ID \
+          --build-arg ARG_NODE_ENV=production 
 
     # Push the Docker image to Google Container Registry
     - name: Publish
