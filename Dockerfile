@@ -10,6 +10,37 @@
 # implied. See the License for the specific language governing permissions and limitations under the
 # License.
 
-FROM ubuntu:latest
+# FROM node:16.1.0-alpine AS base
+FROM alpine:3.13.5 AS base
 
-RUN echo "Hello world"
+RUN apk update && apk upgrade && apk add --update --no-cache nodejs npm tini
+
+WORKDIR /root/nest-app
+
+# RUN npm i -g npm
+
+RUN npm install -g yarn
+
+COPY . .
+
+ENTRYPOINT [ "/sbin/tini", "--" ]
+
+
+FROM base AS builder
+
+RUN yarn
+
+RUN yarn build:common
+
+RUN yarn build:back
+
+
+FROM base as release
+
+COPY --from=builder . /root/nest-app
+
+EXPOSE 3010
+
+RUN cd packages/backend
+
+CMD yarn start
