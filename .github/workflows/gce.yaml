@@ -24,6 +24,13 @@ env:
   PROJECT_ID: ${{ secrets.GCE_PROJECT }}
   GCE_INSTANCE: backend-nest  # TODO: update to instance name
   GCE_INSTANCE_ZONE: us-west1-a   # TODO: update to instance zone
+  MONGODB_USER: ${{ secrets.MONGODB_USER }}
+  MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+  MONGODB_URL: ${{ secrets.MONGODB_URL }}
+  MONGODB_CLUSTER: ${{ secrets.MONGODB_CLUSTER }}
+  MONGODB_DB: ${¨{ secrets.MONGODB_DB }}
+  REACT_APP_AUTH0_DOMAIN: ${{ secrets.REACT_APP_AUTH0_DOMAIN }}
+  REACT_APP_AUTH0_CLIENT_ID: ${{ secrets.REACT_APP_AUTH0_CLIENT_ID }}
 
 jobs:
   setup-build-publish-deploy:
@@ -40,14 +47,6 @@ jobs:
         version: '290.0.1'
         service_account_key: ${{ secrets.GCE_SA_KEY }}
         project_id: ${{ secrets.GCE_PROJECT }}
-      env:
-        MONGODB_USER: ${{ secrets.MONGODB_USER }}
-        MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
-        MONGODB_URL: ${{ secrets.MONGODB_URL }}
-        MONGODB_CLUSTER: ${{ secrets.MONGODB_CLUSTER }}
-        MONGODB_DB: ${¨{ secrets.MONGODB_DB }}
-        REACT_APP_AUTH0_DOMAIN: ${{ secrets.REACT_APP_AUTH0_DOMAIN }}
-        REACT_APP_AUTH0_CLIENT_ID: ${{ secrets.REACT_APP_AUTH0_CLIENT_ID }}
 
     # Configure Docker to use the gcloud command-line tool as a credential
     # helper for authentication
