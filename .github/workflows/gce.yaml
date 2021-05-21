@@ -24,13 +24,6 @@ env:
   PROJECT_ID: ${{ secrets.GCE_PROJECT }}
   GCE_INSTANCE: backend-nest  # TODO: update to instance name
   GCE_INSTANCE_ZONE: us-west1-a   # TODO: update to instance zone
-  MONGODB_USER: ${{ secrets.MONGODB_USER }}
-  MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
-  MONGODB_URL: ${{ secrets.MONGODB_URL }}
-  MONGODB_CLUSTER: ${{ secrets.MONGODB_CLUSTER }}
-  MONGODB_DB: ${¨{ secrets.MONGODB_DB }}
-  REACT_APP_AUTH0_DOMAIN: ${{ secrets.REACT_APP_AUTH0_DOMAIN }}
-  REACT_APP_AUTH0_CLIENT_ID: ${{ secrets.REACT_APP_AUTH0_CLIENT_ID }}
 
 jobs:
   setup-build-publish-deploy:
@@ -54,6 +47,14 @@ jobs:
         gcloud --quiet auth configure-docker
     # Build the Docker image
     - name: Build
+      env:
+        MONGODB_USER: ${{ secrets.MONGODB_USER }}
+        MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+        MONGODB_URL: ${{ secrets.MONGODB_URL }}
+        MONGODB_CLUSTER: ${{ secrets.MONGODB_CLUSTER }}
+        MONGODB_DB: ${¨{ secrets.MONGODB_DB }}
+        REACT_APP_AUTH0_DOMAIN: ${{ secrets.REACT_APP_AUTH0_DOMAIN }}
+        REACT_APP_AUTH0_CLIENT_ID: ${{ secrets.REACT_APP_AUTH0_CLIENT_ID }}
       run: |-
         docker build . --tag "gcr.io/$PROJECT_ID/$GCE_INSTANCE-image:$GITHUB_SHA" \
           --build-arg ARG_MONGODB_USER=$MONGODB_USER \
