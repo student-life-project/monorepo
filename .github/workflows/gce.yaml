@@ -48,7 +48,7 @@ jobs:
     # Build the Docker image
     - name: Build
       run: |-
-        docker build . -t "gcr.io/$PROJECT_ID/$GCE_INSTANCE-image:$GITHUB_SHA" --build-arg ARG_MONGODB_USER=student_life_user5647238 --build-arg ARG_MONGODB_PASSWORD=hjHnyN8nwRnNqhu --build-arg ARG_MONGODB_URL=bibmc.mongodb.net --build-arg ARG_MONGODB_CLUSTER=clusterstudentlife --build-arg ARG_MONGODB_DB=student_life --build-arg ARG_REACT_APP_AUTH0_DOMAIN=studentlife01.us.auth0.com --build-arg ARG_REACT_APP_AUTH0_CLIENT_ID=Zap5nJICYlLZfuWPJmmmSLsG6B5z01ug --build-arg ARG_NODE_ENV=production 
+        docker build . -t "gcr.io/$PROJECT_ID/$GCE_INSTANCE-image:$GITHUB_SHA" --build-arg ARG_MONGODB_USER=$MONGODB_USER --build-arg ARG_MONGODB_PASSWORD=$MONGODB_PASSWORD --build-arg ARG_MONGODB_URL=$MONGODB_URL --build-arg ARG_MONGODB_CLUSTER=$MONGODB_CLUSTER --build-arg ARG_MONGODB_DB=$MONGODB_DB --build-arg ARG_REACT_APP_AUTH0_DOMAIN=$REACT_APP_AUTH0_DOMAIN --build-arg ARG_REACT_APP_AUTH0_CLIENT_ID=$REACT_APP_AUTH0_CLIENT_ID --build-arg ARG_NODE_ENV=production 
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
