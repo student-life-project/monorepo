@@ -53,17 +53,6 @@ jobs:
     - run: |-
         gcloud --quiet auth configure-docker
 
-    - name: print env variables
-      env:
-          MONGODB_USER: ${{ secrets.MONGODB_USER }}
-          MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
-          MONGODB_URL: ${{ secrets.MONGODB_URL }}
-          MONGODB_CLUSTER: ${{ secrets.MONGODB_CLUSTER }}
-          MONGODB_DB: ${¨{ secrets.MONGODB_DB }}
-          REACT_APP_AUTH0_DOMAIN: ${{ secrets.REACT_APP_AUTH0_DOMAIN }}
-          REACT_APP_AUTH0_CLIENT_ID: ${{ secrets.REACT_APP_AUTH0_CLIENT_ID }}
-      run: echo $MONGODB_DB
-
     # Build the Docker image
     - name: Build
       env:
