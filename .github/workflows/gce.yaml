@@ -53,6 +53,9 @@ jobs:
     - run: |-
         gcloud --quiet auth configure-docker
 
+    - name: print env variables
+      run: echo $MONGODB_DB
+
     # Build the Docker image
     - name: Build
       run: |-
