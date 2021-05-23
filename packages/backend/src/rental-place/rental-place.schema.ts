@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 
 import { Address } from '../address/address.schema';
-import { Characteristic } from '../charactetiristic/characteristic.schema';
+import { Characteristic } from '../characteristic/characteristic.schema';
 import { Image } from '../image/image.schema';
 import { Rate } from '../rate/rate.schema';
 import { Rule } from '../rule/rule.schema';

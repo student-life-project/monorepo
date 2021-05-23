@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
+import { CharacteristicController } from './characteristic.controller';
 import { Characteristic, CharacteristicSchema } from './characteristic.schema';
+import { CharacteristicService } from './characteristic.service';
 
 @Module({
   imports: [
@@ -14,7 +16,7 @@ import { Characteristic, CharacteristicSchema } from './characteristic.schema';
       { name: Characteristic.name, schema: CharacteristicSchema },
     ]),
   ],
-  controllers: [],
-  providers: [],
+  controllers: [CharacteristicController],
+  providers: [CharacteristicService],
 })
-export class CharactetiristicModule {}
+export class CharacteristicModule {}

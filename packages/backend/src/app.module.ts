@@ -4,7 +4,7 @@ import { AddressModule } from './address/address.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthzModule } from './authz/authz.module';
-import { CharactetiristicModule } from './charactetiristic/charactetiristic.module';
+import { CharacteristicModule } from './characteristic/characteristic.module';
 import { ImageModule } from './image/image.module';
 import { MessageModule } from './message/message.module';
 import { MongooseConfigModule } from './mongoose-config/mongoose-config.module';
@@ -36,7 +36,7 @@ if (process.env.NODE_ENV !== 'PROD') {
     AddressModule,
     RuleModule,
     ServiceModule,
-    CharactetiristicModule,
+    CharacteristicModule,
     MongooseConfigModule,
     AuthzModule,
   ],
