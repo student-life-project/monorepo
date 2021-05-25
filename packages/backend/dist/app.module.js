@@ -11,7 +11,8 @@ const common_1 = require("@nestjs/common");
 const address_module_1 = require("./address/address.module");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
-const charactetiristic_module_1 = require("./charactetiristic/charactetiristic.module");
+const authz_module_1 = require("./authz/authz.module");
+const characteristic_module_1 = require("./characteristic/characteristic.module");
 const image_module_1 = require("./image/image.module");
 const message_module_1 = require("./message/message.module");
 const mongoose_config_module_1 = require("./mongoose-config/mongoose-config.module");
@@ -44,8 +45,9 @@ AppModule = __decorate([
             address_module_1.AddressModule,
             rule_module_1.RuleModule,
             service_module_1.ServiceModule,
-            charactetiristic_module_1.CharactetiristicModule,
+            characteristic_module_1.CharacteristicModule,
             mongoose_config_module_1.MongooseConfigModule,
+            authz_module_1.AuthzModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
