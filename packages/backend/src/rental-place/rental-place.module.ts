@@ -7,7 +7,7 @@ import { CharacteristicModule } from '../characteristic/characteristic.module';
 import { ImageModule } from '../image/image.module';
 import { ImageService } from '../image/image.service';
 import { RateModule } from '../rate/rate.module';
-import { RateService } from '../rate/rate.service';
+// import { RateService } from '../rate/rate.service';
 import { RuleModule } from '../rule/rule.module';
 import { RuleService } from '../rule/rule.service';
 import { ServiceModule } from '../service/service.module';
@@ -38,7 +38,7 @@ import { RentalPlaceService } from './rental-place.service';
     AddressService,
     RuleService,
     ImageService,
-    RateService,
+    // RateService,
   ],
 })
 export class RentalPlaceModule {}

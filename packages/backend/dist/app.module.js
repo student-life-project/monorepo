@@ -9,12 +9,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const address_module_1 = require("./address/address.module");
-const admin_controller_1 = require("./admin/admin.controller");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
+const authz_module_1 = require("./authz/authz.module");
 const characteristic_module_1 = require("./characteristic/characteristic.module");
 const image_module_1 = require("./image/image.module");
-const lessor_controller_1 = require("./lessor/lessor.controller");
 const message_module_1 = require("./message/message.module");
 const mongoose_config_module_1 = require("./mongoose-config/mongoose-config.module");
 const owner_module_1 = require("./owner/owner.module");
@@ -48,8 +47,9 @@ AppModule = __decorate([
             service_module_1.ServiceModule,
             characteristic_module_1.CharacteristicModule,
             mongoose_config_module_1.MongooseConfigModule,
+            authz_module_1.AuthzModule,
         ],
-        controllers: [app_controller_1.AppController, admin_controller_1.AdminController, lessor_controller_1.LessorController],
+        controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })
 ], AppModule);
