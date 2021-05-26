@@ -1,16 +1,27 @@
-import { FC, useState } from 'react';
+// eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
+import styled from '@emotion/styled';
+import { FC, useState } from 'react';
 
 import Button from '@/components/Button';
 import ClampedText from '@/components/common/ClampedText';
 
 interface IInfoCad {
-  clampedLines: number;
-  title: string;
   body: string;
+  link?: string;
+  title: string;
+  clampedLines: number;
 }
 
-const InfoCard: FC<IInfoCad> = ({ clampedLines, title, body }) => {
+const Title = styled.h2`
+  ${xw`
+    mb-4
+    text-lg
+    font-semibold
+  `}
+`;
+
+const InfoCard: FC<IInfoCad> = ({ clampedLines, title, body, link }) => {
   const [showMore, setShowMore] = useState(false);
 
   const onClick = () => {
@@ -19,13 +30,19 @@ const InfoCard: FC<IInfoCad> = ({ clampedLines, title, body }) => {
 
   return (
     <div>
-      <p css={xw`text-lg font-semibold mb-4`}>{title}</p>
+      <Title>{title}</Title>
       <ClampedText lines={clampedLines} noClamp={showMore}>
         {body}
       </ClampedText>
-      <Button BPrimary css={xw`mt-4`} onClick={onClick}>
-        {!showMore ? 'Saber más' : 'Saber menos'}
-      </Button>
+      {link ? (
+        <Button BPrimary css={xw`mt-4`}>
+          <a href={link}>Saber más</a>
+        </Button>
+      ) : (
+        <Button BPrimary css={xw`mt-4`} onClick={onClick}>
+          {!showMore ? 'Saber más' : 'Saber menos'}
+        </Button>
+      )}
     </div>
   );
 };

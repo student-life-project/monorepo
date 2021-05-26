@@ -16,11 +16,55 @@ interface IQuestionContainer {
   noBorder?: boolean;
 }
 
-const QuestionContainer = styled.div<IQuestionContainer>`
+const QuestionContent = styled.div<IQuestionContainer>`
   ${xw`
-    w-11/12 flex-col pb-4 border-b border-gray-400 text-left
+    pb-4
+    w-11/12
+    flex-col
+    border-b
+    text-justify
+    border-secondary-2
   `}
+
   ${(props) => props.noBorder && xw`border-b-0`}
+`;
+
+const List = styled.ul`
+  ${xw`
+    w-full
+  `}
+`;
+
+const Item = styled.li`
+  ${xw`
+    mb-4
+  `}
+`;
+
+const ItemButton = styled.button`
+  ${xw`
+    flex
+    w-full
+    focus:outline-none
+  `}
+`;
+
+const Title = styled.button`
+  ${xw`
+    mb-1
+    font-semibold
+  `}
+`;
+
+const ArrowContent = styled.button`
+  ${xw`
+    flex
+    w-1/12
+    my-auto
+    items-center
+    text-gray-400
+    justify-center
+  `}
 `;
 
 const ListQuestions: FC<IListQuestions> = ({ questions }) => {
@@ -31,34 +75,26 @@ const ListQuestions: FC<IListQuestions> = ({ questions }) => {
   };
 
   return (
-    <ul css={xw`w-full`}>
-      {questions.map((question, index) => {
-        return (
-          <li css={xw`mb-4`} key={question.question}>
-            <button
-              type="button"
-              css={xw`flex w-full focus:outline-none`}
-              onClick={() => onClick(index)}
-            >
-              <QuestionContainer noBorder={index === questions.length - 1}>
-                <p css={xw`font-semibold mb-1`}>{question.question}</p>
-                <ClampedText lines={1} noClamp={index === selectedIndex}>
-                  {question.answer}
-                </ClampedText>
-              </QuestionContainer>
-              <div
-                css={xw`flex items-center justify-center w-1/12 text-gray-400 my-auto`}
-              >
-                <FontAwesomeIcon
-                  icon={index !== selectedIndex ? faChevronDown : faChevronUp}
-                  height="1.5rem"
-                />
-              </div>
-            </button>
-          </li>
-        );
-      })}
-    </ul>
+    <List>
+      {questions.map((question, index) => (
+        <Item key={question.question}>
+          <ItemButton type="button" onClick={() => onClick(index)}>
+            <QuestionContent noBorder={index === questions.length - 1}>
+              <Title>{question.question}</Title>
+              <ClampedText lines={1} noClamp={index === selectedIndex}>
+                {question.answer}
+              </ClampedText>
+            </QuestionContent>
+            <ArrowContent>
+              <FontAwesomeIcon
+                icon={index !== selectedIndex ? faChevronDown : faChevronUp}
+                height="1.5rem"
+              />
+            </ArrowContent>
+          </ItemButton>
+        </Item>
+      ))}
+    </List>
   );
 };
 

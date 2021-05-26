@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from 'react';
 
 import SearchBar from './SearchBar';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const SearchBarContainer = () => {
   const router = useRouter();
   const [value, setValue] = useState('');

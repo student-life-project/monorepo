@@ -15,7 +15,9 @@ module.exports = {
       colors,
     },
     colors: {
-      crazy: '#543fea',
+      primary: '#2A96D6',
+      'secondary-1': '#414140',
+      'secondary-2': '#D9D9D9',
     },
     fontFamily: {
       maven: ['Maven Pro', 'Helvetica', 'Arial', 'sans-serif'],

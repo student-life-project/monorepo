@@ -1,7 +1,7 @@
-/* eslint-disable-next-line simple-import-sort/imports */
+// eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { memo } from 'react';
+import { FC, memo } from 'react';
 
 type IButton = {
   FPrimary?: boolean;
@@ -24,26 +24,26 @@ type IButton = {
 const Btn = styled.button<IButton>`
   ${xw`
     flex
-    justify-center
-    items-center
-    px-5 
+    px-5
     py-2.5
-    text-sm 
+    text-sm
     font-bold
-    text-white 
+    text-white
     rounded-md
     focus:ring
     items-center
     duration-500
+    items-center
+    justify-center
     transition ease-in
     focus:outline-none
     focus:ring-offset-1
     focus:border-blue-300
   `}
 
-  ${({ FPrimary }) => FPrimary && xw`bg-blue-500 hover:bg-blue-600`}
+  ${({ FPrimary }) => FPrimary && xw`bg-primary hover:opacity-75`}
 
-  ${({ FSecondary }) => FSecondary && xw`bg-gray-500 hover:bg-gray-600`}
+  ${({ FSecondary }) => FSecondary && xw`bg-secondary-1 hover:bg-gray-600`}
 
   ${({ FSuccess }) => FSuccess && xw`bg-green-500 hover:bg-green-600`}
 
@@ -52,10 +52,11 @@ const Btn = styled.button<IButton>`
   ${({ FWarning }) => FWarning && xw`bg-yellow-500 hover:bg-yellow-600`}
 
   ${({ BPrimary }) =>
-    BPrimary && xw`text-blue-600 border border-blue-600 hover:bg-blue-100`}
+    BPrimary && xw`text-primary border border-primary hover:bg-blue-100`}
 
   ${({ BSecondary }) =>
-    BSecondary && xw`text-gray-600 border border-gray-600 hover:bg-gray-100`}
+    BSecondary &&
+    xw`text-secondary-1 border border-secondary-1 hover:bg-gray-100`}
 
   ${({ BSuccess }) =>
     BSuccess && xw`text-green-600 border border-green-600 hover:bg-green-100`}
@@ -78,7 +79,7 @@ const Btn = styled.button<IButton>`
   ${({ small }) => small && xw`text-xs py-2 px-4`}
 `;
 
-const Button: React.FC<IButton> = ({ children, ...props }) => (
+const Button: FC<IButton> = ({ children, ...props }) => (
   <Btn {...props}>{children}</Btn>
 );
 

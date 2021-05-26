@@ -1,4 +1,5 @@
-import { memo } from 'react';
+// eslint-disable-next-line simple-import-sort/imports
+import { FC, memo } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
@@ -67,7 +68,7 @@ const Span = styled.label`
   `}
 `;
 
-const Switch: React.FC<ISwitch> = ({ name, label, checked, ...props }) => (
+const Switch: FC<ISwitch> = ({ name, label, checked, ...props }) => (
   <Container>
     <Content>
       <Input id={name} type="checkbox" checked={checked} {...props} />

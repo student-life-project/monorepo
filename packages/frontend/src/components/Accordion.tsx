@@ -1,4 +1,5 @@
-import { memo } from 'react';
+// eslint-disable-next-line simple-import-sort/imports
+import { FC, memo } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
@@ -28,7 +29,7 @@ const Summary = styled.summary`
   `}
 `;
 
-const Accordion: React.FC<IAccordion> = ({ title, children }) => (
+const Accordion: FC<IAccordion> = ({ title, children }) => (
   <Details>
     <Summary>{title}</Summary>
     {children}

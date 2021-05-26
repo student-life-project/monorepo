@@ -1,12 +1,12 @@
-/* eslint-disable-next-line simple-import-sort/imports */
+// eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
+import { NextPage } from 'next';
 import styled from '@emotion/styled';
+import { useRef } from 'react';
+import { useRouter } from 'next/router';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { useRef } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   useDispatch,
   // useSelector
@@ -32,11 +32,23 @@ interface IResetPasswordPage {
   email: string;
 }
 
-const ErrorMessage = styled.p`
+const Form = styled.form`
   ${xw`
-    text-xs
-    text-red-300
-    mt-2
+    px-4
+    w-full
+    lg:w-6/12
+  `}
+`;
+
+const InputContainer = styled.div`
+  ${xw`
+    mb-4
+  `}
+`;
+
+const TextButton = styled.span`
+  ${xw`
+    mr-2
   `}
 `;
 
@@ -72,69 +84,66 @@ const ResetPassword: NextPage<IResetPasswordPage> = ({ email }) => {
 
   return (
     <CenteredBody>
-      <Title css={xw`text-center mt-0 mb-4 break-words`}>
-        RestablecerContraseña
-      </Title>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        css={xw`w-full my-4 px-4 grid gap-4 grid-rows-4 lg:w-1/2`}
-      >
-        <div>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Title css={xw`text-center mt-0 mb-4`}>Restablecer Contraseña</Title>
+        <InputContainer>
           <Label>Correo</Label>
           <Input
-            id="email"
-            type="text"
             required
             disabled
-            placeholder="Correo"
+            id="email"
+            type="text"
             value={email}
+            placeholder="Correo"
+            error={errors.email}
+            messageError={errors.email?.message}
             {...register('email', { required: false })}
           />
-          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
-        </div>
-        <div>
+        </InputContainer>
+
+        <InputContainer>
           <Label>Contraseña</Label>
           <Input
+            required
             id="password"
             type="password"
-            required
             placeholder="Contraseña"
             {...register('password', {
               required: 'You must specify a password',
               minLength: {
                 value: 8,
-                message: 'La contraseña debe tener almenos 8 caracteres',
+                message: 'La contraseña debe tener al menos 8 caracteres',
               },
             })}
+            error={errors.password}
+            messageError={errors.password?.message}
           />
-          {errors.password && (
-            <ErrorMessage>{errors.password.message}</ErrorMessage>
-          )}
-        </div>
-        <div>
+        </InputContainer>
+
+        <InputContainer>
           <Label>Confirmar contraseña</Label>
           <Input
-            id="confirmedPassword"
-            type="password"
             required
+            type="password"
+            id="confirmedPassword"
             placeholder="Contraseña"
             {...register('confirmedPassword', {
               required: true,
               validate: (value: string) =>
                 value === passwordRef.current || 'La contraseña no coincide',
             })}
+            error={errors.confirmedPassword}
+            messageError={errors.confirmedPassword?.message}
           />
-          {errors.confirmedPassword && (
-            <ErrorMessage>{errors.confirmedPassword.message}</ErrorMessage>
-          )}
-        </div>
-        <div>
+        </InputContainer>
+
+        <InputContainer>
           <Button type="submit" FPrimary css={xw`w-full`}>
-            <span css={xw`mr-2`}>Restablecer contraseña</span>
+            <TextButton>Restablecer contraseña</TextButton>
             <FontAwesomeIcon icon={faChevronRight} height=".875rem" />
           </Button>
-        </div>
-      </form>
+        </InputContainer>
+      </Form>
     </CenteredBody>
   );
 };
