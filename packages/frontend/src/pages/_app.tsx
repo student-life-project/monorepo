@@ -1,4 +1,5 @@
-import { Global } from '@emotion/react';
+// eslint-disable-next-line simple-import-sort/imports
+import { Global, css } from '@emotion/react';
 import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
@@ -22,7 +23,6 @@ function App({
       <Head>
         <title>Student Life</title>
         <link rel="icon" href="/favicon.ico" />
-
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@800&family=Montserrat&display=swap"
@@ -34,9 +34,26 @@ function App({
         <link href="public/fonts/Montserrat-Medium.ttf" rel="stylesheet" />
         */}
       </Head>
+
       <Global
         // tailwind base styles + keyframes + ring and shadow classes variables  ... to global styles
         styles={xw`XWIND_BASE XWIND_GLOBAL`}
+      />
+
+      <Global
+        styles={css`
+          body::-webkit-scrollbar {
+            width: 10px;
+          }
+
+          body::-webkit-scrollbar-track {
+            background-color: #d9d9d9;
+          }
+
+          body::-webkit-scrollbar-thumb {
+            background-color: #2a96d6;
+          }
+        `}
       />
 
       <Provider store={reduxStore}>

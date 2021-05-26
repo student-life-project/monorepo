@@ -1,28 +1,38 @@
+// eslint-disable-next-line simple-import-sort/imports
+import xw from 'xwind';
+import { FC, memo } from 'react';
+import styled from '@emotion/styled';
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FC } from 'react';
-import xw from 'xwind';
 
 interface IUserButton {
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   height?: string;
+  children?: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const UserButton: FC<IUserButton> = ({ onClick, children, height }) => {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      css={xw`flex items-center focus:outline-none`}
-    >
-      <FontAwesomeIcon
-        icon={faUserCircle}
-        height={height || '1.2rem'}
-        css={xw`mr-1 text-gray-900 font-thin stroke-1`}
-      />{' '}
-      {children}
-    </button>
-  );
-};
+const Button = styled.button`
+  ${xw`
+    flex
+    items-center
+    focus:outline-none
+  `}
+`;
 
-export default UserButton;
+const Icon = styled(FontAwesomeIcon)`
+  ${xw`
+    mr-1
+    sm:mb-2
+    stroke-1
+    font-thin
+    text-secondary-1
+  `}
+`;
+
+const UserButton: FC<IUserButton> = ({ onClick, children, height }) => (
+  <Button type="button" onClick={onClick}>
+    <Icon icon={faUserCircle} height={height || '1.2rem'} /> {children}
+  </Button>
+);
+
+export default memo(UserButton);

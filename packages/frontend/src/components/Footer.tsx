@@ -1,72 +1,149 @@
-/* eslint-disable-next-line simple-import-sort/imports */
+// eslint-disable-next-line simple-import-sort/imports
+import { FC, memo } from 'react';
 import xw from 'xwind';
-import styled from '@emotion/styled';
 import NextLink, { LinkProps } from 'next/link';
-import { memo } from 'react';
+import styled from '@emotion/styled';
 
 import { Lg01 } from '@/icons';
 
 const FooterStyle = styled.footer`
   ${xw`
-    container w-screen
-    border-t border-gray-900
-    font-montserrat
     mx-auto
+    w-screen
+    border-t
+    container
+    font-montserrat
+    border-secondary-2
   `}
 `;
 
 const Content = styled.div`
   ${xw`
-    container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col
-    border-b border-gray-900
+    flex 
+    px-5 
+    py-24 
+    mx-auto 
+    border-b
+    flex-col
+    container 
+    flex-wrap 
+    md:flex-row 
+    lg:items-start 
+    md:flex-nowrap 
+    md:items-center 
+    border-secondary-2
   `}
 `;
 
-const Info1 = styled.div`
+const FooterBottom = styled.div`
   ${xw`
-    w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left
+    flex
+    px-5
+    py-4
+    mx-auto
+    flex-col
+    container
+    flex-wrap
+    sm:flex-row
   `}
 `;
 
-const Link: React.FC<LinkProps> = ({ href, children, ...linkSettings }) => {
-  return (
-    <NextLink href={href} {...linkSettings}>
-      <a css={xw`text-gray-400 hover:text-gray-300 hover:cursor-pointer`}>
-        {children}
-      </a>
-    </NextLink>
-  );
-};
+const Logo = styled.div`
+  ${xw`
+    w-64
+    md:mx-0
+    mx-auto
+    flex-shrink-0
+  `}
+`;
+
+const ImgLink = styled.a`
+  ${xw`
+    flex
+    items-center
+    cursor-pointer
+    justify-center
+    md:justify-start
+  `}
+`;
+
+const Info = styled.div`
+  ${xw`
+    flex
+    mt-10
+    -mb-10
+    md:mt-0
+    md:pl-20
+    flex-grow
+    flex-wrap
+    text-center
+    md:text-left
+  `}
+`;
+
+const Column = styled.div`
+  ${xw`
+    px-4
+    w-full
+    lg:w-1/4
+    md:w-1/2
+  `}
+`;
 
 const TitleSection = styled.h2`
   ${xw`
-    font-medium text-gray-400 tracking-widest text-sm mb-3
+    mb-3
+    font-bold
+    text-secondary-1
   `}
 `;
 
 const Nav = styled.nav`
   ${xw`
-    list-none mb-10
+    mb-10
+    list-none 
   `}
 `;
+
+const TextLink = styled.a`
+  ${xw`
+    text-sm
+    text-gray-400 
+    cursor-pointer
+    hover:font-bold
+    hover:text-primary
+  `}
+`;
+
+const Text = styled.p`
+  ${xw`
+    block
+    text-sm
+    text-center
+    sm:text-left
+    text-gray-400
+  `}
+`;
+
+const Link: FC<LinkProps> = ({ href, children, ...linkSettings }) => (
+  <NextLink href={href} {...linkSettings}>
+    <TextLink>{children}</TextLink>
+  </NextLink>
+);
 
 const Footer = () => (
   <FooterStyle>
     <Content>
-      <Info1>
+      <Logo>
         <NextLink href="/">
-          <a
-            css={xw`flex font-medium items-center md:justify-start justify-center text-white`}
-          >
+          <ImgLink>
             <Lg01 />
-          </a>
+          </ImgLink>
         </NextLink>
-      </Info1>
+      </Logo>
 
-      <div
-        css={xw`flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center`}
-      >
-        <div css={xw`lg:w-1/4 md:w-1/2 w-full px-4`}>
+      <Info>
+        <Column>
           <TitleSection>Student Life</TitleSection>
           <Nav>
             <li>
@@ -79,39 +156,49 @@ const Footer = () => (
               <Link href="/rentals">Alojamientos</Link>
             </li>
           </Nav>
-        </div>
-        <div css={xw`lg:w-1/4 md:w-1/2 w-full px-4`}>
+        </Column>
+        <Column>
           <TitleSection>Ayuda</TitleSection>
           <Nav>
             <li>
-              <Link href="/terms-and-conditions">Terminos y Condiciones</Link>
+              <Link href="/help/terms-and-conditions">
+                Terminos y Condiciones
+              </Link>
             </li>
             <li>
-              <Link href="/faqs">Preguntas Frecuentes</Link>
+              <Link href="/help/privacy">Aviso de Privacidad</Link>
             </li>
             <li>
-              <Link href="/privacy">Aviso de Privacidad</Link>
+              <Link href="/help">Centro de ayuda</Link>
             </li>
           </Nav>
-        </div>
-        <div css={xw`lg:w-1/4 md:w-1/2 w-full px-4`}>
+        </Column>
+        <Column>
           <TitleSection>Share your best!</TitleSection>
           <Nav>
             <li>
-              <Link href="/comunity">Comunidad :D</Link>
+              <Link href="/community">Comunidad :D</Link>
             </li>
           </Nav>
-        </div>
-      </div>
+        </Column>
+        <Column>
+          <Nav>
+            <blockquote>
+              <Text as="q">
+                Crear una comunidad diseñada por estudiantes para estudiantes
+              </Text>
+              <Text as="cite">-Equipo de Student Life</Text>
+            </blockquote>
+          </Nav>
+        </Column>
+      </Info>
     </Content>
 
-    <div
-      css={xw`container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row`}
-    >
-      <p css={xw`text-gray-400 text-sm text-center sm:text-left`}>
+    <FooterBottom>
+      <Text>
         &#169; Student Life. {new Date().getFullYear()}. Share your best!
-      </p>
-    </div>
+      </Text>
+    </FooterBottom>
   </FooterStyle>
 );
 

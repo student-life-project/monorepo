@@ -11,7 +11,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '@/components/Button';
 import Anchor from '@/components/common/Anchor';
 import CenteredBody from '@/components/common/CenteredBody';
-import Title from '@/components/common/Title';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
 import Radio from '@/components/Radio';
@@ -21,37 +20,83 @@ import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 import { redirectLoggedToHome } from '@/utils/redirectLoggedtoHome';
 
+interface IRegisterData {
+  email: string;
+  lastName: string;
+  password: string;
+  firstName: string;
+  confirmedPassword: string;
+}
+
+const Form = styled.form`
+  ${xw`
+    px-4
+    w-full
+    lg:w-6/12
+  `}
+`;
+
+const Title = styled.h1`
+  ${xw`
+    mb-4
+    w-full
+    text-4xl
+    text-center
+    font-medium
+    sm:text-5xl
+  `}
+`;
+
+const Text = styled.p`
+  ${xw`
+    mb-4
+    text-lg
+    font-bold
+    text-center
+  `}
+`;
+
 const DoubleFormSpace = styled.div`
   ${xw`
-    grid grid-rows-2 gap-4 md:grid-cols-2 md:grid-rows-1 md:gap-8
+    grid
+    gap-x-4
+    grid-rows-2
+    md:grid-rows-1
+    md:grid-cols-2
   `}
 `;
 
 const RadioContainer = styled.div`
   ${xw`
-    rounded
-    border
-    border-gray-200
-    px-4
     h-12
+    px-4
+    mb-4
+    border
+    rounded
+    border-gray-200
   `}
 `;
 
-const ErrorMessage = styled.p`
+const InputContainer = styled.div`
   ${xw`
-    text-xs
-    text-red-300
-    mt-2
+    mb-4
   `}
 `;
 
-interface IRegisterData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmedPassword: string;
-}
+const TextButton = styled.span`
+  ${xw`
+    mr-2
+  `}
+`;
+
+const TextTerms = styled.p`
+  ${xw`
+    text-sm
+    break-words
+    text-justify
+    sm:text-base
+  `}
+`;
 
 const Register: NextPage = () => {
   const dispath = useDispatch();
@@ -84,66 +129,65 @@ const Register: NextPage = () => {
   };
 
   return (
-    <CenteredBody css={xw`px-4 sm:px-0`}>
-      <Title css={xw`text-center mt-0 mb-4`}>Te damos la bienvenida</Title>
-      <p>
-        <b css={xw`font-black`}>¿Ya te habias registrado?</b>{' '}
-        <Link href="/login">
-          <Anchor css={xw`font-black`}>Iniciar sesión</Anchor>
-        </Link>
-      </p>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        css={xw`grid gap-4 my-8 md:gap-8 md:grid-rows-6`}
-      >
+    <CenteredBody css={xw`h-auto lg:h-screen py-10`}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Title>Te damos la bienvenida</Title>
+        <Text>
+          ¿Ya te habias registrado?{' '}
+          <Link href="/login">
+            <Anchor>Iniciar sesión</Anchor>
+          </Link>
+        </Text>
+
         <DoubleFormSpace>
           <RadioContainer>
             <Radio
-              onChange={handleRadioChange}
               name="student"
               label="Estudiante"
               value={EUserType.STUDENT}
+              onChange={handleRadioChange}
               checked={userType === EUserType.STUDENT}
             />
           </RadioContainer>
-
           <RadioContainer>
             <Radio
-              onChange={handleRadioChange}
               name="renter"
               label="Arrendatario"
               value={EUserType.OWNER}
+              onChange={handleRadioChange}
               checked={userType === EUserType.OWNER}
             />
           </RadioContainer>
         </DoubleFormSpace>
+
         <DoubleFormSpace>
-          <div>
+          <InputContainer>
             <Label id="label-first-name" htmlFor="first-name">
               Nombre
             </Label>
             <Input
               required
-              id="first-name"
               type="text"
+              id="first-name"
               placeholder="Nombre"
               {...register('firstName', { required: true })}
             />
-          </div>
-          <div>
+          </InputContainer>
+          <InputContainer>
             <Label id="label-last-name" htmlFor="last-name">
               Apellido
             </Label>
             <Input
               required
-              id="last-name"
               type="text"
+              id="last-name"
               placeholder="Apellido"
               {...register('lastName', { required: true })}
             />
-          </div>
+          </InputContainer>
         </DoubleFormSpace>
-        <div>
+
+        <InputContainer>
           <Label id="label-email" htmlFor="email">
             Correo
           </Label>
@@ -154,8 +198,9 @@ const Register: NextPage = () => {
             placeholder="Correo"
             {...register('email', { required: true })}
           />
-        </div>
-        <div>
+        </InputContainer>
+
+        <InputContainer>
           <Label id="label-password" htmlFor="password">
             Contraseña
           </Label>
@@ -171,49 +216,49 @@ const Register: NextPage = () => {
                 message: 'La contraseña debe tener almenos 8 caracteres',
               },
             })}
+            error={errors.password}
+            messageError={errors.password?.message}
           />
-          {errors.password && (
-            <ErrorMessage>{errors.password.message}</ErrorMessage>
-          )}
-        </div>
-        <div>
+        </InputContainer>
+
+        <InputContainer>
           <Label id="label-password-confirmed" htmlFor="password-confirmed">
             Confirmar contraseña
           </Label>
           <Input
             required
-            id="password-confirmed"
             type="password"
+            id="password-confirmed"
             placeholder="Contraseña"
             {...register('passwordConfirmed', {
               required: true,
               validate: (value: string) =>
                 value === passwordRef.current || 'La contraseña no coincide',
             })}
+            error={errors.passwordConfirmed}
+            messageError={errors.passwordConfirmed?.message}
           />
+        </InputContainer>
 
-          {errors.passwordConfirmed && (
-            <ErrorMessage>{errors.passwordConfirmed.message}</ErrorMessage>
-          )}
-        </div>
-        <div>
+        <InputContainer>
           <Button type="submit" FPrimary css={xw`w-full`}>
-            <span css={xw`mr-2`}>Iniciar Sesión</span>
+            <TextButton css={xw`mr-2`}>Regístrate</TextButton>
             <FontAwesomeIcon icon={faChevronRight} height=".875rem" />
           </Button>
-        </div>
-      </form>
-      <div css={xw`break-words`}>
-        Al registrarte aceptas nuestros{' '}
-        <Link href="terms">
-          <Anchor>Términos de uso</Anchor>
-        </Link>{' '}
-        y la{' '}
-        <Link href="privacy">
-          <Anchor>Política de privacidad</Anchor>
-        </Link>
-        .
-      </div>
+        </InputContainer>
+
+        <TextTerms>
+          Al registrarte aceptas nuestros{' '}
+          <Link href="/help/terms-and-conditions">
+            <Anchor>Términos y condiciones</Anchor>
+          </Link>{' '}
+          y la{' '}
+          <Link href="/help/privacy">
+            <Anchor>Política de privacidad</Anchor>
+          </Link>
+          .
+        </TextTerms>
+      </Form>
     </CenteredBody>
   );
 };

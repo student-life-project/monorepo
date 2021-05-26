@@ -1,0 +1,66 @@
+// eslint-disable-next-line simple-import-sort/imports
+import {
+  faIdCard,
+  faComments,
+  faLaptopHouse,
+  faTruckLoading,
+} from '@fortawesome/free-solid-svg-icons';
+import xw from 'xwind';
+import { FC } from 'react';
+
+import BodyContainer from '@/components/common/BodyContainer';
+import BreadCrumbs from '@/components/common/BreadCrumbs';
+import NavBar from '@/components/common/NavBar/NavBarContainer';
+import Title from '@/components/common/Title';
+import Footer from '@/components/Footer';
+import InfoSteps from '@/components/faqs/InfoSteps';
+
+const steps = [
+  {
+    title: 'Verificate',
+    text: 'Registrate y actualiza la información de tu perfil.',
+    icon: faIdCard,
+  },
+  {
+    title: 'Explora alojamientos',
+    text:
+      'Explora cientos de alojamientos. Verificamos cada anuncio para asegurarte una experiencia de búsqueda segura.',
+    icon: faLaptopHouse,
+  },
+  {
+    title: 'Chatea y manda solicitudes',
+    text:
+      'Manda una solicitud de chat para obtener más información sobre algún anuncio.',
+    icon: faComments,
+  },
+  {
+    title: '¡Múdate!',
+    text: '¡Es hora de festejar que encontraste un lugar para alojarte!',
+    icon: faTruckLoading,
+  },
+];
+
+const Information: FC = () => (
+  <>
+    <NavBar allowRequest allowLogin />
+
+    <BreadCrumbs
+      items={[
+        { link: '/', text: 'Student Life' },
+        { link: '/help', text: 'Ayuda' },
+        {
+          link: '/help/information-rentals',
+          text: 'Busco un alojamiento',
+        },
+      ]}
+    />
+
+    <BodyContainer css={xw`pt-0`}>
+      <Title>Busco un alojamiento</Title>
+      <InfoSteps steps={steps} />
+    </BodyContainer>
+    <Footer />
+  </>
+);
+
+export default Information;

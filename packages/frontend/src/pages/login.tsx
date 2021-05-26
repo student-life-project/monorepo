@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
+import Anchor from '@/components/common/Anchor';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
 import Input from '@/components/Input';
@@ -17,23 +18,67 @@ import Label from '@/components/Label';
 import { login } from '@/store/actions/user';
 import { redirectLoggedToHome } from '@/utils/redirectLoggedtoHome';
 
+interface ILoginValues {
+  email: string;
+  password: string;
+  rememberme: boolean;
+}
+
+const Content = styled.section`
+  ${xw`
+    flex
+    mx-auto
+    flex-col
+    h-screen
+    container
+    break-words
+    items-center
+    justify-center
+    font-montserrat
+    text-secondary-1
+  `}
+`;
+
+const Title = styled.h1`
+  ${xw`
+    mb-4
+    w-full
+    text-4xl
+    text-center
+    font-medium
+    sm:text-5xl
+  `}
+`;
+
+const Text = styled.p`
+  ${xw`
+    mb-5
+    text-lg
+    lg:mb-10
+    font-bold
+    text-center
+  `}
+`;
+
+const Form = styled.form`
+  ${xw`
+    px-4
+    w-full
+    lg:w-6/12
+  `}
+`;
+
 const InputSection = styled.div`
   ${xw`
     mb-4
   `}
 `;
 
-const Link = styled.a`
+const TextButton = styled.span`
   ${xw`
-    text-blue-600 cursor-pointer hover:underline hover:text-blue-700
+    mr-2
   `}
 `;
-
-interface ILoginValues {
-  email: string;
-  password: string;
-  rememberme: boolean;
-}
 
 const Login: NextPage = () => {
   const [rememberUser, setRememberUser] = useState(false);
@@ -65,26 +110,15 @@ const Login: NextPage = () => {
   };
 
   return (
-    <section
-      css={xw`container h-screen flex flex-col items-center justify-center mx-auto font-montserrat break-words`}
-    >
-      <h1 css={xw`w-full text-center font-medium text-5xl mb-4 sm:text-6xl`}>
-        Ya te extrañamos
-      </h1>
-      <p css={xw`font-bold text-lg`}>
-        Iniciar sesión o bien{' '}
-        <NextLink href="/register">
-          <Link
-            css={xw`text-blue-600 cursor-pointer hover:underline hover:text-blue-700`}
-          >
-            registrarse
-          </Link>
-        </NextLink>
-      </p>
-      <form
-        css={xw`w-full px-4 my-10 lg:w-1/2`}
-        onSubmit={handleSubmit(onSubmit)}
-      >
+    <Content>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Title>Ya te extrañamos</Title>
+        <Text>
+          Iniciar sesión o bien{' '}
+          <NextLink href="/register">
+            <Anchor>registrarse</Anchor>
+          </NextLink>
+        </Text>
         <InputSection>
           <Label>Correo</Label>
           <Input
@@ -106,25 +140,27 @@ const Login: NextPage = () => {
         >
           <div>
             <Checkbox
+              name="rememberme"
+              label="Recordarme"
               checked={rememberUser}
               onClick={handleRememberMe}
-              label="Recordarme"
               css={xw`text-xs sm:text-sm`}
-              name="remembermo"
             />
           </div>
           <NextLink href="/recover-password">
-            <Link css={xw`mt-3 text-sm`}>¿Olvidaste tu contraseña?</Link>
+            <Anchor css={xw`mt-3 text-sm text-left`}>
+              ¿Olvidaste tu contraseña?
+            </Anchor>
           </NextLink>
         </InputSection>
         <InputSection>
           <Button type="submit" FPrimary css={xw`w-full`}>
-            <span css={xw`mr-2`}>Iniciar Sesión</span>
+            <TextButton>Iniciar Sesión</TextButton>
             <FontAwesomeIcon icon={faChevronRight} height=".875rem" />
           </Button>
         </InputSection>
-      </form>
-    </section>
+      </Form>
+    </Content>
   );
 };
 

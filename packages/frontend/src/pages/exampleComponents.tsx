@@ -66,7 +66,7 @@ export const Home: NextPage = () => {
 
   return (
     <>
-      <NavBar allowPublish allowRegister allowLogin />
+      <NavBar allowRental allowRegister allowLogin />
       <div className="container" css={xw`pt-16`}>
         <Head>
           <title>Student Life</title>
@@ -75,7 +75,7 @@ export const Home: NextPage = () => {
 
         <Im01 css={xw`w-1/4 h-1/4`} />
 
-        <h1 className="title" css={xw`mx-2 font-maven text-crazy`}>
+        <h1 className="title" css={xw`mx-2 font-maven`}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
@@ -83,7 +83,7 @@ export const Home: NextPage = () => {
         <p>Default locale: {defaultLocale}</p>
         <p>Configured locales: {JSON.stringify(locales)}</p>
 
-        <p className="description" css={xw`font-montserrat text-crazy`}>
+        <p className="description" css={xw`font-montserrat`}>
           Get started by editing
           <code>pages/index.tsx</code>
         </p>
