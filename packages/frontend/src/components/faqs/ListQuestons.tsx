@@ -49,14 +49,14 @@ const ItemButton = styled.button`
   `}
 `;
 
-const Title = styled.button`
+const Title = styled.h2`
   ${xw`
     mb-1
     font-semibold
   `}
 `;
 
-const ArrowContent = styled.button`
+const ArrowContent = styled.div`
   ${xw`
     flex
     w-1/12
