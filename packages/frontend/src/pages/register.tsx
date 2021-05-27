@@ -207,7 +207,7 @@ const Register: NextPage = () => {
           <Input
             required
             id="password"
-            type="paasword"
+            type="password"
             placeholder="Contraseña"
             {...register('password', {
               required: 'You must specify a password',

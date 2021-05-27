@@ -22,7 +22,7 @@ const Button = styled.button`
 const Icon = styled(FontAwesomeIcon)`
   ${xw`
     mr-1
-    sm:mb-2
+    sm:my-2
     stroke-1
     font-thin
     text-secondary-1
