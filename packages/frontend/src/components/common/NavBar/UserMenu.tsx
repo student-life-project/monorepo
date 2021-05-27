@@ -75,7 +75,7 @@ const UserMenu: FC<IUserMenu> = ({ user, onLogoutClick }) => {
 
   return (
     <MenuContent>
-      <UserButton onClick={onClickUserButton} height="3rem" />
+      <UserButton onClick={onClickUserButton} height="2.5rem" />
       {displayMenu && (
         <MenuList>
           <Triangle
