@@ -1,7 +1,7 @@
 /* eslint-disable-next-line simple-import-sort/imports */
 import xw from 'xwind';
 import Link from 'next/link';
-import { FC, useState, memo } from 'react';
+import { FC, useState } from 'react';
 import styled from '@emotion/styled';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -156,4 +156,4 @@ const MobileMenu: FC<INavBar> = ({
   );
 };
 
-export default memo(MobileMenu);
+export default MobileMenu;

@@ -1,5 +1,5 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
@@ -41,4 +41,4 @@ const Radio: FC<IRadio> = ({ name, label, checked, ...props }) => (
   </Label>
 );
 
-export default memo(Radio);
+export default Radio;

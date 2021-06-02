@@ -1,5 +1,4 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { memo } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
@@ -18,4 +17,4 @@ const Span = styled.span`
 
 const SpanError = ({ children }) => <Span>{children}</Span>;
 
-export default memo(SpanError);
+export default SpanError;

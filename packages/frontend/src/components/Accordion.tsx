@@ -1,5 +1,5 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
@@ -36,4 +36,4 @@ const Accordion: FC<IAccordion> = ({ title, children }) => (
   </Details>
 );
 
-export default memo(Accordion);
+export default Accordion;
