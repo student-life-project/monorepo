@@ -1,4 +1,4 @@
-/* eslint-disable simple-import-sort/imports */
+// eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import { NextPage, NextPageContext } from 'next';
@@ -8,8 +8,8 @@ import { ThunkDispatch } from 'redux-thunk';
 import BodyContainer from '@/components/common/BodyContainer';
 import VerticalCard from '@/components/common/Card/VerticalCard';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import FilterAndSort from '@/components/rentals/FilterAndSort';
 import Pagination from '@/components/Pagination';
+import FilterAndSort from '@/components/rentals/FilterAndSort';
 import { TStore } from '@/store';
 import {
   getRentalPlaces,
