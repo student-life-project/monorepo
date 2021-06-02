@@ -152,9 +152,9 @@ export const Home: NextPage = () => {
           </div>
 
           <GetStartedCard
-            linkUrl="/publish"
-            alt="publish rentals"
             icon={faMapMarkerAlt}
+            linkUrl="/help/information-publish"
+            alt="publish rentals"
             buttonText="Publicar Alojamiento"
             imgUrl="/images/start_publishing.jpg"
             text="¿Necesitas rentar una vivienda?"

@@ -13,7 +13,7 @@ const SearchBarContainer = () => {
   };
 
   const onClick = () => {
-    router.push('/rental-places');
+    router.push('/rentals');
   };
 
   return <SearchBar value={value} onChange={onChange} onClick={onClick} />;
