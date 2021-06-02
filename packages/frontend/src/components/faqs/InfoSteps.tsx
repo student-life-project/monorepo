@@ -4,10 +4,10 @@ import { FC } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IStepsInfo } from '@/types';
+import { IInfoStep } from '@/types';
 
 interface IInfoSteps {
-  steps: IStepsInfo[];
+  steps: IInfoStep[];
 }
 
 const ContentSteps = styled.section`
