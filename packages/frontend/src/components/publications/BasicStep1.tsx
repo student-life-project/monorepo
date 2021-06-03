@@ -38,7 +38,7 @@ const BasicStep1: FC<IBasicStep1> = ({ complateStep1 }) => {
 
         <div css={xw`mb-4`}>
           <Label id="label-title" htmlFor="title">
-            Titulo
+            Título
           </Label>
           <Input
             required
@@ -80,7 +80,7 @@ const BasicStep1: FC<IBasicStep1> = ({ complateStep1 }) => {
           <Radio name="no-preferences" label="Sin preferencias" checked />
         </div>
 
-        <h2 css={xw`pt-11 pb-3 text-lg font-bold`}>Vivienda</h2>
+        <h2 css={xw`pt-11 pb-3 text-lg font-bold`}>Renta</h2>
 
         <DoubleFormSpace>
           <div css={xw`mb-4`}>
@@ -118,7 +118,7 @@ const BasicStep1: FC<IBasicStep1> = ({ complateStep1 }) => {
           </div>
           <div css={xw`mb-4`}>
             <Label id="label-time" htmlFor="time">
-              por
+              Pago por
             </Label>
             <Input
               required
@@ -126,7 +126,7 @@ const BasicStep1: FC<IBasicStep1> = ({ complateStep1 }) => {
               id="time"
               type="text"
               value="Mes"
-              placeholder="Ejemplo: $1500.00"
+              placeholder="Mes"
             />
           </div>
         </DoubleFormSpace>

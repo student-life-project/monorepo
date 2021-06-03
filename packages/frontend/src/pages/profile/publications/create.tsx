@@ -6,6 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
+import xw from 'xwind';
 
 import BodyContainer from '@/components/common/BodyContainer';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
@@ -79,7 +80,7 @@ const Create: FC = () => {
       <NavBar allowRental allowRegister allowLogin />
       <Steps steps={steps} stepCurrent={step} />
 
-      <BodyContainer>
+      <BodyContainer css={xw`pt-8 sm:pt-16`}>
         {step === 0 && <BasicStep1 complateStep1={complateStep1} />}
         {step === 1 && (
           <UbicationStep2 complateStep2={complateStep2} stepBack={stepBack} />

@@ -5,7 +5,6 @@ import { FC } from 'react';
 
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
-import Input from '@/components/Input';
 import Label from '@/components/Label';
 import Textarea from '@/components/Textarea';
 
@@ -85,7 +84,7 @@ const RentalPlaceStep3: FC<IRentalPlaceStep3> = ({
   return (
     <div css={xw`flex justify-center mb-10`}>
       <Form>
-        <h2 css={xw`pb-3 text-lg font-bold`}>Ubicación de la vivienda</h2>
+        <h2 css={xw`pb-3 text-lg font-bold`}>Información de la vivienda</h2>
 
         <div css={xw`mb-4`}>
           <Label id="label-place" htmlFor="place">
@@ -93,15 +92,8 @@ const RentalPlaceStep3: FC<IRentalPlaceStep3> = ({
           </Label>
           <Textarea
             id="place"
-            placeholder="Describe puntos importantes de la vivienda, por ejemplo describa las habitaciones o algo que resalte su publicación"
+            placeholder="Describe puntos importantes de la vivienda, por ejemplo describa las habitaciones, servicios, reglas o algo que resalte su publicación"
           />
-        </div>
-
-        <div css={xw`mb-4`}>
-          <Label id="label-rooms" htmlFor="rooms">
-            Número total de habitaciones
-          </Label>
-          <Input required id="rooms" type="number" placeholder="Ejemplo: 5" />
         </div>
 
         <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Servicios</h2>

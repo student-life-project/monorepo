@@ -130,7 +130,7 @@ const UbicationStep2: FC<IUbicationStep2> = ({ complateStep2, stepBack }) => {
 
           <div css={xw`mb-4`}>
             <Label id="label-country" htmlFor="country">
-              Ciudad
+              País
             </Label>
             <Input
               required
