@@ -203,18 +203,18 @@ const Profile: FC = () => {
 
               <DoubleFormSpace>
                 <div css={xw`mb-4`}>
-                  <Button type="submit" FPrimary css={xw`w-full`}>
-                    Actualizar
-                  </Button>
-                </div>
-                <div css={xw`mb-4`}>
                   <Button
-                    FSecondary
+                    BSecondary
                     type="button"
                     css={xw`w-full`}
                     onClick={handleCancel}
                   >
                     Cancelar
+                  </Button>
+                </div>
+                <div css={xw`mb-4`}>
+                  <Button type="submit" FPrimary css={xw`w-full`}>
+                    Actualizar
                   </Button>
                 </div>
               </DoubleFormSpace>
