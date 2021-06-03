@@ -3,7 +3,7 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ChangeEventHandler, FC, memo, MouseEventHandler } from 'react';
+import { ChangeEventHandler, FC, MouseEventHandler } from 'react';
 
 import Button from '@/components/Button';
 import Input from '@/components/Input';
@@ -48,4 +48,4 @@ const SearchBar: FC<ISearchBar> = ({ value, onChange, onClick }) => (
   </SearchContent>
 );
 
-export default memo(SearchBar);
+export default SearchBar;

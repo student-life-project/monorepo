@@ -1,5 +1,5 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import xw from 'xwind';
 import Link from 'next/link';
 import styled from '@emotion/styled';
@@ -111,4 +111,4 @@ const GetStartedCard: FC<IGetStartedCard> = ({
   </Container>
 );
 
-export default memo(GetStartedCard);
+export default GetStartedCard;

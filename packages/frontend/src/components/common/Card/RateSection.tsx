@@ -2,7 +2,7 @@
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 // import { faStar as starFilled } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
@@ -44,4 +44,4 @@ const RateSection: FC<IRateSection> = ({ score, scoreCount }) => (
   </Content>
 );
 
-export default memo(RateSection);
+export default RateSection;

@@ -1,7 +1,7 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { FC, memo, useState } from 'react';
+import { FC, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
@@ -145,4 +145,4 @@ const FilterAndSort: FC<IFilterAndSort> = ({ sorts, filters }) => {
   );
 };
 
-export default memo(FilterAndSort);
+export default FilterAndSort;

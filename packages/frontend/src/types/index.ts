@@ -39,8 +39,14 @@ export interface IBreadCrumb {
   text: string;
 }
 
-export interface IStepsInfo {
+export interface IInfoStep {
   title: string;
   text: string;
   icon: FontAwesomeIconProps['icon'];
+}
+
+export interface IStep {
+  title: string;
+  icon: FontAwesomeIconProps['icon'];
+  completed: boolean;
 }

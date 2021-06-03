@@ -1,6 +1,5 @@
-import { EUserType } from '@student_life/common';
 import { useRouter } from 'next/router';
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { logoutAction } from '@/store/actions/user';
@@ -44,4 +43,4 @@ const NavBarContainer: FC<INavBarContainer> = ({
   );
 };
 
-export default memo(NavBarContainer);
+export default NavBarContainer;

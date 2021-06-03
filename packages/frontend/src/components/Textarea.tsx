@@ -1,5 +1,5 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import SpanError from './SpanError';
@@ -37,4 +37,4 @@ const Textarea: FC<ITextarea> = ({ error, messageError, ...props }) => (
   </>
 );
 
-export default memo(Textarea);
+export default Textarea;

@@ -3,7 +3,7 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { EUserType, IUser } from '@student_life/common';
 import Link from 'next/link';
-import { FC, useState, memo } from 'react';
+import { FC, useState } from 'react';
 
 import { Triangle } from '@/icons';
 
@@ -112,4 +112,4 @@ const UserMenu: FC<IUserMenu> = ({ user, onLogoutClick }) => {
   );
 };
 
-export default memo(UserMenu);
+export default UserMenu;

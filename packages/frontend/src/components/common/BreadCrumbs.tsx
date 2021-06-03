@@ -1,7 +1,7 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import Link from 'next/link';
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import styled from '@emotion/styled';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -57,4 +57,4 @@ const BreadCrumbs: FC<IBreadCrumbs> = ({ items }) => (
   </ListContent>
 );
 
-export default memo(BreadCrumbs);
+export default BreadCrumbs;

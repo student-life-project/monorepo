@@ -1,5 +1,4 @@
 /* eslint-disable-next-line simple-import-sort/imports */
-import { memo } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
@@ -12,4 +11,4 @@ const Title = styled.h1`
   `}
 `;
 
-export default memo(Title);
+export default Title;

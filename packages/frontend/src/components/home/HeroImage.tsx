@@ -1,5 +1,5 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
@@ -31,4 +31,4 @@ const HeroImage: FC<IHeroImage> = ({ url, name }) => (
   </Content>
 );
 
-export default memo(HeroImage);
+export default HeroImage;

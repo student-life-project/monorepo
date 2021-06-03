@@ -1,5 +1,5 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -79,4 +79,4 @@ const Modal: FC<IModal> = ({ title, children, close }) => (
   </Container>
 );
 
-export default memo(Modal);
+export default Modal;

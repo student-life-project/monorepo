@@ -1,7 +1,7 @@
 // eslint-disable-next-line simple-import-sort/imports
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
@@ -50,4 +50,4 @@ const PriceSection: FC<IPriceSection> = ({ price, currency }) => {
   );
 };
 
-export default memo(PriceSection);
+export default PriceSection;

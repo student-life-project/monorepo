@@ -1,5 +1,5 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import xw from 'xwind';
 import NextLink, { LinkProps } from 'next/link';
 import styled from '@emotion/styled';
@@ -202,4 +202,4 @@ const Footer = () => (
   </FooterStyle>
 );
 
-export default memo(Footer);
+export default Footer;

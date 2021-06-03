@@ -1,7 +1,7 @@
 /* eslint-disable-next-line simple-import-sort/imports */
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { FC, memo } from 'react';
+import { FC } from 'react';
 
 interface IClampedText {
   lines: number;
@@ -29,4 +29,4 @@ const ClampedText: FC<IClampedText> = ({ lines, noClamp, children }) => (
   </ClampContainer>
 );
 
-export default memo(ClampedText);
+export default ClampedText;

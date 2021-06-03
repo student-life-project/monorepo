@@ -1,5 +1,5 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
@@ -24,4 +24,4 @@ const Label: FC<ILabel> = ({ children, ...props }) => (
   <LabelStyle {...props}>{children}</LabelStyle>
 );
 
-export default memo(Label);
+export default Label;

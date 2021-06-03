@@ -2,7 +2,7 @@
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { FC, memo } from 'react';
+import { FC } from 'react';
 
 import Button from '@/components/Button';
 import SearchBar from '@/components/common/SearchBar/SearchBarContainer';
@@ -156,4 +156,4 @@ const NavBar: FC<INavBar> = ({
   </Nav>
 );
 
-export default memo(NavBar);
+export default NavBar;

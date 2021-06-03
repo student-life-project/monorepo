@@ -1,7 +1,7 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { FC, memo } from 'react';
+import { FC } from 'react';
 
 import Button from '../Button';
 import Modal from '../Modal';
@@ -60,4 +60,4 @@ const RentalPlaceReport: FC<IRentalPlaceReport> = ({ closeModal }) => (
   </Modal>
 );
 
-export default memo(RentalPlaceReport);
+export default RentalPlaceReport;

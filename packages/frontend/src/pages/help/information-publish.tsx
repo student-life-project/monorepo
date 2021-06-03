@@ -18,7 +18,8 @@ import InfoSteps from '@/components/faqs/InfoSteps';
 const steps = [
   {
     title: 'Verificate',
-    text: 'Registrate y actualiza la información de tu perfil.',
+    text:
+      'Registrate como "Arrendatario" y actualiza la información de tu perfil. Ya sea que estés buscando un inquilino para ganar dinero o si estás en la búsqueda de un roomie para compartir gastos.',
     icon: faIdCard,
   },
   {

@@ -1,6 +1,6 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import styled from '@emotion/styled';
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -35,4 +35,4 @@ const UserButton: FC<IUserButton> = ({ onClick, children, height }) => (
   </Button>
 );
 
-export default memo(UserButton);
+export default UserButton;
