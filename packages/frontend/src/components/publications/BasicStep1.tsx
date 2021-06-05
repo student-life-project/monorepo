@@ -60,10 +60,10 @@ const BasicStep1: FC<IBasicStep1> = ({ complateStep1 }) => {
           </div>
 
           <div css={xw`mb-4`}>
-            <Label id="label-ad" htmlFor="ad">
+            <Label id="label-type-space" htmlFor="type-space">
               Tipo de espacio
             </Label>
-            <Select name="ad" id="ad" required>
+            <Select name="type-space" id="type-space" required>
               <option value="full-place">Lugar completo</option>
               <option value="private-room">Cuarto privado</option>
               <option value="shared-room">Cuarto compartido</option>
@@ -82,29 +82,17 @@ const BasicStep1: FC<IBasicStep1> = ({ complateStep1 }) => {
 
         <h2 css={xw`pt-11 pb-3 text-lg font-bold`}>Renta</h2>
 
+        <div css={xw`mb-4`}>
+          <Label id="label-availability" htmlFor="availability">
+            Disponibilidad
+          </Label>
+          <Select name="availability" id="availability" required>
+            <option value="available">Disponible</option>
+            <option value="not-available">No disponible</option>
+          </Select>
+        </div>
+
         <DoubleFormSpace>
-          <div css={xw`mb-4`}>
-            <Label id="label-residents" htmlFor="residents">
-              Número de residentes permitidos
-            </Label>
-            <Input
-              required
-              id="residents"
-              type="number"
-              placeholder="Ejemplo: 7"
-            />
-          </div>
-
-          <div css={xw`mb-4`}>
-            <Label id="label-availability" htmlFor="availability">
-              Disponibilidad
-            </Label>
-            <Select name="availability" id="availability" required>
-              <option value="available">Disponible</option>
-              <option value="not-available">No disponible</option>
-            </Select>
-          </div>
-
           <div css={xw`mb-4`}>
             <Label id="label-price" htmlFor="price">
               Precio
