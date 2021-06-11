@@ -18,20 +18,17 @@ import InfoSteps from '@/components/faqs/InfoSteps';
 const steps = [
   {
     title: 'Verificate',
-    text:
-      'Registrate como "Estudiante" y actualiza la información de tu perfil. Es perfecto para ti, si estás en el proceso de independencia y estás buscando un alojamiento mientras realizas tus estudios.',
+    text: 'Registrate como "Estudiante" y actualiza la información de tu perfil. Es perfecto para ti, si estás en el proceso de independencia y estás buscando un alojamiento mientras realizas tus estudios.',
     icon: faIdCard,
   },
   {
     title: 'Explora alojamientos',
-    text:
-      'Explora cientos de alojamientos. Verificamos cada anuncio para asegurarte una experiencia de búsqueda segura. Encuentra un alojamiento adecuado a tus necesidades, costos y seguridad.',
+    text: 'Explora cientos de alojamientos. Verificamos cada anuncio para asegurarte una experiencia de búsqueda segura. Encuentra un alojamiento adecuado a tus necesidades, costos y seguridad.',
     icon: faLaptopHouse,
   },
   {
     title: 'Chatea y manda solicitudes',
-    text:
-      'Manda una solicitud de chat para obtener más información sobre algún anuncio de un alojamiento.',
+    text: 'Manda una solicitud de chat para obtener más información sobre algún anuncio de un alojamiento.',
     icon: faComments,
   },
   {

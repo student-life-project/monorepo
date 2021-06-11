@@ -169,11 +169,13 @@ const Rentals: NextPage = () => {
 Rentals.getInitialProps = async ({
   reduxStore,
 }: NextPageContext & { reduxStore: TStore }) => {
-  await (reduxStore.dispatch as ThunkDispatch<
-    TRootState,
-    unknown,
-    IRentalPlacesAction
-  >)(getRentalPlaces());
+  await (
+    reduxStore.dispatch as ThunkDispatch<
+      TRootState,
+      unknown,
+      IRentalPlacesAction
+    >
+  )(getRentalPlaces());
 
   return {};
 };
