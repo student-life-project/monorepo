@@ -50,3 +50,8 @@ export interface IStep {
   icon: FontAwesomeIconProps['icon'];
   completed: boolean;
 }
+
+export interface Itab {
+  text: string;
+  handleTab: (tabCurrent: number) => void;
+}
