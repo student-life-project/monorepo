@@ -46,10 +46,7 @@ const Information: FC = () => (
       items={[
         { link: '/', text: 'Student Life' },
         { link: '/help', text: 'Ayuda' },
-        {
-          link: '/help/information-rentals',
-          text: 'Busco un alojamiento',
-        },
+        { link: '/help/information-rentals', text: 'Busco un alojamiento' },
       ]}
     />
 
