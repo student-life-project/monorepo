@@ -26,7 +26,12 @@ const columns = [
   {
     name: 'Disponibilidad',
     selector: 'available',
-    cell: (row) => <Status status={row.available} />,
+    cell: (row) => (
+      <Status
+        status={row.available}
+        options={['Disponible', 'No disponible']}
+      />
+    ),
     sortable: true,
   },
   {
@@ -169,10 +174,7 @@ const Publications: FC = () => {
         items={[
           { link: '/', text: 'Student Life' },
           { link: '/profile', text: 'Perfil' },
-          {
-            link: '/profile/publications',
-            text: 'Publicaciones',
-          },
+          { link: '/profile/publications', text: 'Publicaciones' },
         ]}
       />
       <BodyContainer css={xw`pt-0`}>
