@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import NextLink from 'next/link';
 import { FC, useState } from 'react';
 
+import Button from '@/components/Button';
 import BodyContainer from '@/components/common/BodyContainer';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
@@ -51,29 +52,6 @@ const ButtonLink = styled.button`
     text-primary
     cursor-pointer
     hover:underline
-  `}
-`;
-
-const Btn = styled.a`
-  ${xw`
-    flex
-    px-5
-    py-2.5
-    text-sm
-    font-bold
-    text-white
-    rounded-md
-    bg-primary 
-    focus:ring
-    items-center
-    duration-500
-    items-center
-    justify-center
-    hover:opacity-75
-    transition ease-in
-    focus:outline-none
-    focus:ring-offset-1
-    focus:border-blue-300
   `}
 `;
 
@@ -122,8 +100,7 @@ const data = {
     'No beber',
     'Parejas OK',
   ],
-  zone:
-    'El apartamento está ubicado a una cuadra del tren A ya pocos minutos a pie de la 1. Justo en frente del palacio unido, IHOP, Planet Finiteness, Blink. ¡Bloquee lejos de GWB!',
+  zone: 'El apartamento está ubicado a una cuadra del tren A ya pocos minutos a pie de la 1. Justo en frente del palacio unido, IHOP, Planet Finiteness, Blink. ¡Bloquee lejos de GWB!',
   location: {
     street: 'Casimiro Buena Vista',
     extNumber: '2345',
@@ -321,10 +298,10 @@ const Details: FC = () => {
               </div>
 
               <NextLink href="/profile/messages">
-                <Btn href="/profile/messages">
+                <Button type="button" FPrimary>
                   <FontAwesomeIcon icon={faComment} height="1.2rem" />
                   <span css={xw`ml-2`}>Enviar mensaje</span>
-                </Btn>
+                </Button>
               </NextLink>
 
               <ButtonLink type="button" css={xw`mt-5`} onClick={openUserReport}>
