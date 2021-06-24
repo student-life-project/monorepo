@@ -18,26 +18,22 @@ import InfoSteps from '@/components/faqs/InfoSteps';
 const steps = [
   {
     title: 'Verificate',
-    text:
-      'Registrate como "Arrendatario" y actualiza la información de tu perfil. Ya sea que estés buscando un inquilino para ganar dinero o si estás en la búsqueda de un roomie para compartir gastos.',
+    text: 'Registrate como "Arrendatario" y actualiza la información de tu perfil. Ya sea que estés buscando un inquilino para ganar dinero o si estás en la búsqueda de un roomie para compartir gastos.',
     icon: faIdCard,
   },
   {
     title: 'Anuncia tu espacio',
-    text:
-      'Anuncia gratis un espacio disponible y describe a detalle servicios, reglas, ubicación y seguridad de la zona.',
+    text: 'Anuncia gratis un espacio disponible y describe a detalle servicios, reglas, ubicación y seguridad de la zona.',
     icon: faLaptopHouse,
   },
   {
     title: 'Revisar aplicantes',
-    text:
-      'Aprobar o rechazar solicitudes comunicándote por medio de un chat con los interesados.',
+    text: 'Aprobar o rechazar solicitudes comunicándote por medio de un chat con los interesados.',
     icon: faComments,
   },
   {
     title: '¡A festejar!',
-    text:
-      '¡En hora buena y festejar que encontraste un nuevo roomie o inquilino!',
+    text: '¡En hora buena y festejar que encontraste un nuevo roomie o inquilino!',
     icon: faHome,
   },
 ];

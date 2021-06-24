@@ -72,11 +72,9 @@ App.getInitialProps = async ({
   const cookieData = parseCookies(ctx.req);
 
   if (cookieData.token) {
-    await (ctx.reduxStore.dispatch as ThunkDispatch<
-      TRootState,
-      unknown,
-      IUserAction
-    >)(fetchUserData(cookieData.userId));
+    await (
+      ctx.reduxStore.dispatch as ThunkDispatch<TRootState, unknown, IUserAction>
+    )(fetchUserData(cookieData.userId));
   }
 
   const componentProps = Component.getInitialProps
@@ -90,4 +88,4 @@ App.getInitialProps = async ({
   };
 };
 
-export default withReduxStore((App as unknown) as React.ComponentClass<Props>);
+export default withReduxStore(App as unknown as React.ComponentClass<Props>);

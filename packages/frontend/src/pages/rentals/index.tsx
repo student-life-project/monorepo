@@ -30,7 +30,7 @@ const ContentRentals = styled.div`
 
 const rentals = [
   {
-    name: 'Mejor Calificación',
+    name: 'Mejor calificación',
     value: 'BestGrade',
   },
   {
@@ -169,11 +169,13 @@ const Rentals: NextPage = () => {
 Rentals.getInitialProps = async ({
   reduxStore,
 }: NextPageContext & { reduxStore: TStore }) => {
-  await (reduxStore.dispatch as ThunkDispatch<
-    TRootState,
-    unknown,
-    IRentalPlacesAction
-  >)(getRentalPlaces());
+  await (
+    reduxStore.dispatch as ThunkDispatch<
+      TRootState,
+      unknown,
+      IRentalPlacesAction
+    >
+  )(getRentalPlaces());
 
   return {};
 };
