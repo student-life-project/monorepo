@@ -67,10 +67,6 @@ const PreviewStep4: FC<IPreviewStep4> = ({ complateStep4, stepBack }) => {
 
         <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
           <div>
-            <SubTitle>Número de residentes permitidos</SubTitle>
-            <p css={xw`font-bold mt-2`}>Text</p>
-          </div>
-          <div>
             <SubTitle>Disponibilidad</SubTitle>
             <p css={xw`font-bold mt-2`}>Text</p>
           </div>
@@ -199,3 +195,4 @@ const PreviewStep4: FC<IPreviewStep4> = ({ complateStep4, stepBack }) => {
 };
 
 export default PreviewStep4;
+

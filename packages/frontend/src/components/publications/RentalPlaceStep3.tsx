@@ -87,11 +87,11 @@ const RentalPlaceStep3: FC<IRentalPlaceStep3> = ({
         <h2 css={xw`pb-3 text-lg font-bold`}>Información de la vivienda</h2>
 
         <div css={xw`mb-4`}>
-          <Label id="label-place" htmlFor="place">
+          <Label id="label-rental-place" htmlFor="rental-place">
             Descripción de la vivienda
           </Label>
           <Textarea
-            id="place"
+            id="rental-place"
             placeholder="Describe puntos importantes de la vivienda, por ejemplo describa las habitaciones, servicios, reglas o algo que resalte su publicación"
           />
         </div>
