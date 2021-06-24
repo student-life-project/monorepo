@@ -32,10 +32,7 @@ const Information: FC = () => (
     <BreadCrumbs
       items={[
         { link: '/', text: 'Student Life' },
-        {
-          link: '/community',
-          text: 'Comunidad',
-        },
+        { link: '/community', text: 'Comunidad' },
       ]}
     />
 

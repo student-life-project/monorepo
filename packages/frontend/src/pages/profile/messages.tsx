@@ -81,10 +81,7 @@ const Messages: FC = () => {
         items={[
           { link: '/', text: 'Student Life' },
           { link: '/profile', text: 'Perfil' },
-          {
-            link: '/profile/messages',
-            text: 'Mensajes',
-          },
+          { link: '/profile/messages', text: 'Mensajes' },
         ]}
       />
 
