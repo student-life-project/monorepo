@@ -302,7 +302,7 @@ const Details: FC = () => {
               <img
                 alt={user.firstName}
                 src={user.userImage}
-                css={xw`w-32 h-32 rounded-full`}
+                css={xw`w-32 h-32 rounded-full bg-gray-400`}
               />
 
               <h2 css={xw`py-3 text-xl text-center font-bold`}>

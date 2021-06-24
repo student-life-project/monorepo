@@ -60,7 +60,7 @@ const Profile: FC = () => {
           <img
             alt={user.firstName}
             src={user.userImage}
-            css={xw`w-52 h-52 sm:w-48 sm:h-48 rounded-full mb-5`}
+            css={xw`w-52 h-52 sm:w-48 sm:h-48 bg-gray-400 rounded-full mb-5`}
           />
 
           <form css={xw`w-full lg:w-6/12`}>
