@@ -3,7 +3,7 @@
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import {
-  faAd,
+  faConciergeBell,
   faBullhorn,
   faComment,
   faHome,
@@ -203,7 +203,7 @@ const Details: FC = () => {
 
             <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
               <div css={xw`flex`}>
-                <FontAwesomeIcon icon={faAd} height="1.2rem" />
+                <FontAwesomeIcon icon={faConciergeBell} height="1.2rem" />
                 <p css={xw`ml-2`}>{data.available}</p>
               </div>
               <div css={xw`flex`}>
@@ -266,7 +266,6 @@ const Details: FC = () => {
               <iframe
                 css={xw`w-full h-72`}
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14931.290203720673!2d-103.44059073022459!3d20.676797100000016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x527d674e41a8ff5f!2sBuckhouse!5e0!3m2!1ses-419!2smx!4v1622850401228!5m2!1ses-419!2smx"
-                allowFullScreen=""
                 loading="lazy"
               />
             </div>
