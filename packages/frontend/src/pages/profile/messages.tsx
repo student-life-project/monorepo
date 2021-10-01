@@ -19,7 +19,18 @@ const Container = styled.section`
     border-secondary-2
   `}
 
-  height: 29rem;
+  height: 39rem;
+`;
+
+const ContentMessages = styled.div`
+  ${xw`
+    p-10 
+    w-full
+    relative
+    overflow-y-auto 
+  `}
+
+  height: 28rem;
 `;
 
 const messages = [
@@ -132,7 +143,7 @@ const Messages: FC = () => {
               <p css={xw`pl-5 font-semibold`}>{messages[0].from}</p>
             </div>
 
-            <div css={xw`w-full h-72 overflow-y-auto p-10 relative`}>
+            <ContentMessages>
               <ul>
                 <li css={xw``}>
                   <div css={xw`w-full flex justify-start`}>
@@ -167,9 +178,33 @@ const Messages: FC = () => {
                       <span css={xw`block text-xs text-right`}>10:42pm</span>
                     </div>
                   </div>
+                  <div css={xw`w-full flex justify-start`}>
+                    <div
+                      css={xw`bg-gray-100 rounded px-5 py-2 my-2 text-gray-700 relative`}
+                    >
+                      <span css={xw`block`}>I am fine</span>
+                      <span css={xw`block text-xs text-right`}>10:42pm</span>
+                    </div>
+                  </div>
+                  <div css={xw`w-full flex justify-start`}>
+                    <div
+                      css={xw`bg-gray-100 rounded px-5 py-2 my-2 text-gray-700 relative`}
+                    >
+                      <span css={xw`block`}>I am fine</span>
+                      <span css={xw`block text-xs text-right`}>10:42pm</span>
+                    </div>
+                  </div>
+                  <div css={xw`w-full flex justify-start`}>
+                    <div
+                      css={xw`bg-gray-100 rounded px-5 py-2 my-2 text-gray-700 relative`}
+                    >
+                      <span css={xw`block`}>I am fine</span>
+                      <span css={xw`block text-xs text-right`}>10:42pm</span>
+                    </div>
+                  </div>
                 </li>
               </ul>
-            </div>
+            </ContentMessages>
 
             <div css={xw`p-3 absolute bottom-0 inset-x-0`}>
               <Textarea id="message" placeholder="Escribe un mensaje..." />
