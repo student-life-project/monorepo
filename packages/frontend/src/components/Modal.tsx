@@ -32,7 +32,7 @@ const Container = styled.article`
 
 const Content = styled.div`
   ${xw`
-    p-4
+    p-8
     w-11/12
     bg-white
     relative
