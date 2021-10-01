@@ -9,8 +9,8 @@ import Label from '@/components/Label';
 import Textarea from '@/components/Textarea';
 
 type IRentalPlaceStep3 = {
-  stepBack: React.MouseEventHandler<HTMLButtonElement>;
-  complateStep3: React.MouseEventHandler<HTMLButtonElement>;
+  nextStep: React.MouseEventHandler<HTMLButtonElement>;
+  previousStep: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const Form = styled.form`
@@ -78,8 +78,8 @@ const rules = [
 ];
 
 const RentalPlaceStep3: FC<IRentalPlaceStep3> = ({
-  complateStep3,
-  stepBack,
+  nextStep,
+  previousStep,
 }) => {
   return (
     <div css={xw`flex justify-center mb-10`}>
@@ -124,15 +124,16 @@ const RentalPlaceStep3: FC<IRentalPlaceStep3> = ({
             BSecondary
             type="button"
             css={xw`w-full sm:w-3/12 mb-5 sm:mr-5 sm:mb-0`}
-            onClick={stepBack}
+            onClick={previousStep}
           >
             Regresar
           </Button>
+
           <Button
             FPrimary
             type="button"
             css={xw`w-full sm:w-3/12`}
-            onClick={complateStep3}
+            onClick={nextStep}
           >
             Continuar
           </Button>

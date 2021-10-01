@@ -42,37 +42,25 @@ const Create: FC = () => {
     },
   ]);
 
-  const stepBack = () => {
-    setStep((s) => s - 1);
-    window.scrollTo(0, 0);
+  const previousStep = () => {
+    if (step > 0) {
+      steps[step - 1].completed = false;
+      setStep(step - 1);
+      window.scrollTo(0, 0);
+    } else {
+      router.push('/profile/publications');
+    }
   };
 
-  const complateStep1 = () => {
-    steps[0].completed = true;
-    setStep(1);
-    setSteps(steps);
-    window.scrollTo(0, 0);
-  };
-
-  const complateStep2 = () => {
-    steps[1].completed = true;
-    setStep(2);
-    setSteps(steps);
-    window.scrollTo(0, 0);
-  };
-
-  const complateStep3 = () => {
-    steps[2].completed = true;
-    setStep(3);
-    setSteps(steps);
-    window.scrollTo(0, 0);
-  };
-
-  const complateStep4 = () => {
-    steps[3].completed = true;
-    setSteps(steps);
-    router.push('/profile/publications');
-    window.scrollTo(0, 0);
+  const nextStep = () => {
+    if (step < 3) {
+      steps[step].completed = true;
+      setStep(step + 1);
+      setSteps(steps);
+      window.scrollTo(0, 0);
+    } else {
+      router.push('/profile/publications');
+    }
   };
 
   return (
@@ -81,15 +69,17 @@ const Create: FC = () => {
       <Steps steps={steps} stepCurrent={step} />
 
       <BodyContainer css={xw`pt-8 sm:pt-16`}>
-        {step === 0 && <BasicStep1 complateStep1={complateStep1} />}
+        {step === 0 && (
+          <BasicStep1 nextStep={nextStep} previousStep={previousStep} />
+        )}
         {step === 1 && (
-          <UbicationStep2 complateStep2={complateStep2} stepBack={stepBack} />
+          <UbicationStep2 nextStep={nextStep} previousStep={previousStep} />
         )}
         {step === 2 && (
-          <RentalPlaceStep3 complateStep3={complateStep3} stepBack={stepBack} />
+          <RentalPlaceStep3 nextStep={nextStep} previousStep={previousStep} />
         )}
         {step === 3 && (
-          <PreviewStep4 complateStep4={complateStep4} stepBack={stepBack} />
+          <PreviewStep4 nextStep={nextStep} previousStep={previousStep} />
         )}
       </BodyContainer>
     </>

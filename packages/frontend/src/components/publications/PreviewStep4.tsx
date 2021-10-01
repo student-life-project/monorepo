@@ -7,8 +7,8 @@ import Button from '@/components/Button';
 import ClampedText from '@/components/common/ClampedText';
 
 type IPreviewStep4 = {
-  stepBack: React.MouseEventHandler<HTMLButtonElement>;
-  complateStep4: React.MouseEventHandler<HTMLButtonElement>;
+  nextStep: React.MouseEventHandler<HTMLButtonElement>;
+  previousStep: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const Form = styled.form`
@@ -31,7 +31,7 @@ const SubTitle = styled.h3`
   `}
 `;
 
-const PreviewStep4: FC<IPreviewStep4> = ({ complateStep4, stepBack }) => {
+const PreviewStep4: FC<IPreviewStep4> = ({ nextStep, previousStep }) => {
   return (
     <div css={xw`flex justify-center mb-10`}>
       <Form>
@@ -176,15 +176,16 @@ const PreviewStep4: FC<IPreviewStep4> = ({ complateStep4, stepBack }) => {
             BSecondary
             type="button"
             css={xw`w-full sm:w-3/12 mb-5 sm:mr-5 sm:mb-0`}
-            onClick={stepBack}
+            onClick={previousStep}
           >
             Regresar
           </Button>
+
           <Button
             FPrimary
             type="button"
             css={xw`w-full sm:w-3/12`}
-            onClick={complateStep4}
+            onClick={nextStep}
           >
             Continuar
           </Button>
@@ -195,4 +196,3 @@ const PreviewStep4: FC<IPreviewStep4> = ({ complateStep4, stepBack }) => {
 };
 
 export default PreviewStep4;
-

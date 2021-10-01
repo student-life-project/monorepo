@@ -9,8 +9,8 @@ import Label from '@/components/Label';
 import Textarea from '@/components/Textarea';
 
 type IUbicationStep2 = {
-  stepBack: React.MouseEventHandler<HTMLButtonElement>;
-  complateStep2: React.MouseEventHandler<HTMLButtonElement>;
+  nextStep: React.MouseEventHandler<HTMLButtonElement>;
+  previousStep: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const DoubleFormSpace = styled.div`
@@ -30,7 +30,7 @@ const Form = styled.form`
   `}
 `;
 
-const UbicationStep2: FC<IUbicationStep2> = ({ complateStep2, stepBack }) => {
+const UbicationStep2: FC<IUbicationStep2> = ({ nextStep, previousStep }) => {
   return (
     <div css={xw`flex justify-center mb-10`}>
       <Form>
@@ -160,15 +160,16 @@ const UbicationStep2: FC<IUbicationStep2> = ({ complateStep2, stepBack }) => {
             BSecondary
             type="button"
             css={xw`w-full sm:w-3/12 mb-5 sm:mr-5 sm:mb-0`}
-            onClick={stepBack}
+            onClick={previousStep}
           >
             Regresar
           </Button>
+
           <Button
             FPrimary
             type="button"
             css={xw`w-full sm:w-3/12`}
-            onClick={complateStep2}
+            onClick={nextStep}
           >
             Continuar
           </Button>

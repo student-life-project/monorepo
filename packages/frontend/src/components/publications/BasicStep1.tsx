@@ -10,7 +10,8 @@ import Radio from '@/components/Radio';
 import Select from '@/components/Select';
 
 type IBasicStep1 = {
-  complateStep1: React.MouseEventHandler<HTMLButtonElement>;
+  nextStep: React.MouseEventHandler<HTMLButtonElement>;
+  previousStep: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const DoubleFormSpace = styled.div`
@@ -30,7 +31,7 @@ const Form = styled.form`
   `}
 `;
 
-const BasicStep1: FC<IBasicStep1> = ({ complateStep1 }) => {
+const BasicStep1: FC<IBasicStep1> = ({ nextStep, previousStep }) => {
   return (
     <div css={xw`flex justify-center mb-10`}>
       <Form>
@@ -104,6 +105,7 @@ const BasicStep1: FC<IBasicStep1> = ({ complateStep1 }) => {
               placeholder="Ejemplo: $1500.00"
             />
           </div>
+
           <div css={xw`mb-4`}>
             <Label id="label-time" htmlFor="time">
               Pago por
@@ -119,12 +121,21 @@ const BasicStep1: FC<IBasicStep1> = ({ complateStep1 }) => {
           </div>
         </DoubleFormSpace>
 
-        <div css={xw`flex justify-end my-4`}>
+        <div css={xw`flex justify-end flex-wrap my-4`}>
+          <Button
+            BSecondary
+            type="button"
+            css={xw`w-full sm:w-3/12 mb-5 sm:mr-5 sm:mb-0`}
+            onClick={previousStep}
+          >
+            Regresar
+          </Button>
+
           <Button
             FPrimary
             type="button"
             css={xw`w-full sm:w-3/12`}
-            onClick={complateStep1}
+            onClick={nextStep}
           >
             Continuar
           </Button>
