@@ -76,6 +76,16 @@ https://talohana.com/blog/boost-your-typescript-project
 
 https://www.npmjs.com/package/cross-env
 
+## dev container nodejs + MongoDB
+
+https://medium.com/swlh/dockerizing-a-mongo-database-ac8f8219a019
+
+https://qastack.mx/programming/42912755/how-to-create-a-db-for-mongodb-container-on-start-up
+
+https://stackoverflow.com/questions/42912755/how-to-create-a-db-for-mongodb-container-on-start-up
+
+https://stackoverflow.com/questions/58498173/docker-compose-mongodb-fresh-instance-not-working
+
 ## backend
 
 ## frontend

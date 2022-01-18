@@ -3,7 +3,7 @@
 .pnp.js
 node_modules
 .env*
-
+!*.env*example
 
 # testing
 coverage
@@ -26,3 +26,5 @@ yarn-error.log*
 *.log
 
 .eslintcache
+.devcontainer/secrets/mongo-root-passwd
+.devcontainer/secrets/mongo-user-passwd
