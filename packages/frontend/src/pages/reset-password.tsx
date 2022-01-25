@@ -1,12 +1,12 @@
-// eslint-disable-next-line simple-import-sort/imports
+/* eslint-disable simple-import-sort/imports */
 import xw from 'xwind';
-import { NextPage } from 'next';
 import styled from '@emotion/styled';
-import { useRef } from 'react';
-import { useRouter } from 'next/router';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { useRef } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   useDispatch,
   // useSelector
@@ -18,9 +18,11 @@ import Title from '@/components/common/Title';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
 // import { api } from '@/services/api';
+import { ErrorMessageInput, NameInput } from '@/constants';
 import { login } from '@/store/actions/user';
 import { redirectLoggedToHome } from '@/utils/redirectLoggedtoHome';
 import { redirectToPage } from '@/utils/redirectToPage';
+import { rgxPassword } from '@/utils/validations';
 
 interface IResetPassword {
   email: string;
@@ -58,7 +60,10 @@ const ResetPassword: NextPage<IResetPasswordPage> = ({ email }) => {
     register,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: 'all',
+  });
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -86,33 +91,30 @@ const ResetPassword: NextPage<IResetPasswordPage> = ({ email }) => {
     <CenteredBody>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Title css={xw`text-center mt-0 mb-4`}>Restablecer Contraseña</Title>
+
         <InputContainer>
-          <Label>Correo</Label>
+          <Label>{NameInput.email}</Label>
           <Input
-            required
-            disabled
+            readOnly
             id="email"
-            type="text"
-            value={email}
-            placeholder="Correo"
-            error={errors.email}
-            messageError={errors.email?.message}
+            type="email"
+            defaultValue={email}
             {...register('email', { required: false })}
           />
         </InputContainer>
 
         <InputContainer>
-          <Label>Contraseña</Label>
+          <Label>{NameInput.password}</Label>
           <Input
             required
             id="password"
             type="password"
-            placeholder="Contraseña"
+            placeholder="Ingresa contraseña"
             {...register('password', {
-              required: 'You must specify a password',
-              minLength: {
-                value: 8,
-                message: 'La contraseña debe tener al menos 8 caracteres',
+              required: ErrorMessageInput.inputRequire(NameInput.password),
+              pattern: {
+                value: rgxPassword,
+                message: ErrorMessageInput.inputValid(NameInput.password),
               },
             })}
             error={errors.password}
@@ -126,11 +128,14 @@ const ResetPassword: NextPage<IResetPasswordPage> = ({ email }) => {
             required
             type="password"
             id="confirmedPassword"
-            placeholder="Contraseña"
+            placeholder="Confirmación contraseña"
             {...register('confirmedPassword', {
-              required: true,
+              required: ErrorMessageInput.inputRequire(
+                NameInput.confirmPassword,
+              ),
               validate: (value: string) =>
-                value === passwordRef.current || 'La contraseña no coincide',
+                value === passwordRef.current ||
+                ErrorMessageInput.passwordDoNotMatch,
             })}
             error={errors.confirmedPassword}
             messageError={errors.confirmedPassword?.message}
