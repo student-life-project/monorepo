@@ -1,11 +1,11 @@
-// eslint-disable-next-line simple-import-sort/imports
+/* eslint-disable simple-import-sort/imports */
+import xw from 'xwind';
+import styled from '@emotion/styled';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NextPage, NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import xw from 'xwind';
-import styled from '@emotion/styled';
 
 import Button from '@/components/Button';
 import Anchor from '@/components/common/Anchor';
@@ -13,7 +13,9 @@ import CenteredBody from '@/components/common/CenteredBody';
 import Title from '@/components/common/Title';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
+import { NameInput, ErrorMessageInput } from '@/constants';
 import { redirectLoggedToHome } from '@/utils/redirectLoggedtoHome';
+import { rgxEmail } from '@/utils/validations';
 // import { api } from '@/services/api';
 
 interface IRecoverForm {
@@ -46,7 +48,14 @@ const TextButton = styled.span`
 `;
 
 const RecoverPassword: NextPage = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: 'all',
+  });
+
   const router = useRouter();
 
   const onSubmit: SubmitHandler<IRecoverForm> = async (data) => {
@@ -62,24 +71,34 @@ const RecoverPassword: NextPage = () => {
       <Title css={xw`text-center mt-0 mb-4 break-words`}>
         ¿Olvidaste tu contraseña?
       </Title>
+
       <Text>
         Para restaurar tu contraseña, ingresa tu dirección de correo
         electrónico. Es posible que tengas que consultar tu carpeta de spam o
-        desbloquear la dirección{' '}
+        desbloquear la dirección&#160;
         <Anchor href="mailto:no-reply@studentlife.com.mx">
           no-reply@studentlife.com
         </Anchor>
         .
       </Text>
+
       <Form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <Label>Correo</Label>
+          <Label>{NameInput.email}</Label>
           <Input
             id="email"
-            type="text"
-            required
-            placeholder="Correo"
-            {...register('email', { required: true })}
+            type="email"
+            placeholder="example@email.com"
+            {...register('email', {
+              setValueAs: (e: string) => e?.toLowerCase(),
+              required: ErrorMessageInput.inputRequire(NameInput.email),
+              pattern: {
+                value: rgxEmail,
+                message: ErrorMessageInput.inputValid(NameInput.email),
+              },
+            })}
+            error={errors.email}
+            messageError={errors.email?.message}
           />
         </div>
 
@@ -96,7 +115,6 @@ const RecoverPassword: NextPage = () => {
 
 RecoverPassword.getInitialProps = async ({ req, res }: NextPageContext) => {
   redirectLoggedToHome(req, res);
-
   return {};
 };
 
