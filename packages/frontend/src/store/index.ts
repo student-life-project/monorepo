@@ -38,9 +38,10 @@ export const initializeStore = (preloadedState: TRootState) => {
 };
 
 export function useStore(initialState: TRootState) {
-  const storeInstance = useMemo(() => initializeStore(initialState), [
-    initialState,
-  ]);
+  const storeInstance = useMemo(
+    () => initializeStore(initialState),
+    [initialState],
+  );
   return storeInstance;
 }
 

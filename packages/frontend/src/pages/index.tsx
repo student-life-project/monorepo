@@ -150,15 +150,16 @@ export const Home: NextPage = () => {
               text="¿Estás buscando un cuarto para rentar?"
             />
           </div>
-
-          <GetStartedCard
-            icon={faMapMarkerAlt}
-            linkUrl="/help/information-publish"
-            alt="publish rentals"
-            buttonText="Publicar Alojamiento"
-            imgUrl="/images/start_publishing.jpg"
-            text="¿Necesitas rentar una vivienda?"
-          />
+          <div css={xw`mb-8 lg:mb-0`}>
+            <GetStartedCard
+              icon={faMapMarkerAlt}
+              linkUrl="/help/information-publish"
+              alt="publish rentals"
+              buttonText="Publicar Alojamiento"
+              imgUrl="/images/start_publishing.jpg"
+              text="¿Necesitas rentar una vivienda?"
+            />
+          </div>
         </ActionContent>
       </BodyContainer>
       <Footer />
