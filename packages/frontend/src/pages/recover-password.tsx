@@ -84,7 +84,9 @@ const RecoverPassword: NextPage = () => {
 
       <Form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <Label>{NameInput.email}</Label>
+          <Label id="label-email" htmlFor="email">
+            {NameInput.email}
+          </Label>
           <Input
             id="email"
             type="email"

@@ -93,7 +93,9 @@ const ResetPassword: NextPage<IResetPasswordPage> = ({ email }) => {
         <Title css={xw`text-center mt-0 mb-4`}>Restablecer Contraseña</Title>
 
         <InputContainer>
-          <Label>{NameInput.email}</Label>
+          <Label id="label-email" htmlFor="email">
+            {NameInput.email}
+          </Label>
           <Input
             readOnly
             id="email"
@@ -104,9 +106,10 @@ const ResetPassword: NextPage<IResetPasswordPage> = ({ email }) => {
         </InputContainer>
 
         <InputContainer>
-          <Label>{NameInput.password}</Label>
+          <Label id="label-password" htmlFor="password">
+            {NameInput.password}
+          </Label>
           <Input
-            required
             id="password"
             type="password"
             placeholder="Ingresa contraseña"
@@ -123,12 +126,13 @@ const ResetPassword: NextPage<IResetPasswordPage> = ({ email }) => {
         </InputContainer>
 
         <InputContainer>
-          <Label>Confirmar contraseña</Label>
+          <Label id="label-confirmed-password" htmlFor="confirmed-password">
+            {NameInput.confirmPassword}
+          </Label>
           <Input
-            required
+            id="confirmed-password"
             type="password"
-            id="confirmedPassword"
-            placeholder="Confirmación contraseña"
+            placeholder="Confirmación de contraseña"
             {...register('confirmedPassword', {
               required: ErrorMessageInput.inputRequire(
                 NameInput.confirmPassword,
