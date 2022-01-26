@@ -201,7 +201,7 @@ const Register: NextPage = () => {
                 required: ErrorMessageInput.inputRequire(NameInput.firstName),
                 maxLength: {
                   value: 50,
-                  message: ErrorMessageInput.max50,
+                  message: ErrorMessageInput.max(50),
                 },
               })}
               error={errors.firstName}
@@ -221,7 +221,7 @@ const Register: NextPage = () => {
                 required: ErrorMessageInput.inputRequire(NameInput.lastName),
                 maxLength: {
                   value: 50,
-                  message: ErrorMessageInput.max50,
+                  message: ErrorMessageInput.max(50),
                 },
               })}
               error={errors.lastName}

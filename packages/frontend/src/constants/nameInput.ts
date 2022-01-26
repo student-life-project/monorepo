@@ -4,4 +4,5 @@ export const NameInput = {
   confirmPassword: 'Confirmar contraseña',
   firstName: 'Nombre',
   lastName: 'Apellido',
+  description: 'Descripción',
 };
