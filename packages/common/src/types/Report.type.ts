@@ -6,7 +6,7 @@ export interface IReport {
   createdAt: string | Date;
 }
 
-export enum EReportPlace {
+export enum ERentalPlaceReport {
   INCORRECT_INFO,
   IT_IS_NOT_REAL,
   IT_IS_FRAUD,

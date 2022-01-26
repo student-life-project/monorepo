@@ -1,7 +1,7 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { EReportPlace } from '@student_life/common';
+import { ERentalPlaceReport } from '@student_life/common';
 import { FC, useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 // import { useDispatch } from 'react-redux';
@@ -17,8 +17,8 @@ type IRentalPlaceReport = {
   closeModal: () => void;
 };
 
-interface IReportPlaceData {
-  reason: EReportPlace;
+interface IRentalPlaceReportData {
+  reason: ERentalPlaceReport;
   description: string;
 }
 
@@ -46,10 +46,10 @@ const RentalPlaceReport: FC<IRentalPlaceReport> = ({ closeModal }) => {
   });
 
   useEffect(() => {
-    reset({ reason: EReportPlace.INCORRECT_INFO });
+    reset({ reason: ERentalPlaceReport.INCORRECT_INFO });
   }, [reset]);
 
-  const onSubmit: SubmitHandler<IReportPlaceData> = async (data) => {
+  const onSubmit: SubmitHandler<IRentalPlaceReportData> = async (data) => {
     // await dispath(data);
     // eslint-disable-next-line no-console
     console.log(data);
@@ -77,37 +77,37 @@ const RentalPlaceReport: FC<IRentalPlaceReport> = ({ closeModal }) => {
                   <Radio
                     name="incorrect_info"
                     label="Es impreciso o incorrecto"
-                    value={EReportPlace.INCORRECT_INFO}
+                    value={ERentalPlaceReport.INCORRECT_INFO}
                     onChange={onChange}
-                    checked={reason === EReportPlace.INCORRECT_INFO}
+                    checked={reason === ERentalPlaceReport.INCORRECT_INFO}
                   />
                   <Radio
                     name="it-is-not-real"
                     label="No es un alojamiento real"
-                    value={EReportPlace.IT_IS_NOT_REAL}
+                    value={ERentalPlaceReport.IT_IS_NOT_REAL}
                     onChange={onChange}
-                    checked={reason === EReportPlace.IT_IS_NOT_REAL}
+                    checked={reason === ERentalPlaceReport.IT_IS_NOT_REAL}
                   />
                   <Radio
                     name="it_is_fraud"
                     label="Es una estafa"
-                    value={EReportPlace.IT_IS_FRAUD}
+                    value={ERentalPlaceReport.IT_IS_FRAUD}
                     onChange={onChange}
-                    checked={reason === EReportPlace.IT_IS_FRAUD}
+                    checked={reason === ERentalPlaceReport.IT_IS_FRAUD}
                   />
                   <Radio
                     name="it_is_offensive"
                     label="Es ofensivo"
-                    value={EReportPlace.IT_IS_OFFENSIVE}
+                    value={ERentalPlaceReport.IT_IS_OFFENSIVE}
                     onChange={onChange}
-                    checked={reason === EReportPlace.IT_IS_OFFENSIVE}
+                    checked={reason === ERentalPlaceReport.IT_IS_OFFENSIVE}
                   />
                   <Radio
                     name="other"
                     label="Es otra cosa"
-                    value={EReportPlace.OTHER}
+                    value={ERentalPlaceReport.OTHER}
                     onChange={onChange}
-                    checked={reason === EReportPlace.OTHER}
+                    checked={reason === ERentalPlaceReport.OTHER}
                   />
                 </>
               );
