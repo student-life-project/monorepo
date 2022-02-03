@@ -83,6 +83,7 @@ const BasicStep1: FC<IBasicStep1> = ({
             <Select
               id="reason"
               options={Reason}
+              label={NameInput.reason}
               register={{
                 ...register('reason', {
                   required: ErrorMessageInput.inputRequire(NameInput.reason),
@@ -100,6 +101,7 @@ const BasicStep1: FC<IBasicStep1> = ({
             <Select
               id="type-space"
               options={TypeSpace}
+              label={NameInput.typeSpace}
               register={{
                 ...register('typeSpace', {
                   required: ErrorMessageInput.inputRequire(NameInput.typeSpace),
@@ -210,9 +212,9 @@ const BasicStep1: FC<IBasicStep1> = ({
 
           <div css={xw`mb-4`}>
             <Label
-              css={xw`block`}
               id="label-availability"
               htmlFor="availability"
+              css={xw`block mt-1 sm:mt-0`}
             >
               Disponibilidad
             </Label>

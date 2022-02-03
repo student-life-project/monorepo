@@ -9,6 +9,7 @@ import SpanError from './SpanError';
 
 type ISelect = {
   register?: any;
+  label?: string;
   error?: boolean;
   options: TOption[];
   disabled?: boolean;
@@ -37,6 +38,7 @@ const SelectStyle = styled.select<ISelect>`
 
 const Select: FC<ISelect> = ({
   register,
+  label,
   error,
   options,
   messageError,
@@ -45,7 +47,7 @@ const Select: FC<ISelect> = ({
   <>
     <SelectStyle {...register} error={error} {...props} defaultValue="">
       <option value="" disabled>
-        Selecciona un valor
+        Selecciona un {label?.toLocaleLowerCase()}
       </option>
 
       {options &&
