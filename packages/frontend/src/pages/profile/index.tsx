@@ -14,7 +14,7 @@ const Content = styled.div`
   ${xw`
     mt-7
     flex
-    sm:mt-3
+    sm:mt-10
     flex-col
     items-center
     justify-center

@@ -101,7 +101,7 @@ const ResetPassword: NextPage<IResetPasswordPage> = ({ email }) => {
             id="email"
             type="email"
             defaultValue={email}
-            {...register('email', { required: false })}
+            register={{ ...register('email', { required: false }) }}
           />
         </InputContainer>
 
@@ -113,13 +113,15 @@ const ResetPassword: NextPage<IResetPasswordPage> = ({ email }) => {
             id="password"
             type="password"
             placeholder="Ingresa contraseña"
-            {...register('password', {
-              required: ErrorMessageInput.inputRequire(NameInput.password),
-              pattern: {
-                value: rgxPassword,
-                message: ErrorMessageInput.inputValid(NameInput.password),
-              },
-            })}
+            register={{
+              ...register('password', {
+                required: ErrorMessageInput.inputRequire(NameInput.password),
+                pattern: {
+                  value: rgxPassword,
+                  message: ErrorMessageInput.inputValid(NameInput.password),
+                },
+              }),
+            }}
             error={errors.password}
             messageError={errors.password?.message}
           />
@@ -133,14 +135,16 @@ const ResetPassword: NextPage<IResetPasswordPage> = ({ email }) => {
             id="confirmed-password"
             type="password"
             placeholder="Confirmación de contraseña"
-            {...register('confirmedPassword', {
-              required: ErrorMessageInput.inputRequire(
-                NameInput.confirmPassword,
-              ),
-              validate: (value: string) =>
-                value === passwordRef.current ||
-                ErrorMessageInput.passwordDoNotMatch,
-            })}
+            register={{
+              ...register('confirmedPassword', {
+                required: ErrorMessageInput.inputRequire(
+                  NameInput.confirmPassword,
+                ),
+                validate: (value: string) =>
+                  value === passwordRef.current ||
+                  ErrorMessageInput.passwordDoNotMatch,
+              }),
+            }}
             error={errors.confirmedPassword}
             messageError={errors.confirmedPassword?.message}
           />

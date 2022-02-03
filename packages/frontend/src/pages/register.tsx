@@ -197,13 +197,15 @@ const Register: NextPage = () => {
               id="first-name"
               type="text"
               placeholder="Ingresa tu nombre"
-              {...register('firstName', {
-                required: ErrorMessageInput.inputRequire(NameInput.firstName),
-                maxLength: {
-                  value: 50,
-                  message: ErrorMessageInput.max(50),
-                },
-              })}
+              register={{
+                ...register('firstName', {
+                  required: ErrorMessageInput.inputRequire(NameInput.firstName),
+                  maxLength: {
+                    value: 50,
+                    message: ErrorMessageInput.max(50),
+                  },
+                }),
+              }}
               error={errors.firstName}
               messageError={errors.firstName?.message}
             />
@@ -217,13 +219,15 @@ const Register: NextPage = () => {
               id="last-name"
               type="text"
               placeholder="Ingresa tu apellido"
-              {...register('lastName', {
-                required: ErrorMessageInput.inputRequire(NameInput.lastName),
-                maxLength: {
-                  value: 50,
-                  message: ErrorMessageInput.max(50),
-                },
-              })}
+              register={{
+                ...register('lastName', {
+                  required: ErrorMessageInput.inputRequire(NameInput.lastName),
+                  maxLength: {
+                    value: 50,
+                    message: ErrorMessageInput.max(50),
+                  },
+                }),
+              }}
               error={errors.lastName}
               messageError={errors.lastName?.message}
             />
@@ -238,14 +242,16 @@ const Register: NextPage = () => {
             id="email"
             type="email"
             placeholder="example@email.com"
-            {...register('email', {
-              setValueAs: (e: string) => e?.toLowerCase(),
-              required: ErrorMessageInput.inputRequire(NameInput.email),
-              pattern: {
-                value: rgxEmail,
-                message: ErrorMessageInput.inputValid(NameInput.email),
-              },
-            })}
+            register={{
+              ...register('email', {
+                setValueAs: (e: string) => e?.toLowerCase(),
+                required: ErrorMessageInput.inputRequire(NameInput.email),
+                pattern: {
+                  value: rgxEmail,
+                  message: ErrorMessageInput.inputValid(NameInput.email),
+                },
+              }),
+            }}
             error={errors.email}
             messageError={errors.email?.message}
           />
@@ -259,13 +265,15 @@ const Register: NextPage = () => {
             id="password"
             type="password"
             placeholder="Ingresa contraseña"
-            {...register('password', {
-              required: ErrorMessageInput.inputRequire(NameInput.password),
-              pattern: {
-                value: rgxPassword,
-                message: ErrorMessageInput.inputValid(NameInput.password),
-              },
-            })}
+            register={{
+              ...register('password', {
+                required: ErrorMessageInput.inputRequire(NameInput.password),
+                pattern: {
+                  value: rgxPassword,
+                  message: ErrorMessageInput.inputValid(NameInput.password),
+                },
+              }),
+            }}
             error={errors.password}
             messageError={errors.password?.message}
           />
@@ -279,14 +287,16 @@ const Register: NextPage = () => {
             id="confirmed-password"
             type="password"
             placeholder="Confirmación de contraseña"
-            {...register('confirmedPassword', {
-              required: ErrorMessageInput.inputRequire(
-                NameInput.confirmPassword,
-              ),
-              validate: (value: string) =>
-                value === passwordRef.current ||
-                ErrorMessageInput.passwordDoNotMatch,
-            })}
+            register={{
+              ...register('confirmedPassword', {
+                required: ErrorMessageInput.inputRequire(
+                  NameInput.confirmPassword,
+                ),
+                validate: (value: string) =>
+                  value === passwordRef.current ||
+                  ErrorMessageInput.passwordDoNotMatch,
+              }),
+            }}
             error={errors.confirmedPassword}
             messageError={errors.confirmedPassword?.message}
           />

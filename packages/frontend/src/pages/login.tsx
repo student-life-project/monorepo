@@ -133,14 +133,16 @@ const Login: NextPage = () => {
             id="email"
             type="email"
             placeholder="example@email.com"
-            {...register('email', {
-              setValueAs: (e: string) => e?.toLowerCase(),
-              required: ErrorMessageInput.inputRequire(NameInput.email),
-              pattern: {
-                value: rgxEmail,
-                message: ErrorMessageInput.inputValid(NameInput.email),
-              },
-            })}
+            register={{
+              ...register('email', {
+                setValueAs: (e: string) => e?.toLowerCase(),
+                required: ErrorMessageInput.inputRequire(NameInput.email),
+                pattern: {
+                  value: rgxEmail,
+                  message: ErrorMessageInput.inputValid(NameInput.email),
+                },
+              }),
+            }}
             error={errors.email}
             messageError={errors.email?.message}
           />
@@ -154,13 +156,15 @@ const Login: NextPage = () => {
             id="password"
             type="password"
             placeholder="Ingresa contraseña"
-            {...register('password', {
-              required: ErrorMessageInput.inputRequire(NameInput.password),
-              pattern: {
-                value: rgxPassword,
-                message: ErrorMessageInput.inputValid(NameInput.password),
-              },
-            })}
+            register={{
+              ...register('password', {
+                required: ErrorMessageInput.inputRequire(NameInput.password),
+                pattern: {
+                  value: rgxPassword,
+                  message: ErrorMessageInput.inputValid(NameInput.password),
+                },
+              }),
+            }}
             error={errors.password}
             messageError={errors.password?.message}
           />

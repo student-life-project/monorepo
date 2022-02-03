@@ -118,13 +118,15 @@ const UserReport: FC<IUserReport> = ({ closeModal }) => {
         <Textarea
           id="description"
           placeholder="Escribir problema..."
-          {...register('description', {
-            required: ErrorMessageInput.inputRequire(NameInput.description),
-            maxLength: {
-              value: 255,
-              message: ErrorMessageInput.max(255),
-            },
-          })}
+          register={{
+            ...register('description', {
+              required: ErrorMessageInput.inputRequire(NameInput.description),
+              maxLength: {
+                value: 255,
+                message: ErrorMessageInput.max(255),
+              },
+            }),
+          }}
           error={errors.description}
           messageError={errors.description?.message}
         />

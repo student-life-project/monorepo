@@ -91,14 +91,16 @@ const RecoverPassword: NextPage = () => {
             id="email"
             type="email"
             placeholder="example@email.com"
-            {...register('email', {
-              setValueAs: (e: string) => e?.toLowerCase(),
-              required: ErrorMessageInput.inputRequire(NameInput.email),
-              pattern: {
-                value: rgxEmail,
-                message: ErrorMessageInput.inputValid(NameInput.email),
-              },
-            })}
+            register={{
+              ...register('email', {
+                setValueAs: (e: string) => e?.toLowerCase(),
+                required: ErrorMessageInput.inputRequire(NameInput.email),
+                pattern: {
+                  value: rgxEmail,
+                  message: ErrorMessageInput.inputValid(NameInput.email),
+                },
+              }),
+            }}
             error={errors.email}
             messageError={errors.email?.message}
           />
