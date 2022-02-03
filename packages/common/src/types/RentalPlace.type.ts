@@ -18,3 +18,10 @@ export interface IRentalPlace {
   availabe: boolean;
   approved: boolean;
 }
+
+export enum ERentalPlace {
+  MAN,
+  WOMAN,
+  NON_BINARY,
+  NO_PREFERENCES,
+}
