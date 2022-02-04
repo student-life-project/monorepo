@@ -1,22 +1,15 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import { FC, MouseEventHandler } from 'react';
 
 import Button from '@/components/Button';
 import ClampedText from '@/components/common/ClampedText';
 
 type IPreviewStep4 = {
-  nextStep: React.MouseEventHandler<HTMLButtonElement>;
-  previousStep: React.MouseEventHandler<HTMLButtonElement>;
+  nextStep: MouseEventHandler<HTMLButtonElement>;
+  previousStep: MouseEventHandler<HTMLButtonElement>;
 };
-
-const Form = styled.form`
-  ${xw`
-    w-full
-    lg:w-8/12
-  `}
-`;
 
 const SubTitle = styled.h3`
   ${xw`
@@ -34,7 +27,7 @@ const SubTitle = styled.h3`
 const PreviewStep4: FC<IPreviewStep4> = ({ nextStep, previousStep }) => {
   return (
     <div css={xw`flex justify-center mb-10`}>
-      <Form>
+      <div css={xw`w-full lg:w-8/12`}>
         <h2 css={xw`pb-3 text-lg font-bold`}>Tipo de anuncio</h2>
 
         <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
@@ -44,10 +37,12 @@ const PreviewStep4: FC<IPreviewStep4> = ({ nextStep, previousStep }) => {
               <span css={xw`font-bold mt-2`}>Text</span>
             </ClampedText>
           </div>
+
           <div>
             <SubTitle>Motivo de la publicación</SubTitle>
             <p css={xw`font-bold mt-2`}>Text</p>
           </div>
+
           <div>
             <SubTitle>Tipo de espacio</SubTitle>
             <p css={xw`font-bold mt-2`}>Text</p>
@@ -70,10 +65,12 @@ const PreviewStep4: FC<IPreviewStep4> = ({ nextStep, previousStep }) => {
             <SubTitle>Disponibilidad</SubTitle>
             <p css={xw`font-bold mt-2`}>Text</p>
           </div>
+
           <div>
             <SubTitle>Precio</SubTitle>
             <p css={xw`font-bold mt-2`}>Text</p>
           </div>
+
           <div>
             <SubTitle>Pago por</SubTitle>
             <p css={xw`font-bold mt-2`}>Mes</p>
@@ -89,38 +86,46 @@ const PreviewStep4: FC<IPreviewStep4> = ({ nextStep, previousStep }) => {
               <span css={xw`font-bold mt-2`}>Text</span>
             </ClampedText>
           </div>
+
           <div>
             <SubTitle>Número de exterior</SubTitle>
             <p css={xw`font-bold mt-2`}>Text</p>
           </div>
+
           <div>
             <SubTitle>Número de interior</SubTitle>
             <p css={xw`font-bold mt-2`}>Text</p>
           </div>
+
           <div>
             <SubTitle>Cruces</SubTitle>
             <ClampedText lines={2}>
               <span css={xw`font-bold mt-2`}>Text</span>
             </ClampedText>
           </div>
+
           <div>
             <SubTitle>Referencias</SubTitle>
             <ClampedText lines={2}>
               <span css={xw`font-bold mt-2`}>Text</span>
             </ClampedText>
           </div>
+
           <div>
             <SubTitle>Código Postal</SubTitle>
             <p css={xw`font-bold mt-2`}>Text</p>
           </div>
+
           <div>
             <SubTitle>Colonia</SubTitle>
             <p css={xw`font-bold mt-2`}>Text</p>
           </div>
+
           <div>
             <SubTitle>Ciudad</SubTitle>
             <p css={xw`font-bold mt-2`}>Text</p>
           </div>
+
           <div>
             <SubTitle>País</SubTitle>
             <p css={xw`font-bold mt-2`}>Text</p>
@@ -160,6 +165,7 @@ const PreviewStep4: FC<IPreviewStep4> = ({ nextStep, previousStep }) => {
               <span css={xw`font-bold mt-2`}>Text</span>
             </ClampedText>
           </div>
+
           <div>
             <SubTitle>Lista de reglas</SubTitle>
             <ClampedText lines={2}>
@@ -190,7 +196,7 @@ const PreviewStep4: FC<IPreviewStep4> = ({ nextStep, previousStep }) => {
             Continuar
           </Button>
         </div>
-      </Form>
+      </div>
     </div>
   );
 };

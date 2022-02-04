@@ -1,81 +1,17 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
-import styled from '@emotion/styled';
-import { FC } from 'react';
+import { FC, MouseEventHandler } from 'react';
 
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
 import Label from '@/components/Label';
 import Textarea from '@/components/Textarea';
+import { Services, Rules } from '@/constants';
 
 type IRentalPlaceStep3 = {
-  nextStep: React.MouseEventHandler<HTMLButtonElement>;
-  previousStep: React.MouseEventHandler<HTMLButtonElement>;
+  nextStep: MouseEventHandler<HTMLButtonElement>;
+  previousStep: MouseEventHandler<HTMLButtonElement>;
 };
-
-const Form = styled.form`
-  ${xw`
-    w-full
-    lg:w-8/12
-  `}
-`;
-
-const services = [
-  {
-    key: 'Lavadora',
-  },
-  {
-    key: 'Elevador',
-  },
-  {
-    key: 'Con balcón o patio',
-  },
-  {
-    key: 'Wi-Fi incluido',
-  },
-  {
-    key: 'Tiene mascotas',
-  },
-  {
-    key: 'Servicios incluidos',
-  },
-  {
-    key: 'Aire acondicionado',
-  },
-  {
-    key: 'TV',
-  },
-  {
-    key: 'Amueblado',
-  },
-  {
-    key: 'Calefacción',
-  },
-  {
-    key: 'Baño privado',
-  },
-];
-
-const rules = [
-  {
-    key: 'No fumar',
-  },
-  {
-    key: 'No mascotas',
-  },
-  {
-    key: 'Mascotas OK',
-  },
-  {
-    key: 'No drogas',
-  },
-  {
-    key: 'No beber',
-  },
-  {
-    key: 'Parejas OK',
-  },
-];
 
 const RentalPlaceStep3: FC<IRentalPlaceStep3> = ({
   nextStep,
@@ -83,7 +19,7 @@ const RentalPlaceStep3: FC<IRentalPlaceStep3> = ({
 }) => {
   return (
     <div css={xw`flex justify-center mb-10`}>
-      <Form>
+      <div css={xw`w-full lg:w-8/12`}>
         <h2 css={xw`pb-3 text-lg font-bold`}>Información de la vivienda</h2>
 
         <div css={xw`mb-4`}>
@@ -99,9 +35,9 @@ const RentalPlaceStep3: FC<IRentalPlaceStep3> = ({
         <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Servicios</h2>
 
         <div css={xw`grid grid-cols-1 sm:grid-cols-4`}>
-          {services.map((item) => (
-            <div key={item.key}>
-              <Checkbox name={item.key} label={item.key} checked={false} />
+          {Services.map((item) => (
+            <div key={item.name}>
+              <Checkbox name={item.name} label={item.name} checked={false} />
             </div>
           ))}
         </div>
@@ -109,9 +45,9 @@ const RentalPlaceStep3: FC<IRentalPlaceStep3> = ({
         <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Reglas</h2>
 
         <div css={xw`grid grid-cols-1 sm:grid-cols-4`}>
-          {rules.map((item) => (
-            <div key={item.key}>
-              <Checkbox name={item.key} label={item.key} checked={false} />
+          {Rules.map((item) => (
+            <div key={item.name}>
+              <Checkbox name={item.name} label={item.name} checked={false} />
             </div>
           ))}
         </div>
@@ -138,7 +74,7 @@ const RentalPlaceStep3: FC<IRentalPlaceStep3> = ({
             Continuar
           </Button>
         </div>
-      </Form>
+      </div>
     </div>
   );
 };

@@ -72,6 +72,7 @@ const Create: FC = () => {
     <>
       <NavBar allowRental allowRegister allowLogin />
       <Steps steps={steps} stepCurrent={step} />
+
       <BodyContainer css={xw`pt-8 sm:pt-16`}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {step === 0 && (

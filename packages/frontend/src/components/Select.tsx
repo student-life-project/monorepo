@@ -12,6 +12,7 @@ type ISelect = {
   label?: string;
   error?: boolean;
   options: TOption[];
+  optionName?: string;
   disabled?: boolean;
   messageError?: string;
 } & React.SelectHTMLAttributes<HTMLSelectElement>;
@@ -41,13 +42,14 @@ const Select: FC<ISelect> = ({
   label,
   error,
   options,
+  optionName,
   messageError,
   ...props
 }) => (
   <>
     <SelectStyle {...register} error={error} {...props} defaultValue="">
       <option value="" disabled>
-        Selecciona un {label?.toLocaleLowerCase()}
+        {optionName || `Selecciona un ${label?.toLocaleLowerCase()}`}
       </option>
 
       {options &&

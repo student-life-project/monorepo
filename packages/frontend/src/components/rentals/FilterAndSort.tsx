@@ -53,16 +53,12 @@ const FilterAndSort: FC<IFilterAndSort> = ({ sorts, filters }) => {
   return (
     <Container>
       <div css={xw`w-6/12 lg:w-80`}>
-        <Select name="order" id="order">
-          <option value="" selected>
-            Ordenar por
-          </option>
-          {sorts.map((sort) => (
-            <option key={sort.value} value={sort.value}>
-              {sort.name}
-            </option>
-          ))}
-        </Select>
+        <Select
+          id="order"
+          name="order"
+          options={sorts}
+          optionName="Ordenar por"
+        />
       </div>
 
       <Button
