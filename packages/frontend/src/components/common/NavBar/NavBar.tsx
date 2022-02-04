@@ -1,19 +1,18 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
+import { IUser } from '@student_life/common';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import Button from '@/components/Button';
 import SearchBar from '@/components/common/SearchBar/SearchBarContainer';
 import { Im06, Is01 } from '@/icons';
-
 import { INavBar } from '@/types';
 
-import { IUser } from '@student_life/common';
+import Anchor from '../Anchor';
 import MobileMenu from './MobileMenu';
 import UserMenu from './UserMenu';
-import Anchor from '../Anchor';
 
 const Nav = styled.a`
   ${xw`

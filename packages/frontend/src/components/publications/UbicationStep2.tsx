@@ -1,16 +1,29 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import { FC, MouseEventHandler } from 'react';
+import {
+  Control,
+  FieldValues,
+  FormState,
+  UseFormRegister,
+} from 'react-hook-form';
 
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
+import Select from '@/components/Select';
 import Textarea from '@/components/Textarea';
+import { ErrorMessageInput, NameInput, States } from '@/constants';
+import { rgxNumber } from '@/utils/validations';
 
 type IUbicationStep2 = {
-  nextStep: React.MouseEventHandler<HTMLButtonElement>;
-  previousStep: React.MouseEventHandler<HTMLButtonElement>;
+  register: UseFormRegister<FieldValues>;
+  formState: FormState<FieldValues>;
+  Controller: any;
+  control: Control<FieldValues>;
+  nextStep: MouseEventHandler<HTMLButtonElement>;
+  previousStep: MouseEventHandler<HTMLButtonElement>;
 };
 
 const DoubleFormSpace = styled.div`
@@ -23,108 +36,149 @@ const DoubleFormSpace = styled.div`
   `}
 `;
 
-const Form = styled.form`
-  ${xw`
-    w-full
-    lg:w-8/12
-  `}
-`;
+const UbicationStep2: FC<IUbicationStep2> = ({
+  register,
+  formState,
+  Controller,
+  control,
+  nextStep,
+  previousStep,
+}) => {
+  const { errors, isValid } = formState;
 
-const UbicationStep2: FC<IUbicationStep2> = ({ nextStep, previousStep }) => {
   return (
     <div css={xw`flex justify-center mb-10`}>
-      <Form>
+      <div css={xw`w-full lg:w-8/12`}>
         <h2 css={xw`pb-3 text-lg font-bold`}>Ubicación de la vivienda</h2>
 
         <div css={xw`mb-4`}>
           <Label id="label-street" htmlFor="street">
-            Calle
+            {NameInput.street}
           </Label>
           <Input
-            required
             id="street"
             type="text"
-            placeholder="Nombre o número de la calle"
+            placeholder="Nombre de la Calle, No. Exterior, No. Interior"
+            register={{
+              ...register('street', {
+                required: ErrorMessageInput.inputRequire(NameInput.street),
+                maxLength: {
+                  value: 100,
+                  message: ErrorMessageInput.max(100),
+                },
+              }),
+            }}
+            error={errors.street}
+            messageError={errors.street?.message}
           />
         </div>
 
         <DoubleFormSpace>
           <div css={xw`mb-4`}>
-            <Label id="label-ext-number" htmlFor="ext-number">
-              Número de exterior
+            <Label id="label-state" htmlFor="state">
+              {NameInput.state}
             </Label>
-            <Input
-              required
-              id="ext-number"
-              type="text"
-              placeholder="No. Exterior"
-            />
-          </div>
-
-          <div css={xw`mb-4`}>
-            <Label id="label-int-number" htmlFor="int-number">
-              Número de interior
-            </Label>
-            <Input
-              required
-              id="int-number"
-              type="text"
-              placeholder="No. Interior"
-            />
-          </div>
-        </DoubleFormSpace>
-
-        <div css={xw`mb-4`}>
-          <Label id="label-cross-street" htmlFor="cross-street">
-            Cruces
-          </Label>
-          <Input
-            required
-            id="cross-street"
-            type="text"
-            placeholder="Nombre de las calles"
-          />
-        </div>
-
-        <div css={xw`mb-4`}>
-          <Label id="label-reference" htmlFor="reference">
-            Referencias
-          </Label>
-          <Textarea
-            id="reference"
-            placeholder="Ingrese alguna referencia del domicilio"
-          />
-        </div>
-
-        <DoubleFormSpace>
-          <div css={xw`mb-4`}>
-            <Label id="label-state-code" htmlFor="state-code">
-              Código Postal
-            </Label>
-            <Input required id="state-code" type="text" placeholder="CP" />
-          </div>
-
-          <div css={xw`mb-4`}>
-            <Label id="label-cologne" htmlFor="cologne">
-              Colonia
-            </Label>
-            <Input
-              required
-              id="cologne"
-              type="text"
-              placeholder="Nombre de la colonia"
+            <Select
+              id="state"
+              label={NameInput.state}
+              options={States}
+              register={{
+                ...register('state', {
+                  required: ErrorMessageInput.inputRequire(NameInput.state),
+                }),
+              }}
+              error={errors.state}
+              messageError={errors.state?.message}
             />
           </div>
 
           <div css={xw`mb-4`}>
             <Label id="label-city" htmlFor="city">
-              Ciudad
+              {NameInput.city}
             </Label>
             <Input
-              required
               id="city"
               type="text"
-              placeholder="Nombre de la ciudad"
+              placeholder="Nombre del municipio"
+              register={{
+                ...register('city', {
+                  required: ErrorMessageInput.inputRequire(NameInput.city),
+                  maxLength: {
+                    value: 50,
+                    message: ErrorMessageInput.max(50),
+                  },
+                }),
+              }}
+              error={errors.city}
+              messageError={errors.city?.message}
+            />
+          </div>
+        </DoubleFormSpace>
+
+        <div css={xw`grid grid-cols-1 sm:grid-cols-4 gap-5`}>
+          <div css={xw`mb-4 col-span-2`}>
+            <Label id="label-neighborhood" htmlFor="neighborhood">
+              {NameInput.neighborhood}
+            </Label>
+            <Input
+              id="neighborhood"
+              type="text"
+              placeholder="Nombre de la colonia"
+              register={{
+                ...register('neighborhood', {
+                  required: ErrorMessageInput.inputRequire(
+                    NameInput.neighborhood,
+                  ),
+                  maxLength: {
+                    value: 50,
+                    message: ErrorMessageInput.max(50),
+                  },
+                }),
+              }}
+              error={errors.neighborhood}
+              messageError={errors.neighborhood?.message}
+            />
+          </div>
+
+          <div css={xw`mb-4`}>
+            <Label id="label-state-code" htmlFor="state-code">
+              {NameInput.stateCode}
+            </Label>
+            <Controller
+              name="stateCode"
+              defaultValue=""
+              control={control}
+              rules={{
+                required: ErrorMessageInput.inputRequire(NameInput.stateCode),
+                pattern: {
+                  value: rgxNumber,
+                  message: ErrorMessageInput.notNumber,
+                },
+                minLength: {
+                  value: 5,
+                  message: ErrorMessageInput.minNumber(5),
+                },
+                maxLength: {
+                  value: 5,
+                  message: ErrorMessageInput.maxNumber(5),
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  id="state-code"
+                  type="text"
+                  onBlur={onBlur}
+                  placeholder="C.P."
+                  onChange={({ target: { value: val } }) => {
+                    return onChange(
+                      rgxNumber.test(val) ? val : val.slice(0, val.length - 1),
+                    );
+                  }}
+                  value={value}
+                  error={errors.stateCode}
+                  messageError={errors.stateCode?.message}
+                />
+              )}
             />
           </div>
 
@@ -132,26 +186,51 @@ const UbicationStep2: FC<IUbicationStep2> = ({ nextStep, previousStep }) => {
             <Label id="label-country" htmlFor="country">
               País
             </Label>
-            <Input
-              required
-              disabled
-              id="country"
-              type="text"
-              value="México"
-              placeholder="Nombre de la ciudad"
-            />
+            <p css={xw`mt-3`}>México</p>
           </div>
-        </DoubleFormSpace>
+        </div>
+
+        <div css={xw`mb-4`}>
+          <Label id="label-reference" htmlFor="reference">
+            {NameInput.reference}
+          </Label>
+          <Textarea
+            id="reference"
+            placeholder="Ingrese alguna descripción del domicilio o cruces"
+            register={{
+              ...register('reference', {
+                required: ErrorMessageInput.inputRequire(NameInput.reference),
+                maxLength: {
+                  value: 255,
+                  message: ErrorMessageInput.max(255),
+                },
+              }),
+            }}
+            error={errors.reference}
+            messageError={errors.reference?.message}
+          />
+        </div>
 
         <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Zona</h2>
 
         <div css={xw`mb-4`}>
           <Label id="label-zone" htmlFor="zone">
-            Descripción de la zona
+            {NameInput.zone}
           </Label>
           <Textarea
             id="zone"
             placeholder="Describe puntos importantes de la zona, por ejemplo seguridad, servicios o instituciones cercanas"
+            register={{
+              ...register('zone', {
+                required: ErrorMessageInput.inputRequire(NameInput.zone),
+                maxLength: {
+                  value: 255,
+                  message: ErrorMessageInput.max(255),
+                },
+              }),
+            }}
+            error={errors.zone}
+            messageError={errors.zone?.message}
           />
         </div>
 
@@ -159,8 +238,8 @@ const UbicationStep2: FC<IUbicationStep2> = ({ nextStep, previousStep }) => {
           <Button
             BSecondary
             type="button"
-            css={xw`w-full sm:w-3/12 mb-5 sm:mr-5 sm:mb-0`}
             onClick={previousStep}
+            css={xw`w-full sm:w-3/12 mb-5 sm:mr-5 sm:mb-0`}
           >
             Regresar
           </Button>
@@ -168,13 +247,14 @@ const UbicationStep2: FC<IUbicationStep2> = ({ nextStep, previousStep }) => {
           <Button
             FPrimary
             type="button"
-            css={xw`w-full sm:w-3/12`}
             onClick={nextStep}
+            disabled={!isValid}
+            css={xw`w-full sm:w-3/12`}
           >
             Continuar
           </Button>
         </div>
-      </Form>
+      </div>
     </div>
   );
 };

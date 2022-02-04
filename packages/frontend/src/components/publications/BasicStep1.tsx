@@ -184,7 +184,7 @@ const BasicStep1: FC<IBasicStep1> = ({
                   message: ErrorMessageInput.priceValid,
                 },
               }}
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, onBlur, value = '' } }) => (
                 <Input
                   id="price"
                   type="text"
@@ -238,8 +238,8 @@ const BasicStep1: FC<IBasicStep1> = ({
           <Button
             BSecondary
             type="button"
-            css={xw`w-full sm:w-3/12 mb-5 sm:mr-5 sm:mb-0`}
             onClick={previousStep}
+            css={xw`w-full sm:w-3/12 mb-5 sm:mr-5 sm:mb-0`}
           >
             Regresar
           </Button>
