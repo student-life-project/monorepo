@@ -9,4 +9,11 @@ export const NameInput = {
   reason: 'Motivo de la publicación',
   typeSpace: 'Tipo de espacio',
   price: 'Precio',
+  street: 'Calle y número',
+  state: 'Estado',
+  city: 'Municipio',
+  neighborhood: 'Colonia',
+  stateCode: 'Código Postal',
+  reference: 'Referencias',
+  zone: 'Descripción de la zona',
 };
