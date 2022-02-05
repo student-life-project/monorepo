@@ -52,6 +52,8 @@ https://dev.to/talohana/husky-and-commitlint-for-clean-git-log-44be
 
 https://github.com/conventional-changelog/commitlint
 
+https://github.com/conventional-changelog/commitlint/#what-is-commitlint (for commit options)
+
 https://commitlint.js.org/#/guides-local-setup
 
 https://commitlint.js.org/#/guides-ci-setup
