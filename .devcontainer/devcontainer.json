@@ -1,6 +1,40 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/javascript-node-mongo
 // Update the VARIANT arg in docker-compose.yml to pick a Node.js version
+/**
+	*
+	* Dev container flow 
+	* - Container setup start
+	* - initializeCommand
+	* - Remove existing container docker rm -f container hash
+	* - Container cration start 
+	*		- docker-compose -f d:\Projects\monorepo\.devcontainer\docker-compose.yml --profile * config
+	*   - docker-compose --project-name monorepo_devcontainer -f d:\Projects\monorepo\.devcontainer\docker-compose.yml build --no-cache --pull
+	* - Container creation end
+	* - start running container
+	*   - run terminal
+	*   - get os architecture uname -m
+	*   - get os info (cat /etc/os-release || cat /usr/lib/os-release) 2>/dev/null
+ 	*   - Run in container: cat /etc/passwd
+  *   - Updating configuration state
+  *   - Setup shutdown monitor and Forking shutdown monitor
+	*   - test directory exist
+	*   - vscode processes
+	*   	- extensions intall
+	*			- create random port to be accesed by visual studio code with ssh, can be set with devPort: 
+	*  		- forwarding container port to local machine port with the same port x forward to x
+	* 		
+	* - onCreateCommand
+	* - userEnvProbe PATHs
+	* - install extensions ¿Again?
+	* - updateContentCommand
+	* - install extensions from extensions: []
+	* - postCreateCommand
+	* - magic
+	* - postStartCommand
+	* - postAttachCommand
+	*
+	**/
 {
 	"name": "Node.js & Mongo DB",
 	"dockerComposeFile": "docker-compose.yml",
@@ -39,7 +73,9 @@
 			"protocol": "http"
 		}
 	},
-
+	// run before docker-compose so run on local machine with local shell
+	// "initializeCommand": "cd",
+	
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "yarn install",
 
