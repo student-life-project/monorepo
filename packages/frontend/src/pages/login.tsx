@@ -1,4 +1,4 @@
-/* eslint-disable-next-line simple-import-sort/imports */
+/* eslint-disable simple-import-sort/imports */
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -10,13 +10,15 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
-import Anchor from '@/components/common/Anchor';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
+import Anchor from '@/components/common/Anchor';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
+import { ErrorMessageInput, NameInput } from '@/constants';
 import { login } from '@/store/actions/user';
 import { redirectLoggedToHome } from '@/utils/redirectLoggedtoHome';
+import { rgxEmail, rgxPassword } from '@/utils/validations';
 
 interface ILoginValues {
   email: string;
@@ -82,11 +84,14 @@ const TextButton = styled.span`
 
 const Login: NextPage = () => {
   const [rememberUser, setRememberUser] = useState(false);
+
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: 'all',
+  });
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -119,22 +124,52 @@ const Login: NextPage = () => {
             <Anchor>registrarse</Anchor>
           </NextLink>
         </Text>
+
         <InputSection>
-          <Label>Correo</Label>
+          <Label id="label-email" htmlFor="email">
+            {NameInput.email}
+          </Label>
           <Input
+            id="email"
             type="email"
-            placeholder="Correo"
-            {...register('email', { required: true })}
+            placeholder="example@email.com"
+            register={{
+              ...register('email', {
+                setValueAs: (e: string) => e?.toLowerCase(),
+                required: ErrorMessageInput.inputRequire(NameInput.email),
+                pattern: {
+                  value: rgxEmail,
+                  message: ErrorMessageInput.inputValid(NameInput.email),
+                },
+              }),
+            }}
+            error={errors.email}
+            messageError={errors.email?.message}
           />
         </InputSection>
+
         <InputSection>
-          <Label>Contraseña</Label>
+          <Label id="label-password" htmlFor="password">
+            {NameInput.password}
+          </Label>
           <Input
+            id="password"
             type="password"
-            placeholder="Contraseña"
-            {...register('password', { required: true })}
+            placeholder="Ingresa contraseña"
+            register={{
+              ...register('password', {
+                required: ErrorMessageInput.inputRequire(NameInput.password),
+                pattern: {
+                  value: rgxPassword,
+                  message: ErrorMessageInput.inputValid(NameInput.password),
+                },
+              }),
+            }}
+            error={errors.password}
+            messageError={errors.password?.message}
           />
         </InputSection>
+
         <InputSection
           css={xw`flex flex-col justify-center sm:flex-row sm:justify-between`}
         >
@@ -147,12 +182,14 @@ const Login: NextPage = () => {
               css={xw`text-xs sm:text-sm`}
             />
           </div>
+
           <NextLink href="/recover-password">
             <Anchor css={xw`mt-3 text-sm text-left`}>
               ¿Olvidaste tu contraseña?
             </Anchor>
           </NextLink>
         </InputSection>
+
         <InputSection>
           <Button type="submit" FPrimary css={xw`w-full`}>
             <TextButton>Iniciar Sesión</TextButton>
@@ -166,7 +203,6 @@ const Login: NextPage = () => {
 
 Login.getInitialProps = async ({ req, res }: NextPageContext) => {
   redirectLoggedToHome(req, res);
-
   return {};
 };
 

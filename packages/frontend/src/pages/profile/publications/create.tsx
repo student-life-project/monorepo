@@ -1,11 +1,7 @@
-import {
-  faCheck,
-  faHome,
-  faInfo,
-  faMapMarkerAlt,
-} from '@fortawesome/free-solid-svg-icons';
+import { ERentalPlace } from '@student_life/common';
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import xw from 'xwind';
 
 import BodyContainer from '@/components/common/BodyContainer';
@@ -15,65 +11,62 @@ import PreviewStep4 from '@/components/publications/PreviewStep4';
 import RentalPlaceStep3 from '@/components/publications/RentalPlaceStep3';
 import Steps from '@/components/publications/Steps';
 import UbicationStep2 from '@/components/publications/UbicationStep2';
+import { PublicationSteps } from '@/constants';
+
+interface IPublicationData {
+  title: string;
+  reason: string;
+  typeSpace: string;
+  gender: ERentalPlace;
+  price: string;
+  availability: boolean;
+  street: string;
+  state: string;
+  city: string;
+  neighborhood: string;
+  stateCode: string;
+  reference: string;
+  zone: string;
+}
 
 const Create: FC = () => {
   const router = useRouter();
   const [step, setStep] = useState(0);
-  const [steps, setSteps] = useState([
-    {
-      title: 'Lo básico',
-      icon: faInfo,
-      completed: false,
-    },
-    {
-      title: 'Ubicación',
-      icon: faMapMarkerAlt,
-      completed: false,
-    },
-    {
-      title: 'Vivienda',
-      icon: faHome,
-      completed: false,
-    },
-    {
-      title: 'Borrador',
-      icon: faCheck,
-      completed: false,
-    },
-  ]);
+  const [steps, setSteps] = useState(PublicationSteps);
 
-  const stepBack = () => {
-    setStep((s) => s - 1);
-    window.scrollTo(0, 0);
+  const { handleSubmit, register, control, reset, formState } = useForm({
+    mode: 'all',
+  });
+
+  const onSubmit: SubmitHandler<IPublicationData> = async (data) => {
+    // eslint-disable-next-line no-console
+    console.log(data);
+    // gender -> number to string.
+    // router.push('/profile/publications');
   };
 
-  const complateStep1 = () => {
-    steps[0].completed = true;
-    setStep(1);
-    setSteps(steps);
-    window.scrollTo(0, 0);
+  const previousStep = () => {
+    if (step > 0) {
+      steps[step - 1].completed = false;
+      setStep(step - 1);
+      window.scrollTo(0, 0);
+    } else {
+      router.push('/profile/publications');
+    }
   };
 
-  const complateStep2 = () => {
-    steps[1].completed = true;
-    setStep(2);
-    setSteps(steps);
-    window.scrollTo(0, 0);
+  const nextStep = () => {
+    if (step < 3) {
+      steps[step].completed = true;
+      setStep(step + 1);
+      setSteps(steps);
+      window.scrollTo(0, 0);
+    }
   };
 
-  const complateStep3 = () => {
-    steps[2].completed = true;
-    setStep(3);
-    setSteps(steps);
-    window.scrollTo(0, 0);
-  };
-
-  const complateStep4 = () => {
-    steps[3].completed = true;
-    setSteps(steps);
-    router.push('/profile/publications');
-    window.scrollTo(0, 0);
-  };
+  useEffect(() => {
+    reset({ gender: ERentalPlace.NO_PREFERENCES, availability: true });
+  }, [reset]);
 
   return (
     <>
@@ -81,16 +74,37 @@ const Create: FC = () => {
       <Steps steps={steps} stepCurrent={step} />
 
       <BodyContainer css={xw`pt-8 sm:pt-16`}>
-        {step === 0 && <BasicStep1 complateStep1={complateStep1} />}
-        {step === 1 && (
-          <UbicationStep2 complateStep2={complateStep2} stepBack={stepBack} />
-        )}
-        {step === 2 && (
-          <RentalPlaceStep3 complateStep3={complateStep3} stepBack={stepBack} />
-        )}
-        {step === 3 && (
-          <PreviewStep4 complateStep4={complateStep4} stepBack={stepBack} />
-        )}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {step === 0 && (
+            <BasicStep1
+              register={register}
+              formState={formState}
+              Controller={Controller}
+              control={control}
+              nextStep={nextStep}
+              previousStep={previousStep}
+            />
+          )}
+
+          {step === 1 && (
+            <UbicationStep2
+              register={register}
+              formState={formState}
+              Controller={Controller}
+              control={control}
+              nextStep={nextStep}
+              previousStep={previousStep}
+            />
+          )}
+
+          {step === 2 && (
+            <RentalPlaceStep3 nextStep={nextStep} previousStep={previousStep} />
+          )}
+
+          {step === 3 && (
+            <PreviewStep4 nextStep={nextStep} previousStep={previousStep} />
+          )}
+        </form>
       </BodyContainer>
     </>
   );

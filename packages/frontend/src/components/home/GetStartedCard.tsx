@@ -22,13 +22,14 @@ interface IGetStartedCard {
 const Container = styled.div`
   ${xw`
     grid
+    w-72
     h-96
-    w-full
     border
     sm:h-64
     rounded
     sm:h-52
     max-w-md
+    sm:w-full
     grid-rows-2
     sm:grid-rows-1
     sm:grid-cols-2

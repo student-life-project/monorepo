@@ -1,14 +1,20 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
+import { FC } from 'react';
+
+import { TOption } from '@/types';
+
 import SpanError from './SpanError';
 
 type ISelect = {
+  register?: any;
+  label?: string;
   error?: boolean;
+  options: TOption[];
+  optionName?: string;
   disabled?: boolean;
   messageError?: string;
-  children: React.ReactNode;
 } & React.SelectHTMLAttributes<HTMLSelectElement>;
 
 const SelectStyle = styled.select<ISelect>`
@@ -31,10 +37,27 @@ const SelectStyle = styled.select<ISelect>`
   ${({ disabled }) => disabled && xw`bg-gray-200 cursor-not-allowed`}
 `;
 
-const Select: FC<ISelect> = ({ error, children, messageError, ...props }) => (
+const Select: FC<ISelect> = ({
+  register,
+  label,
+  error,
+  options,
+  optionName,
+  messageError,
+  ...props
+}) => (
   <>
-    <SelectStyle error={error} {...props}>
-      {children}
+    <SelectStyle {...register} error={error} {...props} defaultValue="">
+      <option value="" disabled>
+        {optionName || `Selecciona un ${label?.toLocaleLowerCase()}`}
+      </option>
+
+      {options &&
+        options.map((item) => (
+          <option value={item.value} key={item.name}>
+            {item.name}
+          </option>
+        ))}
     </SelectStyle>
     {error && <SpanError>{messageError}</SpanError>}
   </>

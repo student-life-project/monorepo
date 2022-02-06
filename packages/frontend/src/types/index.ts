@@ -55,3 +55,8 @@ export interface Itab {
   text: string;
   handleTab: (tabCurrent: number) => void;
 }
+
+export type TOption = {
+  value: string;
+  name: string;
+};
