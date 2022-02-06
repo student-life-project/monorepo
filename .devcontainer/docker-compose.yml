@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
       args:
@@ -12,8 +12,25 @@ services:
         VARIANT: 14-buster
     volumes:
       - ..:/workspace:cached
+      # Docker volume to contain node_modules for performance reason
+      - node_modules:/workspace/node_modules
+      # Docker
+      - ~/.docker:/root/.docker:z
+      # Docker socket to access Docker server
+      - /var/run/docker.sock:/var/run/docker.sock
+      # SSH directory for Linux, OSX and WSL
+      - ~/.ssh:/root/.ssh:z
+      # For Windows without WSL, a copy will be made
+      # from /tmp/.ssh to ~/.ssh to fix permissions
+      # - ~/.ssh:/tmp/.ssh:ro
+      # Shell history persistence
+      - ~/.zsh_history:/root/.zsh_history:z
+      # Git config
+      - ~/.gitconfig:/root/.gitconfig:z
+      # Kubernetes
+      # - ~/.kube:/root/.kube:z
 
-    # Overrides default command so things don't shut down after the process ends.
+      # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
 
     # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
@@ -21,10 +38,10 @@ services:
 
     # Uncomment the next line to use a non-root user for all processes.
     user: node
-  
+
   # to conect inside containers use the db (service name) as host
-  # docker automaticaly create a network foreach service with service 
-  # name as host, this host name docker resolve to the real assigned 
+  # docker automaticaly create a network foreach service with service
+  # name as host, this host name docker resolve to the real assigned
   # ip by docker
   db:
     image: mongo:latest
@@ -43,6 +60,7 @@ services:
       - mongo-user-passwd
 
 volumes:
+  node_modules:
   mongodb-data:
 
 secrets:
