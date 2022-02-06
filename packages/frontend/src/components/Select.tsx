@@ -1,4 +1,5 @@
-import { memo } from 'react';
+// eslint-disable-next-line simple-import-sort/imports
+import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import SpanError from './SpanError';
@@ -30,12 +31,7 @@ const SelectStyle = styled.select<ISelect>`
   ${({ disabled }) => disabled && xw`bg-gray-200 cursor-not-allowed`}
 `;
 
-const Select: React.FC<ISelect> = ({
-  error,
-  children,
-  messageError,
-  ...props
-}) => (
+const Select: FC<ISelect> = ({ error, children, messageError, ...props }) => (
   <>
     <SelectStyle error={error} {...props}>
       {children}
@@ -44,4 +40,4 @@ const Select: React.FC<ISelect> = ({
   </>
 );
 
-export default memo(Select);
+export default Select;

@@ -1,4 +1,5 @@
-import { memo } from 'react';
+// eslint-disable-next-line simple-import-sort/imports
+import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import SpanError from './SpanError';
@@ -29,11 +30,11 @@ const TextareaStyle = styled.textarea<ITextarea>`
   ${({ disabled }) => disabled && xw`bg-gray-200 cursor-not-allowed`}
 `;
 
-const Textarea: React.FC<ITextarea> = ({ error, messageError, ...props }) => (
+const Textarea: FC<ITextarea> = ({ error, messageError, ...props }) => (
   <>
     <TextareaStyle error={error} {...props} />
     {error && <SpanError>{messageError}</SpanError>}
   </>
 );
 
-export default memo(Textarea);
+export default Textarea;

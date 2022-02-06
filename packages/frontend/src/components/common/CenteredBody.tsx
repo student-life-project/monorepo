@@ -4,7 +4,16 @@ import styled from '@emotion/styled';
 
 const CenteredBody = styled.section`
   ${xw`
-    container h-screen flex flex-col items-center justify-center mx-auto font-montserrat break-words
+    flex
+    mx-auto
+    h-screen
+    flex-col
+    container
+    break-words
+    items-center
+    justify-center
+    font-montserrat
+    text-secondary-1
   `}
 `;
 

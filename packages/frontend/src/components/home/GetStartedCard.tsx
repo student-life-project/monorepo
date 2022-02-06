@@ -1,60 +1,114 @@
+// eslint-disable-next-line simple-import-sort/imports
+import { FC } from 'react';
+import xw from 'xwind';
+import Link from 'next/link';
+import styled from '@emotion/styled';
 import {
   FontAwesomeIcon,
   FontAwesomeIconProps,
 } from '@fortawesome/react-fontawesome';
-import Link from 'next/link';
-import { FC } from 'react';
-import xw from 'xwind';
 
 import Button from '@/components/Button';
 
 interface IGetStartedCard {
+  alt: string;
   text: string;
   imgUrl: string;
-  alt: string;
   linkUrl: string;
   buttonText: string;
   icon: FontAwesomeIconProps['icon'];
 }
 
+const Container = styled.div`
+  ${xw`
+    grid
+    h-96
+    w-full
+    border
+    sm:h-64
+    rounded
+    sm:h-52
+    max-w-md
+    grid-rows-2
+    sm:grid-rows-1
+    sm:grid-cols-2
+    font-montserrat
+    border-secondary-2
+  `}
+`;
+
+const Content = styled.div`
+  ${xw`
+    flex
+    w-full
+    h-full
+    order-2
+    sm:order-1
+    items-center
+    justify-center
+  `}
+`;
+
+const Info = styled.div`
+  ${xw`
+    mx-4
+    flex
+    h-2/3
+    w-full
+    flex-col
+    justify-between
+  `}
+`;
+
+const Text = styled.p`
+  ${xw`
+    text-sm
+    text-center
+    break-words
+  `}
+`;
+
+const Img = styled.img`
+  ${xw`
+    w-full
+    h-full
+    order-1
+    rounded-tr
+    rounded-br
+    bg-gray-400
+    object-cover
+  `}
+`;
+
+const Icon = styled(FontAwesomeIcon)`
+  ${xw`
+    block
+    text-gray-400
+  `}
+`;
+
 const GetStartedCard: FC<IGetStartedCard> = ({
   alt,
-  imgUrl,
-  text,
-  buttonText,
-  linkUrl,
   icon,
-}) => {
-  return (
-    <div
-      css={xw`grid grid-rows-2 w-full max-w-md h-64 shadow-xl rounded font-montserrat xs:grid-cols-2 xs:grid-rows-1 xs:h-52`}
-    >
-      <div
-        css={xw`flex justify-center items-center w-full h-full order-2 xs:order-1`}
-      >
-        <div
-          css={xw`flex flex-col justify-between w-full h-2/3 mx-4 text-center break-words text-sm`}
-        >
-          <FontAwesomeIcon
-            icon={icon}
-            height="2rem"
-            css={xw`hidden xs:block text-gray-400`}
-          />
-          {text}
-          <Link href={linkUrl}>
-            <Button FPrimary small css={xw`mt-2 xs:mt-0`}>
-              {buttonText}
-            </Button>
-          </Link>
-        </div>
-      </div>
-      <img
-        css={xw`w-full h-full object-fill bg-gray-400 rounded-br rounded-tr order-1`}
-        src={imgUrl}
-        alt={alt}
-      />
-    </div>
-  );
-};
+  text,
+  imgUrl,
+  linkUrl,
+  buttonText,
+}) => (
+  <Container>
+    <Content>
+      <Info>
+        <Icon icon={icon} height="2rem" />
+        <Text>{text}</Text>
+        <Link href={linkUrl}>
+          <Button FPrimary small>
+            {buttonText}
+          </Button>
+        </Link>
+      </Info>
+    </Content>
+    <Img src={imgUrl} alt={alt} />
+  </Container>
+);
 
 export default GetStartedCard;

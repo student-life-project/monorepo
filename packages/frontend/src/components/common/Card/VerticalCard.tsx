@@ -1,42 +1,94 @@
+// eslint-disable-next-line simple-import-sort/imports
 import { FC } from 'react';
 import xw from 'xwind';
+import styled from '@emotion/styled';
 
 import PriceSection from './PriceSection';
 import RateSection from './RateSection';
 
 interface IVerticalCard {
+  rate?: number;
+  title: string;
   imageUrl: string;
   placeId?: string;
-  rate?: number;
   rateNumber?: number;
-  title: string;
   pricePerMonth: number;
 }
 
+const Content = styled.div`
+  ${xw`
+    w-64
+    h-72
+    border
+    rounded
+    bg-white
+    font-montserrat
+    border-secondary-2
+  `}
+`;
+
+const Img = styled.img`
+  ${xw`
+    h-1/2
+    w-full
+    border-b
+    rounded-t
+    box-border
+    bg-gray-400
+    object-cover
+    border-secondary-2
+  `}
+`;
+
+const Info = styled.section`
+  ${xw`
+    p-4
+    flex
+    h-1/2
+    w-full
+    flex-col
+    justify-end
+  `}
+`;
+
+const NotRate = styled.p`
+  ${xw`
+    flex
+    my-3
+    w-full
+    text-sm
+    text-secondary-1
+  `}
+`;
+
+const Description = styled.p`
+  ${xw`
+    text-sm
+    break-words
+    text-secondary-1
+  `}
+`;
+
 const Verticalcard: FC<IVerticalCard> = ({
+  rate,
+  title,
   imageUrl,
   // placeId,
-  pricePerMonth,
-  title,
-  rate,
   rateNumber,
-}) => {
-  return (
-    <div css={xw`bg-white shadow-md h-72 w-64 font-montserrat rounded-sm`}>
-      <img
-        src={imageUrl}
-        alt={title}
-        css={xw`w-full object-cover h-1/2 bg-gray-400 border-b border-gray-900 box-border rounded-t-sm`}
-      />
-      <section css={xw`w-full h-1/2 flex flex-col justify-end px-4 py-4`}>
-        {rate && rateNumber && (
-          <RateSection score={String(rate)} scoreCount={rateNumber} />
-        )}
-        <p css={xw`text-sm break-words`}>{title}</p>
-        <PriceSection currency="MXN" price={pricePerMonth} />
-      </section>
-    </div>
-  );
-};
+  pricePerMonth,
+}) => (
+  <Content>
+    <Img src={imageUrl} alt={title} />
+    <Info>
+      {rate && rateNumber ? (
+        <RateSection score={String(rate)} scoreCount={rateNumber} />
+      ) : (
+        <NotRate>No hay evaluaciones</NotRate>
+      )}
+      <Description>{title}</Description>
+      <PriceSection currency="MXN" price={pricePerMonth} />
+    </Info>
+  </Content>
+);
 
 export default Verticalcard;

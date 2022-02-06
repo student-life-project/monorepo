@@ -8,15 +8,61 @@ import { FC, useState } from 'react';
 import { Triangle } from '@/icons';
 
 import UserButton from './UserButton';
+import Anchor from '../Anchor';
 
 interface IUserMenu {
   user: IUser;
   onLogoutClick: () => void;
 }
 
-const Li = styled.li`
+const MenuContent = styled.div`
+  ${xw`
+    font-montserrat
+    text-secondary-1
+  `}
+`;
+
+const MenuList = styled.ul`
+  ${xw`
+    p-4
+    mt-4
+    mr-4
+    border
+    right-0
+    bg-white
+    absolute
+    shadow-lg
+    rounded-sm
+    border-gray-100
+  `}
+`;
+
+const MenuItem = styled.li`
   ${xw`
     my-2
+    cursor-pointer
+    hover:underline
+  `}
+`;
+
+const ImgLink = styled.a`
+  ${xw`
+    my-2
+    flex
+    flex-col
+    text-center
+    items-center
+    justify-center
+  `}
+`;
+
+const ExitButton = styled.button`
+  ${xw`
+    focus:ring-2
+    hover:text-primary
+    focus:outline-none
+    focus:ring-offset-1
+    focus:border-blue-300
   `}
 `;
 
@@ -28,45 +74,41 @@ const UserMenu: FC<IUserMenu> = ({ user, onLogoutClick }) => {
   };
 
   return (
-    <div css={xw`font-montserrat`}>
-      <UserButton onClick={onClickUserButton} height="3rem" />
+    <MenuContent>
+      <UserButton onClick={onClickUserButton} height="2.5rem" />
       {displayMenu && (
-        <ul
-          css={xw`absolute mt-4 mr-4 right-0 p-4 bg-white border border-gray-100 shadow-lg rounded-sm`}
-        >
+        <MenuList>
           <Triangle
             css={xw`block fill-current text-white w-4 h-4 absolute right-0 top-0 mr-5 -mt-3 z-0`}
           />
-          <Li>
+          <MenuItem>
             <Link href="/profile">
-              <a
-                css={xw`flex flex-col justify-center items-center text-center my-2`}
-              >
+              <ImgLink>
                 <UserButton height="2rem" />
                 {user.email}
-              </a>
+              </ImgLink>
             </Link>
-          </Li>
-          <Li>
+          </MenuItem>
+          <MenuItem>
             <Link href="/profile/messages">
-              <a>Mensajes</a>
+              <Anchor css={xw`text-secondary-1`}>Mensajes</Anchor>
             </Link>
-          </Li>
+          </MenuItem>
           {user.type === EUserType.OWNER && (
-            <Li>
+            <MenuItem>
               <Link href="/profile/publications">
-                <a>Publicaciones</a>
+                <Anchor css={xw`text-secondary-1`}>Publicaciones</Anchor>
               </Link>
-            </Li>
+            </MenuItem>
           )}
-          <Li>
-            <button type="button" onClick={onLogoutClick}>
+          <MenuItem>
+            <ExitButton type="button" onClick={onLogoutClick}>
               Cerrar Sesión
-            </button>
-          </Li>
-        </ul>
+            </ExitButton>
+          </MenuItem>
+        </MenuList>
       )}
-    </div>
+    </MenuContent>
   );
 };
 

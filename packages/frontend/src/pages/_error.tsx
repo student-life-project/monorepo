@@ -1,64 +1,123 @@
-import { NextPage } from 'next';
-import Link from 'next/link';
+// eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
+import Link from 'next/link';
+import { NextPage } from 'next';
+import styled from '@emotion/styled';
 
 import Button from '@/components/Button';
+import { FixingBugs } from '@/icons';
 
-export interface IError {
-  statusCode: number;
+interface IError {
   message: string;
+  statusCode: number;
 }
 
-const Error: NextPage<IError> = ({ statusCode, message }) => {
-  return (
-    <div
-      css={xw`max-w-screen-xl flex items-center justify-center w-full h-screen px-4 lg:px-0 md:mx-auto`}
-    >
-      <div css={xw`w-full h-3/4 flex flex-col md:flex-row md:h-1/2`}>
-        <img
-          src="/images/error.jpg"
-          alt="error_image"
-          css={xw`w-full h-1/2 bg-gray-400 md:w-1/2 md:h-full`}
-        />
-        <section
-          css={xw`w-full h-1/2 flex flex-col justify-around mt-4 text-center md:w-1/2 md:h-full md:mt-0`}
-        >
-          <h1 css={xw`text-4xl font-bold font-maven`}>Error {statusCode}</h1>
-          <p css={xw`font-montserrat break-words`}>{message}</p>
-          <Link href="/">
-            <Button FPrimary css={xw`w-full self-center lg:w-1/2`}>
-              <span css={xw`mx-2 w-full`}>Ir al inicio</span>
-            </Button>
-          </Link>
-        </section>
-      </div>
-    </div>
-  );
-};
+const Container = styled.div`
+  ${xw`
+    flex
+    px-4
+    w-full
+    lg:px-0
+    h-screen
+    md:mx-auto
+    items-center
+    justify-center
+    font-montserrat
+    text-secondary-1
+  `}
+`;
+
+const Content = styled.div`
+  ${xw`
+    flex
+    w-full
+    flex-col
+    md:flex-row
+  `}
+`;
+
+const IconContent = styled.div`
+  ${xw`
+    flex
+    flex-1
+    items-center
+    justify-center
+  `}
+`;
+
+const InfoContent = styled.section`
+  ${xw`
+    p-4
+    flex
+    flex-1
+    md:mt-0
+    flex-col
+    text-center
+    justify-center
+  `}
+`;
+
+const CodeTitle = styled.h1`
+  ${xw`
+    mb-4
+    text-5xl
+    font-bold
+    md:text-7xl
+    lg:text-9xl
+  `}
+`;
+
+const MessageText = styled.p`
+  ${xw`
+    mb-4
+    text-2xl
+    break-words
+  `}
+`;
+
+const Error: NextPage<IError> = ({ statusCode, message }) => (
+  <Container>
+    <Content>
+      <IconContent>
+        <FixingBugs css={xw`w-full`} />
+      </IconContent>
+      <InfoContent>
+        <CodeTitle>Error {statusCode}</CodeTitle>
+        <MessageText>{message}</MessageText>
+        <Link href="/">
+          <Button FPrimary css={xw`w-full self-center lg:w-1/2`}>
+            <span>Ir al inicio</span>
+          </Button>
+        </Link>
+      </InfoContent>
+    </Content>
+  </Container>
+);
 
 Error.getInitialProps = ({ res, err }) => {
-  let statusCode = 0;
   let message = '';
+  let statusCode = 0;
 
   if (res) {
     statusCode = res.statusCode;
+
     switch (statusCode) {
       case 404:
-        message = 'Pagina no encontrada';
+        message = 'No pudimos encontrar la página que buscas';
         break;
       default:
-        message = 'Error inesperado';
+        message = 'Error inesperado en la página';
     }
   }
 
   if (err) {
-    statusCode = err.statusCode || 404;
     message = err.message || '';
+    statusCode = err.statusCode || 404;
   }
 
   return {
-    statusCode: statusCode || 404,
     message,
+    statusCode: statusCode || 404,
   };
 };
 

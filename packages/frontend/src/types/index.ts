@@ -1,3 +1,4 @@
+import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import type { IUser } from '@student_life/common';
 
 export interface ILoginResponse {
@@ -14,7 +15,7 @@ export interface IRegisterResponse {
 }
 
 export interface INavBar {
-  allowPublish?: boolean;
+  allowRental?: boolean;
   allowRegister?: boolean;
   allowLogin?: boolean;
   allowRequest?: boolean;
@@ -36,4 +37,21 @@ export interface IQuestionAnswer {
 export interface IBreadCrumb {
   link: string;
   text: string;
+}
+
+export interface IInfoStep {
+  title: string;
+  text: string;
+  icon: FontAwesomeIconProps['icon'];
+}
+
+export interface IStep {
+  title: string;
+  icon: FontAwesomeIconProps['icon'];
+  completed: boolean;
+}
+
+export interface Itab {
+  text: string;
+  handleTab: (tabCurrent: number) => void;
 }

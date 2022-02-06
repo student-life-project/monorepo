@@ -1,12 +1,14 @@
+// eslint-disable-next-line simple-import-sort/imports
 import {
   faCheckCircle,
   faHome,
-  faMapMarker,
+  faMapMarkerAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { NextPage, NextPageContext } from 'next';
 import { useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import xw from 'xwind';
+import styled from '@emotion/styled';
 
 import BodyContainer from '@/components/common/BodyContainer';
 import InstructionCard from '@/components/common/Card/InstructionCard';
@@ -23,18 +25,55 @@ import {
 import { TRootState } from '@/store/reducers';
 import { rentaPlacesSelector } from '@/store/selectors/rentalPlaces';
 
+const PlaceContent = styled.div`
+  ${xw`
+    flex
+    my-20
+    w-full
+    flex-col
+    flex-wrap
+    flex-shrink
+    md:flex-row
+    items-center
+    justify-center
+    md:justify-around
+  `}
+`;
+
+const InstructionContent = styled.div`
+  ${xw`
+    mx-4
+    my-12
+    md:mx-8
+    xl:mx-0
+  `}
+`;
+
+const ActionContent = styled.div`
+  ${xw`
+    mx-2
+    flex
+    py-24
+    flex-col
+    border-t
+    lg:flex-row
+    items-center
+    justify-center
+    lg:justify-around
+    border-secondary-2
+  `}
+`;
+
 export const Home: NextPage = () => {
   const rentalPlaces = useSelector(rentaPlacesSelector);
 
   return (
     <>
-      <NavBar allowPublish allowRegister allowLogin />
+      <NavBar allowRental allowRegister allowLogin />
       <BodyContainer css={xw`px-0`}>
-        {/* <a href='https://www.freepik.com/photos/business'>Business photo created by jcomp - www.freepik.com</a> */}
         <HeroImage url="/images/home_hero.jpg" name="hero_banner" />
-        <div
-          css={xw`w-full flex flex-col justify-center items-center my-20 flex-shrink flex-wrap md:flex-row md:justify-around`}
-        >
+
+        <PlaceContent>
           {rentalPlaces.map((rentalPlace, index) => {
             const rateNumber = rentalPlace.scores && rentalPlace.scores.length;
             const rate =
@@ -51,81 +90,76 @@ export const Home: NextPage = () => {
             return (
               <div css={css} key={`rental_place${rentalPlace.id}`}>
                 <VerticalCard
-                  rate={rate && parseFloat(rate.toFixed(2))}
                   rateNumber={rateNumber}
                   title={rentalPlace.title}
                   pricePerMonth={rentalPlace.price}
                   imageUrl={rentalPlace.images?.[0]?.url}
+                  rate={rate && parseFloat(rate.toFixed(2))}
                 />
               </div>
             );
           })}
-        </div>
+        </PlaceContent>
 
-        <div css={xw`my-12 mx-4 md:mx-8 xl:mx-0`}>
-          <div css={xw`mb-8`}>
-            <InstructionCard
-              title="Sed ut perspiciatis unde omnis"
-              text="Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro."
-              stepsList={[
-                'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
-                'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
-                'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
-              ]}
-              listBullet={faCheckCircle}
-              imgUrl="/images/questions.jpg" // <a href='https://www.freepik.es/vectores/personas'>Vector de Personas creado por stories - www.freepik.es</a>
-            />
-          </div>
-          <div css={xw`mb-8`}>
-            <InstructionCard
-              title="Sed ut perspiciatis unde omnis"
-              text="Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro."
-              stepsList={[
-                'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
-                'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
-                'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
-              ]}
-              listBullet={faCheckCircle}
-              imgUrl="/images/questions.jpg" // <a href='https://www.freepik.es/vectores/personas'>Vector de Personas creado por stories - www.freepik.es</a>
-              reverse
-            />
-          </div>
+        <InstructionContent>
           <InstructionCard
-            title="Sed ut perspiciatis unde omnis"
-            text="Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro."
+            title="Encuentra el alojamiento ideal"
+            text="Student Life es una plataforma especializada para estudiantes universitarios, nuestro objetivo es ayudarte a encontrar el alojamiento adecuado para ti."
             stepsList={[
-              'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
-              'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
-              'Sed ut perspiciatis unde omnis iste natus error sit voluptate',
+              'Es perfecto para  ti, si estás en el proceso de independencia y estás buscando un alojamiento mientras realizas tus estudios.',
+              'Si buscas un alojamiento adecuado a tus necesidades, costos y seguridad.',
             ]}
             listBullet={faCheckCircle}
-            imgUrl="/images/questions.jpg" // <a href='https://www.freepik.es/vectores/personas'>Vector de Personas creado por stories - www.freepik.es</a>
+            imgUrl="/images/best_place.png"
           />
-        </div>
 
-        <div
-          css={xw`flex flex-col justify-center items-center py-12 border-b border-t border-gray-400 mx-2 lg:flex-row lg:justify-around`}
-        >
+          <InstructionCard
+            title="Tu espacio, tus reglas"
+            text="Student Life te ayuda a publicar un cuarto, un departamento completo o cualquier tipo de espacio."
+            stepsList={[
+              'Es perfecto para ti, si quieres publicar tu espacio de forma gratuita.',
+              'Ya sea que estés buscando un inquilino para ganar dinero o si estás en la búsqueda de un roomie para compartir gastos.',
+            ]}
+            listBullet={faCheckCircle}
+            imgUrl="/images/rental.png"
+            reverse
+          />
+
+          <InstructionCard
+            title="Se parte de la comunidad"
+            text="Student Life es una plataforma inclusiva, abierta a todo tipo de representación con el mismo ideal de compartir lo mejor de sí mismos, y juntos crear una comunidad sólida."
+            stepsList={[
+              'Busca y filtra alojamientos.',
+              'Comenta, reporta  y califica alojamientos.',
+              'Comunícate de forma rápida y sencilla con los usuarios.',
+              'Encuentra toda la información como detalles, reglas, servicios, zona, calificación y comentarios de un alojamiento.',
+            ]}
+            listBullet={faCheckCircle}
+            imgUrl="/images/community.png"
+          />
+        </InstructionContent>
+
+        <ActionContent>
           <div css={xw`mb-8 lg:mb-0`}>
             <GetStartedCard
-              linkUrl="/rentals"
-              text="¿Estás buscando un cuarto para rentar?"
-              buttonText="Buscar Alojamiento"
-              imgUrl="/images/search_place.jpg" // <a href='https://www.freepik.es/fotos/casa'>Foto de Casa creado por wayhomestudio - www.freepik.es</a>
-              alt="rentals start"
               icon={faHome}
+              linkUrl="/rentals"
+              alt="rentals start"
+              buttonText="Buscar Alojamiento"
+              imgUrl="/images/search_place.jpg"
+              text="¿Estás buscando un cuarto para rentar?"
             />
           </div>
 
           <GetStartedCard
-            linkUrl="/publish"
-            text="¿Necesitas rentar una vivienda?"
-            buttonText="Publicar Alojamiento"
-            imgUrl="/images/start_publishing.jpg" // <a href='https://www.freepik.es/fotos/venta'>Foto de Venta creado por yanalya - www.freepik.es</a>
+            icon={faMapMarkerAlt}
+            linkUrl="/help/information-publish"
             alt="publish rentals"
-            icon={faMapMarker}
+            buttonText="Publicar Alojamiento"
+            imgUrl="/images/start_publishing.jpg"
+            text="¿Necesitas rentar una vivienda?"
           />
-        </div>
+        </ActionContent>
       </BodyContainer>
       <Footer />
     </>
@@ -135,11 +169,13 @@ export const Home: NextPage = () => {
 Home.getInitialProps = async ({
   reduxStore,
 }: NextPageContext & { reduxStore: TStore }) => {
-  await (reduxStore.dispatch as ThunkDispatch<
-    TRootState,
-    unknown,
-    IRentalPlacesAction
-  >)(getRentalPlaces({ limit: 3 }));
+  await (
+    reduxStore.dispatch as ThunkDispatch<
+      TRootState,
+      unknown,
+      IRentalPlacesAction
+    >
+  )(getRentalPlaces({ limit: 3 }));
 
   return {};
 };

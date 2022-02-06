@@ -1,4 +1,3 @@
-import { EUserType } from '@student_life/common';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,16 +9,16 @@ import NavBar from './NavBar';
 
 interface INavBarContainer {
   allowLogin?: boolean;
-  allowPublish?: boolean;
-  allowRegister?: boolean;
+  allowRental?: boolean;
   allowRequest?: boolean;
+  allowRegister?: boolean;
 }
 
 const NavBarContainer: FC<INavBarContainer> = ({
   allowLogin,
-  allowPublish,
-  allowRegister,
+  allowRental,
   allowRequest,
+  allowRegister,
 }) => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -33,16 +32,13 @@ const NavBarContainer: FC<INavBarContainer> = ({
 
   return (
     <NavBar
-      isLogedIn={isUserAutenticated}
-      onLogoutClick={onLogoutClick}
-      allowLogin={allowLogin}
-      allowPublish={
-        (!isUserAutenticated && allowPublish) ||
-        userData.type === EUserType.OWNER
-      }
-      allowRegister={allowRegister}
-      allowRequest={allowRequest}
       user={userData}
+      allowLogin={allowLogin}
+      allowRequest={allowRequest}
+      onLogoutClick={onLogoutClick}
+      allowRegister={allowRegister}
+      isLogedIn={isUserAutenticated}
+      allowRental={allowRental}
     />
   );
 };

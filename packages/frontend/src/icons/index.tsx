@@ -1,4 +1,4 @@
-export { default as AvatarCircle } from './AvatarCircle';
+export { default as FixingBugs } from './FixingBugs';
 export { default as Im01 } from './Im01';
 export { default as Im02 } from './Im02';
 export { default as Im03 } from './Im03';

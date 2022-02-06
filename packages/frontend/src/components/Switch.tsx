@@ -1,4 +1,5 @@
-import { memo } from 'react';
+// eslint-disable-next-line simple-import-sort/imports
+import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
@@ -17,13 +18,13 @@ const Container = styled.label`
 const Content = styled.label`
   ${xw`
     w-10
-    mr-2 
+    mr-2
     ease-in
-    relative 
-    transition 
+    relative
+    transition
     select-none
-    duration-200 
-    align-middle 
+    duration-200
+    align-middle
     inline-block
   `}
 `;
@@ -53,21 +54,21 @@ const Input = styled.input`
     focus:border-blue-300
   `}
 
-  ${({ disabled }) => disabled && xw`bg-gray-100 cursor-not-allowed`}
+  ${({ disabled }) => disabled && xw`bg-gray-300 cursor-not-allowed`}
 `;
 
 const Span = styled.label`
   ${xw`
-    h-6 
+    h-6
     block
-    bg-gray-100 
-    rounded-full 
+    bg-gray-300
+    rounded-full
     cursor-pointer
-    overflow-hidden 
+    overflow-hidden
   `}
 `;
 
-const Switch: React.FC<ISwitch> = ({ name, label, checked, ...props }) => (
+const Switch: FC<ISwitch> = ({ name, label, checked, ...props }) => (
   <Container>
     <Content>
       <Input id={name} type="checkbox" checked={checked} {...props} />
@@ -79,4 +80,4 @@ const Switch: React.FC<ISwitch> = ({ name, label, checked, ...props }) => (
   </Container>
 );
 
-export default memo(Switch);
+export default Switch;

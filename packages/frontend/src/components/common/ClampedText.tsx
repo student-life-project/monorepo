@@ -6,27 +6,27 @@ import { FC } from 'react';
 interface IClampedText {
   lines: number;
   noClamp?: boolean;
+  children: React.ReactNode;
 }
 
 const ClampContainer = styled.p<IClampedText>`
   display: box;
   display: -webkit-box;
-  line-clamp: ${(props) => (props.noClamp ? 'none' : props.lines)};
   box-orient: vertical;
-  -webkit-line-clamp: ${(props) => (props.noClamp ? 'none' : props.lines)};
   -webkit-box-orient: vertical;
+  line-clamp: ${(props) => (props.noClamp ? 'none' : props.lines)};
+  -webkit-line-clamp: ${(props) => (props.noClamp ? 'none' : props.lines)};
+
   ${xw`
-    overflow-hidden
     break-words
+    overflow-hidden
   `}
 `;
 
-const ClampedText: FC<IClampedText> = ({ lines, noClamp, children }) => {
-  return (
-    <ClampContainer lines={lines} noClamp={noClamp}>
-      {children}
-    </ClampContainer>
-  );
-};
+const ClampedText: FC<IClampedText> = ({ lines, noClamp, children }) => (
+  <ClampContainer lines={lines} noClamp={noClamp}>
+    {children}
+  </ClampContainer>
+);
 
 export default ClampedText;

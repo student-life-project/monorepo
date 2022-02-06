@@ -1,4 +1,5 @@
-import { memo } from 'react';
+// eslint-disable-next-line simple-import-sort/imports
+import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
@@ -33,11 +34,11 @@ const Span = styled.span`
   `}
 `;
 
-const Checkbox: React.FC<ICheckbox> = ({ name, label, checked, ...props }) => (
+const Checkbox: FC<ICheckbox> = ({ name, label, checked, ...props }) => (
   <Label id={`label-${name}`} htmlFor={name}>
     <Input id={name} type="checkbox" checked={checked} {...props} />
     <Span>{label}</Span>
   </Label>
 );
 
-export default memo(Checkbox);
+export default Checkbox;
