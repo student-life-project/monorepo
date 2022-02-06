@@ -52,6 +52,8 @@ https://dev.to/talohana/husky-and-commitlint-for-clean-git-log-44be
 
 https://github.com/conventional-changelog/commitlint
 
+https://github.com/conventional-changelog/commitlint/#what-is-commitlint (for commit options)
+
 https://commitlint.js.org/#/guides-local-setup
 
 https://commitlint.js.org/#/guides-ci-setup
@@ -76,6 +78,17 @@ https://talohana.com/blog/boost-your-typescript-project
 
 https://www.npmjs.com/package/cross-env
 
+## dev container nodejs + MongoDB
+
+https://medium.com/swlh/dockerizing-a-mongo-database-ac8f8219a019
+
+https://qastack.mx/programming/42912755/how-to-create-a-db-for-mongodb-container-on-start-up
+
+https://stackoverflow.com/questions/42912755/how-to-create-a-db-for-mongodb-container-on-start-up
+
+https://stackoverflow.com/questions/58498173/docker-compose-mongodb-fresh-instance-not-working
+
+https://code.visualstudio.com/remote/advancedcontainers/improve-performance?WT.mc_id=javascript-14373-yolasors
 ## backend
 
 ## frontend

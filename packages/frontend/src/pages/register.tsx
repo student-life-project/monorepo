@@ -1,12 +1,16 @@
-/* eslint-disable-next-line simple-import-sort/imports */
+/* eslint-disable simple-import-sort/imports */
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EUserType } from '@student_life/common';
+import { NextPage, NextPageContext } from 'next';
 import Link from 'next/link';
-import { ChangeEvent, useState, useRef } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
+import { useEffect, useRef } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import ReactTooltip from 'react-tooltip';
 
 import Button from '@/components/Button';
 import Anchor from '@/components/common/Anchor';
@@ -14,17 +18,17 @@ import CenteredBody from '@/components/common/CenteredBody';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
 import Radio from '@/components/Radio';
-import { useDispatch } from 'react-redux';
+import { ErrorMessageInput, NameInput } from '@/constants';
 import { registerUser } from '@/store/actions/user';
-import { useRouter } from 'next/router';
-import { NextPage, NextPageContext } from 'next';
 import { redirectLoggedToHome } from '@/utils/redirectLoggedtoHome';
+import { rgxEmail, rgxPassword } from '@/utils/validations';
 
 interface IRegisterData {
-  email: string;
-  lastName: string;
-  password: string;
+  userType: EUserType;
   firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
   confirmedPassword: string;
 }
 
@@ -101,31 +105,29 @@ const TextTerms = styled.p`
 const Register: NextPage = () => {
   const dispath = useDispatch();
   const router = useRouter();
-  const [userType, setUserType] = useState(EUserType.STUDENT);
+
   const {
     handleSubmit,
     register,
     watch,
+    control,
+    reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: 'all',
+  });
 
   const passwordRef = useRef({});
   passwordRef.current = watch('password', '');
 
+  useEffect(() => {
+    reset({ userType: EUserType.STUDENT });
+  }, [reset]);
+
   const onSubmit: SubmitHandler<IRegisterData> = async (data) => {
-    await dispath(
-      registerUser({
-        ...data,
-        userType,
-      }),
-    );
+    await dispath(registerUser({ ...data }));
+
     router.push('/');
-  };
-
-  const handleRadioChange = (ev: ChangeEvent<HTMLInputElement>) => {
-    const intValue = parseInt(ev.target.value, 10);
-
-    setUserType(intValue);
   };
 
   return (
@@ -140,103 +142,163 @@ const Register: NextPage = () => {
         </Text>
 
         <DoubleFormSpace>
-          <RadioContainer>
-            <Radio
-              name="student"
-              label="Estudiante"
-              value={EUserType.STUDENT}
-              onChange={handleRadioChange}
-              checked={userType === EUserType.STUDENT}
-            />
-          </RadioContainer>
-          <RadioContainer>
-            <Radio
-              name="renter"
-              label="Arrendatario"
-              value={EUserType.OWNER}
-              onChange={handleRadioChange}
-              checked={userType === EUserType.OWNER}
-            />
-          </RadioContainer>
+          <Controller
+            name="userType"
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, value } }) => {
+              const role = parseInt(value, 10);
+
+              return (
+                <>
+                  <RadioContainer data-tip data-for="student">
+                    <>
+                      <Radio
+                        name="student"
+                        label="Estudiante"
+                        value={EUserType.STUDENT}
+                        onChange={onChange}
+                        checked={role === EUserType.STUDENT}
+                      />
+
+                      <ReactTooltip id="student" type="info">
+                        <span>Buscar alojamientos</span>
+                      </ReactTooltip>
+                    </>
+                  </RadioContainer>
+
+                  <RadioContainer data-tip data-for="renter">
+                    <>
+                      <Radio
+                        name="renter"
+                        label="Arrendatario"
+                        value={EUserType.OWNER}
+                        onChange={onChange}
+                        checked={role === EUserType.OWNER}
+                      />
+
+                      <ReactTooltip id="renter" type="info">
+                        <span>Buscar inquilino o buscar un rommie</span>
+                      </ReactTooltip>
+                    </>
+                  </RadioContainer>
+                </>
+              );
+            }}
+          />
         </DoubleFormSpace>
 
         <DoubleFormSpace>
           <InputContainer>
             <Label id="label-first-name" htmlFor="first-name">
-              Nombre
+              {NameInput.firstName}
             </Label>
             <Input
-              required
-              type="text"
               id="first-name"
-              placeholder="Nombre"
-              {...register('firstName', { required: true })}
+              type="text"
+              placeholder="Ingresa tu nombre"
+              register={{
+                ...register('firstName', {
+                  required: ErrorMessageInput.inputRequire(NameInput.firstName),
+                  maxLength: {
+                    value: 50,
+                    message: ErrorMessageInput.max(50),
+                  },
+                }),
+              }}
+              error={errors.firstName}
+              messageError={errors.firstName?.message}
             />
           </InputContainer>
+
           <InputContainer>
             <Label id="label-last-name" htmlFor="last-name">
-              Apellido
+              {NameInput.lastName}
             </Label>
             <Input
-              required
-              type="text"
               id="last-name"
-              placeholder="Apellido"
-              {...register('lastName', { required: true })}
+              type="text"
+              placeholder="Ingresa tu apellido"
+              register={{
+                ...register('lastName', {
+                  required: ErrorMessageInput.inputRequire(NameInput.lastName),
+                  maxLength: {
+                    value: 50,
+                    message: ErrorMessageInput.max(50),
+                  },
+                }),
+              }}
+              error={errors.lastName}
+              messageError={errors.lastName?.message}
             />
           </InputContainer>
         </DoubleFormSpace>
 
         <InputContainer>
           <Label id="label-email" htmlFor="email">
-            Correo
+            {NameInput.email}
           </Label>
           <Input
-            required
             id="email"
             type="email"
-            placeholder="Correo"
-            {...register('email', { required: true })}
+            placeholder="example@email.com"
+            register={{
+              ...register('email', {
+                setValueAs: (e: string) => e?.toLowerCase(),
+                required: ErrorMessageInput.inputRequire(NameInput.email),
+                pattern: {
+                  value: rgxEmail,
+                  message: ErrorMessageInput.inputValid(NameInput.email),
+                },
+              }),
+            }}
+            error={errors.email}
+            messageError={errors.email?.message}
           />
         </InputContainer>
 
         <InputContainer>
           <Label id="label-password" htmlFor="password">
-            Contraseña
+            {NameInput.password}
           </Label>
           <Input
-            required
             id="password"
             type="password"
-            placeholder="Contraseña"
-            {...register('password', {
-              required: 'You must specify a password',
-              minLength: {
-                value: 8,
-                message: 'La contraseña debe tener almenos 8 caracteres',
-              },
-            })}
+            placeholder="Ingresa contraseña"
+            register={{
+              ...register('password', {
+                required: ErrorMessageInput.inputRequire(NameInput.password),
+                pattern: {
+                  value: rgxPassword,
+                  message: ErrorMessageInput.inputValid(NameInput.password),
+                },
+              }),
+            }}
             error={errors.password}
             messageError={errors.password?.message}
           />
         </InputContainer>
 
         <InputContainer>
-          <Label id="label-password-confirmed" htmlFor="password-confirmed">
-            Confirmar contraseña
+          <Label id="label-confirmed-password" htmlFor="confirmed-password">
+            {NameInput.confirmPassword}
           </Label>
           <Input
-            required
+            id="confirmed-password"
             type="password"
-            id="password-confirmed"
-            placeholder="Contraseña"
-            {...register('passwordConfirmed', {
-              required: true,
-              validate: (value: string) =>
-                value === passwordRef.current || 'La contraseña no coincide',
-            })}
-            error={errors.passwordConfirmed}
-            messageError={errors.passwordConfirmed?.message}
+            placeholder="Confirmación de contraseña"
+            register={{
+              ...register('confirmedPassword', {
+                required: ErrorMessageInput.inputRequire(
+                  NameInput.confirmPassword,
+                ),
+                validate: (value: string) =>
+                  value === passwordRef.current ||
+                  ErrorMessageInput.passwordDoNotMatch,
+              }),
+            }}
+            error={errors.confirmedPassword}
+            messageError={errors.confirmedPassword?.message}
           />
         </InputContainer>
 
@@ -265,7 +327,6 @@ const Register: NextPage = () => {
 
 Register.getInitialProps = async ({ req, res }: NextPageContext) => {
   redirectLoggedToHome(req, res);
-
   return {};
 };
 

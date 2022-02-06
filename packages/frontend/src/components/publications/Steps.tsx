@@ -1,8 +1,8 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
-import { FC, Fragment } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FC, Fragment } from 'react';
 
 import { IStep } from '@/types';
 
@@ -13,7 +13,7 @@ interface ISteps {
 
 interface IStepCC {
   completed: boolean;
-  stepCurrent: number;
+  stepCurrent: boolean;
 }
 
 interface ILine {

@@ -14,7 +14,7 @@ const Content = styled.div`
   ${xw`
     mt-7
     flex
-    sm:mt-3
+    sm:mt-10
     flex-col
     items-center
     justify-center
@@ -60,7 +60,7 @@ const Profile: FC = () => {
           <img
             alt={user.firstName}
             src={user.userImage}
-            css={xw`w-52 h-52 sm:w-48 sm:h-48 rounded-full mb-5`}
+            css={xw`w-52 h-52 sm:w-48 sm:h-48 bg-gray-400 rounded-full mb-5`}
           />
 
           <form css={xw`w-full lg:w-6/12`}>
@@ -77,6 +77,7 @@ const Profile: FC = () => {
                   value={user.firstName}
                 />
               </div>
+
               <div css={xw`mb-4`}>
                 <Label id="label-last-name" htmlFor="last-name">
                   Apellido
@@ -89,6 +90,7 @@ const Profile: FC = () => {
                   value={user.lastName}
                 />
               </div>
+
               <div css={xw`mb-4`}>
                 <Label id="label-phone-Number" htmlFor="phone-number">
                   Número de teléfono
@@ -101,6 +103,7 @@ const Profile: FC = () => {
                   value={user.phoneNumber}
                 />
               </div>
+
               <div css={xw`mb-4`}>
                 <Label id="label-birth-date" htmlFor="birth-date">
                   Fecha de nacimiento
@@ -113,6 +116,7 @@ const Profile: FC = () => {
                   value={user.birthDate}
                 />
               </div>
+
               <div css={xw`mb-4`}>
                 <Label id="label-email" htmlFor="email">
                   Correo
@@ -125,6 +129,7 @@ const Profile: FC = () => {
                   value={user.email}
                 />
               </div>
+
               <div css={xw`mb-4`}>
                 <Label id="label-password" htmlFor="password">
                   Contraseña
@@ -174,6 +179,7 @@ const Profile: FC = () => {
                     placeholder="Contraseña actual"
                   />
                 </div>
+
                 <div css={xw`mb-4`}>
                   <Label id="label-new-password" htmlFor="new-password">
                     Contraseña nueva
@@ -185,6 +191,7 @@ const Profile: FC = () => {
                     placeholder="Contraseña nueva"
                   />
                 </div>
+
                 <div css={xw`mb-6 col-span-2`}>
                   <Label
                     id="label-new-password-confirmed"
@@ -212,6 +219,7 @@ const Profile: FC = () => {
                     Cancelar
                   </Button>
                 </div>
+
                 <div css={xw`mb-4`}>
                   <Button type="submit" FPrimary css={xw`w-full`}>
                     Actualizar

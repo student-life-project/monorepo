@@ -1,3 +1,3 @@
-import { exampleFunction } from "@student_life/common";
+import { exampleFunction } from '@student_life/common';
 
 exampleFunction();

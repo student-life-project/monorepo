@@ -106,48 +106,50 @@ export const loginFailureAction = (error: AxiosError): ILoginFailureAction => ({
   error,
 });
 
-export const login = (
-  credentials: ILoginCredentials,
-): ThunkAction<void, TRootState, unknown, IUserAction> => async (dispatch) => {
-  try {
-    dispatch(loginPendingAction());
+export const login =
+  (
+    credentials: ILoginCredentials,
+  ): ThunkAction<void, TRootState, unknown, IUserAction> =>
+  async (dispatch) => {
+    try {
+      dispatch(loginPendingAction());
 
-    /*
+      /*
     const { data } = await api.post<ILoginResponse>('/login', {
       email: credentials.email,
       password: credentials.password,
     });
     */
-    const exdate = new Date();
-    exdate.setDate(exdate.getDate() + 5);
-    const data: ILoginResponse = {
-      expiration: exdate.toUTCString(),
-      token: 'ABCD',
-      userId: '1',
-    };
+      const exdate = new Date();
+      exdate.setDate(exdate.getDate() + 5);
+      const data: ILoginResponse = {
+        expiration: exdate.toUTCString(),
+        token: 'ABCD',
+        userId: '1',
+      };
 
-    if (credentials.rememberUser) {
-      Cookie.set('token', data.token, {
-        expires: new Date(data.expiration),
-        secure: process.env.NODE_ENV !== 'development',
-        path: '/',
-        // httpOnly: true,
-      });
+      if (credentials.rememberUser) {
+        Cookie.set('token', data.token, {
+          expires: new Date(data.expiration),
+          secure: process.env.NODE_ENV !== 'development',
+          path: '/',
+          // httpOnly: true,
+        });
 
-      Cookie.set('userId', data.userId, {
-        expires: new Date(data.expiration),
-        secure: process.env.NODE_ENV !== 'development',
-        path: '/',
-        // httpOnly: true,
-      });
+        Cookie.set('userId', data.userId, {
+          expires: new Date(data.expiration),
+          secure: process.env.NODE_ENV !== 'development',
+          path: '/',
+          // httpOnly: true,
+        });
+      }
+
+      dispatch(loginSuccessAction(data));
+    } catch (error) {
+      console.error(error);
+      dispatch(loginFailureAction(error));
     }
-
-    dispatch(loginSuccessAction(data));
-  } catch (error) {
-    console.error(error);
-    dispatch(loginFailureAction(error));
-  }
-};
+  };
 
 export const logoutAction = (): ILogoutAction => {
   Cookie.remove('token');
@@ -176,25 +178,25 @@ export const fetchUserDataFailureAction = (
   error,
 });
 
-export const fetchUserData = (
-  userId: string,
-): ThunkAction<void, TRootState, unknown, IUserAction> => async (dispatch) => {
-  try {
-    dispatch(fetchUserDataPendingAction());
+export const fetchUserData =
+  (userId: string): ThunkAction<void, TRootState, unknown, IUserAction> =>
+  async (dispatch) => {
+    try {
+      dispatch(fetchUserDataPendingAction());
 
-    // const {data} = await api.get<IUser>(`/users/${userId}`);
+      // const {data} = await api.get<IUser>(`/users/${userId}`);
 
-    const data: IUser = {
-      firstName: `fulanito ${userId}`,
-      email: `email_${userId}@email.com`,
-      type: EUserType.OWNER,
-    } as IUser;
+      const data: IUser = {
+        firstName: `fulanito ${userId}`,
+        email: `email_${userId}@email.com`,
+        type: EUserType.OWNER,
+      } as IUser;
 
-    dispatch(fetchUserDataSuccessAction(data));
-  } catch (error) {
-    dispatch(fetchUserDataFailureAction(error));
-  }
-};
+      dispatch(fetchUserDataSuccessAction(data));
+    } catch (error) {
+      dispatch(fetchUserDataFailureAction(error));
+    }
+  };
 
 export const registerUserPending = (): IRegisterUserPendingAction => ({
   type: REGISTER_USER_PENDING,
@@ -214,49 +216,51 @@ export const registerUserFailure = (
   error,
 });
 
-export const registerUser = (
-  credentials: IRegisterCredentials,
-): ThunkAction<void, TRootState, unknown, IUserAction> => async (dispatch) => {
-  try {
-    dispatch(registerUserPending());
+export const registerUser =
+  (
+    credentials: IRegisterCredentials,
+  ): ThunkAction<void, TRootState, unknown, IUserAction> =>
+  async (dispatch) => {
+    try {
+      dispatch(registerUserPending());
 
-    /*
+      /*
     const { data } = await api.post<IRegisterResponse>('/register', {
       ...credentials,
     });
     */
 
-    const exdate = new Date();
-    exdate.setDate(exdate.getDate() + 5);
+      const exdate = new Date();
+      exdate.setDate(exdate.getDate() + 5);
 
-    const data: IRegisterResponse = {
-      expiration: exdate.toUTCString(),
-      token: 'ABCD',
-      userId: '1',
-      userData: {
-        email: credentials.email,
-        firstName: credentials.firstName,
-        password: credentials.password,
-        type: credentials.userType,
-      } as IUser,
-    };
+      const data: IRegisterResponse = {
+        expiration: exdate.toUTCString(),
+        token: 'ABCD',
+        userId: '1',
+        userData: {
+          email: credentials.email,
+          firstName: credentials.firstName,
+          password: credentials.password,
+          type: credentials.userType,
+        } as IUser,
+      };
 
-    Cookie.set('token', data.token, {
-      expires: new Date(data.expiration),
-      secure: process.env.NODE_ENV !== 'development',
-      path: '/',
-      // httpOnly: true,
-    });
+      Cookie.set('token', data.token, {
+        expires: new Date(data.expiration),
+        secure: process.env.NODE_ENV !== 'development',
+        path: '/',
+        // httpOnly: true,
+      });
 
-    Cookie.set('userId', data.userId, {
-      expires: new Date(data.expiration),
-      secure: process.env.NODE_ENV !== 'development',
-      path: '/',
-      // httpOnly: true,
-    });
+      Cookie.set('userId', data.userId, {
+        expires: new Date(data.expiration),
+        secure: process.env.NODE_ENV !== 'development',
+        path: '/',
+        // httpOnly: true,
+      });
 
-    dispatch(registerUserSuccess(data));
-  } catch (error) {
-    dispatch(registerUserFailure(error));
-  }
-};
+      dispatch(registerUserSuccess(data));
+    } catch (error) {
+      dispatch(registerUserFailure(error));
+    }
+  };

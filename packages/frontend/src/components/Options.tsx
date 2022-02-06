@@ -7,7 +7,7 @@ import NextLink from 'next/link';
 import { FC, useState } from 'react';
 
 type IOptions = {
-  children: React.ReactNode;
+  children: any;
 };
 
 const Menu = styled.ul`

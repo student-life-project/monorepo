@@ -1,4 +1,4 @@
-// eslint-disable-next-line simple-import-sort/imports
+/* eslint-disable simple-import-sort/imports */
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import { NextPage, NextPageContext } from 'next';

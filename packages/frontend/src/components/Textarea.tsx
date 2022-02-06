@@ -1,10 +1,12 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
+import { FC } from 'react';
+
 import SpanError from './SpanError';
 
 type ITextarea = {
+  register?: any;
   error?: boolean;
   disabled?: boolean;
   messageError?: string;
@@ -30,9 +32,14 @@ const TextareaStyle = styled.textarea<ITextarea>`
   ${({ disabled }) => disabled && xw`bg-gray-200 cursor-not-allowed`}
 `;
 
-const Textarea: FC<ITextarea> = ({ error, messageError, ...props }) => (
+const Textarea: FC<ITextarea> = ({
+  register,
+  error,
+  messageError,
+  ...props
+}) => (
   <>
-    <TextareaStyle error={error} {...props} />
+    <TextareaStyle {...register} error={error} {...props} />
     {error && <SpanError>{messageError}</SpanError>}
   </>
 );

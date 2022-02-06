@@ -17,7 +17,7 @@ interface IVerticalCard {
 
 const Content = styled.div`
   ${xw`
-    w-64
+    w-72
     h-72
     border
     rounded

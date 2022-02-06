@@ -8,6 +8,14 @@ export enum EUserType {
   OWNER,
 }
 
+export enum EUserReport {
+  OFFENSIVE,
+  FAKE_PROFILE,
+  VIOLENCE,
+  INAPPROPRIATE,
+  OTHER,
+}
+
 export interface IUser {
   id?: string;
   firstName: string;

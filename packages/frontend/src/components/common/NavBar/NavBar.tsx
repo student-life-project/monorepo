@@ -1,19 +1,18 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
+import { IUser } from '@student_life/common';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import Button from '@/components/Button';
 import SearchBar from '@/components/common/SearchBar/SearchBarContainer';
 import { Im06, Is01 } from '@/icons';
-
 import { INavBar } from '@/types';
 
-import { IUser } from '@student_life/common';
+import Anchor from '../Anchor';
 import MobileMenu from './MobileMenu';
 import UserMenu from './UserMenu';
-import Anchor from '../Anchor';
 
 const Nav = styled.a`
   ${xw`
@@ -104,9 +103,11 @@ const NavBar: FC<INavBar> = ({
         <Im06 css={xw`hidden h-12 md:h-14 md:block`} />
       </ImgContent>
     </Link>
+
     <SearchContent>
       <SearchBar />
     </SearchContent>
+
     <LinkContent>
       {allowRental && (
         <Link href="/rentals">
@@ -115,18 +116,21 @@ const NavBar: FC<INavBar> = ({
           </Button>
         </Link>
       )}
+
       {allowRequest && (
         <Anchor href="mailto:info@studentlife.com.mx?Subject=Necesito%20asistencia%20con%20una%20situación">
           Enviar una solicitud
         </Anchor>
       )}
+
       {!isLogedIn ? (
         <>
           {allowLogin && (
             <Link href="/login">
-              <Anchor css={xw`md:mx-4 lg:mx-2 xl:mx-4`}>Iniciar Sesión</Anchor>
+              <Anchor css={xw`md:mx-2 lg:mx-2 xl:mx-4`}>Iniciar Sesión</Anchor>
             </Link>
           )}
+
           {allowRegister && (
             <Link href="/register">
               <Anchor css={xw`mr-4`}>Registrarse</Anchor>
@@ -142,6 +146,7 @@ const NavBar: FC<INavBar> = ({
         </ExitContent>
       )}
     </LinkContent>
+
     <MenuContent>
       <MobileMenu
         user={user}

@@ -131,7 +131,7 @@ const Link: FC<LinkProps> = ({ href, children, ...linkSettings }) => (
   </NextLink>
 );
 
-const Footer = () => (
+const Footer: FC = () => (
   <FooterStyle>
     <Content>
       <Logo>
