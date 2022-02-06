@@ -88,6 +88,7 @@ https://stackoverflow.com/questions/42912755/how-to-create-a-db-for-mongodb-cont
 
 https://stackoverflow.com/questions/58498173/docker-compose-mongodb-fresh-instance-not-working
 
+https://code.visualstudio.com/remote/advancedcontainers/improve-performance?WT.mc_id=javascript-14373-yolasors
 ## backend
 
 ## frontend
