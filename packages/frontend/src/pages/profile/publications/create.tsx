@@ -116,6 +116,8 @@ const Create: FC = () => {
               errors={errors}
               Controller={Controller}
               control={control}
+              reference={location[5]?.length}
+              zone={location[6]?.length}
             />
           )}
 

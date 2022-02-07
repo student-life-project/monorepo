@@ -9,13 +9,12 @@ type TSpanError = {
 
 const Span = styled.span`
   ${xw`
-    mt-1 
-    ml-1
-    flex 
-    text-xs 
-    font-medium 
+    mt-1
+    flex
+    text-xs
+    font-medium
     items-center
-    text-red-500 
+    text-red-500
     tracking-wide
   `}
 `;

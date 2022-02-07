@@ -16,6 +16,8 @@ type TUbicationStep2 = {
   errors: any;
   Controller: any;
   control: Control<FieldValues>;
+  reference: number;
+  zone: number;
 };
 
 const DoubleFormSpace = styled.div`
@@ -33,6 +35,8 @@ const UbicationStep2: FC<TUbicationStep2> = ({
   errors,
   Controller,
   control,
+  reference,
+  zone,
 }) => (
   <div css={xw`flex justify-center mb-10`}>
     <div css={xw`w-full lg:w-8/12`}>
@@ -183,6 +187,8 @@ const UbicationStep2: FC<TUbicationStep2> = ({
         </Label>
         <Textarea
           id="reference"
+          maxLength={255}
+          counter={reference}
           placeholder="Ingrese alguna descripción del domicilio, cruces, etc"
           register={{
             ...register('reference', {
@@ -206,6 +212,8 @@ const UbicationStep2: FC<TUbicationStep2> = ({
         </Label>
         <Textarea
           id="zone"
+          maxLength={255}
+          counter={zone}
           placeholder="Describe puntos importantes de la zona, por ejemplo seguridad, servicios o instituciones cercanas"
           register={{
             ...register('zone', {
