@@ -3,7 +3,7 @@ import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
-type ILabel = {
+type TLabel = {
   children: React.ReactNode;
 } & React.LabelHTMLAttributes<HTMLLabelElement>;
 
@@ -20,7 +20,7 @@ const LabelStyle = styled.label`
   `}
 `;
 
-const Label: FC<ILabel> = ({ children, ...props }) => (
+const Label: FC<TLabel> = ({ children, ...props }) => (
   <LabelStyle {...props}>{children}</LabelStyle>
 );
 

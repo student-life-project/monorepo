@@ -3,7 +3,7 @@ import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
-type IRadio = {
+type TRadio = {
   name?: string;
   label?: string;
   checked: boolean;
@@ -34,7 +34,7 @@ const Span = styled.span`
   `}
 `;
 
-const Radio: FC<IRadio> = ({ name, label, checked, ...props }) => (
+const Radio: FC<TRadio> = ({ name, label, checked, ...props }) => (
   <Label id={`label-${name}`} htmlFor={name}>
     <Input id={name} type="radio" checked={checked} {...props} />
     <Span>{label}</Span>

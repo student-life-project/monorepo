@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import NextLink from 'next/link';
 import { FC, useState } from 'react';
 
-type IOptions = {
+type TOptions = {
   children: any;
 };
 
@@ -57,7 +57,7 @@ const renderItem = (child, index) => {
   return null;
 };
 
-const Options: FC<IOptions> = ({ children }) => {
+const Options: FC<TOptions> = ({ children }) => {
   const [show, setshow] = useState(false);
 
   const handleShowOptions = () => {

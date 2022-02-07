@@ -11,7 +11,7 @@ import Textarea from '@/components/Textarea';
 import { ErrorMessageInput, NameInput, States } from '@/constants';
 import { rgxNumber } from '@/utils/validations';
 
-type IUbicationStep2 = {
+type TUbicationStep2 = {
   register: UseFormRegister<FieldValues>;
   errors: any;
   Controller: any;
@@ -28,7 +28,7 @@ const DoubleFormSpace = styled.div`
   `}
 `;
 
-const UbicationStep2: FC<IUbicationStep2> = ({
+const UbicationStep2: FC<TUbicationStep2> = ({
   register,
   errors,
   Controller,

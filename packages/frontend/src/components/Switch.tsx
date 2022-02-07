@@ -3,7 +3,7 @@ import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
-type ISwitch = {
+type TSwitch = {
   name?: string;
   label?: string;
   checked: boolean;
@@ -68,12 +68,13 @@ const Span = styled.label`
   `}
 `;
 
-const Switch: FC<ISwitch> = ({ name, label, checked, ...props }) => (
+const Switch: FC<TSwitch> = ({ name, label, checked, ...props }) => (
   <Container>
     <Content>
       <Input id={name} type="checkbox" checked={checked} {...props} />
       <Span />
     </Content>
+
     <Label id={`label-${name}`} htmlFor={name}>
       {label}
     </Label>

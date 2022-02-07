@@ -3,7 +3,7 @@ import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
-type ICheckbox = {
+type TCheckbox = {
   name?: string;
   label?: string;
   checked: boolean;
@@ -34,7 +34,7 @@ const Span = styled.span`
   `}
 `;
 
-const Checkbox: FC<ICheckbox> = ({ name, label, checked, ...props }) => (
+const Checkbox: FC<TCheckbox> = ({ name, label, checked, ...props }) => (
   <Label id={`label-${name}`} htmlFor={name}>
     <Input id={name} type="checkbox" checked={checked} {...props} />
     <Span>{label}</Span>

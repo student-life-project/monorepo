@@ -7,7 +7,7 @@ import Button from '@/components/Button';
 import Title from '@/components/common/Title';
 import Input from '@/components/Input';
 
-type ITable = {
+type TTable = {
   data: Array<any>;
   columns: Array<any>;
   header: any;
@@ -37,6 +37,7 @@ const paginationOptions = {
 const HeaderTable = ({ values }) => (
   <section css={xw`py-10 flex flex-col w-full sm:flex-row sm:justify-between`}>
     <Title css={xw`my-0`}>{values.title}</Title>
+
     <div css={xw`flex flex-col sm:flex-row`}>
       {values.search && (
         <Input
@@ -59,23 +60,21 @@ const HeaderTable = ({ values }) => (
   </section>
 );
 
-const Table: FC<ITable> = ({ data, columns, header }) => {
-  return (
-    <>
-      <HeaderTable values={header} />
-      <DataTable
-        noHeader
-        pagination
-        data={data}
-        fixedHeader
-        highlightOnHover
-        columns={columns}
-        customStyles={customStyles}
-        fixedHeaderScrollHeight="600px"
-        paginationComponentOptions={paginationOptions}
-      />
-    </>
-  );
-};
+const Table: FC<TTable> = ({ data, columns, header }) => (
+  <>
+    <HeaderTable values={header} />
+    <DataTable
+      noHeader
+      pagination
+      data={data}
+      fixedHeader
+      highlightOnHover
+      columns={columns}
+      customStyles={customStyles}
+      fixedHeaderScrollHeight="600px"
+      paginationComponentOptions={paginationOptions}
+    />
+  </>
+);
 
 export default Table;

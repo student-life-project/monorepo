@@ -3,7 +3,7 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-type IButton = {
+type TButton = {
   FPrimary?: boolean;
   FSecondary?: boolean;
   FSuccess?: boolean;
@@ -21,7 +21,7 @@ type IButton = {
   children: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Btn = styled.button<IButton>`
+const Btn = styled.button<TButton>`
   ${xw`
     flex
     px-5
@@ -79,7 +79,7 @@ const Btn = styled.button<IButton>`
   ${({ small }) => small && xw`text-xs py-2 px-4`}
 `;
 
-const Button: FC<IButton> = ({ children, ...props }) => (
+const Button: FC<TButton> = ({ children, ...props }) => (
   <Btn {...props}>{children}</Btn>
 );
 

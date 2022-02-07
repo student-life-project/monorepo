@@ -7,7 +7,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Title from './common/Title';
 
-type IModal = {
+type TModal = {
   title: string;
   children: React.ReactNode;
   close: React.MouseEventHandler<HTMLButtonElement>;
@@ -65,7 +65,7 @@ const Main = styled.main`
   `}
 `;
 
-const Modal: FC<IModal> = ({ title, children, close }) => (
+const Modal: FC<TModal> = ({ title, children, close }) => (
   <Container>
     <Content>
       <Header>

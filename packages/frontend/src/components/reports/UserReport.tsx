@@ -13,7 +13,7 @@ import Modal from '../Modal';
 import Radio from '../Radio';
 import Textarea from '../Textarea';
 
-type IUserReport = {
+type TUserReport = {
   closeModal: () => void;
 };
 
@@ -32,7 +32,7 @@ const DoubleFormSpace = styled.div`
   `}
 `;
 
-const UserReport: FC<IUserReport> = ({ closeModal }) => {
+const UserReport: FC<TUserReport> = ({ closeModal }) => {
   // const dispath = useDispatch();
 
   const {

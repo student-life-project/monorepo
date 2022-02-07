@@ -5,14 +5,14 @@ import { FC } from 'react';
 
 import SpanError from './SpanError';
 
-type ITextarea = {
+type TTextarea = {
   register?: any;
   error?: boolean;
   disabled?: boolean;
   messageError?: string;
 } & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-const TextareaStyle = styled.textarea<ITextarea>`
+const TextareaStyle = styled.textarea<TTextarea>`
   ${xw`
     p-2
     w-full 
@@ -32,7 +32,7 @@ const TextareaStyle = styled.textarea<ITextarea>`
   ${({ disabled }) => disabled && xw`bg-gray-200 cursor-not-allowed`}
 `;
 
-const Textarea: FC<ITextarea> = ({
+const Textarea: FC<TTextarea> = ({
   register,
   error,
   messageError,

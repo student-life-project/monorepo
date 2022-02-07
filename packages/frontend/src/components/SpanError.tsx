@@ -3,7 +3,7 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-type ISpanError = {
+type TSpanError = {
   children: React.ReactNode;
 };
 
@@ -20,6 +20,6 @@ const Span = styled.span`
   `}
 `;
 
-const SpanError: FC<ISpanError> = ({ children }) => <Span>{children}</Span>;
+const SpanError: FC<TSpanError> = ({ children }) => <Span>{children}</Span>;
 
 export default SpanError;

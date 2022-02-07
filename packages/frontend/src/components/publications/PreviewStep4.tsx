@@ -6,7 +6,7 @@ import { FC, MouseEventHandler } from 'react';
 import Button from '@/components/Button';
 import ClampedText from '@/components/common/ClampedText';
 
-type IPreviewStep4 = {
+type TPreviewStep4 = {
   nextStep: MouseEventHandler<HTMLButtonElement>;
   previousStep: MouseEventHandler<HTMLButtonElement>;
 };
@@ -24,7 +24,7 @@ const SubTitle = styled.h3`
   `}
 `;
 
-const PreviewStep4: FC<IPreviewStep4> = ({ nextStep, previousStep }) => {
+const PreviewStep4: FC<TPreviewStep4> = ({ nextStep, previousStep }) => {
   return (
     <div css={xw`flex justify-center mb-10`}>
       <div css={xw`w-full lg:w-8/12`}>

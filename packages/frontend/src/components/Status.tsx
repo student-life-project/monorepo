@@ -1,13 +1,14 @@
 import { FC } from 'react';
 import xw from 'xwind';
 
-type IStatus = {
+type TStatus = {
   status: boolean;
   options: Array<string>;
 };
 
-const Status: FC<IStatus> = ({ status, options }) => {
+const Status: FC<TStatus> = ({ status, options }) => {
   const [one, two] = options;
+
   const css = status
     ? xw`bg-green-200 py-1 px-2 rounded-md text-green-700`
     : xw`bg-red-200 py-1 px-2 rounded-md text-red-700`;

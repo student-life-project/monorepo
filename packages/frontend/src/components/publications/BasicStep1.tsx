@@ -13,7 +13,7 @@ import Select from '@/components/Select';
 import { ErrorMessageInput, NameInput, Reason, TypeSpace } from '@/constants';
 import { rgxPrice } from '@/utils/validations';
 
-type IBasicStep1 = {
+type TBasicStep1 = {
   register: UseFormRegister<FieldValues>;
   errors: any;
   Controller: any;
@@ -30,7 +30,7 @@ const DoubleFormSpace = styled.div`
   `}
 `;
 
-const BasicStep1: FC<IBasicStep1> = ({
+const BasicStep1: FC<TBasicStep1> = ({
   register,
   errors,
   Controller,

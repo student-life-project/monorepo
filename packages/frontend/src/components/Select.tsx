@@ -7,7 +7,7 @@ import { IOption } from '@/types';
 
 import SpanError from './SpanError';
 
-type ISelect = {
+type TSelect = {
   register?: any;
   label?: string;
   error?: boolean;
@@ -17,7 +17,7 @@ type ISelect = {
   messageError?: string;
 } & React.SelectHTMLAttributes<HTMLSelectElement>;
 
-const SelectStyle = styled.select<ISelect>`
+const SelectStyle = styled.select<TSelect>`
   ${xw`
     p-2
     w-full 
@@ -37,7 +37,7 @@ const SelectStyle = styled.select<ISelect>`
   ${({ disabled }) => disabled && xw`bg-gray-200 cursor-not-allowed`}
 `;
 
-const Select: FC<ISelect> = ({
+const Select: FC<TSelect> = ({
   register,
   label,
   error,
