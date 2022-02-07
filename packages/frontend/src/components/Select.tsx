@@ -3,7 +3,7 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import { TOption } from '@/types';
+import { IOption } from '@/types';
 
 import SpanError from './SpanError';
 
@@ -11,7 +11,7 @@ type ISelect = {
   register?: any;
   label?: string;
   error?: boolean;
-  options: TOption[];
+  options: IOption[];
   optionName?: string;
   disabled?: boolean;
   messageError?: string;
@@ -53,11 +53,15 @@ const Select: FC<ISelect> = ({
       </option>
 
       {options &&
-        options.map((item) => (
-          <option value={item.value} key={item.name}>
-            {item.name}
-          </option>
-        ))}
+        options.map((item) => {
+          const values = Object.values(item);
+
+          return (
+            <option value={values[0]} key={values[0]}>
+              {values[0]}
+            </option>
+          );
+        })}
     </SelectStyle>
     {error && <SpanError>{messageError}</SpanError>}
   </>
