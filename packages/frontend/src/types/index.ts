@@ -56,7 +56,6 @@ export interface Itab {
   handleTab: (tabCurrent: number) => void;
 }
 
-export type TOption = {
-  value: string;
-  name: string;
-};
+export interface IOption {
+  [key: string]: any;
+}
