@@ -40,10 +40,13 @@ const UserReport: FC<TUserReport> = ({ closeModal }) => {
     register,
     control,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     mode: 'all',
   });
+
+  const description = watch('description');
 
   useEffect(() => {
     reset({ reason: EUserReport.OFFENSIVE });
@@ -59,7 +62,7 @@ const UserReport: FC<TUserReport> = ({ closeModal }) => {
   return (
     <Modal title="Reportar usuario" close={closeModal}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h2 css={xw`py-4 text-lg font-bold`}>
+        <h2 css={xw`py-4 text-base sm:text-lg font-bold`}>
           Seleccione el motivo del reporte
         </h2>
 
@@ -114,9 +117,13 @@ const UserReport: FC<TUserReport> = ({ closeModal }) => {
           />
         </div>
 
-        <h2 css={xw`py-4 text-lg font-bold`}>Describa mejor la problemática</h2>
+        <h2 css={xw`py-4 text-base sm:text-lg font-bold`}>
+          Describa mejor la problemática
+        </h2>
         <Textarea
           id="description"
+          maxLength={255}
+          counter={description?.length}
           placeholder="Escribir problema..."
           register={{
             ...register('description', {

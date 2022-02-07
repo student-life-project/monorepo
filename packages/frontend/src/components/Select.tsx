@@ -20,13 +20,16 @@ type TSelect = {
 const SelectStyle = styled.select<TSelect>`
   ${xw`
     p-2
+    pr-7
     w-full 
     border
     rounded
     text-sm
     relative
+    bg-white
     sm:text-base
     focus:ring-1
+    appearance-none
     focus:outline-none
     placeholder-gray-500
     focus:border-blue-300
@@ -35,6 +38,12 @@ const SelectStyle = styled.select<TSelect>`
   ${({ error }) => error && xw`border border-red-500`}
 
   ${({ disabled }) => disabled && xw`bg-gray-200 cursor-not-allowed`}
+
+  background-repeat: no-repeat;
+  background-size: 5px 5px, 5px 5px;
+  background-position: right 15px top 1em, right 10px top 1em;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
 `;
 
 const Select: FC<TSelect> = ({

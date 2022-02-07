@@ -40,10 +40,13 @@ const RentalPlaceReport: FC<TRentalPlaceReport> = ({ closeModal }) => {
     register,
     control,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     mode: 'all',
   });
+
+  const description = watch('description');
 
   useEffect(() => {
     reset({ reason: ERentalPlaceReport.INCORRECT_INFO });
@@ -59,7 +62,7 @@ const RentalPlaceReport: FC<TRentalPlaceReport> = ({ closeModal }) => {
   return (
     <Modal title="Reportar alojamiento" close={closeModal}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h2 css={xw`py-4 text-lg font-bold`}>
+        <h2 css={xw`py-4 text-base sm:text-lg font-bold`}>
           Ayúdanos a entender cuál es el problema con esta publicación. ¿Cómo lo
           describirías?
         </h2>
@@ -115,9 +118,13 @@ const RentalPlaceReport: FC<TRentalPlaceReport> = ({ closeModal }) => {
           />
         </div>
 
-        <h2 css={xw`py-4 text-lg font-bold`}>Describa mejor la problemática</h2>
+        <h2 css={xw`py-4 text-base sm:text-lg font-bold`}>
+          Describa mejor la problemática
+        </h2>
         <Textarea
           id="description"
+          maxLength={255}
+          counter={description?.length}
           placeholder="Escribir problema..."
           register={{
             ...register('description', {

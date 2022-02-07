@@ -24,24 +24,27 @@ const Container = styled.article`
     w-screen
     h-screen
     bg-gray-900
-    items-center
     bg-opacity-75
     justify-center
+    overflow-y-auto 
+    overflow-x-hidden
   `}
 `;
 
 const Content = styled.div`
   ${xw`
     p-8
+    mt-14
     w-11/12
     bg-white
     relative
-    lg:h-auto
     lg:w-7/12
     rounded-lg
     font-montserrat
     text-secondary-1
   `}
+
+  height: fit-content;
 `;
 
 const Header = styled.header`
@@ -56,12 +59,8 @@ const Header = styled.header`
 
 const Main = styled.main`
   ${xw`
-    h-72
     mt-2
     lg:mt-3
-    sm:h-80
-    lg:h-96
-    overflow-y-auto
   `}
 `;
 

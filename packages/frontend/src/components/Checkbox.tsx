@@ -12,8 +12,8 @@ type TCheckbox = {
 const Label = styled.label`
   ${xw`
     mt-3
-    inline-flex 
-    items-center 
+    inline-flex
+    items-center
   `}
 `;
 
@@ -29,14 +29,16 @@ const Input = styled.input`
 
 const Span = styled.span`
   ${xw`
-    ml-2 
+    ml-2
     text-gray-700
   `}
 `;
 
 const Checkbox: FC<TCheckbox> = ({ name, label, checked, ...props }) => (
   <Label id={`label-${name}`} htmlFor={name}>
-    <Input id={name} type="checkbox" checked={checked} {...props} />
+    <div css={xw`flex items-center h-full`}>
+      <Input id={name} type="checkbox" checked={checked} {...props} />
+    </div>
     <Span>{label}</Span>
   </Label>
 );

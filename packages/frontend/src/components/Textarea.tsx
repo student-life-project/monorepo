@@ -56,7 +56,7 @@ const Textarea: FC<TTextarea> = ({
       <SpanError>{messageError}</SpanError>
 
       <span css={xw`mt-1 text-xs`}>
-        {counter} / {maxLength}
+        {counter || 0} / {maxLength}
       </span>
     </div>
   </>
