@@ -4,8 +4,8 @@ import { FC, useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import xw from 'xwind';
 
-import Button from '@/components/Button';
 import BodyContainer from '@/components/common/BodyContainer';
+import Button from '@/components/common/Button';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import BasicStep1 from '@/components/publications/BasicStep1';
 import PreviewStep4 from '@/components/publications/PreviewStep4';

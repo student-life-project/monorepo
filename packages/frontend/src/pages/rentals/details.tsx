@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import NextLink from 'next/link';
 import { FC, useState } from 'react';
 
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import BodyContainer from '@/components/common/BodyContainer';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';

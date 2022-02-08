@@ -14,7 +14,7 @@ import BodyContainer from '@/components/common/BodyContainer';
 import InstructionCard from '@/components/common/Card/InstructionCard';
 import VerticalCard from '@/components/common/Card/VerticalCard';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import Footer from '@/components/Footer';
+import Footer from '@/components/common/Footer';
 import GetStartedCard from '@/components/home/GetStartedCard';
 import HeroImage from '@/components/home/HeroImage';
 import { TStore } from '@/store';

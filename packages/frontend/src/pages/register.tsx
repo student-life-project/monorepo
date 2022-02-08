@@ -12,12 +12,12 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import Anchor from '@/components/common/Anchor';
 import CenteredBody from '@/components/common/CenteredBody';
-import Input from '@/components/Input';
-import Label from '@/components/Label';
-import Radio from '@/components/Radio';
+import Input from '@/components/common/Input';
+import Label from '@/components/common/Label';
+import Radio from '@/components/common/Radio';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { registerUser } from '@/store/actions/user';
 import { redirectLoggedToHome } from '@/utils/redirectLoggedtoHome';

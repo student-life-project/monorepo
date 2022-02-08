@@ -5,7 +5,7 @@ import { IUser } from '@student_life/common';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import SearchBar from '@/components/common/SearchBar/SearchBarContainer';
 import { Im06, Is01 } from '@/icons';
 import { INavBar } from '@/types';

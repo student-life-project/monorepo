@@ -3,7 +3,7 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { FC, MouseEventHandler } from 'react';
 
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import ClampedText from '@/components/common/ClampedText';
 
 type TPreviewStep4 = {

@@ -8,7 +8,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import BodyContainer from '@/components/common/BodyContainer';
 import VerticalCard from '@/components/common/Card/VerticalCard';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import Pagination from '@/components/Pagination';
+import Pagination from '@/components/common/Pagination';
 import FilterAndSort from '@/components/rentals/FilterAndSort';
 import { TStore } from '@/store';
 import {

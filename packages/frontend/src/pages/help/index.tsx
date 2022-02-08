@@ -8,7 +8,7 @@ import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
 import InfoCard from '@/components/faqs/InfoCard';
 import ListQuestions from '@/components/faqs/ListQuestons';
-import Footer from '@/components/Footer';
+import Footer from '@/components/common/Footer';
 
 const Container = styled.div`
   ${xw`

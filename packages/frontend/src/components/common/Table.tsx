@@ -3,9 +3,9 @@ import { FC } from 'react';
 import DataTable from 'react-data-table-component';
 import xw from 'xwind';
 
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
+import Input from '@/components/common/Input';
 import Title from '@/components/common/Title';
-import Input from '@/components/Input';
 
 type TTable = {
   data: Array<any>;

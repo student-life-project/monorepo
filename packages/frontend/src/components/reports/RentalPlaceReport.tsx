@@ -8,10 +8,10 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
 
-import Button from '../Button';
-import Modal from '../Modal';
-import Radio from '../Radio';
-import Textarea from '../Textarea';
+import Button from '@/components/common/Button';
+import Modal from '@/components/common/Modal';
+import Radio from '@/components/common/Radio';
+import Textarea from '@/components/common/Textarea';
 
 type TRentalPlaceReport = {
   closeModal: () => void;

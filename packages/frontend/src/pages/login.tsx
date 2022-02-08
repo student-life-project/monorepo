@@ -10,11 +10,11 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
-import Button from '@/components/Button';
-import Checkbox from '@/components/Checkbox';
+import Button from '@/components/common/Button';
+import Checkbox from '@/components/common/Checkbox';
 import Anchor from '@/components/common/Anchor';
-import Input from '@/components/Input';
-import Label from '@/components/Label';
+import Input from '@/components/common/Input';
+import Label from '@/components/common/Label';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { login } from '@/store/actions/user';
 import { redirectLoggedToHome } from '@/utils/redirectLoggedtoHome';

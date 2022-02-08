@@ -5,11 +5,11 @@ import { ERentalPlace } from '@student_life/common';
 import { FC } from 'react';
 import { Control, FieldValues, UseFormRegister } from 'react-hook-form';
 
-import Checkbox from '@/components/Checkbox';
-import Input from '@/components/Input';
-import Label from '@/components/Label';
-import Radio from '@/components/Radio';
-import Select from '@/components/Select';
+import Checkbox from '@/components/common/Checkbox';
+import Input from '@/components/common/Input';
+import Label from '@/components/common/Label';
+import Radio from '@/components/common/Radio';
+import Select from '@/components/common/Select';
 import { ErrorMessageInput, NameInput, Reason, TypeSpace } from '@/constants';
 import { rgxPrice } from '@/utils/validations';
 

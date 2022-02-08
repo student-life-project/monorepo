@@ -7,7 +7,7 @@ import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import ClampedText from '@/components/common/ClampedText';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import Textarea from '@/components/Textarea';
+import Textarea from '@/components/common/Textarea';
 
 const Container = styled.section`
   ${xw`

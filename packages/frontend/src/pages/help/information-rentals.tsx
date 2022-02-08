@@ -12,7 +12,7 @@ import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
-import Footer from '@/components/Footer';
+import Footer from '@/components/common/Footer';
 import InfoSteps from '@/components/faqs/InfoSteps';
 
 const steps = [

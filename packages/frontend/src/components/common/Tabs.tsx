@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import xw from 'xwind';
 
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import { Itab } from '@/types';
 
 type TTabs = {

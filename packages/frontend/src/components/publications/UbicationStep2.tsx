@@ -4,10 +4,10 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import { Control, FieldValues, UseFormRegister } from 'react-hook-form';
 
-import Input from '@/components/Input';
-import Label from '@/components/Label';
-import Select from '@/components/Select';
-import Textarea from '@/components/Textarea';
+import Input from '@/components/common/Input';
+import Label from '@/components/common/Label';
+import Select from '@/components/common/Select';
+import Textarea from '@/components/common/Textarea';
 import { ErrorMessageInput, NameInput, States } from '@/constants';
 import { rgxNumber } from '@/utils/validations';
 

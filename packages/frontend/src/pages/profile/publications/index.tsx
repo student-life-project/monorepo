@@ -8,9 +8,9 @@ import xw from 'xwind';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import Options from '@/components/Options';
-import Status from '@/components/Status';
-import Table from '@/components/Table';
+import Options from '@/components/common/Options';
+import Status from '@/components/common/Status';
+import Table from '@/components/common/Table';
 
 const header = {
   title: 'Publicaciones',

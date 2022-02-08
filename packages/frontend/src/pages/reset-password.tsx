@@ -12,11 +12,11 @@ import {
   // useSelector
 } from 'react-redux';
 
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import CenteredBody from '@/components/common/CenteredBody';
 import Title from '@/components/common/Title';
-import Input from '@/components/Input';
-import Label from '@/components/Label';
+import Input from '@/components/common/Input';
+import Label from '@/components/common/Label';
 // import { api } from '@/services/api';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { login } from '@/store/actions/user';
