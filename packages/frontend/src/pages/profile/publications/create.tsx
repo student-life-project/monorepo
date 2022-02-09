@@ -2,8 +2,10 @@ import { ERentalPlace } from '@student_life/common';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import xw from 'xwind';
 
+import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
 import Button from '@/components/common/Button';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
@@ -63,6 +65,8 @@ const Create: FC = () => {
     // eslint-disable-next-line no-console
     console.log(data);
     router.push('/profile/publications');
+    // Crear mensajes de success, info, warning, error
+    toast.success('Sé ha creado la publicación exitosamente');
   };
 
   const previousStep = () => {
@@ -98,6 +102,7 @@ const Create: FC = () => {
     <>
       <NavBar allowRental allowRegister allowLogin />
       <Steps steps={steps} stepCurrent={step} />
+      <Alert />
 
       <BodyContainer css={xw`pt-8 sm:pt-16`}>
         <form onSubmit={handleSubmit(onSubmit)}>

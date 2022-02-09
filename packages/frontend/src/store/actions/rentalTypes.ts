@@ -68,7 +68,7 @@ export const getRentalPlaces =
       const data: IRentalPlace[] = [
         {
           id: '1',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
+          title: 'Primera',
           images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
           price: 1349,
           scores: [
@@ -327,7 +327,7 @@ export const getRentalPlaces =
         } as IRentalPlace,
         {
           id: '18',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
+          title: 'Ultima',
           images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
           price: 120.5,
           scores: [

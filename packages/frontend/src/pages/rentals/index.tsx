@@ -1,7 +1,9 @@
-/* eslint-disable simple-import-sort/imports */
+// eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
+import { IRentalPlace } from '@student_life/common';
 import { NextPage, NextPageContext } from 'next';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 
@@ -10,6 +12,7 @@ import VerticalCard from '@/components/common/Card/VerticalCard';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Pagination from '@/components/common/Pagination';
 import FilterAndSort from '@/components/rentals/FilterAndSort';
+import { Rules, Services, TypeSpace } from '@/constants';
 import { TStore } from '@/store';
 import {
   getRentalPlaces,
@@ -30,105 +33,56 @@ const ContentRentals = styled.div`
 
 const rentals = [
   {
-    name: 'Mejor calificación',
-    value: 'BestGrade',
+    'Mejor calificación': 'Mejor calificación',
   },
   {
-    name: 'Menor precio',
-    value: 'LowerPrice',
+    'Menor precio': 'Menor precio',
   },
   {
-    name: 'Mayor precio',
-    value: 'HighestPrice',
+    'Mayor precio': 'Mayor precio',
   },
 ];
 
 const filters = {
-  adType: [
-    {
-      key: 'Lugar completo',
-    },
-    {
-      key: 'Cuarto privado',
-    },
-    {
-      key: 'Cuarto compartido',
-    },
-  ],
+  adType: TypeSpace,
   preferredGenre: [
     {
-      key: 'Hombre',
+      Hombre: 'Hombre',
     },
     {
-      key: 'Mujer',
+      Mujer: 'Mujer',
     },
     {
-      key: 'Non-binary',
+      'Non-binary': 'Non-binary',
     },
     {
-      key: 'Sin preferencias',
+      'Sin preferencias': 'Sin preferencias',
     },
   ],
-
-  services: [
-    {
-      key: 'Lavadora',
-    },
-    {
-      key: 'Elevador',
-    },
-    {
-      key: 'Con balcón o patio',
-    },
-    {
-      key: 'Wi-Fi incluido',
-    },
-    {
-      key: 'Tiene mascotas',
-    },
-    {
-      key: 'Servicios incluidos',
-    },
-    {
-      key: 'Aire acondicionado',
-    },
-    {
-      key: 'TV',
-    },
-    {
-      key: 'Amueblado',
-    },
-    {
-      key: 'Calefacción',
-    },
-    {
-      key: 'Baño privado',
-    },
-  ],
-  rules: [
-    {
-      key: 'No fumar',
-    },
-    {
-      key: 'No mascotas',
-    },
-    {
-      key: 'Mascotas OK',
-    },
-    {
-      key: 'No drogas',
-    },
-    {
-      key: 'No beber',
-    },
-    {
-      key: 'Parejas OK',
-    },
-  ],
+  services: Services,
+  rules: Rules,
 };
 
 const Rentals: NextPage = () => {
   const rentalPlaces = useSelector(rentaPlacesSelector);
+
+  const itemsPerPage = 10;
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [currentItems, setCurrentItems] = useState<IRentalPlace[]>([]);
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(rentalPlaces.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(rentalPlaces.length / itemsPerPage));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemOffset, itemsPerPage]);
+
+  const handlePageClick = (event: { selected: number }) => {
+    const newOffset = (event.selected * itemsPerPage) % rentalPlaces.length;
+    setItemOffset(newOffset);
+    window.scrollTo(0, 0);
+  };
 
   return (
     <>
@@ -137,7 +91,7 @@ const Rentals: NextPage = () => {
 
       <BodyContainer css={xw`pt-0`}>
         <ContentRentals>
-          {rentalPlaces.map((rentalPlace) => {
+          {currentItems?.map((rentalPlace) => {
             const rateNumber = rentalPlace.scores && rentalPlace.scores.length;
 
             const rate =
@@ -160,7 +114,8 @@ const Rentals: NextPage = () => {
             );
           })}
         </ContentRentals>
-        <Pagination />
+
+        <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
       </BodyContainer>
     </>
   );

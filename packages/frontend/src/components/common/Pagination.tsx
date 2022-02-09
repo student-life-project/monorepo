@@ -1,66 +1,78 @@
-// eslint-disable-next-line simple-import-sort/imports
-import { FC } from 'react';
-import xw from 'xwind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { css, Global } from '@emotion/react';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FC } from 'react';
+import ReactPaginate from 'react-paginate';
+import xw from 'xwind';
 
-const Pagination: FC = () => (
-  <div css={xw`flex flex-col items-center my-12`}>
-    <div css={xw`flex`}>
-      <FontAwesomeIcon
-        icon={faAngleLeft}
-        css={xw`h-8 w-8 mr-1 flex justify-center items-center rounded-full cursor-pointer`}
-      />
+type TPagination = {
+  pageCount: number;
+  handlePageClick: (event: any) => void;
+};
 
-      <div css={xw`flex h-8 font-medium rounded-full `}>
-        <div
-          css={xw`w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in rounded-full`}
-        >
-          1
-        </div>
-        <div
-          css={xw`w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in rounded-full`}
-        >
-          ...
-        </div>
-        <div
-          css={xw`w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in rounded-full`}
-        >
-          3
-        </div>
-        <div
-          css={xw`w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in rounded-full bg-primary text-white`}
-        >
-          4
-        </div>
-        <div
-          css={xw`w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in rounded-full`}
-        >
-          5
-        </div>
-        <div
-          css={xw`w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in rounded-full`}
-        >
-          ...
-        </div>
-        <div
-          css={xw`w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full`}
-        >
-          15
-        </div>
-        <div
-          css={xw`w-8 h-8 md:hidden flex justify-center items-center cursor-pointer leading-5 transition duration-150 ease-in rounded-full bg-pink-600 text-white`}
-        >
-          4
-        </div>
-      </div>
+const Previous = () => (
+  <FontAwesomeIcon
+    icon={faAngleLeft}
+    css={xw`h-8 w-8 mr-1 flex justify-center items-center rounded-full cursor-pointer`}
+  />
+);
 
-      <FontAwesomeIcon
-        icon={faAngleRight}
-        css={xw`h-8 w-8 ml-1 flex justify-center items-center rounded-full cursor-pointer`}
-      />
-    </div>
-  </div>
+const Next = () => (
+  <FontAwesomeIcon
+    icon={faAngleRight}
+    css={xw`h-8 w-8 ml-1 flex justify-center items-center rounded-full cursor-pointer`}
+  />
+);
+
+const Pagination: FC<TPagination> = ({ pageCount, handlePageClick }) => (
+  <>
+    <Global
+      styles={css`
+        .pagination {
+          display: flex;
+          flex-wrap: wrap;
+          padding: 1rem 0.5rem;
+          justify-content: center;
+        }
+
+        .page-item {
+          height: 40px;
+          display: flex;
+          color: white;
+          min-width: 40px;
+          font-size: 1rem;
+          color: #414140;
+          font-weight: 500;
+          border-radius: 50%;
+          align-items: center;
+          margin: auto 0.2rem;
+          list-style-type: none;
+          justify-content: center;
+        }
+
+        .active {
+          color: white;
+          background-color: #2a96d6;
+        }
+      `}
+    />
+
+    <ReactPaginate
+      breakLabel="..."
+      nextLabel={<Next />}
+      pageCount={pageCount}
+      pageRangeDisplayed={2}
+      marginPagesDisplayed={2}
+      previousLabel={<Previous />}
+      onPageChange={handlePageClick}
+      pageClassName="page-item"
+      previousClassName="page-item"
+      nextClassName="page-item"
+      breakClassName="page-item"
+      containerClassName="pagination"
+      activeClassName="active"
+    />
+  </>
 );
 
 export default Pagination;

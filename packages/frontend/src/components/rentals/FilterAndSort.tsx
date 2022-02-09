@@ -5,15 +5,17 @@ import { FC, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
-import Button from '../Button';
-import Checkbox from '../Checkbox';
-import Select from '../Select';
-import Modal from '../Modal';
+import { IOption } from '@/types';
+import Button from '@/components/common/Button';
+import Checkbox from '@/components/common/Checkbox';
+import Select from '@/components/common/Select';
+import Modal from '@/components/common/Modal';
 
-type IFilterAndSort = {
-  sorts: Array;
-  filters: Array;
-};
+// Cambiar los types
+interface IFilterAndSort {
+  sorts: IOption[];
+  filters: any;
+}
 
 const Container = styled.section`
   ${xw`
