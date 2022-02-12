@@ -30,6 +30,10 @@ interface IPublicationData {
   stateCode: string;
   reference: string;
   zone: string;
+  rentalPlace: string;
+  services: string[];
+  rules: string[];
+  security: string[];
 }
 
 const Create: FC = () => {
@@ -61,10 +65,12 @@ const Create: FC = () => {
     'zone',
   ]);
 
+  const rentalPlace = watch(['rentalPlace', 'services', 'rules', 'security']);
+
   const onSubmit: SubmitHandler<IPublicationData> = async (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
-    router.push('/profile/publications');
+    // router.push('/profile/publications');
     // Crear mensajes de success, info, warning, error
     toast.success('Sé ha creado la publicación exitosamente');
   };
@@ -86,13 +92,25 @@ const Create: FC = () => {
     window.scrollTo(0, 0);
   };
 
+  const truthy = (val: any) =>
+    val === '' ||
+    val === undefined ||
+    val.length === 0 ||
+    val === false ||
+    'stateCode' in errors;
+
   useEffect(() => {
     if (step === EPublicationStep.BASIC_INFO) {
-      setIsValid(basicInfo.some((item) => item === '' || item === undefined));
+      setIsValid(basicInfo.some((item) => truthy(item)));
     } else if (step === EPublicationStep.LOCATION) {
-      setIsValid(location.some((item) => item === '' || item === undefined));
+      setIsValid(location.some((item) => truthy(item)));
+    } else if (step === EPublicationStep.PLACE) {
+      setIsValid(rentalPlace.some((item) => truthy(item)));
+    } else {
+      //! No Functional.
     }
-  }, [basicInfo, location, step]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [basicInfo, location, rentalPlace, step]);
 
   useEffect(() => {
     reset({ gender: `${ERentalPlace.NO_PREFERENCES}`, availability: true });
@@ -130,8 +148,7 @@ const Create: FC = () => {
             <RentalPlaceStep3
               register={register}
               errors={errors}
-              Controller={Controller}
-              control={control}
+              rentalPlace={rentalPlace[0]?.length}
             />
           )}
 

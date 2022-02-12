@@ -1,82 +1,141 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
-import { FC, MouseEventHandler } from 'react';
+import { FC } from 'react';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 
-import Button from '@/components/Button';
-import Checkbox from '@/components/Checkbox';
-import Label from '@/components/Label';
-import Textarea from '@/components/Textarea';
-import { Services, Rules } from '@/constants';
+import Checkbox from '@/components/common/Checkbox';
+import Label from '@/components/common/Label';
+import Textarea from '@/components/common/Textarea';
+import {
+  ErrorMessageInput,
+  NameInput,
+  Rules,
+  Security,
+  Services,
+} from '@/constants';
+import SpanError from '../common/SpanError';
 
-type IRentalPlaceStep3 = {
-  nextStep: MouseEventHandler<HTMLButtonElement>;
-  previousStep: MouseEventHandler<HTMLButtonElement>;
+type TRentalPlaceStep3 = {
+  register: UseFormRegister<FieldValues>;
+  errors: any;
+  rentalPlace: number;
 };
 
-const RentalPlaceStep3: FC<IRentalPlaceStep3> = ({
-  nextStep,
-  previousStep,
-}) => {
-  return (
-    <div css={xw`flex justify-center mb-10`}>
-      <div css={xw`w-full lg:w-8/12`}>
-        <h2 css={xw`pb-3 text-lg font-bold`}>Información de la vivienda</h2>
+const RentalPlaceStep3: FC<TRentalPlaceStep3> = ({
+  register,
+  errors,
+  rentalPlace,
+}) => (
+  <div css={xw`flex justify-center mb-10`}>
+    <div css={xw`w-full lg:w-8/12`}>
+      <h2 css={xw`pb-3 text-lg font-bold`}>Información de la vivienda</h2>
 
-        <div css={xw`mb-4`}>
-          <Label id="label-rental-place" htmlFor="rental-place">
-            Descripción de la vivienda
-          </Label>
-          <Textarea
-            id="rental-place"
-            placeholder="Describe puntos importantes de la vivienda, por ejemplo describa las habitaciones, servicios, reglas o algo que resalte su publicación"
-          />
-        </div>
-
-        <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Servicios</h2>
-
-        <div css={xw`grid grid-cols-1 sm:grid-cols-4`}>
-          {Services.map((item) => (
-            <div key={item.name}>
-              <Checkbox name={item.name} label={item.name} checked={false} />
-            </div>
-          ))}
-        </div>
-
-        <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Reglas</h2>
-
-        <div css={xw`grid grid-cols-1 sm:grid-cols-4`}>
-          {Rules.map((item) => (
-            <div key={item.name}>
-              <Checkbox name={item.name} label={item.name} checked={false} />
-            </div>
-          ))}
-        </div>
-
-        <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Subir imagenes</h2>
-        <p css={xw`text-red-500`}>Apartado de imagenes</p>
-
-        <div css={xw`flex justify-end flex-wrap my-4`}>
-          <Button
-            BSecondary
-            type="button"
-            css={xw`w-full sm:w-3/12 mb-5 sm:mr-5 sm:mb-0`}
-            onClick={previousStep}
-          >
-            Regresar
-          </Button>
-
-          <Button
-            FPrimary
-            type="button"
-            css={xw`w-full sm:w-3/12`}
-            onClick={nextStep}
-          >
-            Continuar
-          </Button>
-        </div>
+      <div css={xw`mb-4`}>
+        <Label id="label-rental-place" htmlFor="rental-place">
+          {NameInput.rentalPlace}
+        </Label>
+        <Textarea
+          id="rental-place"
+          maxLength={255}
+          counter={rentalPlace}
+          placeholder="Describe puntos importantes de la vivienda, por ejemplo describa las habitaciones, servicios, reglas, seguridad o algo que resalte su publicación"
+          register={{
+            ...register('rentalPlace', {
+              required: ErrorMessageInput.inputRequire(NameInput.rentalPlace),
+              maxLength: {
+                value: 255,
+                message: ErrorMessageInput.max(255),
+              },
+            }),
+          }}
+          error={errors.rentalPlace}
+          messageError={errors.rentalPlace?.message}
+        />
       </div>
+
+      <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>{NameInput.services}</h2>
+
+      <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
+        {Services.map((item) => {
+          const value = Object.values(item)[0];
+
+          return (
+            <div key={value}>
+              <Checkbox
+                name={value}
+                label={value}
+                value={value}
+                register={{
+                  ...register('services', {
+                    required: ErrorMessageInput.inputRequire(
+                      NameInput.services,
+                    ),
+                  }),
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      {errors.services && <SpanError>{errors.services?.message}</SpanError>}
+
+      <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>{NameInput.rules}</h2>
+
+      <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
+        {Rules.map((item) => {
+          const value = Object.values(item)[0];
+
+          return (
+            <div key={value}>
+              <Checkbox
+                name={value}
+                label={value}
+                value={value}
+                register={{
+                  ...register('rules', {
+                    required: ErrorMessageInput.inputRequire(NameInput.rules),
+                  }),
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      {errors.rules && <SpanError>{errors.rules?.message}</SpanError>}
+
+      <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>{NameInput.security}</h2>
+
+      <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
+        {Security.map((item) => {
+          const value = Object.values(item)[0];
+
+          return (
+            <div key={value}>
+              <Checkbox
+                name={value}
+                label={value}
+                value={value}
+                register={{
+                  ...register('security', {
+                    required: ErrorMessageInput.inputRequire(
+                      NameInput.security,
+                    ),
+                  }),
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      {errors.security && <SpanError>{errors.security?.message}</SpanError>}
+
+      <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Subir imagenes</h2>
+      <p css={xw`text-red-500`}>Apartado de imagenes</p>
     </div>
-  );
-};
+  </div>
+);
 
 export default RentalPlaceStep3;

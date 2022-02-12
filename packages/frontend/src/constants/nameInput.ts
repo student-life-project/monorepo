@@ -16,4 +16,8 @@ export const NameInput = {
   stateCode: 'Código Postal',
   reference: 'Referencias',
   zone: 'Descripción de la zona',
+  rentalPlace: 'Descripción de la vivienda',
+  services: 'Servicios',
+  rules: 'Reglas',
+  security: 'Seguridad',
 };

@@ -52,7 +52,7 @@ const Textarea: FC<TTextarea> = ({
       maxLength={maxLength}
     />
 
-    <div css={xw`flex justify-between`}>
+    <div css={xw`flex justify-between gap-0.5`}>
       <SpanError>{messageError}</SpanError>
 
       <span css={xw`mt-1 text-xs`}>
