@@ -86,7 +86,7 @@ const Verticalcard: FC<IVerticalCard> = ({
         <NotRate>No hay evaluaciones</NotRate>
       )}
       <Description>{title}</Description>
-      <PriceSection currency="MXN" price={pricePerMonth} />
+      <PriceSection price={pricePerMonth} />
     </Info>
   </Content>
 );

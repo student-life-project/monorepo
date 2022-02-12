@@ -6,4 +6,5 @@ export * from './rules';
 export * from './security';
 export * from './services';
 export * from './states';
+export * from './status';
 export * from './typeSpace';

@@ -6,6 +6,8 @@ import { FC } from 'react';
 import ClampedText from '@/components/common/ClampedText';
 import { NameInput } from '@/constants';
 import { IPublicationData } from '@/pages/profile/publications/create';
+import { formatter } from '@/utils/numberFormat';
+import Status from '../common/Status';
 
 type TPreviewStep4 = {
   getValues: (payload?: string | string[]) => IPublicationData;
@@ -61,7 +63,7 @@ const PreviewStep4: FC<TPreviewStep4> = ({ getValues }) => {
         <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
           <div>
             <SubTitle>{NameInput.price}</SubTitle>
-            <p css={xw`font-bold mt-2`}>{values.price}</p>
+            <p css={xw`font-bold mt-2`}>{formatter().format(values.price)}</p>
           </div>
 
           <div>
@@ -71,7 +73,10 @@ const PreviewStep4: FC<TPreviewStep4> = ({ getValues }) => {
 
           <div>
             <SubTitle>{NameInput.availability}</SubTitle>
-            <p css={xw`font-bold mt-2`}>{values.availability}</p>
+            <Status
+              status={values.availability}
+              options={['Disponible', 'No disponible']}
+            />
           </div>
         </div>
 
@@ -149,7 +154,7 @@ const PreviewStep4: FC<TPreviewStep4> = ({ getValues }) => {
             <SubTitle>Servicios</SubTitle>
             <ul css={xw`list-disc flex flex-wrap my-2`}>
               {values.services.map((item) => (
-                <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}>
+                <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
                   {item}
                 </li>
               ))}
@@ -160,7 +165,7 @@ const PreviewStep4: FC<TPreviewStep4> = ({ getValues }) => {
             <SubTitle>Reglas</SubTitle>
             <ul css={xw`list-disc flex flex-wrap my-2`}>
               {values.rules.map((item) => (
-                <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}>
+                <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
                   {item}
                 </li>
               ))}
@@ -171,7 +176,7 @@ const PreviewStep4: FC<TPreviewStep4> = ({ getValues }) => {
             <SubTitle>Seguridad</SubTitle>
             <ul css={xw`list-disc flex flex-wrap my-2`}>
               {values.security.map((item) => (
-                <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}>
+                <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
                   {item}
                 </li>
               ))}
