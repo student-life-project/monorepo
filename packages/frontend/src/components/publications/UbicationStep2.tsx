@@ -204,7 +204,7 @@ const UbicationStep2: FC<TUbicationStep2> = ({
         />
       </div>
 
-      <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Zona</h2>
+      <h2 css={xw`pt-5 pb-3 text-lg font-bold`}>Zona</h2>
 
       <div css={xw`mb-4`}>
         <Label id="label-zone" htmlFor="zone">
@@ -212,15 +212,15 @@ const UbicationStep2: FC<TUbicationStep2> = ({
         </Label>
         <Textarea
           id="zone"
-          maxLength={255}
+          maxLength={500}
           counter={zone}
           placeholder="Describe puntos importantes de la zona, por ejemplo seguridad, servicios o instituciones cercanas"
           register={{
             ...register('zone', {
               required: ErrorMessageInput.inputRequire(NameInput.zone),
               maxLength: {
-                value: 255,
-                message: ErrorMessageInput.max(255),
+                value: 500,
+                message: ErrorMessageInput.max(500),
               },
             }),
           }}

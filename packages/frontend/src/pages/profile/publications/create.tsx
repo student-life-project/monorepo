@@ -16,7 +16,7 @@ import Steps from '@/components/publications/Steps';
 import UbicationStep2 from '@/components/publications/UbicationStep2';
 import { EPublicationStep, PublicationSteps } from '@/constants';
 
-interface IPublicationData {
+export interface IPublicationData {
   title: string;
   reason: string;
   typeSpace: string;
@@ -46,6 +46,7 @@ const Create: FC = () => {
     watch,
     control,
     register,
+    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -93,19 +94,15 @@ const Create: FC = () => {
   };
 
   const truthy = (val: any) =>
-    val === '' ||
-    val === undefined ||
-    val.length === 0 ||
-    val === false ||
-    'stateCode' in errors;
+    !val || val?.length === 0 || 'stateCode' in errors;
 
   useEffect(() => {
     if (step === EPublicationStep.BASIC_INFO) {
-      setIsValid(basicInfo.some((item) => truthy(item)));
+      setIsValid(basicInfo.some(truthy));
     } else if (step === EPublicationStep.LOCATION) {
-      setIsValid(location.some((item) => truthy(item)));
+      setIsValid(location.some(truthy));
     } else if (step === EPublicationStep.PLACE) {
-      setIsValid(rentalPlace.some((item) => truthy(item)));
+      setIsValid(rentalPlace.some(truthy));
     } else {
       //! No Functional.
     }
@@ -152,9 +149,7 @@ const Create: FC = () => {
             />
           )}
 
-          {step === 3 && (
-            <PreviewStep4 nextStep={nextStep} previousStep={previousStep} />
-          )}
+          {step === 3 && <PreviewStep4 getValues={getValues} />}
 
           <div css={xw`flex justify-center mb-10`}>
             <div css={xw`w-full lg:w-8/12`}>

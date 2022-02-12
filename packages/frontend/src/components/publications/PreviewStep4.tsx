@@ -1,14 +1,14 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { FC, MouseEventHandler } from 'react';
+import { FC } from 'react';
 
-import Button from '@/components/common/Button';
 import ClampedText from '@/components/common/ClampedText';
+import { NameInput } from '@/constants';
+import { IPublicationData } from '@/pages/profile/publications/create';
 
 type TPreviewStep4 = {
-  nextStep: MouseEventHandler<HTMLButtonElement>;
-  previousStep: MouseEventHandler<HTMLButtonElement>;
+  getValues: (payload?: string | string[]) => IPublicationData;
 };
 
 const SubTitle = styled.h3`
@@ -24,7 +24,9 @@ const SubTitle = styled.h3`
   `}
 `;
 
-const PreviewStep4: FC<TPreviewStep4> = ({ nextStep, previousStep }) => {
+const PreviewStep4: FC<TPreviewStep4> = ({ getValues }) => {
+  const values = getValues();
+
   return (
     <div css={xw`flex justify-center mb-10`}>
       <div css={xw`w-full lg:w-8/12`}>
@@ -32,103 +34,87 @@ const PreviewStep4: FC<TPreviewStep4> = ({ nextStep, previousStep }) => {
 
         <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
           <div>
-            <SubTitle>Título</SubTitle>
-            <ClampedText lines={2}>
-              <span css={xw`font-bold mt-2`}>Text</span>
-            </ClampedText>
+            <SubTitle>{NameInput.title}</SubTitle>
+            <p css={xw`font-bold mt-2`}>{values.title}</p>
           </div>
 
           <div>
-            <SubTitle>Motivo de la publicación</SubTitle>
-            <p css={xw`font-bold mt-2`}>Text</p>
+            <SubTitle>{NameInput.reason}</SubTitle>
+            <p css={xw`font-bold mt-2`}>{values.reason}</p>
           </div>
 
           <div>
-            <SubTitle>Tipo de espacio</SubTitle>
-            <p css={xw`font-bold mt-2`}>Text</p>
+            <SubTitle>{NameInput.typeSpace}</SubTitle>
+            <p css={xw`font-bold mt-2`}>{values.typeSpace}</p>
           </div>
         </div>
 
         <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Género preferido</h2>
 
         <div css={xw`grid grid-cols-1`}>
-          <div>
-            <SubTitle>Género</SubTitle>
-            <p css={xw`font-bold mt-2`}>Text</p>
-          </div>
+          <SubTitle>{NameInput.gender}</SubTitle>
+          <p css={xw`font-bold mt-2`}>{values.gender}</p>
         </div>
 
         <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Renta</h2>
 
         <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
           <div>
-            <SubTitle>Disponibilidad</SubTitle>
-            <p css={xw`font-bold mt-2`}>Text</p>
-          </div>
-
-          <div>
-            <SubTitle>Precio</SubTitle>
-            <p css={xw`font-bold mt-2`}>Text</p>
+            <SubTitle>{NameInput.price}</SubTitle>
+            <p css={xw`font-bold mt-2`}>{values.price}</p>
           </div>
 
           <div>
             <SubTitle>Pago por</SubTitle>
             <p css={xw`font-bold mt-2`}>Mes</p>
           </div>
+
+          <div>
+            <SubTitle>{NameInput.availability}</SubTitle>
+            <p css={xw`font-bold mt-2`}>{values.availability}</p>
+          </div>
         </div>
 
         <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Ubicación de la vivienda</h2>
 
         <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
-          <div>
-            <SubTitle>Calle</SubTitle>
-            <ClampedText lines={2}>
-              <span css={xw`font-bold mt-2`}>Text</span>
-            </ClampedText>
+          <div css={xw`my-2`}>
+            <SubTitle>{NameInput.street}</SubTitle>
+            <p css={xw`font-bold mt-2`}>{values.street}</p>
           </div>
 
-          <div>
-            <SubTitle>Número de exterior</SubTitle>
-            <p css={xw`font-bold mt-2`}>Text</p>
+          <div css={xw`my-2`}>
+            <SubTitle>{NameInput.state}</SubTitle>
+            <p css={xw`font-bold mt-2`}>{values.state}</p>
           </div>
 
-          <div>
-            <SubTitle>Número de interior</SubTitle>
-            <p css={xw`font-bold mt-2`}>Text</p>
+          <div css={xw`my-2`}>
+            <SubTitle>{NameInput.city}</SubTitle>
+            <p css={xw`font-bold mt-2`}>{values.city}</p>
           </div>
 
-          <div>
-            <SubTitle>Cruces</SubTitle>
-            <ClampedText lines={2}>
-              <span css={xw`font-bold mt-2`}>Text</span>
-            </ClampedText>
+          <div css={xw`my-2`}>
+            <SubTitle>{NameInput.neighborhood}</SubTitle>
+            <p css={xw`font-bold mt-2`}>{values.neighborhood}</p>
           </div>
 
-          <div>
-            <SubTitle>Referencias</SubTitle>
-            <ClampedText lines={2}>
-              <span css={xw`font-bold mt-2`}>Text</span>
-            </ClampedText>
+          <div css={xw`my-2`}>
+            <SubTitle>{NameInput.stateCode}</SubTitle>
+            <p css={xw`font-bold mt-2`}>{values.stateCode}</p>
           </div>
 
-          <div>
-            <SubTitle>Código Postal</SubTitle>
-            <p css={xw`font-bold mt-2`}>Text</p>
-          </div>
-
-          <div>
-            <SubTitle>Colonia</SubTitle>
-            <p css={xw`font-bold mt-2`}>Text</p>
-          </div>
-
-          <div>
-            <SubTitle>Ciudad</SubTitle>
-            <p css={xw`font-bold mt-2`}>Text</p>
-          </div>
-
-          <div>
+          <div css={xw`my-2`}>
             <SubTitle>País</SubTitle>
-            <p css={xw`font-bold mt-2`}>Text</p>
+            <p css={xw`font-bold mt-2`}>México</p>
+          </div>
+        </div>
+
+        <div css={xw`grid grid-cols-1`}>
+          <div css={xw`grid grid-cols-1`}>
+            <SubTitle>{NameInput.reference}</SubTitle>
+            <ClampedText lines={5}>
+              <span css={xw`font-bold mt-2`}>{values.reference}</span>
+            </ClampedText>
           </div>
         </div>
 
@@ -136,9 +122,9 @@ const PreviewStep4: FC<TPreviewStep4> = ({ nextStep, previousStep }) => {
 
         <div css={xw`grid grid-cols-1`}>
           <div>
-            <SubTitle>Descripción de la zona</SubTitle>
-            <ClampedText lines={2}>
-              <span css={xw`font-bold mt-2`}>Text</span>
+            <SubTitle>{NameInput.zone}</SubTitle>
+            <ClampedText lines={5}>
+              <span css={xw`font-bold mt-2`}>{values.zone}</span>
             </ClampedText>
           </div>
         </div>
@@ -148,54 +134,53 @@ const PreviewStep4: FC<TPreviewStep4> = ({ nextStep, previousStep }) => {
         </h2>
 
         <div css={xw`grid grid-cols-1`}>
-          <div>
-            <SubTitle>Descripción de la vivienda</SubTitle>
-            <ClampedText lines={2}>
-              <span css={xw`font-bold mt-2`}>Text</span>
-            </ClampedText>
-          </div>
+          <SubTitle>{NameInput.rentalPlace}</SubTitle>
+          <ClampedText lines={5}>
+            <p css={xw`font-bold mt-1`}>{values.rentalPlace}</p>
+          </ClampedText>
         </div>
 
-        <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Servicios y reglas</h2>
+        <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>
+          Servicios, reglas y seguridad
+        </h2>
 
-        <div css={xw`grid grid-cols-1 sm:grid-cols-2`}>
+        <div css={xw`grid grid-cols-1`}>
           <div>
-            <SubTitle>Lista de servicios</SubTitle>
-            <ClampedText lines={2}>
-              <span css={xw`font-bold mt-2`}>Text</span>
-            </ClampedText>
+            <SubTitle>Servicios</SubTitle>
+            <ul css={xw`list-disc flex flex-wrap my-2`}>
+              {values.services.map((item) => (
+                <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div>
-            <SubTitle>Lista de reglas</SubTitle>
-            <ClampedText lines={2}>
-              <span css={xw`font-bold mt-2`}>Text</span>
-            </ClampedText>
+            <SubTitle>Reglas</SubTitle>
+            <ul css={xw`list-disc flex flex-wrap my-2`}>
+              {values.rules.map((item) => (
+                <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <SubTitle>Seguridad</SubTitle>
+            <ul css={xw`list-disc flex flex-wrap my-2`}>
+              {values.security.map((item) => (
+                <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
         <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Subir imagenes</h2>
         <p css={xw`text-red-500`}>Apartado de imagenes</p>
-
-        <div css={xw`flex justify-end flex-wrap my-4`}>
-          <Button
-            BSecondary
-            type="button"
-            css={xw`w-full sm:w-3/12 mb-5 sm:mr-5 sm:mb-0`}
-            onClick={previousStep}
-          >
-            Regresar
-          </Button>
-
-          <Button
-            FPrimary
-            type="button"
-            css={xw`w-full sm:w-3/12`}
-            onClick={nextStep}
-          >
-            Continuar
-          </Button>
-        </div>
       </div>
     </div>
   );

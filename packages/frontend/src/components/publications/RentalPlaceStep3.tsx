@@ -36,15 +36,15 @@ const RentalPlaceStep3: FC<TRentalPlaceStep3> = ({
         </Label>
         <Textarea
           id="rental-place"
-          maxLength={255}
+          maxLength={500}
           counter={rentalPlace}
           placeholder="Describe puntos importantes de la vivienda, por ejemplo describa las habitaciones, servicios, reglas, seguridad o algo que resalte su publicación"
           register={{
             ...register('rentalPlace', {
               required: ErrorMessageInput.inputRequire(NameInput.rentalPlace),
               maxLength: {
-                value: 255,
-                message: ErrorMessageInput.max(255),
+                value: 500,
+                message: ErrorMessageInput.max(500),
               },
             }),
           }}
@@ -53,7 +53,7 @@ const RentalPlaceStep3: FC<TRentalPlaceStep3> = ({
         />
       </div>
 
-      <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>{NameInput.services}</h2>
+      <h2 css={xw`pt-5 pb-3 text-lg font-bold`}>{NameInput.services}</h2>
 
       <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
         {Services.map((item) => {
