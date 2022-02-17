@@ -93,18 +93,21 @@ const Create: FC = () => {
     window.scrollTo(0, 0);
   };
 
-  const truthy = (val: any) =>
-    !val || val?.length === 0 || 'stateCode' in errors;
+  const stepBasicInfo = step === EPublicationStep.BASIC_INFO;
+  const stepLocation = step === EPublicationStep.LOCATION;
+  const stepDraft = step === EPublicationStep.DRAFT;
+
+  const errorStateCode = 'stateCode' in errors && stepLocation;
+
+  const truthy = (val: any) => !val || val?.length === 0 || errorStateCode;
 
   useEffect(() => {
-    if (step === EPublicationStep.BASIC_INFO) {
+    if (stepBasicInfo) {
       setIsValid(basicInfo.some(truthy));
-    } else if (step === EPublicationStep.LOCATION) {
+    } else if (stepLocation) {
       setIsValid(location.some(truthy));
-    } else if (step === EPublicationStep.PLACE) {
-      setIsValid(rentalPlace.some(truthy));
     } else {
-      //! No Functional.
+      setIsValid(rentalPlace.some(truthy));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [basicInfo, location, rentalPlace, step]);
@@ -165,15 +168,28 @@ const Create: FC = () => {
                   Regresar
                 </Button>
 
-                <Button
-                  FPrimary
-                  type="button"
-                  onClick={nextStep}
-                  disabled={isValid}
-                  css={xw`w-full sm:w-3/12 mb-5 sm:mb-0`}
-                >
-                  Continuar
-                </Button>
+                {!stepDraft && (
+                  <Button
+                    FPrimary
+                    type="button"
+                    onClick={nextStep}
+                    disabled={isValid}
+                    css={xw`w-full sm:w-3/12 mb-5 sm:mb-0`}
+                  >
+                    Continuar
+                  </Button>
+                )}
+
+                {stepDraft && (
+                  <Button
+                    FPrimary
+                    type="submit"
+                    disabled={isValid}
+                    css={xw`w-full sm:w-3/12 mb-5 sm:mb-0`}
+                  >
+                    Finalizar
+                  </Button>
+                )}
               </div>
             </div>
           </div>
