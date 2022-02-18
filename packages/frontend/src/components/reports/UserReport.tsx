@@ -3,15 +3,14 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { EUserReport } from '@student_life/common';
 import { FC, useEffect } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-// import { useDispatch } from 'react-redux';
-
-import { ErrorMessageInput, NameInput } from '@/constants';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
 import Modal from '@/components/common/Modal';
 import Radio from '@/components/common/Radio';
 import Textarea from '@/components/common/Textarea';
+// import { useDispatch } from 'react-redux';
+import { ErrorMessageInput, NameInput, ProfileReport } from '@/constants';
 
 type TUserReport = {
   closeModal: () => void;
@@ -38,7 +37,6 @@ const UserReport: FC<TUserReport> = ({ closeModal }) => {
   const {
     handleSubmit,
     register,
-    control,
     reset,
     watch,
     formState: { errors },
@@ -49,7 +47,7 @@ const UserReport: FC<TUserReport> = ({ closeModal }) => {
   const description = watch('description');
 
   useEffect(() => {
-    reset({ reason: EUserReport.OFFENSIVE });
+    reset({ reason: 'Es irrespetuoso u ofensivo (Incita al odio)' });
   }, [reset]);
 
   const onSubmit: SubmitHandler<IUserReportData> = async (data) => {
@@ -67,54 +65,20 @@ const UserReport: FC<TUserReport> = ({ closeModal }) => {
         </h2>
 
         <div css={xw`flex flex-col items-start`}>
-          <Controller
-            name="reason"
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange, value } }) => {
-              const reason = parseInt(value, 10);
+          {ProfileReport.map((item) => {
+            const value = Object.values(item)[0];
 
-              return (
-                <>
-                  <Radio
-                    name="offensive"
-                    label="Es irrespetuoso u ofensivo (Incita al odio)"
-                    value={EUserReport.OFFENSIVE}
-                    onChange={onChange}
-                    checked={reason === EUserReport.OFFENSIVE}
-                  />
-                  <Radio
-                    name="fake-profile"
-                    label="Es un perfil con información falsa"
-                    value={EUserReport.FAKE_PROFILE}
-                    onChange={onChange}
-                    checked={reason === EUserReport.FAKE_PROFILE}
-                  />
-                  <Radio
-                    name="violence"
-                    label="Amenazar con violencia o daño físico"
-                    value={EUserReport.VIOLENCE}
-                    onChange={onChange}
-                    checked={reason === EUserReport.VIOLENCE}
-                  />
-                  <Radio
-                    name="inappropriate"
-                    label="Comportamiento inapropiado"
-                    value={EUserReport.INAPPROPRIATE}
-                    onChange={onChange}
-                    checked={reason === EUserReport.INAPPROPRIATE}
-                  />
-                  <Radio
-                    name="other"
-                    label="Es otra cosa"
-                    value={EUserReport.OTHER}
-                    onChange={onChange}
-                    checked={reason === EUserReport.OTHER}
-                  />
-                </>
-              );
-            }}
-          />
+            return (
+              <div key={value}>
+                <Radio
+                  name={value}
+                  label={value}
+                  value={value}
+                  register={{ ...register('reason', { required: true }) }}
+                />
+              </div>
+            );
+          })}
         </div>
 
         <h2 css={xw`py-4 text-base sm:text-lg font-bold`}>

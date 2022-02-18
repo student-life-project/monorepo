@@ -70,7 +70,7 @@ const Create: FC = () => {
   const onSubmit: SubmitHandler<IPublicationData> = async (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
-    // router.push('/profile/publications');
+    router.push('/profile/publications');
     // Crear mensajes de success, info, warning, error
     toast.success('Sé ha creado la publicación exitosamente');
   };
