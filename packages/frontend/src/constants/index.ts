@@ -1,4 +1,5 @@
 export * from './errorMessageInput';
+export * from './gender';
 export * from './nameInput';
 export * from './publicationSteps';
 export * from './reason';

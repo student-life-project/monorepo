@@ -1,4 +1,3 @@
-import { ERentalPlace } from '@student_life/common';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -20,7 +19,7 @@ export interface IPublicationData {
   title: string;
   reason: string;
   typeSpace: string;
-  gender: ERentalPlace;
+  gender: string[];
   price: string;
   availability: boolean;
   street: string;
@@ -113,7 +112,7 @@ const Create: FC = () => {
   }, [basicInfo, location, rentalPlace, step]);
 
   useEffect(() => {
-    reset({ gender: `${ERentalPlace.NO_PREFERENCES}`, availability: true });
+    reset({ gender: 'Sin preferencia', availability: true });
   }, [reset]);
 
   return (

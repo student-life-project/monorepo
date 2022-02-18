@@ -6,7 +6,8 @@ import styled from '@emotion/styled';
 type TRadio = {
   name?: string;
   label?: string;
-  checked: boolean;
+  register?: any;
+  checked?: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const Label = styled.label`
@@ -34,10 +35,16 @@ const Span = styled.span`
   `}
 `;
 
-const Radio: FC<TRadio> = ({ name, label, checked, ...props }) => (
+const Radio: FC<TRadio> = ({ name, label, checked, register, ...props }) => (
   <Label id={`label-${name}`} htmlFor={name}>
     <div css={xw`flex items-center h-full`}>
-      <Input id={name} type="radio" checked={checked} {...props} />
+      <Input
+        id={name}
+        type="radio"
+        checked={checked}
+        {...register}
+        {...props}
+      />
     </div>
     <Span>{label}</Span>
   </Label>

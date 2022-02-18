@@ -1,7 +1,6 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { ERentalPlace } from '@student_life/common';
 import { FC } from 'react';
 import { Control, FieldValues, UseFormRegister } from 'react-hook-form';
 
@@ -10,7 +9,13 @@ import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
 import Radio from '@/components/common/Radio';
 import Select from '@/components/common/Select';
-import { ErrorMessageInput, NameInput, Reason, TypeSpace } from '@/constants';
+import {
+  ErrorMessageInput,
+  Gender,
+  NameInput,
+  Reason,
+  TypeSpace,
+} from '@/constants';
 import { rgxPrice } from '@/utils/validations';
 
 type TBasicStep1 = {
@@ -103,50 +108,20 @@ const BasicStep1: FC<TBasicStep1> = ({
       <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Género preferido</h2>
 
       <div css={xw`grid grid-cols-1 sm:grid-cols-4`}>
-        <Controller
-          name="gender"
-          control={control}
-          rules={{ required: true }}
-          render={({ field: { onChange, value } }) => {
-            const gender = parseInt(value, 10);
+        {Gender.map((item) => {
+          const value = Object.values(item)[0];
 
-            return (
-              <>
-                <Radio
-                  name="man"
-                  label="Hombre"
-                  value={ERentalPlace.MAN}
-                  onChange={onChange}
-                  checked={gender === ERentalPlace.MAN}
-                />
-
-                <Radio
-                  name="woman"
-                  label="Mujer"
-                  value={ERentalPlace.WOMAN}
-                  onChange={onChange}
-                  checked={gender === ERentalPlace.WOMAN}
-                />
-
-                <Radio
-                  name="non-binary"
-                  label="Non-binary"
-                  value={ERentalPlace.NON_BINARY}
-                  onChange={onChange}
-                  checked={gender === ERentalPlace.NON_BINARY}
-                />
-
-                <Radio
-                  name="no-preferences"
-                  label="Sin preferencias"
-                  value={ERentalPlace.NO_PREFERENCES}
-                  onChange={onChange}
-                  checked={gender === ERentalPlace.NO_PREFERENCES}
-                />
-              </>
-            );
-          }}
-        />
+          return (
+            <div key={value}>
+              <Radio
+                name={value}
+                label={value}
+                value={value}
+                register={{ ...register('gender', { required: true }) }}
+              />
+            </div>
+          );
+        })}
       </div>
 
       <h2 css={xw`pt-11 pb-3 text-lg font-bold`}>Renta</h2>
