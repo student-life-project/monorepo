@@ -59,3 +59,12 @@ export interface Itab {
 export interface IOption {
   [key: string]: any;
 }
+
+export interface IFilters {
+  adType: IOption[];
+  reason: IOption[];
+  gender: IOption[];
+  services: IOption[];
+  rules: IOption[];
+  security: IOption[];
+}

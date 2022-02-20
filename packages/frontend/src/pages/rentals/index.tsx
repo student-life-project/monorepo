@@ -12,7 +12,15 @@ import VerticalCard from '@/components/common/Card/VerticalCard';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Pagination from '@/components/common/Pagination';
 import FilterAndSort from '@/components/rentals/FilterAndSort';
-import { Rules, Services, TypeSpace } from '@/constants';
+import {
+  Gender,
+  Reason,
+  Rules,
+  Security,
+  Services,
+  TypeSpace,
+} from '@/constants';
+import { orderRentals } from '@/constants/orderRentals';
 import { TStore } from '@/store';
 import {
   getRentalPlaces,
@@ -20,6 +28,7 @@ import {
 } from '@/store/actions/rentalTypes';
 import { TRootState } from '@/store/reducers';
 import { rentaPlacesSelector } from '@/store/selectors/rentalPlaces';
+import { IFilters } from '@/types';
 
 const ContentRentals = styled.div`
   ${xw`
@@ -31,36 +40,13 @@ const ContentRentals = styled.div`
   `}
 `;
 
-const rentals = [
-  {
-    'Mejor calificación': 'Mejor calificación',
-  },
-  {
-    'Menor precio': 'Menor precio',
-  },
-  {
-    'Mayor precio': 'Mayor precio',
-  },
-];
-
-const filters = {
+const filters: IFilters = {
+  reason: Reason,
   adType: TypeSpace,
-  preferredGenre: [
-    {
-      Hombre: 'Hombre',
-    },
-    {
-      Mujer: 'Mujer',
-    },
-    {
-      'Non-binary': 'Non-binary',
-    },
-    {
-      'Sin preferencias': 'Sin preferencias',
-    },
-  ],
+  gender: Gender,
   services: Services,
   rules: Rules,
+  security: Security,
 };
 
 const Rentals: NextPage = () => {
@@ -87,7 +73,7 @@ const Rentals: NextPage = () => {
   return (
     <>
       <NavBar allowRental allowRegister allowLogin />
-      <FilterAndSort sorts={rentals} filters={filters} />
+      <FilterAndSort sorts={orderRentals} filters={filters} />
 
       <BodyContainer css={xw`pt-0`}>
         <ContentRentals>
