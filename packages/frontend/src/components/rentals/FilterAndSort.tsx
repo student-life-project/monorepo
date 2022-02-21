@@ -30,13 +30,15 @@ const Container = styled.section`
   `}
 `;
 
-const DoubleFormSpace = styled.div`
+const DoubleSpace = styled.div`
   ${xw`
-    grid
-    gap-x-4
-    grid-rows-2
-    md:grid-rows-1
-    md:grid-cols-2
+    flex
+    w-full
+    sm:gap-10
+    sm:flex-row
+    justify-center
+    flex-col-reverse
+    sm:justify-between
   `}
 `;
 
@@ -164,8 +166,8 @@ const FilterAndSort: FC<IFilterAndSort> = ({ sorts, filters }) => {
             </div>
           </div>
 
-          <DoubleFormSpace>
-            <div css={xw`mt-5 sm:mb-2`}>
+          <DoubleSpace>
+            <div css={xw`mt-5 sm:mb-2 w-full`}>
               <Button
                 BSecondary
                 type="button"
@@ -176,12 +178,12 @@ const FilterAndSort: FC<IFilterAndSort> = ({ sorts, filters }) => {
               </Button>
             </div>
 
-            <div css={xw`mt-5 sm:mb-2`}>
+            <div css={xw`mt-5 sm:mb-2 w-full`}>
               <Button type="submit" FPrimary css={xw`w-full`}>
                 Aplicar filtros
               </Button>
             </div>
-          </DoubleFormSpace>
+          </DoubleSpace>
         </Modal>
       )}
     </Container>

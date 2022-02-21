@@ -1,7 +1,7 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { EUserReport } from '@student_life/common';
+import { ProfileReport } from '@student_life/common';
 import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -10,24 +10,27 @@ import Modal from '@/components/common/Modal';
 import Radio from '@/components/common/Radio';
 import Textarea from '@/components/common/Textarea';
 // import { useDispatch } from 'react-redux';
-import { ErrorMessageInput, NameInput, ProfileReport } from '@/constants';
+import { ErrorMessageInput, NameInput } from '@/constants';
+import { IOption } from '@/types';
 
 type TUserReport = {
   closeModal: () => void;
 };
 
 interface IUserReportData {
-  reason: EUserReport;
+  reason: IOption[];
   description: string;
 }
 
-const DoubleFormSpace = styled.div`
+const DoubleSpace = styled.div`
   ${xw`
-    grid
-    gap-x-4
-    grid-rows-2
-    md:grid-rows-1
-    md:grid-cols-2
+    flex
+    w-full
+    sm:gap-10
+    sm:flex-row
+    justify-center
+    flex-col-reverse
+    sm:justify-between
   `}
 `;
 
@@ -102,8 +105,8 @@ const UserReport: FC<TUserReport> = ({ closeModal }) => {
           messageError={errors.description?.message}
         />
 
-        <DoubleFormSpace>
-          <div css={xw`mt-5 sm:mb-2`}>
+        <DoubleSpace>
+          <div css={xw`mt-5 sm:mb-2 w-full`}>
             <Button
               BSecondary
               type="button"
@@ -114,12 +117,12 @@ const UserReport: FC<TUserReport> = ({ closeModal }) => {
             </Button>
           </div>
 
-          <div css={xw`mt-5 sm:mb-2`}>
+          <div css={xw`mt-5 sm:mb-2 w-full`}>
             <Button type="submit" FPrimary css={xw`w-full`}>
               Enviar
             </Button>
           </div>
-        </DoubleFormSpace>
+        </DoubleSpace>
       </form>
     </Modal>
   );
