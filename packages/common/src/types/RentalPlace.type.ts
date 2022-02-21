@@ -19,9 +19,33 @@ export interface IRentalPlace {
   approved: boolean;
 }
 
-export enum ERentalPlace {
-  MAN,
-  WOMAN,
-  NON_BINARY,
-  NO_PREFERENCES,
-}
+export const Reason = [
+  { 'Quiero rentar': 'Quiero rentar' },
+  { 'Busco roomie': 'Busco roomie' },
+];
+
+export const TypeSpace = [
+  { 'Lugar completo': 'Lugar completo' },
+  { 'Cuarto privado': 'Cuarto privado' },
+  { 'Cuarto compartido': 'Cuarto compartido' },
+  { Otro: 'Otro' },
+];
+
+export const Gender = [
+  { Hombre: 'Hombre' },
+  { Mujer: 'Mujer' },
+  { 'Non-binary': 'Non-binary' },
+  { 'Sin preferencia': 'Sin preferencia' },
+];
+
+export const orderRentals = [
+  {
+    'Mejor calificación': 'Mejor calificación',
+  },
+  {
+    'Menor precio': 'Menor precio',
+  },
+  {
+    'Mayor precio': 'Mayor precio',
+  },
+];

@@ -1,18 +1,14 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
+import { Rules, Security, Services } from '@student_life/common';
 import { FC } from 'react';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 import Checkbox from '@/components/common/Checkbox';
 import Label from '@/components/common/Label';
 import Textarea from '@/components/common/Textarea';
-import {
-  ErrorMessageInput,
-  NameInput,
-  Rules,
-  Security,
-  Services,
-} from '@/constants';
+import { ErrorMessageInput, NameInput } from '@/constants';
+
 import SpanError from '../common/SpanError';
 
 type TRentalPlaceStep3 = {

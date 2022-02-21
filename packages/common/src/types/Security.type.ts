@@ -1,3 +1,10 @@
+export interface ISecurity {
+  id?: string;
+  name: string;
+  description: string;
+  type: string;
+}
+
 export const Security = [
   { 'Alarma de incendios': 'Alarma de incendios' },
   { 'Alarma antirrobo': 'Alarma antirrobo' },

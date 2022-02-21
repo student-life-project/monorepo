@@ -8,8 +8,9 @@ import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
 import Select from '@/components/common/Select';
 import Textarea from '@/components/common/Textarea';
-import { ErrorMessageInput, NameInput, States } from '@/constants';
+import { ErrorMessageInput, NameInput } from '@/constants';
 import { rgxNumber } from '@/utils/validations';
+import { States } from '@student_life/common';
 
 type TUbicationStep2 = {
   register: UseFormRegister<FieldValues>;

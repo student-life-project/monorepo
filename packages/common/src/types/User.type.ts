@@ -8,14 +8,6 @@ export enum EUserType {
   OWNER,
 }
 
-export enum EUserReport {
-  OFFENSIVE,
-  FAKE_PROFILE,
-  VIOLENCE,
-  INAPPROPRIATE,
-  OTHER,
-}
-
 export interface IUser {
   id?: string;
   firstName: string;
@@ -28,3 +20,19 @@ export interface IUser {
   type: EUserType;
   reports: IReport[];
 }
+
+export const ProfileReport = [
+  {
+    'Es irrespetuoso u ofensivo (Incita al odio)':
+      'Es irrespetuoso u ofensivo (Incita al odio)',
+  },
+  {
+    'Es un perfil con información falsa': 'Es un perfil con información falsa',
+  },
+  {
+    'Amenazar con violencia o daño físico':
+      'Amenazar con violencia o daño físico',
+  },
+  { 'Comportamiento inapropiado': 'Comportamiento inapropiado' },
+  { 'Es otra cosa': 'Es otra cosa' },
+];

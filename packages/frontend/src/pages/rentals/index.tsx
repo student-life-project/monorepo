@@ -1,7 +1,16 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { IRentalPlace } from '@student_life/common';
+import {
+  Gender,
+  IRentalPlace,
+  orderRentals,
+  Reason,
+  Rules,
+  Security,
+  Services,
+  TypeSpace,
+} from '@student_life/common';
 import { NextPage, NextPageContext } from 'next';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -12,15 +21,6 @@ import VerticalCard from '@/components/common/Card/VerticalCard';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Pagination from '@/components/common/Pagination';
 import FilterAndSort from '@/components/rentals/FilterAndSort';
-import {
-  Gender,
-  Reason,
-  Rules,
-  Security,
-  Services,
-  TypeSpace,
-} from '@/constants';
-import { orderRentals } from '@/constants/orderRentals';
 import { TStore } from '@/store';
 import {
   getRentalPlaces,

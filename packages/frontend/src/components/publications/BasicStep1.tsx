@@ -9,14 +9,9 @@ import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
 import Radio from '@/components/common/Radio';
 import Select from '@/components/common/Select';
-import {
-  ErrorMessageInput,
-  Gender,
-  NameInput,
-  Reason,
-  TypeSpace,
-} from '@/constants';
+import { ErrorMessageInput, NameInput } from '@/constants';
 import { rgxPrice } from '@/utils/validations';
+import { Gender, Reason, TypeSpace } from '@student_life/common';
 
 type TBasicStep1 = {
   register: UseFormRegister<FieldValues>;
