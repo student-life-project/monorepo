@@ -5,9 +5,9 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-import Title from './common/Title';
+import Title from './Title';
 
-type IModal = {
+type TModal = {
   title: string;
   children: React.ReactNode;
   close: React.MouseEventHandler<HTMLButtonElement>;
@@ -24,24 +24,27 @@ const Container = styled.article`
     w-screen
     h-screen
     bg-gray-900
-    items-center
     bg-opacity-75
     justify-center
+    overflow-y-auto 
+    overflow-x-hidden
   `}
 `;
 
 const Content = styled.div`
   ${xw`
     p-8
+    mt-14
     w-11/12
     bg-white
     relative
-    lg:h-auto
     lg:w-7/12
     rounded-lg
     font-montserrat
     text-secondary-1
   `}
+
+  height: fit-content;
 `;
 
 const Header = styled.header`
@@ -56,16 +59,12 @@ const Header = styled.header`
 
 const Main = styled.main`
   ${xw`
-    h-72
     mt-2
     lg:mt-3
-    sm:h-80
-    lg:h-96
-    overflow-y-auto
   `}
 `;
 
-const Modal: FC<IModal> = ({ title, children, close }) => (
+const Modal: FC<TModal> = ({ title, children, close }) => (
   <Container>
     <Content>
       <Header>

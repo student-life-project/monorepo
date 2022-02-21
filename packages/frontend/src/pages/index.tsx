@@ -1,4 +1,6 @@
 // eslint-disable-next-line simple-import-sort/imports
+import xw from 'xwind';
+import styled from '@emotion/styled';
 import {
   faCheckCircle,
   faHome,
@@ -7,14 +9,12 @@ import {
 import { NextPage, NextPageContext } from 'next';
 import { useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
-import xw from 'xwind';
-import styled from '@emotion/styled';
 
 import BodyContainer from '@/components/common/BodyContainer';
 import InstructionCard from '@/components/common/Card/InstructionCard';
 import VerticalCard from '@/components/common/Card/VerticalCard';
+import Footer from '@/components/common/Footer';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import Footer from '@/components/Footer';
 import GetStartedCard from '@/components/home/GetStartedCard';
 import HeroImage from '@/components/home/HeroImage';
 import { TStore } from '@/store';
@@ -150,6 +150,7 @@ export const Home: NextPage = () => {
               text="¿Estás buscando un cuarto para rentar?"
             />
           </div>
+
           <div css={xw`mb-8 lg:mb-0`}>
             <GetStartedCard
               icon={faMapMarkerAlt}

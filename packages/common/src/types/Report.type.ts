@@ -6,10 +6,10 @@ export interface IReport {
   createdAt: string | Date;
 }
 
-export enum ERentalPlaceReport {
-  INCORRECT_INFO,
-  IT_IS_NOT_REAL,
-  IT_IS_FRAUD,
-  IT_IS_OFFENSIVE,
-  OTHER,
-}
+export const PlaceReport = [
+  { 'Es impreciso o incorrecto': 'Es impreciso o incorrecto' },
+  { 'No es un alojamiento real': 'No es un alojamiento real' },
+  { 'Es una estafa': 'Es una estafa' },
+  { 'Es ofensivo': 'Es ofensivo' },
+  { 'Es otra cosa': 'Es otra cosa' },
+];

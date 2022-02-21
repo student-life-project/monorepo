@@ -5,7 +5,8 @@ import styled from '@emotion/styled';
 const Title = styled.h1`
   ${xw`
     my-12
-    text-3xl
+    text-lg
+    sm:text-3xl
     font-medium
     text-secondary-1
   `}

@@ -1,14 +1,25 @@
-/* eslint-disable simple-import-sort/imports */
+// eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
+import {
+  Gender,
+  IRentalPlace,
+  orderRentals,
+  Reason,
+  Rules,
+  Security,
+  Services,
+  TypeSpace,
+} from '@student_life/common';
 import { NextPage, NextPageContext } from 'next';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 
 import BodyContainer from '@/components/common/BodyContainer';
 import VerticalCard from '@/components/common/Card/VerticalCard';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import Pagination from '@/components/Pagination';
+import Pagination from '@/components/common/Pagination';
 import FilterAndSort from '@/components/rentals/FilterAndSort';
 import { TStore } from '@/store';
 import {
@@ -17,6 +28,7 @@ import {
 } from '@/store/actions/rentalTypes';
 import { TRootState } from '@/store/reducers';
 import { rentaPlacesSelector } from '@/store/selectors/rentalPlaces';
+import { IFilters } from '@/types';
 
 const ContentRentals = styled.div`
   ${xw`
@@ -28,116 +40,44 @@ const ContentRentals = styled.div`
   `}
 `;
 
-const rentals = [
-  {
-    name: 'Mejor calificación',
-    value: 'BestGrade',
-  },
-  {
-    name: 'Menor precio',
-    value: 'LowerPrice',
-  },
-  {
-    name: 'Mayor precio',
-    value: 'HighestPrice',
-  },
-];
-
-const filters = {
-  adType: [
-    {
-      key: 'Lugar completo',
-    },
-    {
-      key: 'Cuarto privado',
-    },
-    {
-      key: 'Cuarto compartido',
-    },
-  ],
-  preferredGenre: [
-    {
-      key: 'Hombre',
-    },
-    {
-      key: 'Mujer',
-    },
-    {
-      key: 'Non-binary',
-    },
-    {
-      key: 'Sin preferencias',
-    },
-  ],
-
-  services: [
-    {
-      key: 'Lavadora',
-    },
-    {
-      key: 'Elevador',
-    },
-    {
-      key: 'Con balcón o patio',
-    },
-    {
-      key: 'Wi-Fi incluido',
-    },
-    {
-      key: 'Tiene mascotas',
-    },
-    {
-      key: 'Servicios incluidos',
-    },
-    {
-      key: 'Aire acondicionado',
-    },
-    {
-      key: 'TV',
-    },
-    {
-      key: 'Amueblado',
-    },
-    {
-      key: 'Calefacción',
-    },
-    {
-      key: 'Baño privado',
-    },
-  ],
-  rules: [
-    {
-      key: 'No fumar',
-    },
-    {
-      key: 'No mascotas',
-    },
-    {
-      key: 'Mascotas OK',
-    },
-    {
-      key: 'No drogas',
-    },
-    {
-      key: 'No beber',
-    },
-    {
-      key: 'Parejas OK',
-    },
-  ],
+const filters: IFilters = {
+  reason: Reason,
+  adType: TypeSpace,
+  gender: Gender,
+  services: Services,
+  rules: Rules,
+  security: Security,
 };
 
 const Rentals: NextPage = () => {
   const rentalPlaces = useSelector(rentaPlacesSelector);
 
+  const itemsPerPage = 10;
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [currentItems, setCurrentItems] = useState<IRentalPlace[]>([]);
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(rentalPlaces.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(rentalPlaces.length / itemsPerPage));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemOffset, itemsPerPage]);
+
+  const handlePageClick = (event: { selected: number }) => {
+    const newOffset = (event.selected * itemsPerPage) % rentalPlaces.length;
+    setItemOffset(newOffset);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <>
       <NavBar allowRental allowRegister allowLogin />
-      <FilterAndSort sorts={rentals} filters={filters} />
+      <FilterAndSort sorts={orderRentals} filters={filters} />
 
       <BodyContainer css={xw`pt-0`}>
         <ContentRentals>
-          {rentalPlaces.map((rentalPlace) => {
+          {currentItems?.map((rentalPlace) => {
             const rateNumber = rentalPlace.scores && rentalPlace.scores.length;
 
             const rate =
@@ -160,7 +100,8 @@ const Rentals: NextPage = () => {
             );
           })}
         </ContentRentals>
-        <Pagination />
+
+        <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
       </BodyContainer>
     </>
   );

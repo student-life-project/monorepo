@@ -1,9 +1,11 @@
 // eslint-disable-next-line simple-import-sort/imports
+import xw from 'xwind';
+import styled from '@emotion/styled';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
-import xw from 'xwind';
-import styled from '@emotion/styled';
+
+import { formatter } from '@/utils/numberFormat';
 
 const Content = styled.div`
   ${xw`
@@ -31,23 +33,14 @@ const Text = styled.p`
 
 interface IPriceSection {
   price: number;
-  currency: string;
+  currency?: string;
 }
 
-const PriceSection: FC<IPriceSection> = ({ price, currency }) => {
-  const formatter = new Intl.NumberFormat(undefined, {
-    currency,
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 2,
-    style: 'currency',
-  });
-
-  return (
-    <Content>
-      <Icon icon={faHome} height="1.2rem" />
-      <Text>{formatter.format(price)} / mes</Text>
-    </Content>
-  );
-};
+const PriceSection: FC<IPriceSection> = ({ price, currency = 'MXN' }) => (
+  <Content>
+    <Icon icon={faHome} height="1.2rem" />
+    <Text>{formatter(currency).format(price)} / mes</Text>
+  </Content>
+);
 
 export default PriceSection;

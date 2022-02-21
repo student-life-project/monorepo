@@ -56,7 +56,15 @@ export interface Itab {
   handleTab: (tabCurrent: number) => void;
 }
 
-export type TOption = {
-  value: string;
-  name: string;
-};
+export interface IOption {
+  [key: string]: any;
+}
+
+export interface IFilters {
+  adType: IOption[];
+  reason: IOption[];
+  gender: IOption[];
+  services: IOption[];
+  rules: IOption[];
+  security: IOption[];
+}

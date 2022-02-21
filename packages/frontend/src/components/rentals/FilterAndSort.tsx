@@ -1,19 +1,20 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { FC, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FC, useState } from 'react';
 
-import Button from '../Button';
-import Checkbox from '../Checkbox';
-import Select from '../Select';
-import Modal from '../Modal';
+import Button from '@/components/common/Button';
+import Checkbox from '@/components/common/Checkbox';
+import Modal from '@/components/common/Modal';
+import Select from '@/components/common/Select';
+import { IFilters, IOption } from '@/types';
 
-type IFilterAndSort = {
-  sorts: Array;
-  filters: Array;
-};
+interface IFilterAndSort {
+  sorts: IOption[];
+  filters: IFilters;
+}
 
 const Container = styled.section`
   ${xw`
@@ -74,46 +75,92 @@ const FilterAndSort: FC<IFilterAndSort> = ({ sorts, filters }) => {
       {showModal && (
         <Modal title="Filtrar por:" close={closeModal}>
           <h2 css={xw`py-4 text-lg font-bold`}>Tipo de anuncio</h2>
-          <div css={xw`flex flex-wrap`}>
+          <div css={xw`flex flex-wrap flex-col`}>
             <div css={xw`flex flex-wrap items-start justify-start`}>
-              {filters.adType.map((item) => (
-                <div css={xw`w-full sm:w-1/2`} key={item.key}>
-                  <Checkbox name={item.key} label={item.key} checked={false} />
-                </div>
-              ))}
+              {filters?.adType?.map((item) => {
+                const value = Object.values(item)[0];
+
+                return (
+                  <div css={xw`w-full sm:w-1/2`} key={value}>
+                    <Checkbox name={value} label={value} checked={false} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <h2 css={xw`py-4 text-lg font-bold`}>Motivo de la publicación</h2>
+          <div css={xw`flex flex-wrap flex-col`}>
+            <div css={xw`flex flex-wrap items-start justify-start`}>
+              {filters?.reason?.map((item) => {
+                const value = Object.values(item)[0];
+
+                return (
+                  <div css={xw`w-full sm:w-1/2`} key={value}>
+                    <Checkbox name={value} label={value} checked={false} />
+                  </div>
+                );
+              })}
             </div>
           </div>
 
           <h2 css={xw`py-4 text-lg font-bold`}>Género preferido</h2>
-          <div css={xw`flex flex-wrap`}>
+          <div css={xw`flex flex-wrap flex-col`}>
             <div css={xw`flex flex-wrap items-start justify-start`}>
-              {filters.preferredGenre.map((item) => (
-                <div css={xw`w-full sm:w-1/2`} key={item.key}>
-                  <Checkbox name={item.key} label={item.key} checked={false} />
-                </div>
-              ))}
+              {filters?.gender?.map((item) => {
+                const value = Object.values(item)[0];
+
+                return (
+                  <div css={xw`w-full sm:w-1/2`} key={value}>
+                    <Checkbox name={value} label={value} checked={false} />
+                  </div>
+                );
+              })}
             </div>
           </div>
 
           <h2 css={xw`py-4 text-lg font-bold`}>Servicios</h2>
-          <div css={xw`flex flex-wrap`}>
+          <div css={xw`flex flex-wrap flex-col`}>
             <div css={xw`flex flex-wrap items-start justify-start`}>
-              {filters.services.map((item) => (
-                <div css={xw`w-full sm:w-2/6`} key={item.key}>
-                  <Checkbox name={item.key} label={item.key} checked={false} />
-                </div>
-              ))}
+              {filters?.services?.map((item) => {
+                const value = Object.values(item)[0];
+
+                return (
+                  <div css={xw`w-full sm:w-1/2`} key={value}>
+                    <Checkbox name={value} label={value} checked={false} />
+                  </div>
+                );
+              })}
             </div>
           </div>
 
-          <h2 css={xw`py-4 text-lg font-bold`}>Reglas de la vivienda</h2>
-          <div css={xw`flex flex-wrap`}>
+          <h2 css={xw`py-4 text-lg font-bold`}>Reglas</h2>
+          <div css={xw`flex flex-wrap flex-col`}>
             <div css={xw`flex flex-wrap items-start justify-start`}>
-              {filters.rules.map((item) => (
-                <div css={xw`w-full sm:w-2/6`} key={item.key}>
-                  <Checkbox name={item.key} label={item.key} checked={false} />
-                </div>
-              ))}
+              {filters?.rules?.map((item) => {
+                const value = Object.values(item)[0];
+
+                return (
+                  <div css={xw`w-full sm:w-1/2`} key={value}>
+                    <Checkbox name={value} label={value} checked={false} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <h2 css={xw`py-4 text-lg font-bold`}>Seguridad</h2>
+          <div css={xw`flex flex-wrap flex-col mb-10`}>
+            <div css={xw`flex flex-wrap items-start justify-start`}>
+              {filters?.security?.map((item) => {
+                const value = Object.values(item)[0];
+
+                return (
+                  <div css={xw`w-full sm:w-1/2`} key={value}>
+                    <Checkbox name={value} label={value} checked={false} />
+                  </div>
+                );
+              })}
             </div>
           </div>
 

@@ -1,24 +1,22 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { ERentalPlaceReport } from '@student_life/common';
 import { FC, useEffect } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+import Button from '@/components/common/Button';
+import Modal from '@/components/common/Modal';
+import Radio from '@/components/common/Radio';
+import Textarea from '@/components/common/Textarea';
 // import { useDispatch } from 'react-redux';
+import { ErrorMessageInput, NameInput, PlaceReport } from '@/constants';
 
-import { ErrorMessageInput, NameInput } from '@/constants';
-
-import Button from '../Button';
-import Modal from '../Modal';
-import Radio from '../Radio';
-import Textarea from '../Textarea';
-
-type IRentalPlaceReport = {
+type TRentalPlaceReport = {
   closeModal: () => void;
 };
 
 interface IRentalPlaceReportData {
-  reason: ERentalPlaceReport;
+  reason: string[];
   description: string;
 }
 
@@ -32,21 +30,23 @@ const DoubleFormSpace = styled.div`
   `}
 `;
 
-const RentalPlaceReport: FC<IRentalPlaceReport> = ({ closeModal }) => {
+const RentalPlaceReport: FC<TRentalPlaceReport> = ({ closeModal }) => {
   // const dispath = useDispatch();
 
   const {
     handleSubmit,
     register,
-    control,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     mode: 'all',
   });
 
+  const description = watch('description');
+
   useEffect(() => {
-    reset({ reason: ERentalPlaceReport.INCORRECT_INFO });
+    reset({ reason: 'Es impreciso o incorrecto' });
   }, [reset]);
 
   const onSubmit: SubmitHandler<IRentalPlaceReportData> = async (data) => {
@@ -59,65 +59,35 @@ const RentalPlaceReport: FC<IRentalPlaceReport> = ({ closeModal }) => {
   return (
     <Modal title="Reportar alojamiento" close={closeModal}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h2 css={xw`py-4 text-lg font-bold`}>
+        <h2 css={xw`py-4 text-base sm:text-lg font-bold`}>
           Ayúdanos a entender cuál es el problema con esta publicación. ¿Cómo lo
           describirías?
         </h2>
 
         <div css={xw`flex flex-col items-start`}>
-          <Controller
-            name="reason"
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange, value } }) => {
-              const reason = parseInt(value, 10);
+          {PlaceReport.map((item) => {
+            const value = Object.values(item)[0];
 
-              return (
-                <>
-                  <Radio
-                    name="incorrect_info"
-                    label="Es impreciso o incorrecto"
-                    value={ERentalPlaceReport.INCORRECT_INFO}
-                    onChange={onChange}
-                    checked={reason === ERentalPlaceReport.INCORRECT_INFO}
-                  />
-                  <Radio
-                    name="it-is-not-real"
-                    label="No es un alojamiento real"
-                    value={ERentalPlaceReport.IT_IS_NOT_REAL}
-                    onChange={onChange}
-                    checked={reason === ERentalPlaceReport.IT_IS_NOT_REAL}
-                  />
-                  <Radio
-                    name="it_is_fraud"
-                    label="Es una estafa"
-                    value={ERentalPlaceReport.IT_IS_FRAUD}
-                    onChange={onChange}
-                    checked={reason === ERentalPlaceReport.IT_IS_FRAUD}
-                  />
-                  <Radio
-                    name="it_is_offensive"
-                    label="Es ofensivo"
-                    value={ERentalPlaceReport.IT_IS_OFFENSIVE}
-                    onChange={onChange}
-                    checked={reason === ERentalPlaceReport.IT_IS_OFFENSIVE}
-                  />
-                  <Radio
-                    name="other"
-                    label="Es otra cosa"
-                    value={ERentalPlaceReport.OTHER}
-                    onChange={onChange}
-                    checked={reason === ERentalPlaceReport.OTHER}
-                  />
-                </>
-              );
-            }}
-          />
+            return (
+              <div key={value}>
+                <Radio
+                  name={value}
+                  label={value}
+                  value={value}
+                  register={{ ...register('reason', { required: true }) }}
+                />
+              </div>
+            );
+          })}
         </div>
 
-        <h2 css={xw`py-4 text-lg font-bold`}>Describa mejor la problemática</h2>
+        <h2 css={xw`py-4 text-base sm:text-lg font-bold`}>
+          Describa mejor la problemática
+        </h2>
         <Textarea
           id="description"
+          maxLength={255}
+          counter={description?.length}
           placeholder="Escribir problema..."
           register={{
             ...register('description', {

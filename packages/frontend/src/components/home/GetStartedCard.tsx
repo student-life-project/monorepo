@@ -8,7 +8,7 @@ import {
   FontAwesomeIconProps,
 } from '@fortawesome/react-fontawesome';
 
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 
 interface IGetStartedCard {
   alt: string;

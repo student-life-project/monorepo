@@ -23,6 +23,7 @@ __exportStar(require("./types/RentalPlace.type"), exports);
 __exportStar(require("./types/Report.type"), exports);
 __exportStar(require("./types/Rule.type"), exports);
 __exportStar(require("./types/School.type"), exports);
+__exportStar(require("./types/Security.type"), exports);
 __exportStar(require("./types/Service.type"), exports);
 __exportStar(require("./types/Student.type"), exports);
 __exportStar(require("./types/User.type"), exports);

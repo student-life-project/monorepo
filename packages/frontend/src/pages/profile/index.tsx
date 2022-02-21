@@ -3,12 +3,12 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { FC, useState } from 'react';
 
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import BodyContainer from '@/components/common/BodyContainer';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
-import Input from '@/components/Input';
-import Label from '@/components/Label';
+import Input from '@/components/common/Input';
+import Label from '@/components/common/Label';
 
 const Content = styled.div`
   ${xw`

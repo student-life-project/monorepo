@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { NextPage } from 'next';
 import styled from '@emotion/styled';
 
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import { FixingBugs } from '@/icons';
 
 interface IError {

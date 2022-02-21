@@ -9,6 +9,7 @@ export * from './types/RentalPlace.type';
 export * from './types/Report.type';
 export * from './types/Rule.type';
 export * from './types/School.type';
+export * from './types/Security.type';
 export * from './types/Service.type';
 export * from './types/Student.type';
 export * from './types/User.type';

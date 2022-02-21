@@ -27,3 +27,10 @@ export const PublicationSteps = [
     completed: false,
   },
 ];
+
+export enum EPublicationStep {
+  BASIC_INFO,
+  LOCATION,
+  PLACE,
+  DRAFT,
+}

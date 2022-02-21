@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 import SpanError from './SpanError';
 
-type IInput = {
+type TInput = {
   register?: any;
   error?: boolean;
   readOnly?: boolean;
@@ -13,7 +13,7 @@ type IInput = {
   messageError?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-const InputStyle = styled.input<IInput>`
+const InputStyle = styled.input<TInput>`
   ${xw`
     p-2
     w-full 
@@ -34,7 +34,7 @@ const InputStyle = styled.input<IInput>`
     (disabled || readOnly) && xw`bg-gray-200 cursor-not-allowed`}
 `;
 
-const Input: FC<IInput> = ({ register, error, messageError, ...props }) => (
+const Input: FC<TInput> = ({ register, error, messageError, ...props }) => (
   <>
     <InputStyle {...register} error={error} {...props} />
     {error && <SpanError>{messageError}</SpanError>}

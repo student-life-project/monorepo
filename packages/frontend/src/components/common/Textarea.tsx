@@ -5,21 +5,25 @@ import { FC } from 'react';
 
 import SpanError from './SpanError';
 
-type ITextarea = {
+type TTextarea = {
+  counter?: number;
+  maxLength?: number;
   register?: any;
   error?: boolean;
   disabled?: boolean;
   messageError?: string;
 } & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-const TextareaStyle = styled.textarea<ITextarea>`
+const TextareaStyle = styled.textarea<TTextarea>`
   ${xw`
     p-2
+    h-28
     w-full 
     border
     rounded
     text-sm
     relative
+    resize-none
     sm:text-base
     focus:ring-1
     focus:outline-none
@@ -32,15 +36,29 @@ const TextareaStyle = styled.textarea<ITextarea>`
   ${({ disabled }) => disabled && xw`bg-gray-200 cursor-not-allowed`}
 `;
 
-const Textarea: FC<ITextarea> = ({
+const Textarea: FC<TTextarea> = ({
+  counter,
+  maxLength,
   register,
   error,
   messageError,
   ...props
 }) => (
   <>
-    <TextareaStyle {...register} error={error} {...props} />
-    {error && <SpanError>{messageError}</SpanError>}
+    <TextareaStyle
+      {...props}
+      {...register}
+      error={error}
+      maxLength={maxLength}
+    />
+
+    <div css={xw`flex justify-between gap-0.5`}>
+      <SpanError>{messageError}</SpanError>
+
+      <span css={xw`mt-1 text-xs`}>
+        {counter || 0} / {maxLength}
+      </span>
+    </div>
   </>
 );
 

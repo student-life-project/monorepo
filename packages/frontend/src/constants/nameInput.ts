@@ -8,7 +8,9 @@ export const NameInput = {
   title: 'Título',
   reason: 'Motivo de la publicación',
   typeSpace: 'Tipo de espacio',
+  gender: 'Género',
   price: 'Precio',
+  availability: 'Disponibilidad',
   street: 'Calle y número',
   state: 'Estado',
   city: 'Municipio',
@@ -16,4 +18,8 @@ export const NameInput = {
   stateCode: 'Código Postal',
   reference: 'Referencias',
   zone: 'Descripción de la zona',
+  rentalPlace: 'Descripción de la vivienda',
+  services: 'Servicios',
+  rules: 'Reglas',
+  security: 'Seguridad',
 };

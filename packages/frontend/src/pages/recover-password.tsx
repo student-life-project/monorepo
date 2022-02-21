@@ -7,12 +7,12 @@ import { NextPage, NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import Anchor from '@/components/common/Anchor';
 import CenteredBody from '@/components/common/CenteredBody';
 import Title from '@/components/common/Title';
-import Input from '@/components/Input';
-import Label from '@/components/Label';
+import Input from '@/components/common/Input';
+import Label from '@/components/common/Label';
 import { NameInput, ErrorMessageInput } from '@/constants';
 import { redirectLoggedToHome } from '@/utils/redirectLoggedtoHome';
 import { rgxEmail } from '@/utils/validations';

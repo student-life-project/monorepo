@@ -1,5 +1,3 @@
-/* eslint-disable no-alert */
-/* eslint-disable react/destructuring-assignment */
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
@@ -8,9 +6,10 @@ import xw from 'xwind';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import Options from '@/components/Options';
-import Status from '@/components/Status';
-import Table from '@/components/Table';
+import Options from '@/components/common/Options';
+import Status from '@/components/common/Status';
+import Table from '@/components/common/Table';
+import { rentalAvailabilityStatus } from '@/constants';
 
 const header = {
   title: 'Publicaciones',
@@ -26,32 +25,37 @@ const columns = [
   {
     name: 'Disponibilidad',
     selector: 'available',
-    cell: (row) => (
-      <Status
-        status={row.available}
-        options={['Disponible', 'No disponible']}
-      />
-    ),
+    cell: (row) => {
+      const { available } = row;
+      return <Status status={available} options={rentalAvailabilityStatus} />;
+    },
     sortable: true,
   },
   {
     name: 'Acciones',
-    cell: (row) => (
-      <Options>
-        <button type="button" onClick={() => alert(row.id)}>
-          {/* <FontAwesomeIcon icon={faTrash} height="1.2rem" /> */}
-          <span css={xw`ml-2`}>{row.available ? 'Desactivar' : 'Activar'}</span>
-        </button>
-        <a href={`/profile/publication/${row.id}/edit`}>
-          <FontAwesomeIcon icon={faPen} height="1.2rem" />
-          <span css={xw`ml-2`}>Editar</span>
-        </a>
-        <button type="button" onClick={() => alert(row.id)}>
-          <FontAwesomeIcon icon={faTrash} height="1.2rem" />
-          <span css={xw`ml-2`}>Eliminar</span>
-        </button>
-      </Options>
-    ),
+    cell: (row) => {
+      const { id, available } = row;
+
+      return (
+        <Options>
+          <button type="button" onClick={() => alert(id)}>
+            <span css={xw`ml-2`}>
+              {available ? 'No disponible' : 'Disponible'}
+            </span>
+          </button>
+
+          <a href={`/profile/publication/${id}/edit`}>
+            <FontAwesomeIcon icon={faPen} height="1.2rem" />
+            <span css={xw`ml-2`}>Editar</span>
+          </a>
+
+          <button type="button" onClick={() => alert(id)}>
+            <FontAwesomeIcon icon={faTrash} height="1.2rem" />
+            <span css={xw`ml-2`}>Eliminar</span>
+          </button>
+        </Options>
+      );
+    },
     ignoreRowClick: true,
     allowOverflow: true,
     button: true,

@@ -3,7 +3,7 @@ import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
-type IAccordion = {
+type TAccordion = {
   title: string;
   children: React.ReactNode;
 };
@@ -29,7 +29,7 @@ const Summary = styled.summary`
   `}
 `;
 
-const Accordion: FC<IAccordion> = ({ title, children }) => (
+const Accordion: FC<TAccordion> = ({ title, children }) => (
   <Details>
     <Summary>{title}</Summary>
     {children}

@@ -1,6 +1,3 @@
-/* eslint-disable no-alert */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable react/destructuring-assignment */
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useState } from 'react';
@@ -9,10 +6,15 @@ import xw from 'xwind';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import Options from '@/components/Options';
-import Status from '@/components/Status';
-import Table from '@/components/Table';
-import Tabs from '@/components/Tabs';
+import Options from '@/components/common/Options';
+import Status from '@/components/common/Status';
+import Table from '@/components/common/Table';
+import Tabs from '@/components/common/Tabs';
+import {
+  rentalApprovedStatus,
+  reportStatus,
+  userActiveStatus,
+} from '@/constants';
 
 const headerUser = {
   title: 'Usuarios',
@@ -36,38 +38,41 @@ const columnsUser = [
   {
     name: 'Rol',
     selector: 'role',
-    cell: (row) => (
-      <p>
-        {row.role === 0
-          ? 'Admin'
-          : row.role === 1
-          ? 'Estudiante'
-          : 'Arrendatario'}
-      </p>
-    ),
+    cell: (row) => {
+      const { role } = row;
+      const roleName = ['Admin', 'Estudiante', 'Arrendatario'];
+
+      return <p>{roleName[role]}</p>;
+    },
     sortable: true,
   },
   {
     name: 'Estatus',
     selector: 'status',
-    cell: (row) => (
-      <Status status={row.status} options={['Activado', 'No activado']} />
-    ),
+    cell: (row) => {
+      const { status } = row;
+      return <Status status={status} options={userActiveStatus} />;
+    },
     sortable: true,
   },
   {
     name: 'Acciones',
-    cell: (row) => (
-      <Options>
-        <button type="button" onClick={() => alert(row.id)}>
-          <span css={xw`ml-2`}>{row.status ? 'Desactivar' : 'Activar'}</span>
-        </button>
-        <button type="button" onClick={() => alert(row.id)}>
-          <FontAwesomeIcon icon={faTrash} height="1.2rem" />
-          <span css={xw`ml-2`}>Eliminar</span>
-        </button>
-      </Options>
-    ),
+    cell: (row) => {
+      const { id, status } = row;
+
+      return (
+        <Options>
+          <button type="button" onClick={() => alert(id)}>
+            <span css={xw`ml-2`}>{status ? 'Desactivar' : 'Activar'}</span>
+          </button>
+
+          <button type="button" onClick={() => alert(id)}>
+            <FontAwesomeIcon icon={faTrash} height="1.2rem" />
+            <span css={xw`ml-2`}>Eliminar</span>
+          </button>
+        </Options>
+      );
+    },
     ignoreRowClick: true,
     allowOverflow: true,
     button: true,
@@ -81,30 +86,39 @@ const columnsPublication = [
   {
     name: 'Disponibilidad',
     selector: 'available',
-    cell: (row) => <p>{row.available ? 'Disponible' : 'No disponible'}</p>,
+    cell: (row) => {
+      const { available } = row;
+      return <p>{available ? 'Disponible' : 'No disponible'}</p>;
+    },
     sortable: true,
   },
   {
     name: 'Aprobado',
     selector: 'approved',
-    cell: (row) => (
-      <Status status={row.approved} options={['Aprobado', 'No aprobado']} />
-    ),
+    cell: (row) => {
+      const { approved } = row;
+      return <Status status={approved} options={rentalApprovedStatus} />;
+    },
     sortable: true,
   },
   {
     name: 'Acciones',
-    cell: (row) => (
-      <Options>
-        <button type="button" onClick={() => alert(row.id)}>
-          <span css={xw`ml-2`}>{row.approved ? 'No aprobar' : 'Aprobar'}</span>
-        </button>
-        <button type="button" onClick={() => alert(row.id)}>
-          <FontAwesomeIcon icon={faTrash} height="1.2rem" />
-          <span css={xw`ml-2`}>Eliminar</span>
-        </button>
-      </Options>
-    ),
+    cell: (row) => {
+      const { id, approved } = row;
+
+      return (
+        <Options>
+          <button type="button" onClick={() => alert(id)}>
+            <span css={xw`ml-2`}>{approved ? 'No aprobar' : 'Aprobar'}</span>
+          </button>
+
+          <button type="button" onClick={() => alert(id)}>
+            <FontAwesomeIcon icon={faTrash} height="1.2rem" />
+            <span css={xw`ml-2`}>Eliminar</span>
+          </button>
+        </Options>
+      );
+    },
     ignoreRowClick: true,
     allowOverflow: true,
     button: true,
@@ -119,24 +133,30 @@ const columnsReport = [
   {
     name: 'Estatus',
     selector: 'status',
-    cell: (row) => (
-      <Status status={row.status} options={['Resuelto', 'No resuelto']} />
-    ),
+    cell: (row) => {
+      const { status } = row;
+      return <Status status={status} options={reportStatus} />;
+    },
     sortable: true,
   },
   {
     name: 'Acciones',
-    cell: (row) => (
-      <Options>
-        <button type="button" onClick={() => alert(row.id)}>
-          <span css={xw`ml-2`}>{row.status ? 'No resuelto' : 'Resuelto'}</span>
-        </button>
-        <button type="button" onClick={() => alert(row.id)}>
-          <FontAwesomeIcon icon={faTrash} height="1.2rem" />
-          <span css={xw`ml-2`}>Eliminar</span>
-        </button>
-      </Options>
-    ),
+    cell: (row) => {
+      const { id, status } = row;
+
+      return (
+        <Options>
+          <button type="button" onClick={() => alert(id)}>
+            <span css={xw`ml-2`}>{status ? 'No resuelto' : 'Resuelto'}</span>
+          </button>
+
+          <button type="button" onClick={() => alert(id)}>
+            <FontAwesomeIcon icon={faTrash} height="1.2rem" />
+            <span css={xw`ml-2`}>Eliminar</span>
+          </button>
+        </Options>
+      );
+    },
     ignoreRowClick: true,
     allowOverflow: true,
     button: true,
