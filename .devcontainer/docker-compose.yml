@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Update 'VARIANT' to pick an LTS version of Node.js: 16, 14, 12.
+        # Append -bullseye or -buster to pin to an OS version.
+        # Use -bullseye variants on local arm64/Apple Silicon.
+        VARIANT: 14-buster
+    volumes:
+      - ..:/workspace:cached
+      # Docker volume to contain node_modules for performance reason
+      - node_modules:/workspace/node_modules
+      # Docker
+      - ~/.docker:/root/.docker:z
+      # Docker socket to access Docker server
+      - /var/run/docker.sock:/var/run/docker.sock
+      # SSH directory for Linux, OSX and WSL
+      - ~/.ssh:/root/.ssh:z
+      # For Windows without WSL, a copy will be made
+      # from /tmp/.ssh to ~/.ssh to fix permissions
+      # - ~/.ssh:/tmp/.ssh:ro
+      # Shell history persistence
+      - ~/.zsh_history:/root/.zsh_history:z
+      # Git config
+      - ~/.gitconfig:/root/.gitconfig:z
+      # Kubernetes
+      # - ~/.kube:/root/.kube:z
+
+      # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
+    network_mode: service:db
+
+    # Uncomment the next line to use a non-root user for all processes.
+    user: node
+
+  # to conect inside containers use the db (service name) as host
+  # docker automaticaly create a network foreach service with service
+  # name as host, this host name docker resolve to the real assigned
+  # ip by docker
+  db:
+    image: mongo:latest
+    restart: unless-stopped
+    volumes:
+      - ./scripts/mongo/init/:/docker-entrypoint-initdb.d
+      - ./scripts/mongo/init:/home/mongodb
+      # - ./scripts/mongo/seed/:/home/mongodb/seed
+      - mongodb-data:/data/db
+    env_file: .env.container
+    environment:
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongo-root-passwd
+      MONGO_INITDB_PASSWORD_FILE: /run/secrets/mongo-user-passwd
+    secrets:
+      - mongo-root-passwd
+      - mongo-user-passwd
+
+volumes:
+  node_modules:
+  mongodb-data:
+
+secrets:
+  mongo-root-passwd:
+    file: ./secrets/mongo-root-passwd
+  mongo-user-passwd:
+    file: ./secrets/mongo-user-passwd

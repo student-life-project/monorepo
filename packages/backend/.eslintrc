@@ -27,6 +27,7 @@
     "@typescript-eslint/no-shadow": "error",
     "import/prefer-default-export": "off",
     "@typescript-eslint/no-var-requires": "off",
-    "global-require": "off"
+    "global-require": "off",
+    "class-methods-use-this": "off"
   }
 }
