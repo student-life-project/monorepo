@@ -28,3 +28,6 @@ yarn-error.log*
 .eslintcache
 .devcontainer/secrets/mongo-root-passwd
 .devcontainer/secrets/mongo-user-passwd
+
+# build
+dist/*
