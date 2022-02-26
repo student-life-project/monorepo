@@ -126,9 +126,9 @@ const NavBar: FC<INavBar> = ({
       {!isLogedIn ? (
         <>
           {allowLogin && (
-            <Link href="/login">
+            <a href="/api/auth/login">
               <Anchor css={xw`md:mx-2 lg:mx-2 xl:mx-4`}>Iniciar Sesión</Anchor>
-            </Link>
+            </a>
           )}
 
           {allowRegister && (

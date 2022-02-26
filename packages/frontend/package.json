@@ -20,6 +20,7 @@
     "add:svg": "svgr --typescript -d ./src/icons ./public/svg"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^1.7.0",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.1.5",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
