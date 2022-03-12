@@ -69,7 +69,7 @@ export const Home: NextPage = () => {
 
   return (
     <>
-      <NavBar allowRental allowRegister allowLogin />
+      <NavBar allowRental allowLoginRegister />
       <BodyContainer css={xw`px-0`}>
         <HeroImage url="/images/home_hero.jpg" name="hero_banner" />
 

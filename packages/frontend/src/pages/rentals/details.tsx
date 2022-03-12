@@ -158,7 +158,7 @@ const Details: FC = () => {
 
   return (
     <>
-      <NavBar allowRental allowRegister allowLogin />
+      <NavBar allowRental allowLoginRegister />
       <BodyContainer css={xw`text-secondary-1`}>
         <ContentGallery>
           {data.images.map((img, index) => {

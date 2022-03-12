@@ -69,10 +69,9 @@ const ExitButton = styled.button`
 const MobileMenu: FC<INavBar> = ({
   user,
   isLogedIn,
-  allowLogin,
+  allowLoginRegister,
   allowRental,
   allowRequest,
-  allowRegister,
   onLogoutClick,
 }) => {
   const [displayMenu, setDisplayMenu] = useState(false);
@@ -128,18 +127,11 @@ const MobileMenu: FC<INavBar> = ({
           )}
           {!isLogedIn ? (
             <>
-              {allowLogin && (
+              {allowLoginRegister && (
                 <MenuItem>
-                  <Link href="/login">
-                    <Anchor css={xw`text-secondary-1`}>Iniciar Sesión</Anchor>
-                  </Link>
-                </MenuItem>
-              )}
-              {allowRegister && (
-                <MenuItem>
-                  <Link href="/register">
-                    <Anchor css={xw`text-secondary-1`}>Registrarse</Anchor>
-                  </Link>
+                  <Anchor href="/api/auth/login" css={xw`text-secondary-1`}>
+                    Iniciar Sesión | Registrarse
+                  </Anchor>
                 </MenuItem>
               )}
             </>

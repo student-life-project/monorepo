@@ -72,7 +72,7 @@ const Rentals: NextPage = () => {
 
   return (
     <>
-      <NavBar allowRental allowRegister allowLogin />
+      <NavBar allowRental allowLoginRegister />
       <FilterAndSort sorts={orderRentals} filters={filters} />
 
       <BodyContainer css={xw`pt-0`}>

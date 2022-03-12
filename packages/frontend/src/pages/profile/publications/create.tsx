@@ -117,7 +117,7 @@ const Create: FC = () => {
 
   return (
     <>
-      <NavBar allowRental allowRegister allowLogin />
+      <NavBar allowRental allowLoginRegister />
       <Steps steps={steps} stepCurrent={step} />
       <Alert />
 

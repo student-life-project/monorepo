@@ -173,7 +173,7 @@ const data = [
 const Publications: FC = () => {
   return (
     <>
-      <NavBar allowRental allowRegister allowLogin />
+      <NavBar allowRental allowLoginRegister />
       <BreadCrumbs
         items={[
           { link: '/', text: 'Student Life' },

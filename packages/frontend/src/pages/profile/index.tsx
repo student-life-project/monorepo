@@ -54,7 +54,7 @@ const Profile: FC = () => {
 
   return (
     <>
-      <NavBar allowRental allowRegister allowLogin />
+      <NavBar allowRental allowLoginRegister />
       <BodyContainer>
         <Content>
           <img

@@ -8,17 +8,15 @@ import { isUserAuthenticated, userSelector } from '@/store/selectors/user';
 import NavBar from './NavBar';
 
 interface INavBarContainer {
-  allowLogin?: boolean;
   allowRental?: boolean;
   allowRequest?: boolean;
-  allowRegister?: boolean;
+  allowLoginRegister?: boolean;
 }
 
 const NavBarContainer: FC<INavBarContainer> = ({
-  allowLogin,
   allowRental,
   allowRequest,
-  allowRegister,
+  allowLoginRegister,
 }) => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -33,10 +31,9 @@ const NavBarContainer: FC<INavBarContainer> = ({
   return (
     <NavBar
       user={userData}
-      allowLogin={allowLogin}
+      allowLoginRegister={allowLoginRegister}
       allowRequest={allowRequest}
       onLogoutClick={onLogoutClick}
-      allowRegister={allowRegister}
       isLogedIn={isUserAutenticated}
       allowRental={allowRental}
     />
