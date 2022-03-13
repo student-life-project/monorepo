@@ -8,15 +8,15 @@ import { isUserAuthenticated, userSelector } from '@/store/selectors/user';
 import NavBar from './NavBar';
 
 interface INavBarContainer {
+  allowLoginRegister?: boolean;
   allowRental?: boolean;
   allowRequest?: boolean;
-  allowLoginRegister?: boolean;
 }
 
 const NavBarContainer: FC<INavBarContainer> = ({
+  allowLoginRegister,
   allowRental,
   allowRequest,
-  allowLoginRegister,
 }) => {
   const dispatch = useDispatch();
   const router = useRouter();

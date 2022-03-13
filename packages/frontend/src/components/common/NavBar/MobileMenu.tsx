@@ -91,6 +91,7 @@ const MobileMenu: FC<INavBar> = ({
           <Triangle
             css={xw`block fill-current text-white w-4 h-4 absolute right-0 top-0 mr-2 -mt-3 z-0`}
           />
+
           {isLogedIn && (
             <MenuItem>
               <Link href="/profile">
@@ -98,6 +99,7 @@ const MobileMenu: FC<INavBar> = ({
               </Link>
             </MenuItem>
           )}
+
           {allowRental && (
             <MenuItem>
               <Link href="/rentals">
@@ -105,6 +107,7 @@ const MobileMenu: FC<INavBar> = ({
               </Link>
             </MenuItem>
           )}
+
           {allowRequest && (
             <Anchor
               css={xw`text-secondary-1`}
@@ -113,11 +116,13 @@ const MobileMenu: FC<INavBar> = ({
               Enviar una solicitud
             </Anchor>
           )}
+
           <MenuItem>
             <Link href="/profile/messages">
               <Anchor css={xw`text-secondary-1`}>Mensajes</Anchor>
             </Link>
           </MenuItem>
+
           {user?.type === EUserType.OWNER && (
             <MenuItem>
               <Link href="/profile/publications">
@@ -125,6 +130,7 @@ const MobileMenu: FC<INavBar> = ({
               </Link>
             </MenuItem>
           )}
+
           {!isLogedIn ? (
             <>
               {allowLoginRegister && (
