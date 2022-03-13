@@ -29,6 +29,7 @@ import {
 import { TRootState } from '@/store/reducers';
 import { rentaPlacesSelector } from '@/store/selectors/rentalPlaces';
 import { IFilters } from '@/types';
+import { ScrollToAnimation } from '@/utils/scrollTo';
 
 const ContentRentals = styled.div`
   ${xw`
@@ -67,7 +68,7 @@ const Rentals: NextPage = () => {
   const handlePageClick = (event: { selected: number }) => {
     const newOffset = (event.selected * itemsPerPage) % rentalPlaces.length;
     setItemOffset(newOffset);
-    window.scrollTo(0, 0);
+    ScrollToAnimation();
   };
 
   return (
