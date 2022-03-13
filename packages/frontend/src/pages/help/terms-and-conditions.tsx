@@ -41,7 +41,7 @@ const TextBold = styled.span`
 
 const Information: FC = () => (
   <>
-    <NavBar allowRequest allowLogin />
+    <NavBar allowRequest allowLoginRegister />
 
     <BreadCrumbs
       items={[

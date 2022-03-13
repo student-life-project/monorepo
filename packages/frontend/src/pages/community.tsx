@@ -27,7 +27,7 @@ const Text = styled.p`
 
 const Information: FC = () => (
   <>
-    <NavBar allowRequest allowLogin />
+    <NavBar allowRequest allowLoginRegister />
 
     <BreadCrumbs
       items={[

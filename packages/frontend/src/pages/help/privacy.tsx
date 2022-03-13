@@ -49,7 +49,7 @@ const List = styled.ul`
 
 const Information: FC = () => (
   <>
-    <NavBar allowRequest allowLogin />
+    <NavBar allowRequest allowLoginRegister />
 
     <BreadCrumbs
       items={[

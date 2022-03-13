@@ -76,7 +76,7 @@ const questions = [
 
 const FAQs: NextPage = () => (
   <>
-    <NavBar allowRequest allowLogin />
+    <NavBar allowRequest allowLoginRegister />
     <BodyContainer>
       <Title>¿Cómo podemos ayudarte?</Title>
       <Container>
