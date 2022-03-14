@@ -9,7 +9,7 @@ type TTabs = {
 };
 
 const Tabs: FC<TTabs> = ({ items }) => (
-  <div css={xw`flex flex-wrap justify-center pt-7 px-4`}>
+  <div css={xw`w-full flex flex-wrap justify-center pt-7 px-4`}>
     {items.map((item, index) => (
       <Button
         BPrimary
