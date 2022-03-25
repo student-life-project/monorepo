@@ -13,7 +13,7 @@ import { rentalAvailabilityStatus } from '@/constants';
 
 const header = {
   title: 'Publicaciones',
-  link: '/profile/publications/create',
+  link: '/profile/publications/post',
   textLink: 'Crear publicación',
   search: true,
 };

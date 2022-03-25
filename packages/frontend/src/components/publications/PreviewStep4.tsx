@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 import ClampedText from '@/components/common/ClampedText';
 import { NameInput } from '@/constants';
-import { IPublicationData } from '@/pages/profile/publications/create';
+import { IPublicationData } from '@/pages/profile/publications/post';
 import { formatter } from '@/utils/numberFormat';
 import Status from '../common/Status';
 

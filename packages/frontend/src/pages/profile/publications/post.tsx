@@ -122,8 +122,8 @@ const Create: FC = () => {
       <Steps steps={steps} stepCurrent={step} />
       <Alert />
 
-      <BodyContainer css={xw`pt-8 sm:pt-16`}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <BodyContainer css={xw`pt-8 sm:pt-16 px-0`}>
+        <form onSubmit={handleSubmit(onSubmit)} css={xw`w-full mx-auto px-4`}>
           {step === 0 && (
             <BasicStep1
               register={register}
