@@ -31,8 +31,9 @@ const ContentGallery = styled.section`
     gap-4
     w-full
     sm:h-96
-    grid-cols-2
     grid-rows-2
+    grid-cols-2
+    sm:grid-cols-3
   `}
 `;
 
@@ -75,6 +76,14 @@ const data = {
     {
       url: '/images/example_home_2.jpg',
       name: 'img-home-3',
+    },
+    {
+      url: '/images/example_home_2.jpg',
+      name: 'img-home-4',
+    },
+    {
+      url: '/images/example_home_2.jpg',
+      name: 'img-home-5',
     },
   ],
   description:
@@ -165,11 +174,13 @@ const Details: FC = () => {
             let css = '';
 
             if (index === 0) {
-              css = xw`rounded-tl-2xl rounded-bl-2xl row-span-2`;
-            } else if (index === 1) {
+              css = xw`rounded-l-2xl row-span-2`;
+            } else if (index === 2) {
               css = xw`rounded-tr-2xl`;
-            } else {
+            } else if (index === 4) {
               css = xw`rounded-br-2xl`;
+            } else {
+              css = xw`hidden sm:block`;
             }
 
             return (
