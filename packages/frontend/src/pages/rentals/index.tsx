@@ -53,20 +53,21 @@ const filters: IFilters = {
 const Rentals: NextPage = () => {
   const rentalPlaces = useSelector(rentaPlacesSelector);
 
-  const itemsPerPage = 10;
+  const totalPlaces = rentalPlaces.length;
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentItems, setCurrentItems] = useState<IRentalPlace[]>([]);
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
     setCurrentItems(rentalPlaces.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(rentalPlaces.length / itemsPerPage));
+    setPageCount(Math.ceil(totalPlaces / itemsPerPage));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemOffset, itemsPerPage]);
 
   const handlePageClick = (event: { selected: number }) => {
-    const newOffset = (event.selected * itemsPerPage) % rentalPlaces.length;
+    const newOffset = (event.selected * itemsPerPage) % totalPlaces;
     setItemOffset(newOffset);
     ScrollToAnimation();
   };
@@ -74,7 +75,12 @@ const Rentals: NextPage = () => {
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-      <FilterAndSort sorts={orderRentals} filters={filters} />
+      <FilterAndSort
+        filters={filters}
+        sorts={orderRentals}
+        totalPlaces={totalPlaces}
+        setItemsPerPage={setItemsPerPage}
+      />
 
       <BodyContainer css={xw`pt-0`}>
         <ContentRentals>
