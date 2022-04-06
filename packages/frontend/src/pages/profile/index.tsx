@@ -3,11 +3,12 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { FC, useState } from 'react';
 
-import Button from '@/components/common/Button';
 import BodyContainer from '@/components/common/BodyContainer';
-import NavBar from '@/components/common/NavBar/NavBarContainer';
+import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
+import NavBar from '@/components/common/NavBar/NavBarContainer';
+import Textarea from '@/components/common/Textarea';
 import ResetPassword from '@/components/profile/ResetPassword';
 
 const Content = styled.div`
@@ -112,7 +113,19 @@ const Profile: FC = () => {
                   value={user.birthDate}
                 />
               </div>
+            </DoubleFormSpace>
 
+            <Label id="label-password" htmlFor="password">
+              Acerca de mi
+            </Label>
+            <Textarea
+              id="rental-place"
+              maxLength={100}
+              counter={0}
+              placeholder="Describe quién eres"
+            />
+
+            <DoubleFormSpace>
               <div css={xw`mb-4`}>
                 <Label id="label-email" htmlFor="email">
                   Correo
