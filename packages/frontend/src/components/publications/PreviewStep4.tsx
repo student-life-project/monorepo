@@ -1,30 +1,17 @@
-// eslint-disable-next-line simple-import-sort/imports
-import xw from 'xwind';
-import styled from '@emotion/styled';
 import { FC } from 'react';
+import xw from 'xwind';
 
 import ClampedText from '@/components/common/ClampedText';
 import { NameInput } from '@/constants';
 import { IPublicationData } from '@/pages/profile/publications/post';
 import { formatter } from '@/utils/numberFormat';
+
 import Status from '../common/Status';
+import SubTitle from '../common/SubTitle';
 
 type TPreviewStep4 = {
   getValues: (payload?: string | string[]) => IPublicationData;
 };
-
-const SubTitle = styled.h3`
-  ${xw`
-    mt-2
-    mb-1
-    w-full
-    text-xs
-    text-left
-    sm:text-sm 
-    tracking-wide 
-    text-gray-600
-  `}
-`;
 
 const PreviewStep4: FC<TPreviewStep4> = ({ getValues }) => {
   const values = getValues();

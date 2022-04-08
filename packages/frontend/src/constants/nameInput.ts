@@ -22,4 +22,9 @@ export const NameInput = {
   services: 'Servicios',
   rules: 'Reglas',
   security: 'Seguridad',
+  fullName: 'Nombre completo',
+  phone: 'Número de teléfono',
+  birthday: 'Fecha de nacimiento',
+  aboutMe: 'Acerca de mi',
+  userStatus: 'Status del usuario',
 };
