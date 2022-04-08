@@ -9,7 +9,7 @@ type TTabs = {
 };
 
 const Tabs: FC<TTabs> = ({ items }) => (
-  <div css={xw`w-full flex flex-wrap justify-center pt-7 px-4`}>
+  <section css={xw`w-full flex flex-wrap justify-center pt-7 px-4`}>
     {items.map((item, index) => (
       <Button
         BPrimary
@@ -21,7 +21,7 @@ const Tabs: FC<TTabs> = ({ items }) => (
         {item.text}
       </Button>
     ))}
-  </div>
+  </section>
 );
 
 export default Tabs;

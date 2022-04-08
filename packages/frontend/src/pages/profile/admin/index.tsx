@@ -378,6 +378,7 @@ const Admin: FC = () => {
   return (
     <>
       <NavBar allowRental allowLoginRegister />
+
       <BreadCrumbs
         items={[
           { link: '/', text: 'Student Life' },
@@ -385,6 +386,7 @@ const Admin: FC = () => {
           { link: '/profile/admin', text: 'Administrador' },
         ]}
       />
+
       <Tabs
         items={[
           { text: 'Usuarios', handleTab },
