@@ -21,7 +21,7 @@ const user = {
 };
 
 const UserDetails: FC = () => {
-  // TODO: need implment.
+  // TODO: Need to implement
   const status = true;
 
   return (
