@@ -1,4 +1,4 @@
-export const rentalAvailabilityStatus = ['Disponible', 'No disponible'];
-export const rentalApprovedStatus = ['Aprobado', 'No aprobado'];
-export const userActiveStatus = ['Activado', 'Desactivado'];
-export const reportStatus = ['Resuelto', 'No resuelto'];
+export const RentalAvailabilityStatus = ['Disponible', 'No disponible'];
+export const RentalApprovedStatus = ['Aprobado', 'No aprobado'];
+export const UserActiveStatus = ['Activado', 'Desactivado'];
+export const ReportStatus = ['Resuelto', 'No resuelto'];

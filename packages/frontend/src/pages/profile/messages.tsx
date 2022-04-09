@@ -8,6 +8,7 @@ import BreadCrumbs from '@/components/common/BreadCrumbs';
 import ClampedText from '@/components/common/ClampedText';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Textarea from '@/components/common/Textarea';
+import { ItemsMessages } from '@/constants';
 
 const Container = styled.section`
   ${xw`
@@ -88,13 +89,8 @@ const Messages: FC = () => {
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-      <BreadCrumbs
-        items={[
-          { link: '/', text: 'Student Life' },
-          { link: '/profile', text: 'Perfil' },
-          { link: '/profile/messages', text: 'Mensajes' },
-        ]}
-      />
+
+      <BreadCrumbs items={ItemsMessages} />
 
       <BodyContainer css={xw`pt-0`}>
         <Container>

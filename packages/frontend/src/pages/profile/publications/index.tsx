@@ -9,7 +9,7 @@ import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Options from '@/components/common/Options';
 import Status from '@/components/common/Status';
 import Table from '@/components/common/Table';
-import { rentalAvailabilityStatus } from '@/constants';
+import { ItemsPublications, RentalAvailabilityStatus } from '@/constants';
 
 const header = {
   title: 'Publicaciones',
@@ -27,7 +27,7 @@ const columns = [
     selector: 'available',
     cell: (row) => {
       const { available } = row;
-      return <Status status={available} options={rentalAvailabilityStatus} />;
+      return <Status status={available} options={RentalAvailabilityStatus} />;
     },
     sortable: true,
   },
@@ -174,13 +174,7 @@ const Publications: FC = () => {
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-      <BreadCrumbs
-        items={[
-          { link: '/', text: 'Student Life' },
-          { link: '/profile', text: 'Perfil' },
-          { link: '/profile/publications', text: 'Publicaciones' },
-        ]}
-      />
+      <BreadCrumbs items={ItemsPublications} />
       <BodyContainer css={xw`pt-0`}>
         <Table data={data} columns={columns} header={header} />
       </BodyContainer>

@@ -8,7 +8,7 @@ import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Status from '@/components/common/Status';
 import SubTitle from '@/components/common/SubTitle';
 import Switch from '@/components/common/Switch';
-import { NameInput, userActiveStatus } from '@/constants';
+import { ItemsUserDetails, NameInput, UserActiveStatus } from '@/constants';
 
 const user = {
   userImage: '/images/avatar.png',
@@ -28,13 +28,7 @@ const UserDetails: FC = () => {
     <>
       <NavBar allowRental allowLoginRegister />
 
-      <BreadCrumbs
-        items={[
-          { link: '/', text: 'Student Life' },
-          { link: '/profile/admin', text: 'Administrador' },
-          { link: '/profile/admin/user-details', text: 'Detalles del usuario' },
-        ]}
-      />
+      <BreadCrumbs items={ItemsUserDetails} />
 
       <BodyContainer css={xw`pt-16 sm:pt-8`}>
         <div css={xw`flex justify-center mb-10`}>
@@ -56,7 +50,7 @@ const UserDetails: FC = () => {
                 <SubTitle>{NameInput.userStatus}</SubTitle>
                 <Switch
                   checked={status}
-                  label={<Status status={status} options={userActiveStatus} />}
+                  label={<Status status={status} options={UserActiveStatus} />}
                 />
               </div>
 
