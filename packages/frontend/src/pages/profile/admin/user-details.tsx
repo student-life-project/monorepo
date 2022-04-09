@@ -11,13 +11,15 @@ import Switch from '@/components/common/Switch';
 import { ItemsUserDetails, NameInput, UserActiveStatus } from '@/constants';
 
 const user = {
+  id: 1,
   userImage: '/images/avatar.png',
-  firstName: 'User 1',
-  lastName: 'Test Test',
-  email: 'user@test.com',
-  password: 'testtesttest',
+  firstName: 'Alfredo',
+  lastName: 'Carreón Urbano',
+  email: 'alfredo11cu@gmail.com',
   phoneNumber: '3315448430',
-  birthDate: '2018-07-22',
+  birthDate: '11 de febrero 1997',
+  aboutMe:
+    'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam!',
 };
 
 const UserDetails: FC = () => {
@@ -33,7 +35,7 @@ const UserDetails: FC = () => {
       <BodyContainer css={xw`pt-16 sm:pt-8`}>
         <div css={xw`flex justify-center mb-10`}>
           <div css={xw`w-full lg:w-8/12`}>
-            <h2 css={xw`py-5 text-lg font-bold`}>Usuario # 1</h2>
+            <h2 css={xw`py-5 text-lg font-bold`}>Usuario # {user.id}</h2>
 
             <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
               <div
@@ -56,33 +58,30 @@ const UserDetails: FC = () => {
 
               <div>
                 <SubTitle>{NameInput.fullName}</SubTitle>
-                <p css={xw`font-bold mt-2`}>Alfredo Carreón Urbano</p>
+                <p css={xw`font-bold mt-2`}>
+                  {`${user.firstName} ${user.lastName}`}
+                </p>
               </div>
 
               <div>
                 <SubTitle>{NameInput.email}</SubTitle>
-                <p css={xw`font-bold mt-2`}>alfredo11cu@gmail.com</p>
+                <p css={xw`font-bold mt-2`}>{user.email}</p>
               </div>
 
               <div>
                 <SubTitle>{NameInput.phone}</SubTitle>
-                <p css={xw`font-bold mt-2`}>3315448430</p>
+                <p css={xw`font-bold mt-2`}>{user.phoneNumber}</p>
               </div>
 
               <div>
                 <SubTitle>{NameInput.birthday}</SubTitle>
-                <p css={xw`font-bold mt-2`}>11 de febrero 1997</p>
+                <p css={xw`font-bold mt-2`}>{user.birthDate}</p>
               </div>
             </div>
 
             <div css={xw`grid grid-cols-1`}>
               <SubTitle>{NameInput.aboutMe}</SubTitle>
-              <p css={xw`font-bold mt-2`}>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui
-                sequi, odit recusandae rerum fuga laboriosam modi, consequuntur,
-                iste reprehenderit provident tenetur repellendus natus saepe ea
-                perspiciatis quaerat molestiae maiores quam!
-              </p>
+              <p css={xw`font-bold mt-2`}>{user.aboutMe}</p>
             </div>
 
             <div css={xw`w-full flex justify-center sm:justify-start mt-8`}>
