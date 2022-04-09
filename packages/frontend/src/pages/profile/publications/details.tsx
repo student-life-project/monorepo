@@ -42,7 +42,7 @@ const getValues = () => ({
   ],
 });
 
-const PublicationDetails: FC = () => {
+const Details: FC = () => {
   // TODO: Need to implement
 
   return (
@@ -52,10 +52,10 @@ const PublicationDetails: FC = () => {
       <BreadCrumbs items={ItemsReportDetails} />
 
       <BodyContainer css={xw`pt-16 sm:pt-8`}>
-        <PostDetails getValues={getValues} admin />
+        <PostDetails getValues={getValues} />
       </BodyContainer>
     </>
   );
 };
 
-export default PublicationDetails;
+export default Details;

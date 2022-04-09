@@ -33,4 +33,6 @@ export const NameInput = {
   fromReport: 'Realizado por',
   toReport: 'Reporta a',
   descripcionProblem: 'Descripción del problema',
+  postDetails: 'Estatus de la publicación',
+  ownerPost: 'Creado por',
 };

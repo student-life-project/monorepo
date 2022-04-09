@@ -3,14 +3,13 @@ import xw from 'xwind';
 
 import ClampedText from '@/components/common/ClampedText';
 import { NameInput } from '@/constants';
-import { IPublicationData } from '@/pages/profile/publications/post';
 import { formatter } from '@/utils/numberFormat';
 
 import Status from '../common/Status';
 import SubTitle from '../common/SubTitle';
 
 type TPreviewStep4 = {
-  getValues: (payload?: string | string[]) => IPublicationData;
+  getValues: any;
 };
 
 const PreviewStep4: FC<TPreviewStep4> = ({ getValues }) => {

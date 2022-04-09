@@ -15,7 +15,7 @@ const report = {
   type: 'Usuario', // Publicación
   to: 'Erick Mejia Blanco', //  Comoda casa para descanso en Club de Golf Tequis
   from: 'Alfredo Carreón Urbano',
-  date: '11 de febrero 1997',
+  date: '4 de abril 2021',
   description:
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam!',
 };
