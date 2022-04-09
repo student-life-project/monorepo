@@ -341,7 +341,7 @@ const dataReport = [
   },
   {
     id: 2,
-    type: 'Publiación',
+    type: 'Publicación',
     description: 'Lorem ipsum dolor sit amet',
     createdAt: '2021-05-12',
     status: true,
@@ -355,14 +355,14 @@ const dataReport = [
   },
   {
     id: 4,
-    type: 'Publiación',
+    type: 'Publicación',
     description: 'Lorem ipsum dolor sit amet',
     createdAt: '2021-05-10',
     status: false,
   },
   {
     id: 5,
-    type: 'Publiación',
+    type: 'Publicación',
     description: 'Lorem ipsum dolor sit amet',
     createdAt: '2021-01-11',
     status: true,

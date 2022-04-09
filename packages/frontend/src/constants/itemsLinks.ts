@@ -39,6 +39,12 @@ export const ItemsMessages = [
 
 export const ItemsAdmin = [LinkProfile, LinkAdmin];
 
+export const ItemsReportDetails = [
+  LinkProfile,
+  LinkAdmin,
+  { link: '/profile/admin/report-details', text: 'Detalles del reporte' },
+];
+
 export const ItemsUserDetails = [
   LinkProfile,
   LinkAdmin,

@@ -26,5 +26,11 @@ export const NameInput = {
   phone: 'Número de teléfono',
   birthday: 'Fecha de nacimiento',
   aboutMe: 'Acerca de mi',
-  userStatus: 'Status del usuario',
+  userStatus: 'Estatus del usuario',
+  reportStatus: 'Estatus del reporte',
+  reportType: 'Tipo de reporte',
+  date: 'Fecha',
+  fromReport: 'Realizado por',
+  toReport: 'Reporta a',
+  descripcionProblem: 'Descripción del problema',
 };
