@@ -22,7 +22,7 @@ const user = {
 
 const UserDetails: FC = () => {
   // TODO: Need to implement
-  const status = true;
+  const status = true; //* Por defecto debe estar activo el usuario al momento que se registra.
 
   return (
     <>
@@ -35,7 +35,7 @@ const UserDetails: FC = () => {
           <div css={xw`w-full lg:w-8/12`}>
             <h2 css={xw`py-5 text-lg font-bold`}>Usuario # 1</h2>
 
-            <div css={xw`grid grid-cols-1 sm:grid-cols-2`}>
+            <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
               <div
                 css={xw`flex justify-center items-center sm:justify-start sm:row-span-3`}
               >
