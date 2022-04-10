@@ -28,6 +28,7 @@ import { rentaPlacesSelector } from '@/store/selectors/rentalPlaces';
 const PlaceContent = styled.div`
   ${xw`
     flex
+    gap-8
     my-20
     w-full
     flex-col
@@ -74,7 +75,7 @@ export const Home: NextPage = () => {
         <HeroImage url="/images/home_hero.jpg" name="hero_banner" />
 
         <PlaceContent>
-          {rentalPlaces.map((rentalPlace, index) => {
+          {rentalPlaces.map((rentalPlace) => {
             const rateNumber = rentalPlace.scores && rentalPlace.scores.length;
             const rate =
               rentalPlace.scores &&
@@ -82,13 +83,9 @@ export const Home: NextPage = () => {
                 (totalScore, score) => totalScore + score.score,
                 0,
               ) / rateNumber;
-            const css =
-              index !== rentalPlaces.length - 1
-                ? xw`pb-8 md:pr-4 lg:pb-0`
-                : xw``;
 
             return (
-              <div css={css} key={`rental_place${rentalPlace.id}`}>
+              <div key={`rental_place${rentalPlace.id}`}>
                 <VerticalCard
                   rateNumber={rateNumber}
                   title={rentalPlace.title}
@@ -177,7 +174,7 @@ Home.getInitialProps = async ({
       unknown,
       IRentalPlacesAction
     >
-  )(getRentalPlaces({ limit: 3 }));
+  )(getRentalPlaces({ limit: 4 }));
 
   return {};
 };
