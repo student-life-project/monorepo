@@ -81,8 +81,6 @@ const Btn = styled.button<TButton>`
   ${({ small }) => small && xw`text-xs py-2 px-4`}
 
   ${({ like }) => like && xw`bg-blue-100`}
-
-  ${({ dislike }) => dislike && xw`bg-red-100`}
 `;
 
 const Button: FC<TButton> = ({ children, ...props }) => (

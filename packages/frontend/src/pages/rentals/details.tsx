@@ -7,7 +7,6 @@ import {
   faConciergeBell,
   faHome,
   faSearch,
-  faThumbsDown,
   faThumbsUp,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
@@ -139,7 +138,6 @@ const Details: FC = () => {
 
   // TODO: need to implement
   const like = true;
-  const dislike = false;
 
   return (
     <>
@@ -166,9 +164,16 @@ const Details: FC = () => {
           })}
         </ContentGallery>
 
-        <Title css={xw`my-5`}>
-          ${data.price} / mes, en {data.title}
-        </Title>
+        <div css={xw`flex gap-10 items-center`}>
+          <Button BPrimary round like={like} css={xw`h-10`}>
+            <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />{' '}
+            <span css={xw`ml-2`}>157 Me gusta</span>
+          </Button>
+
+          <Title css={xw`my-5`}>
+            ${data.price} / mes, en {data.title}
+          </Title>
+        </div>
 
         <section css={xw`w-full flex flex-wrap mb-10 sm:mb-20`}>
           <div css={xw`w-full sm:w-8/12`}>
@@ -201,17 +206,6 @@ const Details: FC = () => {
                 <FontAwesomeIcon icon={faUsers} height="1.2rem" />
                 <p css={xw`ml-2`}>{data.gender}</p>
               </div>
-            </div>
-
-            <div css={xw`flex gap-4`}>
-              <Button BPrimary like={like}>
-                <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />{' '}
-                <span css={xw`ml-2`}>157</span>
-              </Button>
-              <Button BDanger dislike={dislike}>
-                <FontAwesomeIcon icon={faThumbsDown} height="1.2rem" />{' '}
-                <span css={xw`ml-2`}>11</span>
-              </Button>
             </div>
 
             <div css={xw`w-full flex flex-wrap`}>
