@@ -84,28 +84,16 @@ const Rentals: NextPage = () => {
 
       <BodyContainer css={xw`pt-0`}>
         <ContentRentals>
-          {currentItems?.map((rentalPlace) => {
-            const rateNumber = rentalPlace.scores && rentalPlace.scores.length;
-
-            const rate =
-              rentalPlace.scores &&
-              rentalPlace.scores.reduce(
-                (totalScore, score) => totalScore + score.score,
-                0,
-              ) / rateNumber;
-
-            return (
-              <div key={`rental_place${rentalPlace.id}`}>
-                <VerticalCard
-                  rateNumber={rateNumber}
-                  title={rentalPlace.title}
-                  pricePerMonth={rentalPlace.price}
-                  imageUrl={rentalPlace.images?.[0]?.url}
-                  rate={rate && parseFloat(rate.toFixed(2))}
-                />
-              </div>
-            );
-          })}
+          {currentItems?.map((rentalPlace) => (
+            <div key={`rental_place${rentalPlace.id}`}>
+              <VerticalCard
+                likes={rentalPlace.likes}
+                title={rentalPlace.title}
+                pricePerMonth={rentalPlace.price}
+                imageUrl={rentalPlace.images?.[0]?.url}
+              />
+            </div>
+          ))}
         </ContentRentals>
 
         <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />

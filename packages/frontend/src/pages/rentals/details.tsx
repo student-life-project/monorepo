@@ -7,13 +7,16 @@ import {
   faConciergeBell,
   faHome,
   faSearch,
-  faStar,
+  faThumbsDown,
+  faThumbsUp,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useState } from 'react';
 
 import BodyContainer from '@/components/common/BodyContainer';
+import Button from '@/components/common/Button';
+import ButtonLink from '@/components/common/ButtonLink';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
 import CardUser from '@/components/profile/CardUser';
@@ -40,16 +43,6 @@ const Img = styled.img`
     h-full
     bg-gray-400
     object-cover
-  `}
-`;
-
-const ButtonLink = styled.button`
-  ${xw`
-    flex
-    text-left
-    text-primary
-    cursor-pointer
-    hover:underline
   `}
 `;
 
@@ -144,6 +137,10 @@ const Details: FC = () => {
     setRentalReport(!rentalReport);
   };
 
+  // TODO: need to implement
+  const like = true;
+  const dislike = false;
+
   return (
     <>
       <NavBar allowRental allowLoginRegister />
@@ -177,43 +174,44 @@ const Details: FC = () => {
           <div css={xw`w-full sm:w-8/12`}>
             <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
               <div css={xw`flex`}>
-                <FontAwesomeIcon icon={faStar} height="1.2rem" />
-                <p css={xw`ml-2`}>4.5 (10 evaluaciones)</p>
-              </div>
-              <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faHome} height="1.2rem" />
                 <p css={xw`ml-2`}>{data.typeSpace}</p>
               </div>
+
               <div css={xw`flex`}>
                 <ButtonLink type="button" onClick={handleRentalReport}>
                   <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
                   <p css={xw`ml-2`}>Reportar publicación</p>
                 </ButtonLink>
               </div>
-            </div>
 
-            <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
               <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faConciergeBell} height="1.2rem" />
                 <p css={xw`ml-2`}>{data.available}</p>
               </div>
+            </div>
+
+            <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
               <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faSearch} height="1.2rem" />
                 <p css={xw`ml-2`}>{data.reason}</p>
               </div>
+
               <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faUsers} height="1.2rem" />
                 <p css={xw`ml-2`}>{data.gender}</p>
               </div>
             </div>
 
-            <div css={xw`flex items-center`}>
-              <h2 css={xw`mr-2 text-xl font-bold`}>Calificar</h2>
-              <FontAwesomeIcon icon={faStar} height="1.2rem" />
-              <FontAwesomeIcon icon={faStar} height="1.2rem" />
-              <FontAwesomeIcon icon={faStar} height="1.2rem" />
-              <FontAwesomeIcon icon={faStar} height="1.2rem" />
-              <FontAwesomeIcon icon={faStar} height="1.2rem" />
+            <div css={xw`flex gap-4`}>
+              <Button BPrimary like={like}>
+                <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />{' '}
+                <span css={xw`ml-2`}>157</span>
+              </Button>
+              <Button BDanger dislike={dislike}>
+                <FontAwesomeIcon icon={faThumbsDown} height="1.2rem" />{' '}
+                <span css={xw`ml-2`}>11</span>
+              </Button>
             </div>
 
             <div css={xw`w-full flex flex-wrap`}>

@@ -1,6 +1,3 @@
-// eslint-disable-next-line simple-import-sort/imports
-import xw from 'xwind';
-import styled from '@emotion/styled';
 import {
   faBullhorn,
   faComment,
@@ -9,24 +6,17 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import NextLink from 'next/link';
 import { FC } from 'react';
+import xw from 'xwind';
 
 import Button from '@/components/common/Button';
 import { CalculateAge } from '@/constants';
+
+import ButtonLink from '../common/ButtonLink';
 
 type TCardUser = {
   user: any;
   openUserReport: () => void;
 };
-
-const ButtonLink = styled.button`
-  ${xw`
-    flex
-    text-left
-    text-primary
-    cursor-pointer
-    hover:underline
-  `}
-`;
 
 const CardUser: FC<TCardUser> = ({ user, openUserReport }) => (
   <div css={xw`w-full mt-10 sm:mt-0 sm:w-4/12`}>

@@ -18,6 +18,8 @@ type TButton = {
   round?: boolean;
   large?: boolean;
   small?: boolean;
+  like?: boolean;
+  dislike?: boolean;
   children: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -77,6 +79,10 @@ const Btn = styled.button<TButton>`
   ${({ large }) => large && xw`text-lg py-3 px-6`}
 
   ${({ small }) => small && xw`text-xs py-2 px-4`}
+
+  ${({ like }) => like && xw`bg-blue-100`}
+
+  ${({ dislike }) => dislike && xw`bg-red-100`}
 `;
 
 const Button: FC<TButton> = ({ children, ...props }) => (
