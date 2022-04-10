@@ -120,7 +120,7 @@ const Profile: FC = () => {
             </Label>
             <Textarea
               id="rental-place"
-              maxLength={100}
+              maxLength={255}
               counter={0}
               placeholder="Describe quién eres"
             />
