@@ -1,3 +1,4 @@
+export * from './calculateAge';
 export * from './errorMessageInput';
 export * from './itemsLinks';
 export * from './nameInput';
