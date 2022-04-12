@@ -3,12 +3,13 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { FC, useState } from 'react';
 
-import Button from '@/components/common/Button';
 import BodyContainer from '@/components/common/BodyContainer';
-import NavBar from '@/components/common/NavBar/NavBarContainer';
-import Title from '@/components/common/Title';
+import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
+import NavBar from '@/components/common/NavBar/NavBarContainer';
+import Textarea from '@/components/common/Textarea';
+import ResetPassword from '@/components/profile/ResetPassword';
 
 const Content = styled.div`
   ${xw`
@@ -42,19 +43,15 @@ const user = {
 };
 
 const Profile: FC = () => {
-  const [updatePassword, setUpdatePassword] = useState(false);
+  const [showUpdatePass, setShowUpdatePass] = useState(false);
 
-  const handleUpdatePassword = () => {
-    setUpdatePassword(true);
-  };
-
-  const handleCancel = () => {
-    setUpdatePassword(false);
+  const handleShowUpdatePass = () => {
+    setShowUpdatePass(!showUpdatePass);
   };
 
   return (
     <>
-      <NavBar allowRental allowRegister allowLogin />
+      <NavBar allowRental allowLoginRegister />
       <BodyContainer>
         <Content>
           <img
@@ -116,7 +113,19 @@ const Profile: FC = () => {
                   value={user.birthDate}
                 />
               </div>
+            </DoubleFormSpace>
 
+            <Label id="label-password" htmlFor="password">
+              Acerca de mi
+            </Label>
+            <Textarea
+              id="rental-place"
+              maxLength={255}
+              counter={0}
+              placeholder="Describe quién eres"
+            />
+
+            <DoubleFormSpace>
               <div css={xw`mb-4`}>
                 <Label id="label-email" htmlFor="email">
                   Correo
@@ -148,7 +157,7 @@ const Profile: FC = () => {
               <button
                 type="button"
                 css={xw`text-primary hover:underline text-sm`}
-                onClick={handleUpdatePassword}
+                onClick={handleShowUpdatePass}
               >
                 Cambiar contraseña
               </button>
@@ -162,73 +171,7 @@ const Profile: FC = () => {
           </form>
         </Content>
 
-        {updatePassword && (
-          <Content css={xw`mb-10`}>
-            <form css={xw`w-full lg:w-6/12`}>
-              <Title css={xw`mt-0 sm:mt-7`}>Actualizar Contraseña</Title>
-
-              <DoubleFormSpace>
-                <div css={xw`mb-4`}>
-                  <Label id="label-current-password" htmlFor="current-password">
-                    Contraseña actual
-                  </Label>
-                  <Input
-                    required
-                    id="current-password"
-                    type="password"
-                    placeholder="Contraseña actual"
-                  />
-                </div>
-
-                <div css={xw`mb-4`}>
-                  <Label id="label-new-password" htmlFor="new-password">
-                    Contraseña nueva
-                  </Label>
-                  <Input
-                    required
-                    id="new-password"
-                    type="password"
-                    placeholder="Contraseña nueva"
-                  />
-                </div>
-
-                <div css={xw`mb-6 col-span-2`}>
-                  <Label
-                    id="label-new-password-confirmed"
-                    htmlFor="new-password-confirmed"
-                  >
-                    Confirmar nueva contraseña
-                  </Label>
-                  <Input
-                    required
-                    type="password"
-                    id="new-password-confirmed"
-                    placeholder="Contraseña"
-                  />
-                </div>
-              </DoubleFormSpace>
-
-              <DoubleFormSpace>
-                <div css={xw`mb-4`}>
-                  <Button
-                    BSecondary
-                    type="button"
-                    css={xw`w-full`}
-                    onClick={handleCancel}
-                  >
-                    Cancelar
-                  </Button>
-                </div>
-
-                <div css={xw`mb-4`}>
-                  <Button type="submit" FPrimary css={xw`w-full`}>
-                    Actualizar
-                  </Button>
-                </div>
-              </DoubleFormSpace>
-            </form>
-          </Content>
-        )}
+        {showUpdatePass && <ResetPassword closeModal={handleShowUpdatePass} />}
       </BodyContainer>
     </>
   );

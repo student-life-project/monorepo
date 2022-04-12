@@ -1,7 +1,6 @@
 import { IAddress } from './Addres';
 import { ICharacteristic } from './Characteristic.type';
 import { IImage } from './Image.type';
-import { IRate } from './Rate.type';
 import { IRule } from './Rule.type';
 import { IService } from './Service.type';
 
@@ -14,7 +13,7 @@ export interface IRentalPlace {
   characteristics: ICharacteristic[];
   rules: IRule[];
   images: IImage[];
-  scores: IRate[];
+  likes: number;
   availabe: boolean;
   approved: boolean;
 }

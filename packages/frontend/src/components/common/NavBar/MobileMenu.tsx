@@ -69,10 +69,9 @@ const ExitButton = styled.button`
 const MobileMenu: FC<INavBar> = ({
   user,
   isLogedIn,
-  allowLogin,
+  allowLoginRegister,
   allowRental,
   allowRequest,
-  allowRegister,
   onLogoutClick,
 }) => {
   const [displayMenu, setDisplayMenu] = useState(false);
@@ -92,6 +91,7 @@ const MobileMenu: FC<INavBar> = ({
           <Triangle
             css={xw`block fill-current text-white w-4 h-4 absolute right-0 top-0 mr-2 -mt-3 z-0`}
           />
+
           {isLogedIn && (
             <MenuItem>
               <Link href="/profile">
@@ -99,6 +99,7 @@ const MobileMenu: FC<INavBar> = ({
               </Link>
             </MenuItem>
           )}
+
           {allowRental && (
             <MenuItem>
               <Link href="/rentals">
@@ -106,6 +107,7 @@ const MobileMenu: FC<INavBar> = ({
               </Link>
             </MenuItem>
           )}
+
           {allowRequest && (
             <Anchor
               css={xw`text-secondary-1`}
@@ -114,11 +116,13 @@ const MobileMenu: FC<INavBar> = ({
               Enviar una solicitud
             </Anchor>
           )}
+
           <MenuItem>
             <Link href="/profile/messages">
               <Anchor css={xw`text-secondary-1`}>Mensajes</Anchor>
             </Link>
           </MenuItem>
+
           {user?.type === EUserType.OWNER && (
             <MenuItem>
               <Link href="/profile/publications">
@@ -126,20 +130,14 @@ const MobileMenu: FC<INavBar> = ({
               </Link>
             </MenuItem>
           )}
+
           {!isLogedIn ? (
             <>
-              {allowLogin && (
+              {allowLoginRegister && (
                 <MenuItem>
-                  <Link href="/login">
-                    <Anchor css={xw`text-secondary-1`}>Iniciar Sesión</Anchor>
-                  </Link>
-                </MenuItem>
-              )}
-              {allowRegister && (
-                <MenuItem>
-                  <Link href="/register">
-                    <Anchor css={xw`text-secondary-1`}>Registrarse</Anchor>
-                  </Link>
+                  <Anchor href="/api/auth/login" css={xw`text-secondary-1`}>
+                    Iniciar Sesión | Registrarse
+                  </Anchor>
                 </MenuItem>
               )}
             </>

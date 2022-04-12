@@ -1,3 +1,5 @@
+//! SI NO SE USAN ELIMINAR.
+
 export enum ERateType {
   PLACE,
   PLACE_OWNER,

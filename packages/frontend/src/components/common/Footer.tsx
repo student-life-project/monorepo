@@ -147,10 +147,7 @@ const Footer: FC = () => (
           <TitleSection>Student Life</TitleSection>
           <Nav>
             <li>
-              <Link href="/register">Registrarse</Link>
-            </li>
-            <li>
-              <Link href="/login">Iniciar Sesión</Link>
+              <Link href="/api/auth/login">Iniciar Sesión | Registrarse</Link>
             </li>
             <li>
               <Link href="/rentals">Alojamientos</Link>

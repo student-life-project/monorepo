@@ -3,23 +3,22 @@
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import {
-  faConciergeBell,
   faBullhorn,
-  faComment,
+  faConciergeBell,
   faHome,
-  faPhoneAlt,
   faSearch,
-  faStar,
+  faThumbsUp,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import NextLink from 'next/link';
 import { FC, useState } from 'react';
 
-import Button from '@/components/common/Button';
 import BodyContainer from '@/components/common/BodyContainer';
+import Button from '@/components/common/Button';
+import ButtonLink from '@/components/common/ButtonLink';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
+import CardUser from '@/components/profile/CardUser';
 import RentalPlaceReport from '@/components/reports/RentalPlaceReport';
 import UserReport from '@/components/reports/UserReport';
 
@@ -31,8 +30,9 @@ const ContentGallery = styled.section`
     gap-4
     w-full
     sm:h-96
-    grid-cols-2
     grid-rows-2
+    grid-cols-2
+    sm:grid-cols-3
   `}
 `;
 
@@ -42,16 +42,6 @@ const Img = styled.img`
     h-full
     bg-gray-400
     object-cover
-  `}
-`;
-
-const ButtonLink = styled.button`
-  ${xw`
-    flex
-    text-left
-    text-primary
-    cursor-pointer
-    hover:underline
   `}
 `;
 
@@ -75,6 +65,14 @@ const data = {
     {
       url: '/images/example_home_2.jpg',
       name: 'img-home-3',
+    },
+    {
+      url: '/images/example_home_2.jpg',
+      name: 'img-home-4',
+    },
+    {
+      url: '/images/example_home_2.jpg',
+      name: 'img-home-5',
     },
   ],
   description:
@@ -114,6 +112,7 @@ const data = {
 };
 
 const user = {
+  id: 1,
   userImage: '/images/avatar.png',
   firstName: 'User 1',
   lastName: 'Test Test',
@@ -121,55 +120,42 @@ const user = {
   password: 'testtesttest',
   phoneNumber: '3315448430',
   birthDate: '1997-02-11',
+  aboutMe:
+    'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
 };
 
 const Details: FC = () => {
   const [userReport, setUserReport] = useState(false);
   const [rentalReport, setRentalReport] = useState(false);
 
-  const openUserReport = () => {
-    setUserReport(true);
+  const handleUserReport = () => {
+    setUserReport(!userReport);
   };
 
-  const closeUserReport = () => {
-    setUserReport(false);
+  const handleRentalReport = () => {
+    setRentalReport(!rentalReport);
   };
 
-  const openRentalReport = () => {
-    setRentalReport(true);
-  };
-
-  const closeRentalReport = () => {
-    setRentalReport(false);
-  };
-
-  const calculateAge = (date) => {
-    const now = new Date();
-    const birthDate = new Date(date);
-    const month = now.getMonth() - birthDate.getMonth();
-    let age = now.getFullYear() - birthDate.getFullYear();
-
-    if (month < 0 || (month === 0 && now.getDate() < birthDate.getDate())) {
-      age -= age;
-    }
-
-    return age;
-  };
+  // TODO: need to implement
+  const like = true;
 
   return (
     <>
-      <NavBar allowRental allowRegister allowLogin />
+      <NavBar allowRental allowLoginRegister />
+
       <BodyContainer css={xw`text-secondary-1`}>
         <ContentGallery>
           {data.images.map((img, index) => {
             let css = '';
 
             if (index === 0) {
-              css = xw`rounded-tl-2xl rounded-bl-2xl row-span-2`;
-            } else if (index === 1) {
+              css = xw`rounded-l-2xl row-span-2`;
+            } else if (index === 2) {
               css = xw`rounded-tr-2xl`;
-            } else {
+            } else if (index === 4) {
               css = xw`rounded-br-2xl`;
+            } else {
+              css = xw`hidden sm:block`;
             }
 
             return (
@@ -178,51 +164,48 @@ const Details: FC = () => {
           })}
         </ContentGallery>
 
-        <Title css={xw`my-5`}>
-          ${data.price} / mes, en {data.title}
-        </Title>
+        <div css={xw`flex gap-10 items-center`}>
+          <Button BPrimary round like={like} css={xw`h-10`}>
+            <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />{' '}
+            <span css={xw`ml-2`}>157 Me gusta</span>
+          </Button>
+
+          <Title css={xw`my-5`}>
+            ${data.price} / mes, en {data.title}
+          </Title>
+        </div>
 
         <section css={xw`w-full flex flex-wrap mb-10 sm:mb-20`}>
           <div css={xw`w-full sm:w-8/12`}>
             <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
               <div css={xw`flex`}>
-                <FontAwesomeIcon icon={faStar} height="1.2rem" />
-                <p css={xw`ml-2`}>4.5 (10 evaluaciones)</p>
-              </div>
-              <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faHome} height="1.2rem" />
                 <p css={xw`ml-2`}>{data.typeSpace}</p>
               </div>
+
               <div css={xw`flex`}>
-                <ButtonLink type="button" onClick={openRentalReport}>
+                <ButtonLink type="button" onClick={handleRentalReport}>
                   <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
                   <p css={xw`ml-2`}>Reportar publicación</p>
                 </ButtonLink>
+              </div>
+
+              <div css={xw`flex`}>
+                <FontAwesomeIcon icon={faConciergeBell} height="1.2rem" />
+                <p css={xw`ml-2`}>{data.available}</p>
               </div>
             </div>
 
             <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
               <div css={xw`flex`}>
-                <FontAwesomeIcon icon={faConciergeBell} height="1.2rem" />
-                <p css={xw`ml-2`}>{data.available}</p>
-              </div>
-              <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faSearch} height="1.2rem" />
                 <p css={xw`ml-2`}>{data.reason}</p>
               </div>
+
               <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faUsers} height="1.2rem" />
                 <p css={xw`ml-2`}>{data.gender}</p>
               </div>
-            </div>
-
-            <div css={xw`flex items-center`}>
-              <h2 css={xw`mr-2 text-xl font-bold`}>Calificar</h2>
-              <FontAwesomeIcon icon={faStar} height="1.2rem" />
-              <FontAwesomeIcon icon={faStar} height="1.2rem" />
-              <FontAwesomeIcon icon={faStar} height="1.2rem" />
-              <FontAwesomeIcon icon={faStar} height="1.2rem" />
-              <FontAwesomeIcon icon={faStar} height="1.2rem" />
             </div>
 
             <div css={xw`w-full flex flex-wrap`}>
@@ -271,48 +254,11 @@ const Details: FC = () => {
             </div>
           </div>
 
-          <div css={xw`w-full mt-10 sm:mt-0 sm:w-4/12`}>
-            <div
-              css={xw`flex flex-col p-5 items-center mx-0 sm:mx-10 border border-secondary-2 rounded-md static sm:sticky top-20`}
-            >
-              <img
-                alt={user.firstName}
-                src={user.userImage}
-                css={xw`w-32 h-32 rounded-full bg-gray-400`}
-              />
-
-              <h2 css={xw`py-3 text-xl text-center font-bold`}>
-                {user.firstName} {user.lastName}
-              </h2>
-              <p css={xw`text-center font-semibold`}>
-                {calculateAge(user.birthDate)} años
-              </p>
-
-              <h2 css={xw`py-3 text-lg text-center font-bold`}>
-                Acerca de {user.firstName}
-              </h2>
-              <div css={xw`flex`}>
-                <FontAwesomeIcon icon={faPhoneAlt} height="1.2rem" />
-                <p css={xw`ml-2 mb-5`}>{user.phoneNumber}</p>
-              </div>
-
-              <NextLink href="/profile/messages">
-                <Button type="button" FPrimary>
-                  <FontAwesomeIcon icon={faComment} height="1.2rem" />
-                  <span css={xw`ml-2`}>Enviar mensaje</span>
-                </Button>
-              </NextLink>
-
-              <ButtonLink type="button" css={xw`mt-5`} onClick={openUserReport}>
-                <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
-                <p css={xw`ml-2`}>Reportar usuario</p>
-              </ButtonLink>
-            </div>
-          </div>
+          <CardUser user={user} openUserReport={handleUserReport} />
         </section>
 
-        {rentalReport && <RentalPlaceReport closeModal={closeRentalReport} />}
-        {userReport && <UserReport closeModal={closeUserReport} />}
+        {rentalReport && <RentalPlaceReport closeModal={handleRentalReport} />}
+        {userReport && <UserReport closeModal={handleUserReport} />}
       </BodyContainer>
     </>
   );

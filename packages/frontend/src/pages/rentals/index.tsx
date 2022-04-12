@@ -29,6 +29,7 @@ import {
 import { TRootState } from '@/store/reducers';
 import { rentaPlacesSelector } from '@/store/selectors/rentalPlaces';
 import { IFilters } from '@/types';
+import { ScrollToAnimation } from '@/utils/scrollTo';
 
 const ContentRentals = styled.div`
   ${xw`
@@ -52,53 +53,47 @@ const filters: IFilters = {
 const Rentals: NextPage = () => {
   const rentalPlaces = useSelector(rentaPlacesSelector);
 
-  const itemsPerPage = 10;
+  const totalPlaces = rentalPlaces.length;
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentItems, setCurrentItems] = useState<IRentalPlace[]>([]);
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
     setCurrentItems(rentalPlaces.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(rentalPlaces.length / itemsPerPage));
+    setPageCount(Math.ceil(totalPlaces / itemsPerPage));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemOffset, itemsPerPage]);
 
   const handlePageClick = (event: { selected: number }) => {
-    const newOffset = (event.selected * itemsPerPage) % rentalPlaces.length;
+    const newOffset = (event.selected * itemsPerPage) % totalPlaces;
     setItemOffset(newOffset);
-    window.scrollTo(0, 0);
+    ScrollToAnimation();
   };
 
   return (
     <>
-      <NavBar allowRental allowRegister allowLogin />
-      <FilterAndSort sorts={orderRentals} filters={filters} />
+      <NavBar allowRental allowLoginRegister />
+      <FilterAndSort
+        filters={filters}
+        sorts={orderRentals}
+        totalPlaces={totalPlaces}
+        setItemsPerPage={setItemsPerPage}
+      />
 
       <BodyContainer css={xw`pt-0`}>
         <ContentRentals>
-          {currentItems?.map((rentalPlace) => {
-            const rateNumber = rentalPlace.scores && rentalPlace.scores.length;
-
-            const rate =
-              rentalPlace.scores &&
-              rentalPlace.scores.reduce(
-                (totalScore, score) => totalScore + score.score,
-                0,
-              ) / rateNumber;
-
-            return (
-              <div key={`rental_place${rentalPlace.id}`}>
-                <VerticalCard
-                  rateNumber={rateNumber}
-                  title={rentalPlace.title}
-                  pricePerMonth={rentalPlace.price}
-                  imageUrl={rentalPlace.images?.[0]?.url}
-                  rate={rate && parseFloat(rate.toFixed(2))}
-                />
-              </div>
-            );
-          })}
+          {currentItems?.map((rentalPlace) => (
+            <div key={`rental_place${rentalPlace.id}`}>
+              <VerticalCard
+                likes={rentalPlace.likes}
+                title={rentalPlace.title}
+                pricePerMonth={rentalPlace.price}
+                imageUrl={rentalPlace.images?.[0]?.url}
+              />
+            </div>
+          ))}
         </ContentRentals>
 
         <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />

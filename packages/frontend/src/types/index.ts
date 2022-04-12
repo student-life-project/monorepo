@@ -16,8 +16,7 @@ export interface IRegisterResponse {
 
 export interface INavBar {
   allowRental?: boolean;
-  allowRegister?: boolean;
-  allowLogin?: boolean;
+  allowLoginRegister?: boolean;
   allowRequest?: boolean;
   isLogedIn?: boolean;
   onLogoutClick: () => void;

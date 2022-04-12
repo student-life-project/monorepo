@@ -14,6 +14,7 @@ import RentalPlaceStep3 from '@/components/publications/RentalPlaceStep3';
 import Steps from '@/components/publications/Steps';
 import UbicationStep2 from '@/components/publications/UbicationStep2';
 import { EPublicationStep, PublicationSteps } from '@/constants';
+import { scrollTo } from '@/utils/scrollTo';
 
 export interface IPublicationData {
   title: string;
@@ -79,7 +80,7 @@ const Create: FC = () => {
     if (step > EPublicationStep.BASIC_INFO) {
       steps[step - 1].completed = false;
       setStep(step - 1);
-      window.scrollTo(0, 0);
+      scrollTo();
     } else {
       router.push('/profile/publications');
     }
@@ -89,7 +90,7 @@ const Create: FC = () => {
     steps[step].completed = true;
     setStep(step + 1);
     setSteps(steps);
-    window.scrollTo(0, 0);
+    scrollTo();
   };
 
   const stepBasicInfo = step === EPublicationStep.BASIC_INFO;
@@ -117,12 +118,12 @@ const Create: FC = () => {
 
   return (
     <>
-      <NavBar allowRental allowRegister allowLogin />
+      <NavBar allowRental allowLoginRegister />
       <Steps steps={steps} stepCurrent={step} />
       <Alert />
 
-      <BodyContainer css={xw`pt-8 sm:pt-16`}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <BodyContainer css={xw`pt-8 sm:pt-16 px-0`}>
+        <form onSubmit={handleSubmit(onSubmit)} css={xw`w-full mx-auto px-4`}>
           {step === 0 && (
             <BasicStep1
               register={register}

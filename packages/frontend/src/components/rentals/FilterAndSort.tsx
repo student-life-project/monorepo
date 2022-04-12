@@ -14,7 +14,13 @@ import { IFilters, IOption } from '@/types';
 interface IFilterAndSort {
   sorts: IOption[];
   filters: IFilters;
+  totalPlaces: number;
+  setItemsPerPage: (total: number) => void;
 }
+
+type TItems = { [key: string]: number };
+
+const ITEMS = [10, 20, 30, 40, 50];
 
 const Container = styled.section`
   ${xw`
@@ -30,30 +36,54 @@ const Container = styled.section`
   `}
 `;
 
-const DoubleFormSpace = styled.div`
+const DoubleSpace = styled.div`
   ${xw`
-    grid
-    gap-x-4
-    grid-rows-2
-    md:grid-rows-1
-    md:grid-cols-2
+    flex
+    w-full
+    sm:gap-10
+    sm:flex-row
+    justify-center
+    flex-col-reverse
+    sm:justify-between
   `}
 `;
 
-const FilterAndSort: FC<IFilterAndSort> = ({ sorts, filters }) => {
+const FilterAndSort: FC<IFilterAndSort> = ({
+  sorts,
+  filters,
+  totalPlaces,
+  setItemsPerPage,
+}) => {
+  let items: TItems[] = [];
   const [showModal, setShowModal] = useState(false);
 
-  const openModal = () => {
-    setShowModal(true);
+  const handleShowModal = () => {
+    setShowModal(!showModal);
   };
 
-  const closeModal = () => {
-    setShowModal(false);
+  const handleItemsPerPage = ({ target }) => {
+    const total = parseInt(target.value, 10);
+    setItemsPerPage(total);
   };
+
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i <= totalPlaces; i += 10) {
+    if (ITEMS.includes(i)) {
+      items = [...items, { [i]: i }];
+    }
+
+    if (ITEMS[ITEMS.length - 1] === i) {
+      break;
+    }
+  }
+
+  if (items.length === 0) {
+    items = [{ '10': 10 }];
+  }
 
   return (
     <Container>
-      <div css={xw`w-6/12 lg:w-80`}>
+      <div css={xw`w-4/12 lg:w-40`}>
         <Select
           id="order"
           name="order"
@@ -62,18 +92,28 @@ const FilterAndSort: FC<IFilterAndSort> = ({ sorts, filters }) => {
         />
       </div>
 
+      <div css={xw`ml-5 w-20`}>
+        <Select
+          id="order"
+          name="order"
+          options={items}
+          optionName="Ver"
+          onChange={handleItemsPerPage}
+        />
+      </div>
+
       <Button
         BPrimary
         type="button"
-        onClick={openModal}
-        css={xw`ml-5 w-6/12 lg:w-80 h-10`}
+        onClick={handleShowModal}
+        css={xw`ml-5 w-4/12 lg:w-40 h-10`}
       >
         <span css={xw`mr-5`}>Filtar</span>
         <FontAwesomeIcon icon={faFilter} height="1rem" />
       </Button>
 
       {showModal && (
-        <Modal title="Filtrar por:" close={closeModal}>
+        <Modal title="Filtrar por:" close={handleShowModal}>
           <h2 css={xw`py-4 text-lg font-bold`}>Tipo de anuncio</h2>
           <div css={xw`flex flex-wrap flex-col`}>
             <div css={xw`flex flex-wrap items-start justify-start`}>
@@ -164,24 +204,24 @@ const FilterAndSort: FC<IFilterAndSort> = ({ sorts, filters }) => {
             </div>
           </div>
 
-          <DoubleFormSpace>
-            <div css={xw`mt-5 sm:mb-2`}>
+          <DoubleSpace>
+            <div css={xw`mt-5 sm:mb-2 w-full`}>
               <Button
                 BSecondary
                 type="button"
                 css={xw`w-full`}
-                onClick={closeModal}
+                onClick={handleShowModal}
               >
                 Cancelar
               </Button>
             </div>
 
-            <div css={xw`mt-5 sm:mb-2`}>
+            <div css={xw`mt-5 sm:mb-2 w-full`}>
               <Button type="submit" FPrimary css={xw`w-full`}>
                 Aplicar filtros
               </Button>
             </div>
-          </DoubleFormSpace>
+          </DoubleSpace>
         </Modal>
       )}
     </Container>

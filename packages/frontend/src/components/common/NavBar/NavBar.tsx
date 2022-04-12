@@ -90,10 +90,9 @@ const MenuContent = styled.div`
 const NavBar: FC<INavBar> = ({
   user,
   isLogedIn,
-  allowLogin,
+  allowLoginRegister,
   allowRental,
   allowRequest,
-  allowRegister,
   onLogoutClick,
 }) => (
   <Nav>
@@ -118,23 +117,20 @@ const NavBar: FC<INavBar> = ({
       )}
 
       {allowRequest && (
-        <Anchor href="mailto:info@studentlife.com.mx?Subject=Necesito%20asistencia%20con%20una%20situación">
+        <Anchor
+          css={xw`mx-4`}
+          href="mailto:info@studentlife.com.mx?Subject=Necesito%20asistencia%20con%20una%20situación"
+        >
           Enviar una solicitud
         </Anchor>
       )}
 
       {!isLogedIn ? (
         <>
-          {allowLogin && (
-            <Link href="/login">
-              <Anchor css={xw`md:mx-2 lg:mx-2 xl:mx-4`}>Iniciar Sesión</Anchor>
-            </Link>
-          )}
-
-          {allowRegister && (
-            <Link href="/register">
-              <Anchor css={xw`mr-4`}>Registrarse</Anchor>
-            </Link>
+          {allowLoginRegister && (
+            <Anchor href="/api/auth/login" css={xw`md:mx-2 lg:mx-2 xl:mx-4`}>
+              Iniciar Sesión | Registrarse
+            </Anchor>
           )}
         </>
       ) : (
@@ -151,10 +147,9 @@ const NavBar: FC<INavBar> = ({
       <MobileMenu
         user={user}
         isLogedIn={isLogedIn}
-        allowLogin={allowLogin}
+        allowLoginRegister={allowLoginRegister}
         allowRental={allowRental}
         allowRequest={allowRequest}
-        allowRegister={allowRegister}
         onLogoutClick={onLogoutClick}
       />
     </MenuContent>

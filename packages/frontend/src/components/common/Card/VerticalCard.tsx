@@ -7,11 +7,10 @@ import PriceSection from './PriceSection';
 import RateSection from './RateSection';
 
 interface IVerticalCard {
-  rate?: number;
+  likes?: number;
   title: string;
   imageUrl: string;
   placeId?: string;
-  rateNumber?: number;
   pricePerMonth: number;
 }
 
@@ -19,6 +18,7 @@ const Content = styled.div`
   ${xw`
     w-72
     h-72
+    pb-8
     border
     rounded
     bg-white
@@ -44,7 +44,6 @@ const Info = styled.section`
   ${xw`
     p-4
     flex
-    h-1/2
     w-full
     flex-col
     justify-end
@@ -70,18 +69,17 @@ const Description = styled.p`
 `;
 
 const Verticalcard: FC<IVerticalCard> = ({
-  rate,
   title,
   imageUrl,
   // placeId,
-  rateNumber,
+  likes,
   pricePerMonth,
 }) => (
   <Content>
     <Img src={imageUrl} alt={title} />
     <Info>
-      {rate && rateNumber ? (
-        <RateSection score={String(rate)} scoreCount={rateNumber} />
+      {likes ? (
+        <RateSection likes={likes} />
       ) : (
         <NotRate>No hay evaluaciones</NotRate>
       )}

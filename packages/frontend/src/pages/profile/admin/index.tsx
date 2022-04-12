@@ -11,9 +11,10 @@ import Status from '@/components/common/Status';
 import Table from '@/components/common/Table';
 import Tabs from '@/components/common/Tabs';
 import {
-  rentalApprovedStatus,
-  reportStatus,
-  userActiveStatus,
+  ItemsAdmin,
+  RentalApprovedStatus,
+  ReportStatus,
+  UserActiveStatus,
 } from '@/constants';
 
 const headerUser = {
@@ -51,7 +52,7 @@ const columnsUser = [
     selector: 'status',
     cell: (row) => {
       const { status } = row;
-      return <Status status={status} options={userActiveStatus} />;
+      return <Status status={status} options={UserActiveStatus} />;
     },
     sortable: true,
   },
@@ -97,7 +98,7 @@ const columnsPublication = [
     selector: 'approved',
     cell: (row) => {
       const { approved } = row;
-      return <Status status={approved} options={rentalApprovedStatus} />;
+      return <Status status={approved} options={RentalApprovedStatus} />;
     },
     sortable: true,
   },
@@ -135,7 +136,7 @@ const columnsReport = [
     selector: 'status',
     cell: (row) => {
       const { status } = row;
-      return <Status status={status} options={reportStatus} />;
+      return <Status status={status} options={ReportStatus} />;
     },
     sortable: true,
   },
@@ -340,7 +341,7 @@ const dataReport = [
   },
   {
     id: 2,
-    type: 'Publiación',
+    type: 'Publicación',
     description: 'Lorem ipsum dolor sit amet',
     createdAt: '2021-05-12',
     status: true,
@@ -354,14 +355,14 @@ const dataReport = [
   },
   {
     id: 4,
-    type: 'Publiación',
+    type: 'Publicación',
     description: 'Lorem ipsum dolor sit amet',
     createdAt: '2021-05-10',
     status: false,
   },
   {
     id: 5,
-    type: 'Publiación',
+    type: 'Publicación',
     description: 'Lorem ipsum dolor sit amet',
     createdAt: '2021-01-11',
     status: true,
@@ -377,14 +378,10 @@ const Admin: FC = () => {
 
   return (
     <>
-      <NavBar allowRental allowRegister allowLogin />
-      <BreadCrumbs
-        items={[
-          { link: '/', text: 'Student Life' },
-          { link: '/profile', text: 'Perfil' },
-          { link: '/profile/admin', text: 'Administrador' },
-        ]}
-      />
+      <NavBar allowRental allowLoginRegister />
+
+      <BreadCrumbs items={ItemsAdmin} />
+
       <Tabs
         items={[
           { text: 'Usuarios', handleTab },

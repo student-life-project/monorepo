@@ -28,6 +28,7 @@ import { rentaPlacesSelector } from '@/store/selectors/rentalPlaces';
 const PlaceContent = styled.div`
   ${xw`
     flex
+    gap-8
     my-20
     w-full
     flex-col
@@ -69,36 +70,21 @@ export const Home: NextPage = () => {
 
   return (
     <>
-      <NavBar allowRental allowRegister allowLogin />
+      <NavBar allowRental allowLoginRegister />
       <BodyContainer css={xw`px-0`}>
         <HeroImage url="/images/home_hero.jpg" name="hero_banner" />
 
         <PlaceContent>
-          {rentalPlaces.map((rentalPlace, index) => {
-            const rateNumber = rentalPlace.scores && rentalPlace.scores.length;
-            const rate =
-              rentalPlace.scores &&
-              rentalPlace.scores.reduce(
-                (totalScore, score) => totalScore + score.score,
-                0,
-              ) / rateNumber;
-            const css =
-              index !== rentalPlaces.length - 1
-                ? xw`pb-8 md:pr-4 lg:pb-0`
-                : xw``;
-
-            return (
-              <div css={css} key={`rental_place${rentalPlace.id}`}>
-                <VerticalCard
-                  rateNumber={rateNumber}
-                  title={rentalPlace.title}
-                  pricePerMonth={rentalPlace.price}
-                  imageUrl={rentalPlace.images?.[0]?.url}
-                  rate={rate && parseFloat(rate.toFixed(2))}
-                />
-              </div>
-            );
-          })}
+          {rentalPlaces.map((rentalPlace) => (
+            <div key={`rental_place${rentalPlace.id}`}>
+              <VerticalCard
+                likes={rentalPlace.likes}
+                title={rentalPlace.title}
+                pricePerMonth={rentalPlace.price}
+                imageUrl={rentalPlace.images?.[0]?.url}
+              />
+            </div>
+          ))}
         </PlaceContent>
 
         <InstructionContent>
@@ -177,7 +163,7 @@ Home.getInitialProps = async ({
       unknown,
       IRentalPlacesAction
     >
-  )(getRentalPlaces({ limit: 3 }));
+  )(getRentalPlaces({ limit: 4 }));
 
   return {};
 };

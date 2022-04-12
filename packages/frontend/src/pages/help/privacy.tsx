@@ -9,6 +9,7 @@ import BreadCrumbs from '@/components/common/BreadCrumbs';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
 import Footer from '@/components/common/Footer';
+import { ItemsPrivacy } from '@/constants';
 
 const Content = styled.div`
   ${xw`
@@ -49,15 +50,9 @@ const List = styled.ul`
 
 const Information: FC = () => (
   <>
-    <NavBar allowRequest allowLogin />
+    <NavBar allowRequest allowLoginRegister />
 
-    <BreadCrumbs
-      items={[
-        { link: '/', text: 'Student Life' },
-        { link: '/help', text: 'Ayuda' },
-        { link: '/help/privacy', text: 'Política de privacidad' },
-      ]}
-    />
+    <BreadCrumbs items={ItemsPrivacy} />
 
     <BodyContainer css={xw`pt-0`}>
       <Title>Política de privacidad</Title>

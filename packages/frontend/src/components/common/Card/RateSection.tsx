@@ -1,14 +1,12 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { faStar } from '@fortawesome/free-regular-svg-icons';
-// import { faStar as starFilled } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
 
 interface IRateSection {
-  score: string;
-  scoreCount: number;
+  likes: number;
 }
 
 const Content = styled.div`
@@ -35,12 +33,10 @@ const Text = styled.p`
   `}
 `;
 
-const RateSection: FC<IRateSection> = ({ score, scoreCount }) => (
+const RateSection: FC<IRateSection> = ({ likes }) => (
   <Content>
-    <Icon icon={faStar} height="1rem" />
-    <Text>
-      {parseFloat(score)} ({scoreCount} evaluaciones)
-    </Text>
+    <Icon icon={faThumbsUp} height="1rem" />
+    <Text>{likes} Me gusta</Text>
   </Content>
 );
 

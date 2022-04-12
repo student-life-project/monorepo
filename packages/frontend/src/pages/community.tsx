@@ -8,6 +8,7 @@ import BreadCrumbs from '@/components/common/BreadCrumbs';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
 import Footer from '@/components/common/Footer';
+import { ItemsCommunity } from '@/constants';
 
 const Content = styled.div`
   ${xw`
@@ -27,14 +28,9 @@ const Text = styled.p`
 
 const Information: FC = () => (
   <>
-    <NavBar allowRequest allowLogin />
+    <NavBar allowRequest allowLoginRegister />
 
-    <BreadCrumbs
-      items={[
-        { link: '/', text: 'Student Life' },
-        { link: '/community', text: 'Comunidad' },
-      ]}
-    />
+    <BreadCrumbs items={ItemsCommunity} />
 
     <BodyContainer css={xw`pt-0`}>
       <Title>Comunidad</Title>

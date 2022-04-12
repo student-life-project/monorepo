@@ -14,6 +14,7 @@ import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
 import Footer from '@/components/common/Footer';
 import InfoSteps from '@/components/faqs/InfoSteps';
+import { ItemsInfoPublish } from '@/constants';
 
 const steps = [
   {
@@ -40,15 +41,9 @@ const steps = [
 
 const Information: FC = () => (
   <>
-    <NavBar allowRequest allowLogin />
+    <NavBar allowRequest allowLoginRegister />
 
-    <BreadCrumbs
-      items={[
-        { link: '/', text: 'Student Life' },
-        { link: '/help', text: 'Ayuda' },
-        { link: '/help/information-publish', text: 'Anunciar un alojamiento' },
-      ]}
-    />
+    <BreadCrumbs items={ItemsInfoPublish} />
 
     <BodyContainer css={xw`pt-0`}>
       <Title>Anunciar un alojamiento</Title>

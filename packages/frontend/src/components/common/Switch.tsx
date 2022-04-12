@@ -5,13 +5,15 @@ import styled from '@emotion/styled';
 
 type TSwitch = {
   name?: string;
-  label?: string;
-  checked: boolean;
+  label?: React.ReactChild | string;
+  checked?: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const Container = styled.label`
   ${xw`
     my-1
+    flex
+    items-center
   `}
 `;
 
