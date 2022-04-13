@@ -1,12 +1,15 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import { FC, useRef } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
-import Modal from '@/components/common/Modal';
 import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
+import Modal from '@/components/common/Modal';
+import { ErrorMessageInput, NameInput } from '@/constants';
+import { rgxPassword } from '@/utils/validations';
 
 type TResetPassword = {
   closeModal: () => void;
@@ -34,34 +37,84 @@ const DoubleSpace = styled.div`
   `}
 `;
 
+interface IResetPasswordData {
+  currentPassword: string;
+  newPassword: string;
+  newPasswordConfirmed: string;
+}
+
 const ResetPassword: FC<TResetPassword> = ({ closeModal }) => {
   // TODO: Need to implement
+  //! Validar currentPassword para verificar que sea la misma contraseña.
+
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors },
+  } = useForm({ mode: 'all' });
+
+  const passwordRef = useRef({});
+  passwordRef.current = watch('newPassword', '');
+
+  const onSubmit: SubmitHandler<IResetPasswordData> = async (data) => {
+    // eslint-disable-next-line no-console
+    console.log(data);
+  };
 
   return (
     <Modal title="Actualizar Contraseña" close={closeModal}>
-      <form css={xw`w-full mt-9`}>
+      <form css={xw`w-full mt-9`} onSubmit={handleSubmit(onSubmit)}>
         <DoubleFormSpace>
           <div css={xw`mb-4 col-span-2 sm:col-span-1`}>
             <Label id="label-current-password" htmlFor="current-password">
-              Contraseña actual
+              {NameInput.currentPassword}
             </Label>
             <Input
-              required
               id="current-password"
               type="password"
               placeholder="Contraseña actual"
+              register={{
+                ...register('currentPassword', {
+                  required: ErrorMessageInput.inputRequire(
+                    NameInput.currentPassword,
+                  ),
+                  pattern: {
+                    value: rgxPassword,
+                    message: ErrorMessageInput.inputValid(
+                      NameInput.currentPassword,
+                    ),
+                  },
+                }),
+              }}
+              error={errors.currentPassword}
+              messageError={errors.currentPassword?.message}
             />
           </div>
 
           <div css={xw`mb-4 col-span-2 sm:col-span-1`}>
             <Label id="label-new-password" htmlFor="new-password">
-              Contraseña nueva
+              {NameInput.newPassword}
             </Label>
             <Input
-              required
               id="new-password"
               type="password"
               placeholder="Contraseña nueva"
+              register={{
+                ...register('newPassword', {
+                  required: ErrorMessageInput.inputRequire(
+                    NameInput.newPassword,
+                  ),
+                  pattern: {
+                    value: rgxPassword,
+                    message: ErrorMessageInput.inputValid(
+                      NameInput.newPassword,
+                    ),
+                  },
+                }),
+              }}
+              error={errors.newPassword}
+              messageError={errors.newPassword?.message}
             />
           </div>
 
@@ -70,13 +123,24 @@ const ResetPassword: FC<TResetPassword> = ({ closeModal }) => {
               id="label-new-password-confirmed"
               htmlFor="new-password-confirmed"
             >
-              Confirmar nueva contraseña
+              {NameInput.newPasswordConfirmed}
             </Label>
             <Input
-              required
               type="password"
               id="new-password-confirmed"
               placeholder="Contraseña"
+              register={{
+                ...register('newPasswordConfirmed', {
+                  required: ErrorMessageInput.inputRequire(
+                    NameInput.newPasswordConfirmed,
+                  ),
+                  validate: (value: string) =>
+                    value === passwordRef.current ||
+                    ErrorMessageInput.passwordDoNotMatch,
+                }),
+              }}
+              error={errors.newPasswordConfirmed}
+              messageError={errors.newPasswordConfirmed?.message}
             />
           </div>
         </DoubleFormSpace>
