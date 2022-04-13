@@ -24,7 +24,7 @@ export const NameInput = {
   security: 'Seguridad',
   fullName: 'Nombre completo',
   phone: 'Número de teléfono',
-  birthday: 'Fecha de nacimiento',
+  birthDate: 'Fecha de nacimiento',
   aboutMe: 'Acerca de mi',
   userStatus: 'Estatus del usuario',
   reportStatus: 'Estatus del reporte',

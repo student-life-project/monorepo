@@ -1,7 +1,8 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import BodyContainer from '@/components/common/BodyContainer';
 import Button from '@/components/common/Button';
@@ -10,6 +11,7 @@ import Label from '@/components/common/Label';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Textarea from '@/components/common/Textarea';
 import ResetPassword from '@/components/profile/ResetPassword';
+import { ErrorMessageInput, NameInput } from '@/constants';
 
 const Content = styled.div`
   ${xw`
@@ -32,17 +34,53 @@ const DoubleFormSpace = styled.div`
   `}
 `;
 
-const user = {
+interface IProfileData {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  birthDate: string;
+  aboutMe: string;
+}
+
+// TODO: Need to implement.
+const userData = {
+  firstName: 'Alfredo',
+  lastName: 'Carreón Urbano',
+  phone: '3315448430',
+  birthDate: '1997-02-11',
+  aboutMe:
+    'Soy Estudiante de Ing. en Computación y me gustaria encontrar un roomy',
+  email: 'alfredo11cu@gmail.com',
+  password: 'Password.123',
   userImage: '/images/avatar.png',
-  firstName: 'User 1',
-  lastName: 'Test Test',
-  email: 'user@test.com',
-  password: 'testtesttest',
-  phoneNumber: '3315448430',
-  birthDate: '2018-07-22',
 };
 
 const Profile: FC = () => {
+  const {
+    handleSubmit,
+    register,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm({ mode: 'all' });
+
+  useEffect(() => {
+    reset({
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      phone: userData.phone,
+      birthDate: userData.birthDate,
+      aboutMe: userData.aboutMe,
+    });
+  }, [reset]);
+
+  const aboutMe = watch('aboutMe');
+
+  const onSubmit: SubmitHandler<IProfileData> = async (data) => {
+    // eslint-disable-next-line no-console
+    console.log(data);
+  };
+
   const [showUpdatePass, setShowUpdatePass] = useState(false);
 
   const handleShowUpdatePass = () => {
@@ -54,101 +92,140 @@ const Profile: FC = () => {
       <NavBar allowRental allowLoginRegister />
       <BodyContainer>
         <Content>
-          <img
-            alt={user.firstName}
-            src={user.userImage}
-            css={xw`w-52 h-52 sm:w-48 sm:h-48 bg-gray-400 rounded-full mb-5`}
-          />
+          <form css={xw`w-full lg:w-6/12`} onSubmit={handleSubmit(onSubmit)}>
+            <div css={xw`flex items-center justify-center`}>
+              <img
+                alt={userData.firstName}
+                src={userData.userImage}
+                css={xw`w-52 h-52 sm:w-48 sm:h-48 bg-gray-400 rounded-full mb-5`}
+              />
+            </div>
 
-          <form css={xw`w-full lg:w-6/12`}>
             <DoubleFormSpace>
               <div css={xw`mb-4`}>
                 <Label id="label-first-name" htmlFor="first-name">
-                  Nombre
+                  {NameInput.firstName}
                 </Label>
                 <Input
-                  required
                   type="text"
                   id="first-name"
-                  placeholder="Nombre"
-                  value={user.firstName}
+                  placeholder="Tu nombre"
+                  register={{
+                    ...register('firstName', {
+                      required: ErrorMessageInput.inputRequire(
+                        NameInput.firstName,
+                      ),
+                    }),
+                  }}
+                  error={errors.firstName}
+                  messageError={errors.firstName?.message}
                 />
               </div>
 
               <div css={xw`mb-4`}>
                 <Label id="label-last-name" htmlFor="last-name">
-                  Apellido
+                  {NameInput.lastName}
                 </Label>
                 <Input
-                  required
                   type="text"
                   id="last-name"
-                  placeholder="Apellido"
-                  value={user.lastName}
+                  placeholder="Tu apellido"
+                  register={{
+                    ...register('lastName', {
+                      required: ErrorMessageInput.inputRequire(
+                        NameInput.lastName,
+                      ),
+                    }),
+                  }}
+                  error={errors.lastName}
+                  messageError={errors.lastName?.message}
                 />
               </div>
 
               <div css={xw`mb-4`}>
-                <Label id="label-phone-Number" htmlFor="phone-number">
-                  Número de teléfono
+                <Label id="label-phone" htmlFor="phone">
+                  {NameInput.phone}
                 </Label>
                 <Input
-                  required
                   type="tel"
-                  id="phone-number"
-                  placeholder="Número de teléfono"
-                  value={user.phoneNumber}
+                  id="phone"
+                  placeholder="Tu número de teléfono"
+                  register={{
+                    ...register('phone', {
+                      required: ErrorMessageInput.inputRequire(NameInput.phone),
+                    }),
+                  }}
+                  error={errors.phone}
+                  messageError={errors.phone?.message}
                 />
               </div>
 
               <div css={xw`mb-4`}>
                 <Label id="label-birth-date" htmlFor="birth-date">
-                  Fecha de nacimiento
+                  {NameInput.birthDate}
                 </Label>
                 <Input
-                  required
                   type="date"
                   id="birth-date"
-                  placeholder="Fecha de nacimiento"
-                  value={user.birthDate}
+                  placeholder="Tu fecha de nacimiento"
+                  register={{
+                    ...register('birthDate', {
+                      required: ErrorMessageInput.inputRequire(
+                        NameInput.birthDate,
+                      ),
+                    }),
+                  }}
+                  error={errors.birthDate}
+                  messageError={errors.birthDate?.message}
                 />
               </div>
             </DoubleFormSpace>
 
             <Label id="label-password" htmlFor="password">
-              Acerca de mi
+              {NameInput.aboutMe}
             </Label>
             <Textarea
               id="rental-place"
               maxLength={255}
-              counter={0}
+              counter={aboutMe?.length}
               placeholder="Describe quién eres"
+              register={{
+                ...register('aboutMe', {
+                  required: ErrorMessageInput.inputRequire(NameInput.aboutMe),
+                  maxLength: {
+                    value: 255,
+                    message: ErrorMessageInput.max(255),
+                  },
+                }),
+              }}
+              error={errors.aboutMe}
+              messageError={errors.aboutMe?.message}
             />
 
             <DoubleFormSpace>
               <div css={xw`mb-4`}>
                 <Label id="label-email" htmlFor="email">
-                  Correo
+                  {NameInput.email}
                 </Label>
                 <Input
                   disabled
                   id="email"
                   type="email"
-                  placeholder="Correo"
-                  value={user.email}
+                  placeholder="Tu correo"
+                  defaultValue={userData.email}
                 />
               </div>
 
               <div css={xw`mb-4`}>
                 <Label id="label-password" htmlFor="password">
-                  Contraseña
+                  {NameInput.password}
                 </Label>
                 <Input
                   disabled
                   id="password"
                   type="password"
-                  placeholder="Contraseña"
-                  value={user.password}
+                  placeholder="Tu contraseña"
+                  defaultValue={userData.password}
                 />
               </div>
             </DoubleFormSpace>
