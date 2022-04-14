@@ -77,9 +77,11 @@ const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
               Eliminar publicación
             </Button>
 
-            <Button FPrimary type="button" css={xw`mb-5 sm:mb-0`}>
-              Editar publicación
-            </Button>
+            {!admin && (
+              <Button FPrimary type="button" css={xw`mb-5 sm:mb-0`}>
+                Editar publicación
+              </Button>
+            )}
           </div>
         </div>
       </div>

@@ -96,7 +96,7 @@ const UserDetails: FC = () => {
               <p css={xw`font-bold mt-2`}>{user.aboutMe}</p>
             </div>
 
-            <div css={xw`w-full flex justify-center sm:justify-start mt-8`}>
+            <div css={xw`w-full flex justify-center sm:justify-end mt-8`}>
               <Button BDanger type="button" onClick={handleShowModal}>
                 Eliminar cuenta
               </Button>

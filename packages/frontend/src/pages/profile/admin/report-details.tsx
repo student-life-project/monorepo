@@ -82,7 +82,7 @@ const ReportDetails: FC = () => {
               <p css={xw`font-bold mt-2`}>{report.description}</p>
             </div>
 
-            <div css={xw`w-full flex justify-center sm:justify-start mt-8`}>
+            <div css={xw`w-full flex justify-center sm:justify-end mt-8`}>
               <Button BDanger type="button" onClick={handleShowModal}>
                 Eliminar reporte
               </Button>
