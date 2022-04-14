@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { IFilters, IOption } from '@/types';
+import { IFilters } from '@/types';
 
 import Button from '../common/Button';
 import Checkbox from '../common/Checkbox';
@@ -27,15 +27,6 @@ type TFilter = {
   closeModal: () => void;
 };
 
-type TFilterData = {
-  adType?: IOption[];
-  reason?: IOption[];
-  gender?: IOption[];
-  services?: IOption[];
-  rules?: IOption[];
-  security?: IOption[];
-};
-
 const Filters: FC<TFilter> = ({ filters, closeModal }) => {
   // TODO: need to implement
 
@@ -51,7 +42,7 @@ const Filters: FC<TFilter> = ({ filters, closeModal }) => {
     mode: 'all',
   });
 
-  const onSubmit: SubmitHandler<TFilterData> = async (data) => {
+  const onSubmit: SubmitHandler<TFilter> = async (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
     closeModal();
