@@ -73,7 +73,7 @@ const Create: FC = () => {
     console.log(data);
     router.push('/profile/publications');
     // Crear mensajes de success, info, warning, error
-    toast.success('Sé ha creado la publicación exitosamente');
+    toast.success('Sé ha creado la publicación exitosamente'); //! Agregar las alertas en otra vista para que sean visibles.
   };
 
   const previousStep = () => {
