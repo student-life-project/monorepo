@@ -1,16 +1,17 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { FC } from 'react';
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FC } from 'react';
 
 import Title from './Title';
 
 type TModal = {
-  title: string;
+  title?: string;
+  classNames?: string;
   children: React.ReactNode;
-  close: React.MouseEventHandler<HTMLButtonElement>;
+  close?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const Container = styled.article`
@@ -64,15 +65,17 @@ const Main = styled.main`
   `}
 `;
 
-const Modal: FC<TModal> = ({ title, children, close }) => (
+const Modal: FC<TModal> = ({ title, classNames, children, close }) => (
   <Container>
-    <Content>
-      <Header>
-        <Title css={xw`my-0`}>{title}</Title>
-        <button type="button" onClick={close}>
-          <FontAwesomeIcon icon={faTimes} height="2rem" />
-        </button>
-      </Header>
+    <Content css={classNames}>
+      {title && close && (
+        <Header>
+          <Title css={xw`my-0`}>{title}</Title>
+          <button type="button" onClick={close}>
+            <FontAwesomeIcon icon={faTimes} height="2rem" />
+          </button>
+        </Header>
+      )}
       <Main>{children}</Main>
     </Content>
   </Container>

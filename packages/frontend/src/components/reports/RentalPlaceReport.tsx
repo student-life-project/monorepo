@@ -1,15 +1,14 @@
-// eslint-disable-next-line simple-import-sort/imports
-import xw from 'xwind';
-import styled from '@emotion/styled';
 import { PlaceReport } from '@student_life/common';
 import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+// import { useDispatch } from 'react-redux';
+import xw from 'xwind';
 
 import Button from '@/components/common/Button';
+import DoubleSpace from '@/components/common/DoubleSpace';
 import Modal from '@/components/common/Modal';
 import Radio from '@/components/common/Radio';
 import Textarea from '@/components/common/Textarea';
-// import { useDispatch } from 'react-redux';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { IOption } from '@/types';
 
@@ -21,18 +20,6 @@ interface IRentalPlaceReportData {
   reason: IOption[];
   description: string;
 }
-
-const DoubleSpace = styled.div`
-  ${xw`
-    flex
-    w-full
-    sm:gap-10
-    sm:flex-row
-    justify-center
-    flex-col-reverse
-    sm:justify-between
-  `}
-`;
 
 const RentalPlaceReport: FC<TRentalPlaceReport> = ({ closeModal }) => {
   // const dispath = useDispatch();

@@ -5,6 +5,7 @@ import { FC, useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
+import DoubleSpace from '@/components/common/DoubleSpace';
 import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
 import Modal from '@/components/common/Modal';
@@ -22,18 +23,6 @@ const DoubleFormSpace = styled.div`
     grid-rows-2
     md:grid-rows-1
     md:grid-cols-2
-  `}
-`;
-
-const DoubleSpace = styled.div`
-  ${xw`
-    flex
-    w-full
-    sm:gap-4
-    sm:flex-row
-    justify-center
-    flex-col-reverse
-    sm:justify-between
   `}
 `;
 
@@ -145,7 +134,7 @@ const ResetPassword: FC<TResetPassword> = ({ closeModal }) => {
           </div>
         </DoubleFormSpace>
 
-        <DoubleSpace>
+        <DoubleSpace classNames={xw`sm:gap-4`}>
           <div css={xw`mt-5 sm:mb-2 w-full`}>
             <Button
               BSecondary
