@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import BodyContainer from '@/components/common/BodyContainer';
 import Button from '@/components/common/Button';
+import DoubleFormSpace from '@/components/common/DoubleFormSpace';
 import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
@@ -21,16 +22,6 @@ const Content = styled.div`
     flex-col
     items-center
     justify-center
-  `}
-`;
-
-const DoubleFormSpace = styled.div`
-  ${xw`
-    grid
-    gap-x-4
-    grid-rows-2
-    md:grid-rows-1
-    md:grid-cols-2
   `}
 `;
 

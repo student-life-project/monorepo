@@ -1,16 +1,15 @@
-// eslint-disable-next-line simple-import-sort/imports
-import xw from 'xwind';
-import styled from '@emotion/styled';
+import { States } from '@student_life/common';
 import { FC } from 'react';
 import { Control, FieldValues, UseFormRegister } from 'react-hook-form';
+import xw from 'xwind';
 
+import DoubleFormSpace from '@/components/common/DoubleFormSpace';
 import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
 import Select from '@/components/common/Select';
 import Textarea from '@/components/common/Textarea';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { rgxNumber } from '@/utils/validations';
-import { States } from '@student_life/common';
 
 type TUbicationStep2 = {
   register: UseFormRegister<FieldValues>;
@@ -20,16 +19,6 @@ type TUbicationStep2 = {
   reference: number;
   zone: number;
 };
-
-const DoubleFormSpace = styled.div`
-  ${xw`
-    grid
-    gap-x-4
-    grid-rows-2
-    md:grid-rows-1
-    md:grid-cols-2
-  `}
-`;
 
 const UbicationStep2: FC<TUbicationStep2> = ({
   register,

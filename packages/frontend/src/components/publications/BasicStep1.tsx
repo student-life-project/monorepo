@@ -1,17 +1,16 @@
-// eslint-disable-next-line simple-import-sort/imports
-import xw from 'xwind';
-import styled from '@emotion/styled';
+import { Gender, Reason, TypeSpace } from '@student_life/common';
 import { FC } from 'react';
 import { Control, FieldValues, UseFormRegister } from 'react-hook-form';
+import xw from 'xwind';
 
 import Checkbox from '@/components/common/Checkbox';
+import DoubleFormSpace from '@/components/common/DoubleFormSpace';
 import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
 import Radio from '@/components/common/Radio';
 import Select from '@/components/common/Select';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { rgxPrice } from '@/utils/validations';
-import { Gender, Reason, TypeSpace } from '@student_life/common';
 
 type TBasicStep1 = {
   register: UseFormRegister<FieldValues>;
@@ -19,16 +18,6 @@ type TBasicStep1 = {
   Controller: any;
   control: Control<FieldValues>;
 };
-
-const DoubleFormSpace = styled.div`
-  ${xw`
-    grid
-    gap-x-4
-    grid-rows-2
-    md:grid-rows-1
-    md:grid-cols-2
-  `}
-`;
 
 const BasicStep1: FC<TBasicStep1> = ({
   register,

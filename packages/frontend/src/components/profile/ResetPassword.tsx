@@ -1,10 +1,9 @@
-// eslint-disable-next-line simple-import-sort/imports
-import xw from 'xwind';
-import styled from '@emotion/styled';
 import { FC, useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import xw from 'xwind';
 
 import Button from '@/components/common/Button';
+import DoubleFormSpace from '@/components/common/DoubleFormSpace';
 import DoubleSpace from '@/components/common/DoubleSpace';
 import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
@@ -15,16 +14,6 @@ import { rgxPassword } from '@/utils/validations';
 type TResetPassword = {
   closeModal: () => void;
 };
-
-const DoubleFormSpace = styled.div`
-  ${xw`
-    grid
-    gap-x-4
-    grid-rows-2
-    md:grid-rows-1
-    md:grid-cols-2
-  `}
-`;
 
 interface IResetPasswordData {
   currentPassword: string;
