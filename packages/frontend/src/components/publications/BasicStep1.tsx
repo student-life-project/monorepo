@@ -3,14 +3,15 @@ import { FC } from 'react';
 import { Control, FieldValues, UseFormRegister } from 'react-hook-form';
 import xw from 'xwind';
 
-import Checkbox from '@/components/common/Checkbox';
-import DoubleFormSpace from '@/components/common/DoubleFormSpace';
-import Input from '@/components/common/Input';
-import Label from '@/components/common/Label';
-import Radio from '@/components/common/Radio';
-import Select from '@/components/common/Select';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { rgxPrice } from '@/utils/validations';
+
+import Checkbox from '../common/Checkbox';
+import DoubleFormSpace from '../common/DoubleFormSpace';
+import Input from '../common/Input';
+import Label from '../common/Label';
+import Radio from '../common/Radio';
+import Select from '../common/Select';
 
 type TBasicStep1 = {
   register: UseFormRegister<FieldValues>;

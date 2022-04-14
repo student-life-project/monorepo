@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import xw from 'xwind';
 
-import ClampedText from '@/components/common/ClampedText';
 import { NameInput } from '@/constants';
 import { formatter } from '@/utils/numberFormat';
 
+import ClampedText from '../common/ClampedText';
 import Status from '../common/Status';
 import SubTitle from '../common/SubTitle';
 

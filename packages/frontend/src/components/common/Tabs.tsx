@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import xw from 'xwind';
 
-import Button from '@/components/common/Button';
 import { Itab } from '@/types';
+
+import Button from './Button';
 
 type TTabs = {
   items: Itab[];

@@ -1,17 +1,17 @@
 /* eslint-disable-next-line simple-import-sort/imports */
 import xw from 'xwind';
-import Link from 'next/link';
-import { FC, useState } from 'react';
 import styled from '@emotion/styled';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { EUserType } from '@student_life/common';
+import Link from 'next/link';
+import { FC, useState } from 'react';
 
 import { Triangle } from '@/icons';
 import { INavBar } from '@/types';
 
-import { EUserType } from '@student_life/common';
-import UserButton from './UserButton';
 import Anchor from '../Anchor';
+import UserButton from './UserButton';
 
 const MenuContent = styled.div`
   ${xw`

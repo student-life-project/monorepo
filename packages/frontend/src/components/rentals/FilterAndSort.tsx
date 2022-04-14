@@ -5,9 +5,10 @@ import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useState } from 'react';
 
-import Button from '@/components/common/Button';
-import Select from '@/components/common/Select';
 import { IFilters, IOption } from '@/types';
+
+import Button from '../common/Button';
+import Select from '../common/Select';
 import Filters from './Filters';
 
 interface IFilterAndSort {

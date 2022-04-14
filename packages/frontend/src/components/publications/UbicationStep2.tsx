@@ -3,13 +3,14 @@ import { FC } from 'react';
 import { Control, FieldValues, UseFormRegister } from 'react-hook-form';
 import xw from 'xwind';
 
-import DoubleFormSpace from '@/components/common/DoubleFormSpace';
-import Input from '@/components/common/Input';
-import Label from '@/components/common/Label';
-import Select from '@/components/common/Select';
-import Textarea from '@/components/common/Textarea';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { rgxNumber } from '@/utils/validations';
+
+import DoubleFormSpace from '../common/DoubleFormSpace';
+import Input from '../common/Input';
+import Label from '../common/Label';
+import Select from '../common/Select';
+import Textarea from '../common/Textarea';
 
 type TUbicationStep2 = {
   register: UseFormRegister<FieldValues>;

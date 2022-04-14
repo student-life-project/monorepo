@@ -2,14 +2,15 @@ import { FC, useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import xw from 'xwind';
 
-import Button from '@/components/common/Button';
-import DoubleFormSpace from '@/components/common/DoubleFormSpace';
-import DoubleSpace from '@/components/common/DoubleSpace';
-import Input from '@/components/common/Input';
-import Label from '@/components/common/Label';
-import Modal from '@/components/common/Modal';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { rgxPassword } from '@/utils/validations';
+
+import Button from '../common/Button';
+import DoubleFormSpace from '../common/DoubleFormSpace';
+import DoubleSpace from '../common/DoubleSpace';
+import Input from '../common/Input';
+import Label from '../common/Label';
+import Modal from '../common/Modal';
 
 type TResetPassword = {
   closeModal: () => void;

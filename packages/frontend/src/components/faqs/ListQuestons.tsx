@@ -5,8 +5,9 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useState } from 'react';
 
-import ClampedText from '@/components/common/ClampedText';
 import { IQuestionAnswer } from '@/types';
+
+import ClampedText from '../common/ClampedText';
 
 interface IListQuestions {
   questions: IQuestionAnswer[];

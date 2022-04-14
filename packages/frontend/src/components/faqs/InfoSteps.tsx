@@ -1,8 +1,8 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
-import { FC } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FC } from 'react';
 
 import { IInfoStep } from '@/types';
 

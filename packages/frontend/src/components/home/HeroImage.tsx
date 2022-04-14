@@ -1,7 +1,7 @@
-// eslint-disable-next-line simple-import-sort/imports
-import { FC } from 'react';
+/* eslint-disable-next-line simple-import-sort/imports */
 import xw from 'xwind';
 import styled from '@emotion/styled';
+import { FC } from 'react';
 
 interface IHeroImage {
   url: string;

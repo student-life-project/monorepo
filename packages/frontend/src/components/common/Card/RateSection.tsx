@@ -1,9 +1,9 @@
 // eslint-disable-next-line simple-import-sort/imports
+import xw from 'xwind';
+import styled from '@emotion/styled';
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
-import xw from 'xwind';
-import styled from '@emotion/styled';
 
 interface IRateSection {
   likes: number;

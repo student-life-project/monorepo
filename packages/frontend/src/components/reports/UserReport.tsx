@@ -4,13 +4,14 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 // import { useDispatch } from 'react-redux';
 import xw from 'xwind';
 
-import Button from '@/components/common/Button';
-import DoubleSpace from '@/components/common/DoubleSpace';
-import Modal from '@/components/common/Modal';
-import Radio from '@/components/common/Radio';
-import Textarea from '@/components/common/Textarea';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { IOption } from '@/types';
+
+import Button from '../common/Button';
+import DoubleSpace from '../common/DoubleSpace';
+import Modal from '../common/Modal';
+import Radio from '../common/Radio';
+import Textarea from '../common/Textarea';
 
 type TUserReport = {
   closeModal: () => void;
