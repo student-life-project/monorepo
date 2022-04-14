@@ -87,8 +87,8 @@ const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
       {showModal && (
         <ModalConfirm
           type="warning"
-          title={confirmMessage.titleDelete('Publicación')}
-          description={confirmMessage.descriptionDelete('Publicación')}
+          title={confirmMessage.titleDelete('publicación')}
+          description={confirmMessage.descriptionDelete('publicación')}
           closeModal={handleShowModal}
           // eslint-disable-next-line no-console
           action={() => console.log('hi')}

@@ -1,14 +1,20 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import xw from 'xwind';
 
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import Button from '@/components/common/Button';
+import ModalConfirm from '@/components/common/ModalConfirm';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Status from '@/components/common/Status';
 import SubTitle from '@/components/common/SubTitle';
 import Switch from '@/components/common/Switch';
-import { ItemsUserDetails, NameInput, UserActiveStatus } from '@/constants';
+import {
+  confirmMessage,
+  ItemsUserDetails,
+  NameInput,
+  UserActiveStatus,
+} from '@/constants';
 
 const user = {
   id: 1,
@@ -25,6 +31,12 @@ const user = {
 const UserDetails: FC = () => {
   // TODO: Need to implement
   const status = true; //* Por defecto debe estar activo el usuario al momento que se registra.
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => {
+    setShowModal(!showModal);
+  };
 
   return (
     <>
@@ -85,12 +97,23 @@ const UserDetails: FC = () => {
             </div>
 
             <div css={xw`w-full flex justify-center sm:justify-start mt-8`}>
-              <Button BDanger type="button">
+              <Button BDanger type="button" onClick={handleShowModal}>
                 Eliminar cuenta
               </Button>
             </div>
           </div>
         </div>
+
+        {showModal && (
+          <ModalConfirm
+            type="warning"
+            title={confirmMessage.titleDelete('reporte')}
+            description={confirmMessage.descriptionDelete('reporte')}
+            closeModal={handleShowModal}
+            // eslint-disable-next-line no-console
+            action={() => console.log('hi')}
+          />
+        )}
       </BodyContainer>
     </>
   );
