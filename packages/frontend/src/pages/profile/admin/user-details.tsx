@@ -74,7 +74,7 @@ const UserDetails: FC = () => {
               </div>
 
               <div>
-                <SubTitle>{NameInput.birthday}</SubTitle>
+                <SubTitle>{NameInput.birthDate}</SubTitle>
                 <p css={xw`font-bold mt-2`}>{user.birthDate}</p>
               </div>
             </div>

@@ -6,10 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useState } from 'react';
 
 import Button from '@/components/common/Button';
-import Checkbox from '@/components/common/Checkbox';
-import Modal from '@/components/common/Modal';
 import Select from '@/components/common/Select';
 import { IFilters, IOption } from '@/types';
+import Filters from './Filters';
 
 interface IFilterAndSort {
   sorts: IOption[];
@@ -33,18 +32,6 @@ const Container = styled.section`
     items-end
     font-montserrat
     border-secondary-2
-  `}
-`;
-
-const DoubleSpace = styled.div`
-  ${xw`
-    flex
-    w-full
-    sm:gap-10
-    sm:flex-row
-    justify-center
-    flex-col-reverse
-    sm:justify-between
   `}
 `;
 
@@ -112,118 +99,7 @@ const FilterAndSort: FC<IFilterAndSort> = ({
         <FontAwesomeIcon icon={faFilter} height="1rem" />
       </Button>
 
-      {showModal && (
-        <Modal title="Filtrar por:" close={handleShowModal}>
-          <h2 css={xw`py-4 text-lg font-bold`}>Tipo de anuncio</h2>
-          <div css={xw`flex flex-wrap flex-col`}>
-            <div css={xw`flex flex-wrap items-start justify-start`}>
-              {filters?.adType?.map((item) => {
-                const value = Object.values(item)[0];
-
-                return (
-                  <div css={xw`w-full sm:w-1/2`} key={value}>
-                    <Checkbox name={value} label={value} checked={false} />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <h2 css={xw`py-4 text-lg font-bold`}>Motivo de la publicación</h2>
-          <div css={xw`flex flex-wrap flex-col`}>
-            <div css={xw`flex flex-wrap items-start justify-start`}>
-              {filters?.reason?.map((item) => {
-                const value = Object.values(item)[0];
-
-                return (
-                  <div css={xw`w-full sm:w-1/2`} key={value}>
-                    <Checkbox name={value} label={value} checked={false} />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <h2 css={xw`py-4 text-lg font-bold`}>Género preferido</h2>
-          <div css={xw`flex flex-wrap flex-col`}>
-            <div css={xw`flex flex-wrap items-start justify-start`}>
-              {filters?.gender?.map((item) => {
-                const value = Object.values(item)[0];
-
-                return (
-                  <div css={xw`w-full sm:w-1/2`} key={value}>
-                    <Checkbox name={value} label={value} checked={false} />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <h2 css={xw`py-4 text-lg font-bold`}>Servicios</h2>
-          <div css={xw`flex flex-wrap flex-col`}>
-            <div css={xw`flex flex-wrap items-start justify-start`}>
-              {filters?.services?.map((item) => {
-                const value = Object.values(item)[0];
-
-                return (
-                  <div css={xw`w-full sm:w-1/2`} key={value}>
-                    <Checkbox name={value} label={value} checked={false} />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <h2 css={xw`py-4 text-lg font-bold`}>Reglas</h2>
-          <div css={xw`flex flex-wrap flex-col`}>
-            <div css={xw`flex flex-wrap items-start justify-start`}>
-              {filters?.rules?.map((item) => {
-                const value = Object.values(item)[0];
-
-                return (
-                  <div css={xw`w-full sm:w-1/2`} key={value}>
-                    <Checkbox name={value} label={value} checked={false} />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <h2 css={xw`py-4 text-lg font-bold`}>Seguridad</h2>
-          <div css={xw`flex flex-wrap flex-col mb-10`}>
-            <div css={xw`flex flex-wrap items-start justify-start`}>
-              {filters?.security?.map((item) => {
-                const value = Object.values(item)[0];
-
-                return (
-                  <div css={xw`w-full sm:w-1/2`} key={value}>
-                    <Checkbox name={value} label={value} checked={false} />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <DoubleSpace>
-            <div css={xw`mt-5 sm:mb-2 w-full`}>
-              <Button
-                BSecondary
-                type="button"
-                css={xw`w-full`}
-                onClick={handleShowModal}
-              >
-                Cancelar
-              </Button>
-            </div>
-
-            <div css={xw`mt-5 sm:mb-2 w-full`}>
-              <Button type="submit" FPrimary css={xw`w-full`}>
-                Aplicar filtros
-              </Button>
-            </div>
-          </DoubleSpace>
-        </Modal>
-      )}
+      {showModal && <Filters filters={filters} closeModal={handleShowModal} />}
     </Container>
   );
 };
