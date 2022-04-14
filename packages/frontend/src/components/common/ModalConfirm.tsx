@@ -42,8 +42,8 @@ const ModalConfirm: FC<TMoldalConfirm> = ({
 
   return (
     <Modal classNames={xw`m-auto md:w-96 p-4`}>
-      <DoubleSpace>
-        <div css={xw`hidden md:block`}>
+      <DoubleSpace classNames={xw`sm:gap-4 flex-col sm:justify-start`}>
+        <div css={xw`flex justify-center mb-2 sm:mb-0`}>
           <FontAwesomeIcon
             icon={Icon[type][0]}
             height="3rem"
@@ -52,12 +52,14 @@ const ModalConfirm: FC<TMoldalConfirm> = ({
         </div>
 
         <div>
-          <h2 css={xw`text-lg font-bold`}>{title}</h2>
-          <p css={xw`mt-2 mb-5 text-sm`}>{description}</p>
+          <h2 css={xw`text-lg font-bold text-center sm:text-left`}>{title}</h2>
+          <p css={xw`mt-2 mb-5 text-sm text-center sm:text-left`}>
+            {description}
+          </p>
         </div>
       </DoubleSpace>
 
-      <DoubleSpace classNames={xw`gap-4 sm:gap-3`}>
+      <DoubleSpace classNames={xw`gap-4 sm:gap-3 md:flex-row`}>
         <Button BSecondary type="button" onClick={closeModal} css={xw`w-full`}>
           Cancelar
         </Button>
