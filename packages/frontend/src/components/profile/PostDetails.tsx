@@ -1,16 +1,19 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import xw from 'xwind';
 
-import Button from '@/components/common/Button';
-import Status from '@/components/common/Status';
-import SubTitle from '@/components/common/SubTitle';
-import Switch from '@/components/common/Switch';
-import PreviewStep4 from '@/components/publications/PreviewStep4';
 import {
+  confirmMessage,
   NameInput,
   RentalApprovedStatus,
   RentalAvailabilityStatus,
 } from '@/constants';
+
+import Button from '../common/Button';
+import ModalConfirm from '../common/ModalConfirm';
+import Status from '../common/Status';
+import SubTitle from '../common/SubTitle';
+import Switch from '../common/Switch';
+import PreviewStep4 from '../publications/PreviewStep4';
 
 type TPostDetails = {
   admin?: boolean;
@@ -21,6 +24,12 @@ const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
   // TODO: Need to implement
   const values = getValues();
   const options = admin ? RentalApprovedStatus : RentalAvailabilityStatus;
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => {
+    setShowModal(!showModal);
+  };
 
   return (
     <>
@@ -59,7 +68,12 @@ const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
           <div
             css={xw`flex justify-end flex-col-reverse sm:flex-row flex-wrap my-4`}
           >
-            <Button BDanger type="button" css={xw`mb-5 sm:mr-5 sm:mb-0`}>
+            <Button
+              BDanger
+              type="button"
+              css={xw`mb-5 sm:mr-5 sm:mb-0`}
+              onClick={handleShowModal}
+            >
               Eliminar publicación
             </Button>
 
@@ -69,6 +83,17 @@ const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
           </div>
         </div>
       </div>
+
+      {showModal && (
+        <ModalConfirm
+          type="warning"
+          title={confirmMessage.titleDelete('Publicación')}
+          description={confirmMessage.descriptionDelete('Publicación')}
+          closeModal={handleShowModal}
+          // eslint-disable-next-line no-console
+          action={() => console.log('hi')}
+        />
+      )}
     </>
   );
 };

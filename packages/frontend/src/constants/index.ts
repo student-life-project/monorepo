@@ -1,3 +1,4 @@
+export * from './confirmMessage';
 export * from './errorMessageInput';
 export * from './itemsLinks';
 export * from './nameInput';
