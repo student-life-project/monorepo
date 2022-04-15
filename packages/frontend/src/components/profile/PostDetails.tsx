@@ -35,7 +35,9 @@ const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
     <>
       <div css={xw`flex justify-center mb-10`}>
         <div css={xw`w-full lg:w-8/12`}>
-          <h2 css={xw`py-5 text-lg font-bold`}>Publicación # {values.id}</h2>
+          <h2 css={xw`py-5 text-lg font-bold`}>
+            Publicación {admin && `# ${values.id}`}
+          </h2>
 
           <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
             <div>
