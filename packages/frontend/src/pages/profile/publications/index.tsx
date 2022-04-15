@@ -1,66 +1,17 @@
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import xw from 'xwind';
 
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
+import ModalConfirm from '@/components/common/ModalConfirm';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import Options from '@/components/common/Options';
-import Status from '@/components/common/Status';
 import Table from '@/components/common/Table';
-import { ItemsPublications, RentalAvailabilityStatus } from '@/constants';
-
-const header = {
-  title: 'Publicaciones',
-  link: '/profile/publications/post',
-  textLink: 'Crear publicación',
-  search: true,
-};
-
-const columns = [
-  { name: 'ID', selector: 'id', sortable: true },
-  { name: 'Titulo', selector: 'title', sortable: true },
-  { name: 'Precio', selector: 'price', sortable: true },
-  {
-    name: 'Disponibilidad',
-    selector: 'available',
-    cell: (row) => {
-      const { available } = row;
-      return <Status status={available} options={RentalAvailabilityStatus} />;
-    },
-    sortable: true,
-  },
-  {
-    name: 'Acciones',
-    cell: (row) => {
-      const { id, available } = row;
-
-      return (
-        <Options>
-          <button type="button" onClick={() => alert(id)}>
-            <span css={xw`ml-2`}>
-              {available ? 'No disponible' : 'Disponible'}
-            </span>
-          </button>
-
-          <a href={`/profile/publication/${id}/edit`}>
-            <FontAwesomeIcon icon={faPen} height="1.2rem" />
-            <span css={xw`ml-2`}>Editar</span>
-          </a>
-
-          <button type="button" onClick={() => alert(id)}>
-            <FontAwesomeIcon icon={faTrash} height="1.2rem" />
-            <span css={xw`ml-2`}>Eliminar</span>
-          </button>
-        </Options>
-      );
-    },
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
-];
+import {
+  ColumnsPublicationUser,
+  confirmMessage,
+  HeaderPublicationUser,
+  ItemsPublications,
+} from '@/constants';
 
 const data = [
   { id: 1, title: 'Casa cerca de CUCEI', price: 700, available: true },
@@ -170,14 +121,57 @@ const data = [
   },
 ];
 
+type TPostId = number | null;
+
 const Publications: FC = () => {
+  // TODO: need to implement
+  // TODO: loading si la data aún no carga mostrar el Spinner.
+
+  const [showModal, setShowModal] = useState(false);
+  const [postId, setPostId] = useState<TPostId>(null);
+
+  const availablePost = (id) => {
+    // eslint-disable-next-line no-alert
+    alert(id);
+  };
+
+  const handleOpenModal = (id: TPostId) => {
+    setShowModal(true);
+    setPostId(id);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const deletePost = (id: TPostId) => {
+    // eslint-disable-next-line no-alert
+    alert(id);
+  };
+
   return (
     <>
       <NavBar allowRental allowLoginRegister />
       <BreadCrumbs items={ItemsPublications} />
       <BodyContainer css={xw`pt-0`}>
-        <Table data={data} columns={columns} header={header} />
+        <Table
+          data={data}
+          loading={false}
+          header={HeaderPublicationUser}
+          columns={ColumnsPublicationUser(availablePost, handleOpenModal)}
+        />
       </BodyContainer>
+
+      {showModal && (
+        <ModalConfirm
+          type="warning"
+          title={confirmMessage.titleDelete('publicación')}
+          description={confirmMessage.descriptionDelete('publicación')}
+          closeModal={handleCloseModal}
+          // eslint-disable-next-line no-console
+          action={() => deletePost(postId)}
+        />
+      )}
     </>
   );
 };
