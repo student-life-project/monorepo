@@ -130,7 +130,7 @@ const Publications: FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [postId, setPostId] = useState<TPostId>(null);
 
-  const availablePost = (id) => {
+  const availablePost = (id: TPostId) => {
     // eslint-disable-next-line no-alert
     alert(id);
   };
@@ -141,7 +141,7 @@ const Publications: FC = () => {
   };
 
   const handleCloseModal = () => {
-    setShowModal(!showModal);
+    setShowModal(false);
   };
 
   const deletePost = (id: TPostId) => {

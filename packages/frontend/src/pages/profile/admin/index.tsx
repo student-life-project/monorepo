@@ -1,168 +1,23 @@
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useState } from 'react';
 import xw from 'xwind';
 
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
+import ModalConfirm from '@/components/common/ModalConfirm';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import Options from '@/components/common/Options';
-import Status from '@/components/common/Status';
 import Table from '@/components/common/Table';
 import Tabs from '@/components/common/Tabs';
 import {
+  ColumnsPublication,
+  ColumnsReport,
+  ColumnsUser,
+  confirmMessage,
+  ETables,
+  HeaderPublication,
+  HeaderReport,
+  HeaderUser,
   ItemsAdmin,
-  RentalApprovedStatus,
-  ReportStatus,
-  UserActiveStatus,
 } from '@/constants';
-
-const headerUser = {
-  title: 'Usuarios',
-  search: true,
-};
-
-const headerPublication = {
-  title: 'Publicaciones',
-  search: true,
-};
-
-const headerReport = {
-  title: 'Reportes',
-  search: true,
-};
-
-const columnsUser = [
-  { name: 'ID', selector: 'id', sortable: true },
-  { name: 'Nombre', selector: 'name', sortable: true },
-  { name: 'Correo', selector: 'email', sortable: true },
-  {
-    name: 'Rol',
-    selector: 'role',
-    cell: (row) => {
-      const { role } = row;
-      const roleName = ['Admin', 'Estudiante', 'Arrendatario'];
-
-      return <p>{roleName[role]}</p>;
-    },
-    sortable: true,
-  },
-  {
-    name: 'Estatus',
-    selector: 'status',
-    cell: (row) => {
-      const { status } = row;
-      return <Status status={status} options={UserActiveStatus} />;
-    },
-    sortable: true,
-  },
-  {
-    name: 'Acciones',
-    cell: (row) => {
-      const { id, status } = row;
-
-      return (
-        <Options>
-          <button type="button" onClick={() => alert(id)}>
-            <span css={xw`ml-2`}>{status ? 'Desactivar' : 'Activar'}</span>
-          </button>
-
-          <button type="button" onClick={() => alert(id)}>
-            <FontAwesomeIcon icon={faTrash} height="1.2rem" />
-            <span css={xw`ml-2`}>Eliminar</span>
-          </button>
-        </Options>
-      );
-    },
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
-];
-
-const columnsPublication = [
-  { name: 'ID', selector: 'id', sortable: true },
-  { name: 'Titulo', selector: 'title', sortable: true },
-  { name: 'Precio', selector: 'price', sortable: true },
-  {
-    name: 'Disponibilidad',
-    selector: 'available',
-    cell: (row) => {
-      const { available } = row;
-      return <p>{available ? 'Disponible' : 'No disponible'}</p>;
-    },
-    sortable: true,
-  },
-  {
-    name: 'Aprobado',
-    selector: 'approved',
-    cell: (row) => {
-      const { approved } = row;
-      return <Status status={approved} options={RentalApprovedStatus} />;
-    },
-    sortable: true,
-  },
-  {
-    name: 'Acciones',
-    cell: (row) => {
-      const { id, approved } = row;
-
-      return (
-        <Options>
-          <button type="button" onClick={() => alert(id)}>
-            <span css={xw`ml-2`}>{approved ? 'No aprobar' : 'Aprobar'}</span>
-          </button>
-
-          <button type="button" onClick={() => alert(id)}>
-            <FontAwesomeIcon icon={faTrash} height="1.2rem" />
-            <span css={xw`ml-2`}>Eliminar</span>
-          </button>
-        </Options>
-      );
-    },
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
-];
-
-const columnsReport = [
-  { name: 'ID', selector: 'id', sortable: true },
-  { name: 'Tipo', selector: 'type', sortable: true },
-  { name: 'Descripción', selector: 'description', sortable: true },
-  { name: 'Fecha', selector: 'createdAt', sortable: true },
-  {
-    name: 'Estatus',
-    selector: 'status',
-    cell: (row) => {
-      const { status } = row;
-      return <Status status={status} options={ReportStatus} />;
-    },
-    sortable: true,
-  },
-  {
-    name: 'Acciones',
-    cell: (row) => {
-      const { id, status } = row;
-
-      return (
-        <Options>
-          <button type="button" onClick={() => alert(id)}>
-            <span css={xw`ml-2`}>{status ? 'No resuelto' : 'Resuelto'}</span>
-          </button>
-
-          <button type="button" onClick={() => alert(id)}>
-            <FontAwesomeIcon icon={faTrash} height="1.2rem" />
-            <span css={xw`ml-2`}>Eliminar</span>
-          </button>
-        </Options>
-      );
-    },
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
-];
 
 const dataUser = [
   {
@@ -369,11 +224,88 @@ const dataReport = [
   },
 ];
 
+type TId = number | null;
+
 const Admin: FC = () => {
+  // TODO: need to implement
+  // TODO: loading si la data aún no carga mostrar el Spinner.
+
   const [tab, setTab] = useState(0);
 
   const handleTab = (tabCurrent) => {
     setTab(tabCurrent);
+  };
+
+  // * =========================================================================
+
+  const [userId, setUserId] = useState<TId>(null);
+  const [showModalUser, setShowModalUser] = useState(false);
+
+  const statusUser = (id: TId) => {
+    // eslint-disable-next-line no-alert
+    alert(`Usuario ${id}`);
+  };
+
+  const handleOpenModalUser = (id: TId) => {
+    setShowModalUser(true);
+    setUserId(id);
+  };
+
+  const handleCloseModalUser = () => {
+    setShowModalUser(false);
+  };
+
+  const deleteUser = (id: TId) => {
+    // eslint-disable-next-line no-alert
+    alert(`Usuario ${id}`);
+  };
+
+  // * =========================================================================
+
+  const [postId, setPostId] = useState<TId>(null);
+  const [showModalPost, setShowModalPost] = useState(false);
+
+  const approvePost = (id: TId) => {
+    // eslint-disable-next-line no-alert
+    alert(`Publicación ${id}`);
+  };
+
+  const handleOpenModalPost = (id: TId) => {
+    setShowModalPost(true);
+    setPostId(id);
+  };
+
+  const handleCloseModalPost = () => {
+    setShowModalPost(false);
+  };
+
+  const deletePost = (id: TId) => {
+    // eslint-disable-next-line no-alert
+    alert(`Publicación ${id}`);
+  };
+
+  // * =========================================================================
+
+  const [reportId, setReportId] = useState<TId>(null);
+  const [showModalReport, setShowModalReport] = useState(false);
+
+  const solveReport = (id: TId) => {
+    // eslint-disable-next-line no-alert
+    alert(`Reporte ${id}`);
+  };
+
+  const handleOpenModalReport = (id: TId) => {
+    setShowModalReport(true);
+    setReportId(id);
+  };
+
+  const handleCloseModalReport = () => {
+    setShowModalReport(false);
+  };
+
+  const deleteReport = (id: TId) => {
+    // eslint-disable-next-line no-alert
+    alert(`Reporte ${id}`);
   };
 
   return (
@@ -391,26 +323,66 @@ const Admin: FC = () => {
       />
 
       <BodyContainer css={xw`pt-0`}>
-        {tab === 0 && (
-          <Table data={dataUser} columns={columnsUser} header={headerUser} />
-        )}
-
-        {tab === 1 && (
+        {tab === ETables.USER && (
           <Table
-            data={dataPublication}
-            columns={columnsPublication}
-            header={headerPublication}
+            data={dataUser}
+            loading={false}
+            columns={ColumnsUser(statusUser, handleOpenModalUser)}
+            header={HeaderUser}
           />
         )}
 
-        {tab === 2 && (
+        {tab === ETables.PUBLICATION && (
+          <Table
+            data={dataPublication}
+            loading={false}
+            columns={ColumnsPublication(approvePost, handleOpenModalPost)}
+            header={HeaderPublication}
+          />
+        )}
+
+        {tab === ETables.REPORT && (
           <Table
             data={dataReport}
-            columns={columnsReport}
-            header={headerReport}
+            loading={false}
+            columns={ColumnsReport(solveReport, handleOpenModalReport)}
+            header={HeaderReport}
           />
         )}
       </BodyContainer>
+
+      {showModalUser && (
+        <ModalConfirm
+          type="warning"
+          title={confirmMessage.titleDelete('usuario')}
+          description={confirmMessage.descriptionDelete('usuario')}
+          closeModal={handleCloseModalUser}
+          // eslint-disable-next-line no-console
+          action={() => deleteUser(userId)}
+        />
+      )}
+
+      {showModalPost && (
+        <ModalConfirm
+          type="warning"
+          title={confirmMessage.titleDelete('publicación')}
+          description={confirmMessage.descriptionDelete('publicación')}
+          closeModal={handleCloseModalPost}
+          // eslint-disable-next-line no-console
+          action={() => deletePost(postId)}
+        />
+      )}
+
+      {showModalReport && (
+        <ModalConfirm
+          type="warning"
+          title={confirmMessage.titleDelete('reporte')}
+          description={confirmMessage.descriptionDelete('reporte')}
+          closeModal={handleCloseModalReport}
+          // eslint-disable-next-line no-console
+          action={() => deleteReport(reportId)}
+        />
+      )}
     </>
   );
 };

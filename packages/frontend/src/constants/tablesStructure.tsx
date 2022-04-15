@@ -30,7 +30,7 @@ export const HeaderPublicationUser = {
 
 export const ColumnsPublicationUser = (
   availablePost: (id: number) => any,
-  deletePost: (id: number) => any,
+  handleOpenModal: (id: number) => any,
 ): TColumns => [
   { name: 'Titulo', selector: 'title', sortable: true },
   { name: 'Precio', selector: 'price', sortable: true },
@@ -61,7 +61,7 @@ export const ColumnsPublicationUser = (
             <span css={xw`ml-2`}>Editar</span>
           </a>
 
-          <button type="button" onClick={() => deletePost(id)}>
+          <button type="button" onClick={() => handleOpenModal(id)}>
             <FontAwesomeIcon icon={faTrash} height="1.2rem" />
             <span css={xw`ml-2`}>Eliminar</span>
           </button>
@@ -100,7 +100,7 @@ export const HeaderReport = {
 
 export const ColumnsUser = (
   statusUser: (id: number) => any,
-  deleteUser: (id: number) => any,
+  handleOpenModalUser: (id: number) => any,
 ): TColumns => [
   { name: 'ID', selector: 'id', sortable: true },
   { name: 'Nombre', selector: 'name', sortable: true },
@@ -136,7 +136,7 @@ export const ColumnsUser = (
             <span css={xw`ml-2`}>{status ? 'Desactivar' : 'Activar'}</span>
           </button>
 
-          <button type="button" onClick={() => deleteUser(id)}>
+          <button type="button" onClick={() => handleOpenModalUser(id)}>
             <FontAwesomeIcon icon={faTrash} height="1.2rem" />
             <span css={xw`ml-2`}>Eliminar</span>
           </button>
@@ -151,7 +151,7 @@ export const ColumnsUser = (
 
 export const ColumnsPublication = (
   approvePost: (id: number) => any,
-  deletePost: (id: number) => any,
+  handleOpenModalPost: (id: number) => any,
 ): TColumns => [
   { name: 'ID', selector: 'id', sortable: true },
   { name: 'Titulo', selector: 'title', sortable: true },
@@ -185,7 +185,7 @@ export const ColumnsPublication = (
             <span css={xw`ml-2`}>{approved ? 'No aprobar' : 'Aprobar'}</span>
           </button>
 
-          <button type="button" onClick={() => deletePost(id)}>
+          <button type="button" onClick={() => handleOpenModalPost(id)}>
             <FontAwesomeIcon icon={faTrash} height="1.2rem" />
             <span css={xw`ml-2`}>Eliminar</span>
           </button>
@@ -200,7 +200,7 @@ export const ColumnsPublication = (
 
 export const ColumnsReport = (
   solveReport: (id: number) => any,
-  deleteReport: (id: number) => any,
+  handleOpenModalReport: (id: number) => any,
 ): TColumns => [
   { name: 'ID', selector: 'id', sortable: true },
   { name: 'Tipo', selector: 'type', sortable: true },
@@ -226,7 +226,7 @@ export const ColumnsReport = (
             <span css={xw`ml-2`}>{status ? 'No resuelto' : 'Resuelto'}</span>
           </button>
 
-          <button type="button" onClick={() => deleteReport(id)}>
+          <button type="button" onClick={() => handleOpenModalReport(id)}>
             <FontAwesomeIcon icon={faTrash} height="1.2rem" />
             <span css={xw`ml-2`}>Eliminar</span>
           </button>
