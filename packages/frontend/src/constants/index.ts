@@ -4,3 +4,4 @@ export * from './itemsLinks';
 export * from './nameInput';
 export * from './publicationSteps';
 export * from './status';
+export * from './tablesStructure';
