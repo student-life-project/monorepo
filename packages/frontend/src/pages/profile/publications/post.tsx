@@ -124,7 +124,7 @@ const Create: FC = () => {
 
       <BodyContainer css={xw`pt-8 sm:pt-16 px-0`}>
         <form onSubmit={handleSubmit(onSubmit)} css={xw`w-full mx-auto px-4`}>
-          {step === 0 && (
+          {step === EPublicationStep.BASIC_INFO && (
             <BasicStep1
               register={register}
               errors={errors}
@@ -133,7 +133,7 @@ const Create: FC = () => {
             />
           )}
 
-          {step === 1 && (
+          {step === EPublicationStep.LOCATION && (
             <UbicationStep2
               register={register}
               errors={errors}
@@ -144,7 +144,7 @@ const Create: FC = () => {
             />
           )}
 
-          {step === 2 && (
+          {step === EPublicationStep.PLACE && (
             <RentalPlaceStep3
               register={register}
               errors={errors}
@@ -152,7 +152,9 @@ const Create: FC = () => {
             />
           )}
 
-          {step === 3 && <PreviewStep4 getValues={getValues} />}
+          {step === EPublicationStep.DRAFT && (
+            <PreviewStep4 getValues={getValues} />
+          )}
 
           <div css={xw`flex justify-center mb-10`}>
             <div css={xw`w-full lg:w-8/12`}>
