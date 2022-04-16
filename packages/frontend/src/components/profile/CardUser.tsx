@@ -8,9 +8,9 @@ import NextLink from 'next/link';
 import { FC } from 'react';
 import xw from 'xwind';
 
-import Button from '@/components/common/Button';
-import { CalculateAge } from '@/constants';
+import { CalculateAge } from '@/utils/calculateAge';
 
+import Button from '../common/Button';
 import ButtonLink from '../common/ButtonLink';
 
 type TCardUser = {

@@ -1,170 +1,16 @@
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useState } from 'react';
 import xw from 'xwind';
 
+import TablePublications from '@/components/admin/TablePublications';
+import TableReports from '@/components/admin/TableReports';
+import TableUsers from '@/components/admin/TableUsers';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import Options from '@/components/common/Options';
-import Status from '@/components/common/Status';
-import Table from '@/components/common/Table';
 import Tabs from '@/components/common/Tabs';
-import {
-  ItemsAdmin,
-  RentalApprovedStatus,
-  ReportStatus,
-  UserActiveStatus,
-} from '@/constants';
+import { ETables, ItemsAdmin } from '@/constants';
 
-const headerUser = {
-  title: 'Usuarios',
-  search: true,
-};
-
-const headerPublication = {
-  title: 'Publicaciones',
-  search: true,
-};
-
-const headerReport = {
-  title: 'Reportes',
-  search: true,
-};
-
-const columnsUser = [
-  { name: 'ID', selector: 'id', sortable: true },
-  { name: 'Nombre', selector: 'name', sortable: true },
-  { name: 'Correo', selector: 'email', sortable: true },
-  {
-    name: 'Rol',
-    selector: 'role',
-    cell: (row) => {
-      const { role } = row;
-      const roleName = ['Admin', 'Estudiante', 'Arrendatario'];
-
-      return <p>{roleName[role]}</p>;
-    },
-    sortable: true,
-  },
-  {
-    name: 'Estatus',
-    selector: 'status',
-    cell: (row) => {
-      const { status } = row;
-      return <Status status={status} options={UserActiveStatus} />;
-    },
-    sortable: true,
-  },
-  {
-    name: 'Acciones',
-    cell: (row) => {
-      const { id, status } = row;
-
-      return (
-        <Options>
-          <button type="button" onClick={() => alert(id)}>
-            <span css={xw`ml-2`}>{status ? 'Desactivar' : 'Activar'}</span>
-          </button>
-
-          <button type="button" onClick={() => alert(id)}>
-            <FontAwesomeIcon icon={faTrash} height="1.2rem" />
-            <span css={xw`ml-2`}>Eliminar</span>
-          </button>
-        </Options>
-      );
-    },
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
-];
-
-const columnsPublication = [
-  { name: 'ID', selector: 'id', sortable: true },
-  { name: 'Titulo', selector: 'title', sortable: true },
-  { name: 'Precio', selector: 'price', sortable: true },
-  {
-    name: 'Disponibilidad',
-    selector: 'available',
-    cell: (row) => {
-      const { available } = row;
-      return <p>{available ? 'Disponible' : 'No disponible'}</p>;
-    },
-    sortable: true,
-  },
-  {
-    name: 'Aprobado',
-    selector: 'approved',
-    cell: (row) => {
-      const { approved } = row;
-      return <Status status={approved} options={RentalApprovedStatus} />;
-    },
-    sortable: true,
-  },
-  {
-    name: 'Acciones',
-    cell: (row) => {
-      const { id, approved } = row;
-
-      return (
-        <Options>
-          <button type="button" onClick={() => alert(id)}>
-            <span css={xw`ml-2`}>{approved ? 'No aprobar' : 'Aprobar'}</span>
-          </button>
-
-          <button type="button" onClick={() => alert(id)}>
-            <FontAwesomeIcon icon={faTrash} height="1.2rem" />
-            <span css={xw`ml-2`}>Eliminar</span>
-          </button>
-        </Options>
-      );
-    },
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
-];
-
-const columnsReport = [
-  { name: 'ID', selector: 'id', sortable: true },
-  { name: 'Tipo', selector: 'type', sortable: true },
-  { name: 'Descripción', selector: 'description', sortable: true },
-  { name: 'Fecha', selector: 'createdAt', sortable: true },
-  {
-    name: 'Estatus',
-    selector: 'status',
-    cell: (row) => {
-      const { status } = row;
-      return <Status status={status} options={ReportStatus} />;
-    },
-    sortable: true,
-  },
-  {
-    name: 'Acciones',
-    cell: (row) => {
-      const { id, status } = row;
-
-      return (
-        <Options>
-          <button type="button" onClick={() => alert(id)}>
-            <span css={xw`ml-2`}>{status ? 'No resuelto' : 'Resuelto'}</span>
-          </button>
-
-          <button type="button" onClick={() => alert(id)}>
-            <FontAwesomeIcon icon={faTrash} height="1.2rem" />
-            <span css={xw`ml-2`}>Eliminar</span>
-          </button>
-        </Options>
-      );
-    },
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
-];
-
-const dataUser = [
+const dataUsers = [
   {
     id: 1,
     name: 'Alfredo Carreón Urbano',
@@ -202,7 +48,7 @@ const dataUser = [
   },
 ];
 
-const dataPublication = [
+const dataPublications = [
   {
     id: 1,
     title: 'Casa cerca de CUCEI',
@@ -331,7 +177,7 @@ const dataPublication = [
   },
 ];
 
-const dataReport = [
+const dataReports = [
   {
     id: 1,
     type: 'Usuario',
@@ -370,6 +216,7 @@ const dataReport = [
 ];
 
 const Admin: FC = () => {
+  // TODO: need to implement
   const [tab, setTab] = useState(0);
 
   const handleTab = (tabCurrent) => {
@@ -391,25 +238,13 @@ const Admin: FC = () => {
       />
 
       <BodyContainer css={xw`pt-0`}>
-        {tab === 0 && (
-          <Table data={dataUser} columns={columnsUser} header={headerUser} />
+        {tab === ETables.USER && <TableUsers data={dataUsers} />}
+
+        {tab === ETables.PUBLICATION && (
+          <TablePublications data={dataPublications} />
         )}
 
-        {tab === 1 && (
-          <Table
-            data={dataPublication}
-            columns={columnsPublication}
-            header={headerPublication}
-          />
-        )}
-
-        {tab === 2 && (
-          <Table
-            data={dataReport}
-            columns={columnsReport}
-            header={headerReport}
-          />
-        )}
+        {tab === ETables.REPORT && <TableReports data={dataReports} />}
       </BodyContainer>
     </>
   );

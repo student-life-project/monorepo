@@ -3,12 +3,14 @@ import { FC } from 'react';
 import DataTable from 'react-data-table-component';
 import xw from 'xwind';
 
-import Button from '@/components/common/Button';
-import Input from '@/components/common/Input';
-import Title from '@/components/common/Title';
+import Button from './Button';
+import Input from './Input';
+import Spinner from './Spinner';
+import Title from './Title';
 
 type TTable = {
   data: Array<any>;
+  loading: boolean;
   columns: Array<any>;
   header: any;
 };
@@ -60,7 +62,7 @@ const HeaderTable = ({ values }) => (
   </section>
 );
 
-const Table: FC<TTable> = ({ data, columns, header }) => (
+const Table: FC<TTable> = ({ data, loading, columns, header }) => (
   <>
     <HeaderTable values={header} />
     <DataTable
@@ -72,6 +74,8 @@ const Table: FC<TTable> = ({ data, columns, header }) => (
       columns={columns}
       customStyles={customStyles}
       fixedHeaderScrollHeight="600px"
+      progressPending={loading}
+      progressComponent={<Spinner />}
       paginationComponentOptions={paginationOptions}
     />
   </>

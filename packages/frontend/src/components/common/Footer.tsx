@@ -1,8 +1,8 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { FC } from 'react';
 import xw from 'xwind';
-import NextLink, { LinkProps } from 'next/link';
 import styled from '@emotion/styled';
+import NextLink, { LinkProps } from 'next/link';
+import { FC } from 'react';
 
 import { Lg01 } from '@/icons';
 

@@ -1,17 +1,17 @@
-// eslint-disable-next-line simple-import-sort/imports
-import xw from 'xwind';
-import styled from '@emotion/styled';
 import { ProfileReport } from '@student_life/common';
 import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-
-import Button from '@/components/common/Button';
-import Modal from '@/components/common/Modal';
-import Radio from '@/components/common/Radio';
-import Textarea from '@/components/common/Textarea';
 // import { useDispatch } from 'react-redux';
+import xw from 'xwind';
+
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { IOption } from '@/types';
+
+import Button from '../common/Button';
+import DoubleSpace from '../common/DoubleSpace';
+import Modal from '../common/Modal';
+import Radio from '../common/Radio';
+import Textarea from '../common/Textarea';
 
 type TUserReport = {
   closeModal: () => void;
@@ -22,19 +22,8 @@ interface IUserReportData {
   description: string;
 }
 
-const DoubleSpace = styled.div`
-  ${xw`
-    flex
-    w-full
-    sm:gap-10
-    sm:flex-row
-    justify-center
-    flex-col-reverse
-    sm:justify-between
-  `}
-`;
-
 const UserReport: FC<TUserReport> = ({ closeModal }) => {
+  // TODO: need to implement
   // const dispath = useDispatch();
 
   const {

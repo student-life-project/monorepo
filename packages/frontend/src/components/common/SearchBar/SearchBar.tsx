@@ -5,8 +5,8 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ChangeEventHandler, FC, MouseEventHandler } from 'react';
 
-import Button from '@/components/common/Button';
-import Input from '@/components/common/Input';
+import Button from '../Button';
+import Input from '../Input';
 
 interface ISearchBar {
   value: string;

@@ -1,39 +1,17 @@
-// eslint-disable-next-line simple-import-sort/imports
-import xw from 'xwind';
-import styled from '@emotion/styled';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import xw from 'xwind';
 
-import { IFilters, IOption } from '@/types';
+import { IFilters } from '@/types';
 
 import Button from '../common/Button';
 import Checkbox from '../common/Checkbox';
+import DoubleSpace from '../common/DoubleSpace';
 import Modal from '../common/Modal';
-
-const DoubleSpace = styled.div`
-  ${xw`
-    flex
-    w-full
-    sm:gap-10
-    sm:flex-row
-    justify-center
-    flex-col-reverse
-    sm:justify-between
-  `}
-`;
 
 type TFilter = {
   filters: IFilters;
   closeModal: () => void;
-};
-
-type TFilterData = {
-  adType?: IOption[];
-  reason?: IOption[];
-  gender?: IOption[];
-  services?: IOption[];
-  rules?: IOption[];
-  security?: IOption[];
 };
 
 const Filters: FC<TFilter> = ({ filters, closeModal }) => {
@@ -51,7 +29,7 @@ const Filters: FC<TFilter> = ({ filters, closeModal }) => {
     mode: 'all',
   });
 
-  const onSubmit: SubmitHandler<TFilterData> = async (data) => {
+  const onSubmit: SubmitHandler<TFilter> = async (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
     closeModal();

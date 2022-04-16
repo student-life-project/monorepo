@@ -1,4 +1,4 @@
-/* eslint-disable-next-line simple-import-sort/imports */
+// eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import { EUserType, IUser } from '@student_life/common';
@@ -7,8 +7,8 @@ import { FC, useState } from 'react';
 
 import { Triangle } from '@/icons';
 
-import UserButton from './UserButton';
 import Anchor from '../Anchor';
+import UserButton from './UserButton';
 
 interface IUserMenu {
   user: IUser;

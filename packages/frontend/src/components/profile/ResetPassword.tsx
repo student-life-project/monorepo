@@ -1,41 +1,20 @@
-// eslint-disable-next-line simple-import-sort/imports
-import xw from 'xwind';
-import styled from '@emotion/styled';
 import { FC, useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import xw from 'xwind';
 
-import Button from '@/components/common/Button';
-import Input from '@/components/common/Input';
-import Label from '@/components/common/Label';
-import Modal from '@/components/common/Modal';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { rgxPassword } from '@/utils/validations';
+
+import Button from '../common/Button';
+import DoubleFormSpace from '../common/DoubleFormSpace';
+import DoubleSpace from '../common/DoubleSpace';
+import Input from '../common/Input';
+import Label from '../common/Label';
+import Modal from '../common/Modal';
 
 type TResetPassword = {
   closeModal: () => void;
 };
-
-const DoubleFormSpace = styled.div`
-  ${xw`
-    grid
-    gap-x-4
-    grid-rows-2
-    md:grid-rows-1
-    md:grid-cols-2
-  `}
-`;
-
-const DoubleSpace = styled.div`
-  ${xw`
-    flex
-    w-full
-    sm:gap-4
-    sm:flex-row
-    justify-center
-    flex-col-reverse
-    sm:justify-between
-  `}
-`;
 
 interface IResetPasswordData {
   currentPassword: string;
@@ -145,7 +124,7 @@ const ResetPassword: FC<TResetPassword> = ({ closeModal }) => {
           </div>
         </DoubleFormSpace>
 
-        <DoubleSpace>
+        <DoubleSpace classNames={xw`sm:gap-4`}>
           <div css={xw`mt-5 sm:mb-2 w-full`}>
             <Button
               BSecondary

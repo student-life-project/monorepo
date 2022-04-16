@@ -1,14 +1,14 @@
-// eslint-disable-next-line simple-import-sort/imports
-import { FC } from 'react';
+/* eslint-disable-next-line simple-import-sort/imports */
 import xw from 'xwind';
-import Link from 'next/link';
 import styled from '@emotion/styled';
 import {
   FontAwesomeIcon,
   FontAwesomeIconProps,
 } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
+import { FC } from 'react';
 
-import Button from '@/components/common/Button';
+import Button from '../common/Button';
 
 interface IGetStartedCard {
   alt: string;

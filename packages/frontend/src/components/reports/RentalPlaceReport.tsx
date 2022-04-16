@@ -5,13 +5,13 @@ import { PlaceReport } from '@student_life/common';
 import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import Button from '@/components/common/Button';
-import Modal from '@/components/common/Modal';
-import Radio from '@/components/common/Radio';
-import Textarea from '@/components/common/Textarea';
 // import { useDispatch } from 'react-redux';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { IOption } from '@/types';
+import Button from '../common/Button';
+import Modal from '../common/Modal';
+import Radio from '../common/Radio';
+import Textarea from '../common/Textarea';
 
 type TRentalPlaceReport = {
   closeModal: () => void;

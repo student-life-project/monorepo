@@ -3,8 +3,8 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { FC, useState } from 'react';
 
-import Button from '@/components/common/Button';
-import ClampedText from '@/components/common/ClampedText';
+import Button from '../common/Button';
+import ClampedText from '../common/ClampedText';
 
 interface IInfoCad {
   body: string;

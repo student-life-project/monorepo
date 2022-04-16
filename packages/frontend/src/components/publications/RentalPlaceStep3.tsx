@@ -4,12 +4,12 @@ import { Rules, Security, Services } from '@student_life/common';
 import { FC } from 'react';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 
-import Checkbox from '@/components/common/Checkbox';
-import Label from '@/components/common/Label';
-import Textarea from '@/components/common/Textarea';
 import { ErrorMessageInput, NameInput } from '@/constants';
 
+import Checkbox from '../common/Checkbox';
+import Label from '../common/Label';
 import SpanError from '../common/SpanError';
+import Textarea from '../common/Textarea';
 
 type TRentalPlaceStep3 = {
   register: UseFormRegister<FieldValues>;

@@ -67,3 +67,7 @@ export interface IFilters {
   rules: IOption[];
   security: IOption[];
 }
+
+export type TStatus = 'success' | 'warning' | 'error' | 'info';
+
+export type TElementId = number | null;
