@@ -1,25 +1,16 @@
 import { FC, useState } from 'react';
 import xw from 'xwind';
 
+import TablePublications from '@/components/admin/TablePublications';
+import TableReports from '@/components/admin/TableReports';
+import TableUsers from '@/components/admin/TableUsers';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
-import ModalConfirm from '@/components/common/ModalConfirm';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import Table from '@/components/common/Table';
 import Tabs from '@/components/common/Tabs';
-import {
-  ColumnsPublication,
-  ColumnsReport,
-  ColumnsUser,
-  confirmMessage,
-  ETables,
-  HeaderPublication,
-  HeaderReport,
-  HeaderUser,
-  ItemsAdmin,
-} from '@/constants';
+import { ETables, ItemsAdmin } from '@/constants';
 
-const dataUser = [
+const dataUsers = [
   {
     id: 1,
     name: 'Alfredo Carreón Urbano',
@@ -57,7 +48,7 @@ const dataUser = [
   },
 ];
 
-const dataPublication = [
+const dataPublications = [
   {
     id: 1,
     title: 'Casa cerca de CUCEI',
@@ -186,7 +177,7 @@ const dataPublication = [
   },
 ];
 
-const dataReport = [
+const dataReports = [
   {
     id: 1,
     type: 'Usuario',
@@ -224,88 +215,12 @@ const dataReport = [
   },
 ];
 
-type TId = number | null;
-
 const Admin: FC = () => {
   // TODO: need to implement
-  // TODO: loading si la data aún no carga mostrar el Spinner.
-
   const [tab, setTab] = useState(0);
 
   const handleTab = (tabCurrent) => {
     setTab(tabCurrent);
-  };
-
-  // * =========================================================================
-
-  const [userId, setUserId] = useState<TId>(null);
-  const [showModalUser, setShowModalUser] = useState(false);
-
-  const statusUser = (id: TId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Usuario ${id}`);
-  };
-
-  const handleOpenModalUser = (id: TId) => {
-    setShowModalUser(true);
-    setUserId(id);
-  };
-
-  const handleCloseModalUser = () => {
-    setShowModalUser(false);
-  };
-
-  const deleteUser = (id: TId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Usuario ${id}`);
-  };
-
-  // * =========================================================================
-
-  const [postId, setPostId] = useState<TId>(null);
-  const [showModalPost, setShowModalPost] = useState(false);
-
-  const approvePost = (id: TId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Publicación ${id}`);
-  };
-
-  const handleOpenModalPost = (id: TId) => {
-    setShowModalPost(true);
-    setPostId(id);
-  };
-
-  const handleCloseModalPost = () => {
-    setShowModalPost(false);
-  };
-
-  const deletePost = (id: TId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Publicación ${id}`);
-  };
-
-  // * =========================================================================
-
-  const [reportId, setReportId] = useState<TId>(null);
-  const [showModalReport, setShowModalReport] = useState(false);
-
-  const solveReport = (id: TId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Reporte ${id}`);
-  };
-
-  const handleOpenModalReport = (id: TId) => {
-    setShowModalReport(true);
-    setReportId(id);
-  };
-
-  const handleCloseModalReport = () => {
-    setShowModalReport(false);
-  };
-
-  const deleteReport = (id: TId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Reporte ${id}`);
   };
 
   return (
@@ -323,66 +238,14 @@ const Admin: FC = () => {
       />
 
       <BodyContainer css={xw`pt-0`}>
-        {tab === ETables.USER && (
-          <Table
-            data={dataUser}
-            loading={false}
-            columns={ColumnsUser(statusUser, handleOpenModalUser)}
-            header={HeaderUser}
-          />
-        )}
+        {tab === ETables.USER && <TableUsers data={dataUsers} />}
 
         {tab === ETables.PUBLICATION && (
-          <Table
-            data={dataPublication}
-            loading={false}
-            columns={ColumnsPublication(approvePost, handleOpenModalPost)}
-            header={HeaderPublication}
-          />
+          <TablePublications data={dataPublications} />
         )}
 
-        {tab === ETables.REPORT && (
-          <Table
-            data={dataReport}
-            loading={false}
-            columns={ColumnsReport(solveReport, handleOpenModalReport)}
-            header={HeaderReport}
-          />
-        )}
+        {tab === ETables.REPORT && <TableReports data={dataReports} />}
       </BodyContainer>
-
-      {showModalUser && (
-        <ModalConfirm
-          type="warning"
-          title={confirmMessage.titleDelete('usuario')}
-          description={confirmMessage.descriptionDelete('usuario')}
-          closeModal={handleCloseModalUser}
-          // eslint-disable-next-line no-console
-          action={() => deleteUser(userId)}
-        />
-      )}
-
-      {showModalPost && (
-        <ModalConfirm
-          type="warning"
-          title={confirmMessage.titleDelete('publicación')}
-          description={confirmMessage.descriptionDelete('publicación')}
-          closeModal={handleCloseModalPost}
-          // eslint-disable-next-line no-console
-          action={() => deletePost(postId)}
-        />
-      )}
-
-      {showModalReport && (
-        <ModalConfirm
-          type="warning"
-          title={confirmMessage.titleDelete('reporte')}
-          description={confirmMessage.descriptionDelete('reporte')}
-          closeModal={handleCloseModalReport}
-          // eslint-disable-next-line no-console
-          action={() => deleteReport(reportId)}
-        />
-      )}
     </>
   );
 };

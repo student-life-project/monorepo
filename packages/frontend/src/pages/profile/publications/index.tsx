@@ -12,6 +12,7 @@ import {
   HeaderPublicationUser,
   ItemsPublications,
 } from '@/constants';
+import { TElementId } from '@/types';
 
 const data = [
   { id: 1, title: 'Casa cerca de CUCEI', price: 700, available: true },
@@ -121,21 +122,19 @@ const data = [
   },
 ];
 
-type TPostId = number | null;
-
 const Publications: FC = () => {
   // TODO: need to implement
   // TODO: loading si la data aún no carga mostrar el Spinner.
 
   const [showModal, setShowModal] = useState(false);
-  const [postId, setPostId] = useState<TPostId>(null);
+  const [postId, setPostId] = useState<TElementId>(null);
 
-  const availablePost = (id: TPostId) => {
+  const availablePost = (id: TElementId) => {
     // eslint-disable-next-line no-alert
     alert(id);
   };
 
-  const handleOpenModal = (id: TPostId) => {
+  const handleOpenModal = (id: TElementId) => {
     setShowModal(true);
     setPostId(id);
   };
@@ -144,7 +143,7 @@ const Publications: FC = () => {
     setShowModal(false);
   };
 
-  const deletePost = (id: TPostId) => {
+  const deletePost = (id: TElementId) => {
     // eslint-disable-next-line no-alert
     alert(id);
   };
