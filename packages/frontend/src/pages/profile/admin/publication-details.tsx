@@ -5,7 +5,7 @@ import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import PostDetails from '@/components/profile/PostDetails';
-import { ItemsReportDetails } from '@/constants';
+import { ItemsPublicationDetailsAdmin } from '@/constants';
 
 const getValues = () => ({
   id: 1,
@@ -49,7 +49,7 @@ const PublicationDetails: FC = () => {
     <>
       <NavBar allowRental allowLoginRegister />
 
-      <BreadCrumbs items={ItemsReportDetails} />
+      <BreadCrumbs items={ItemsPublicationDetailsAdmin} />
 
       <BodyContainer css={xw`pt-16 sm:pt-8`}>
         <PostDetails getValues={getValues} admin />

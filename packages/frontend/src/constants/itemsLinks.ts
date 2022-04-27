@@ -2,6 +2,14 @@ const LinkHome = { link: '/', text: 'Student Life' };
 const LinkHelp = { link: '/help', text: 'Ayuda' };
 const LinkProfile = { link: '/profile', text: 'Perfil' };
 const LinkAdmin = { link: '/profile/admin', text: 'Administrador' };
+const LinkPublication = {
+  link: '/profile/publications',
+  text: 'Publicaciones',
+};
+
+const ItemsHelp = [LinkHome, LinkHelp];
+export const ItemsAdmin = [LinkProfile, LinkAdmin];
+export const ItemsPublications = [LinkProfile, LinkPublication];
 
 export const ItemsCommunity = [
   LinkHome,
@@ -9,26 +17,22 @@ export const ItemsCommunity = [
 ];
 
 export const ItemsInfoPublish = [
-  LinkHome,
-  LinkHelp,
+  ...ItemsHelp,
   { link: '/help/information-publish', text: 'Anunciar un alojamiento' },
 ];
 
 export const ItemsInfoRentals = [
-  LinkHome,
-  LinkHelp,
+  ...ItemsHelp,
   { link: '/help/information-rentals', text: 'Busco un alojamiento' },
 ];
 
 export const ItemsPrivacy = [
-  LinkHome,
-  LinkHelp,
+  ...ItemsHelp,
   { link: '/help/privacy', text: 'Política de privacidad' },
 ];
 
 export const ItemsTermAndCond = [
-  LinkHome,
-  LinkHelp,
+  ...ItemsHelp,
   { link: '/help/terms-and-conditions', text: 'Términos y condiciones' },
 ];
 
@@ -37,21 +41,28 @@ export const ItemsMessages = [
   { link: '/profile/messages', text: 'Mensajes' },
 ];
 
-export const ItemsAdmin = [LinkProfile, LinkAdmin];
+export const ItemsPublicationDetails = [
+  ...ItemsPublications,
+  {
+    link: '/profile/publications/details',
+    text: 'Detalles de la publiación',
+  },
+];
+
+export const ItemsPublicationDetailsAdmin = [
+  ...ItemsAdmin,
+  {
+    link: '/profile/admin/publication-details',
+    text: 'Detalles de la publiación',
+  },
+];
 
 export const ItemsReportDetails = [
-  LinkProfile,
-  LinkAdmin,
+  ...ItemsAdmin,
   { link: '/profile/admin/report-details', text: 'Detalles del reporte' },
 ];
 
 export const ItemsUserDetails = [
-  LinkProfile,
-  LinkAdmin,
+  ...ItemsAdmin,
   { link: '/profile/admin/user-details', text: 'Detalles del usuario' },
-];
-
-export const ItemsPublications = [
-  LinkProfile,
-  { link: '/profile/publications', text: 'Publicaciones' },
 ];
