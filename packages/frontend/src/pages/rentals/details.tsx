@@ -21,6 +21,7 @@ import Title from '@/components/common/Title';
 import CardUser from '@/components/profile/CardUser';
 import RentalPlaceReport from '@/components/reports/RentalPlaceReport';
 import UserReport from '@/components/reports/UserReport';
+import Carousel from '@/components/common/Carousel';
 
 const ContentGallery = styled.section`
   ${xw`
@@ -59,7 +60,7 @@ const data = {
       name: 'img-home-1',
     },
     {
-      url: '/images/example_home_2.jpg',
+      url: '/images/example_home.jpg',
       name: 'img-home-2',
     },
     {
@@ -67,7 +68,7 @@ const data = {
       name: 'img-home-3',
     },
     {
-      url: '/images/example_home_2.jpg',
+      url: '/images/example_home.jpg',
       name: 'img-home-4',
     },
     {
@@ -127,6 +128,7 @@ const user = {
 const Details: FC = () => {
   const [userReport, setUserReport] = useState(false);
   const [rentalReport, setRentalReport] = useState(false);
+  const [showCarousel, setShowCarousel] = useState(false);
 
   const handleUserReport = () => {
     setUserReport(!userReport);
@@ -134,6 +136,10 @@ const Details: FC = () => {
 
   const handleRentalReport = () => {
     setRentalReport(!rentalReport);
+  };
+
+  const handleShowCarousel = () => {
+    setShowCarousel(!showCarousel);
   };
 
   // TODO: need to implement
@@ -164,7 +170,20 @@ const Details: FC = () => {
           })}
         </ContentGallery>
 
-        <div css={xw`flex gap-10 items-center`}>
+        <div css={xw`relative`}>
+          <Button
+            FSecondary
+            type="button"
+            onClick={handleShowCarousel}
+            css={xw`w-full static mt-2 sm:w-auto sm:mt-0 sm:absolute sm:bottom-0 sm:right-0`}
+          >
+            Mostrar todas las fotos
+          </Button>
+        </div>
+
+        <div
+          css={xw`flex flex-col-reverse mb-10 sm:mb-0 sm:flex-row sm:gap-10 sm:items-center`}
+        >
           <Button BPrimary round like={like} css={xw`h-10`}>
             <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />{' '}
             <span css={xw`ml-2`}>157 Me gusta</span>
@@ -258,7 +277,15 @@ const Details: FC = () => {
         </section>
 
         {rentalReport && <RentalPlaceReport closeModal={handleRentalReport} />}
+
         {userReport && <UserReport closeModal={handleUserReport} />}
+
+        {showCarousel && (
+          <Carousel
+            images={data.images.map((item) => item.url)}
+            close={handleShowCarousel}
+          />
+        )}
       </BodyContainer>
     </>
   );
