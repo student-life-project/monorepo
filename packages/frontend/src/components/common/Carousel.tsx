@@ -3,8 +3,10 @@ import 'react-image-lightbox/style.css';
 import { FC, useState } from 'react';
 import Lightbox from 'react-image-lightbox';
 
+import { TImages } from '@/types';
+
 type TCarousel = {
-  images: any;
+  images: TImages;
   close: () => void;
 };
 
