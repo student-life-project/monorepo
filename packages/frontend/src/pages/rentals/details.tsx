@@ -126,6 +126,25 @@ const user = {
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
 };
 
+const comments = [
+  {
+    id: 1,
+    name: 'Alfredo Carreón Urbano',
+    userImage: '/images/avatar.png',
+    comment:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
+    date: '12 de mayo 2022',
+  },
+  {
+    id: 2,
+    name: 'Erick Mejia Blanco',
+    userImage: '/images/avatar.png',
+    comment:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
+    date: '11 de mayo 2022',
+  },
+];
+
 const isLogedIn = true;
 
 const Details: FC = () => {
@@ -284,7 +303,7 @@ const Details: FC = () => {
                 loading="lazy"
               />
 
-              <Comments isLogedIn={isLogedIn} />
+              <Comments comments={comments} isLogedIn={isLogedIn} />
             </div>
           </div>
 
