@@ -22,6 +22,7 @@ import CardUser from '@/components/profile/CardUser';
 import RentalPlaceReport from '@/components/reports/RentalPlaceReport';
 import UserReport from '@/components/reports/UserReport';
 import Carousel from '@/components/common/Carousel';
+import Comments from '@/components/rentals/Comments';
 
 const ContentGallery = styled.section`
   ${xw`
@@ -125,6 +126,8 @@ const user = {
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
 };
 
+const isLogedIn = true;
+
 const Details: FC = () => {
   const [userReport, setUserReport] = useState(false);
   const [rentalReport, setRentalReport] = useState(false);
@@ -143,6 +146,7 @@ const Details: FC = () => {
   };
 
   // TODO: need to implement
+  // Ver apartados sólo si existe una sesión iniciada.
   const like = true;
 
   return (
@@ -184,10 +188,17 @@ const Details: FC = () => {
         <div
           css={xw`flex flex-col-reverse mb-10 sm:mb-0 sm:flex-row sm:gap-10 sm:items-center`}
         >
-          <Button BPrimary round like={like} css={xw`h-10`}>
-            <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />{' '}
-            <span css={xw`ml-2`}>157 Me gusta</span>
-          </Button>
+          {isLogedIn ? (
+            <Button BPrimary round like={like} css={xw`h-10`}>
+              <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
+              <span css={xw`ml-2`}>157 Me gusta</span>
+            </Button>
+          ) : (
+            <div css={xw`flex`}>
+              <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
+              <p css={xw`ml-2`}>157 Me gusta</p>
+            </div>
+          )}
 
           <Title css={xw`my-5`}>
             ${data.price} / mes, en {data.title}
@@ -203,28 +214,30 @@ const Details: FC = () => {
               </div>
 
               <div css={xw`flex`}>
-                <ButtonLink type="button" onClick={handleRentalReport}>
-                  <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
-                  <p css={xw`ml-2`}>Reportar publicación</p>
-                </ButtonLink>
+                <FontAwesomeIcon icon={faConciergeBell} height="1.2rem" />
+                <p css={xw`ml-2`}>{data.available}</p>
               </div>
 
               <div css={xw`flex`}>
-                <FontAwesomeIcon icon={faConciergeBell} height="1.2rem" />
-                <p css={xw`ml-2`}>{data.available}</p>
+                <FontAwesomeIcon icon={faSearch} height="1.2rem" />
+                <p css={xw`ml-2`}>{data.reason}</p>
               </div>
             </div>
 
             <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
               <div css={xw`flex`}>
-                <FontAwesomeIcon icon={faSearch} height="1.2rem" />
-                <p css={xw`ml-2`}>{data.reason}</p>
-              </div>
-
-              <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faUsers} height="1.2rem" />
                 <p css={xw`ml-2`}>{data.gender}</p>
               </div>
+
+              {isLogedIn && (
+                <div css={xw`flex`}>
+                  <ButtonLink type="button" onClick={handleRentalReport}>
+                    <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
+                    <p css={xw`ml-2`}>Reportar publicación</p>
+                  </ButtonLink>
+                </div>
+              )}
             </div>
 
             <div css={xw`w-full flex flex-wrap`}>
@@ -270,10 +283,16 @@ const Details: FC = () => {
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14931.290203720673!2d-103.44059073022459!3d20.676797100000016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x527d674e41a8ff5f!2sBuckhouse!5e0!3m2!1ses-419!2smx!4v1622850401228!5m2!1ses-419!2smx"
                 loading="lazy"
               />
+
+              <Comments isLogedIn={isLogedIn} />
             </div>
           </div>
 
-          <CardUser user={user} openUserReport={handleUserReport} />
+          <CardUser
+            user={user}
+            isLogedIn={isLogedIn}
+            openUserReport={handleUserReport}
+          />
         </section>
 
         {rentalReport && <RentalPlaceReport closeModal={handleRentalReport} />}
