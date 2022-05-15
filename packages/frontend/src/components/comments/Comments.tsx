@@ -9,6 +9,7 @@ import Button from '../common/Button';
 import DoubleSpace from '../common/DoubleSpace';
 import ModalConfirm from '../common/ModalConfirm';
 import Textarea from '../common/Textarea';
+import EditComment from './EditComment';
 import ItemComment from './ItemComment';
 
 type TComments = {
@@ -34,6 +35,7 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
     formState: { errors },
   } = useForm({ mode: 'all' });
 
+  const [showModalEdit, setShowModalEdit] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
 
   const comment = watch('comment');
@@ -44,6 +46,10 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
     reset();
     // Despues de enviar el comentario. enviarle un id de user.
     // Para obetener id, name, userImage, comment y date.
+  };
+
+  const handleOpenModalEdit = () => {
+    setShowModalEdit(!showModalEdit);
   };
 
   const handleOpenModalDelete = () => {
@@ -89,6 +95,7 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
             comments={comments}
             openUserReport={openUserReport}
             openModalDelete={handleOpenModalDelete}
+            openModalEdit={handleOpenModalEdit}
           />
         </div>
       ) : (
@@ -100,13 +107,15 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
         </div>
       )}
 
+      {showModalEdit && <EditComment closeModal={handleOpenModalEdit} />}
+
       {showModalDelete && (
         <ModalConfirm
           type="warning"
           title={confirmMessage.titleDelete('comentario')}
           description={confirmMessage.descriptionDelete('comentario')}
           closeModal={handleOpenModalDelete}
-          action={() => alert('Hi')}
+          action={() => alert('Hi - id of comment')}
         />
       )}
     </>

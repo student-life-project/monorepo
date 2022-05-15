@@ -9,12 +9,14 @@ type TItemComment = {
   comments: any;
   openUserReport: () => void;
   openModalDelete: () => void;
+  openModalEdit: () => void;
 };
 
 const ItemComment: FC<TItemComment> = ({
   comments,
   openUserReport,
   openModalDelete,
+  openModalEdit,
 }) => (
   <>
     {comments?.map((item) => (
@@ -37,7 +39,7 @@ const ItemComment: FC<TItemComment> = ({
                 <span css={xw`ml-2`}>Reportar</span>
               </button>
 
-              <button type="button" onClick={() => alert('Editar')}>
+              <button type="button" onClick={openModalEdit}>
                 <FontAwesomeIcon icon={faPen} height="1.2rem" />
                 <span css={xw`ml-2`}>Editar</span>
               </button>

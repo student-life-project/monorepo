@@ -22,7 +22,7 @@ import CardUser from '@/components/profile/CardUser';
 import RentalPlaceReport from '@/components/reports/RentalPlaceReport';
 import UserReport from '@/components/reports/UserReport';
 import Carousel from '@/components/common/Carousel';
-import Comments from '@/components/rentals/Comments';
+import Comments from '@/components/comments/Comments';
 
 const ContentGallery = styled.section`
   ${xw`
