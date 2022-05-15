@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import NextLink from 'next/link';
-import { FC, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 type TOptions = {
   children: any;
@@ -58,16 +58,29 @@ const renderItem = (child, index) => {
 };
 
 const Options: FC<TOptions> = ({ children }) => {
-  const [show, setshow] = useState(false);
+  const showRef = useRef<HTMLHeadingElement>();
+  const [show, setShow] = useState(false);
 
-  const handleShowOptions = () => {
-    setshow((state) => !state);
+  const handleCloseOptions = ({ target }) => {
+    const ref = showRef?.current || null;
+
+    if (!ref?.contains(target)) {
+      setShow(false);
+    }
   };
+
+  const handleShowOptions = () => setShow(!show);
+
+  useEffect(() => {
+    document.addEventListener('click', handleCloseOptions);
+    return () => document.removeEventListener('click', handleCloseOptions);
+  });
 
   return (
     <div>
       <button
         type="button"
+        ref={showRef as any}
         css={xw`py-3 px-4 text-gray-400`}
         onClick={handleShowOptions}
       >

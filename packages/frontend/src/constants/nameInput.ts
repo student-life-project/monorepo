@@ -38,4 +38,5 @@ export const NameInput = {
   descripcionProblem: 'Descripción del problema',
   postDetails: 'Estatus de la publicación',
   ownerPost: 'Creado por',
+  comment: 'Comentario',
 };
