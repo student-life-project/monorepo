@@ -36,6 +36,7 @@ const Content = styled.div`
   ${xw`
     p-8
     mt-14
+    m-auto
     w-11/12
     bg-white
     relative

@@ -41,7 +41,7 @@ const ModalConfirm: FC<TMoldalConfirm> = ({
   };
 
   return (
-    <Modal classNames={xw`m-auto md:w-96 p-4`}>
+    <Modal classNames={xw`md:w-96 p-4`}>
       <DoubleSpace classNames={xw`sm:gap-4 flex-col sm:justify-start`}>
         <div css={xw`flex justify-center mb-2 sm:mb-0`}>
           <FontAwesomeIcon
