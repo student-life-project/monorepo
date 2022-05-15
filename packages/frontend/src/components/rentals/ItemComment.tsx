@@ -7,9 +7,10 @@ import Options from '../common/Options';
 
 type TItemComment = {
   comments: any;
+  openUserReport: () => void;
 };
 
-const ItemComment: FC<TItemComment> = ({ comments }) => (
+const ItemComment: FC<TItemComment> = ({ comments, openUserReport }) => (
   <>
     {comments?.map((item) => (
       <section key={item.id} css={xw`my-8`}>
@@ -26,7 +27,7 @@ const ItemComment: FC<TItemComment> = ({ comments }) => (
 
           <div css={xw`relative`}>
             <Options>
-              <button type="button" onClick={() => alert('Repotar')}>
+              <button type="button" onClick={openUserReport}>
                 <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
                 <span css={xw`ml-2`}>Reportar</span>
               </button>

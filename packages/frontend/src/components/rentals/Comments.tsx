@@ -13,13 +13,14 @@ import ItemComment from './ItemComment';
 type TComments = {
   comments: any;
   isLogedIn: boolean;
+  openUserReport: () => void;
 };
 
 interface ICommentData {
   comment: string;
 }
 
-const Comments: FC<TComments> = ({ comments, isLogedIn }) => {
+const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
   // TODO: Need to implement
   // Ver comentarios sólo si existe una sesión iniciada.
   // Las opciones de editar y eliminar solo son para el owner.
@@ -76,7 +77,7 @@ const Comments: FC<TComments> = ({ comments, isLogedIn }) => {
             </DoubleSpace>
           </form>
 
-          <ItemComment comments={comments} />
+          <ItemComment comments={comments} openUserReport={openUserReport} />
         </div>
       ) : (
         <div>

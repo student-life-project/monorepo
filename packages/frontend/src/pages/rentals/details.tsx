@@ -303,7 +303,11 @@ const Details: FC = () => {
                 loading="lazy"
               />
 
-              <Comments comments={comments} isLogedIn={isLogedIn} />
+              <Comments
+                comments={comments}
+                isLogedIn={isLogedIn}
+                openUserReport={handleUserReport}
+              />
             </div>
           </div>
 
