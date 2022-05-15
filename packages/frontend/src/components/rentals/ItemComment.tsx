@@ -8,9 +8,14 @@ import Options from '../common/Options';
 type TItemComment = {
   comments: any;
   openUserReport: () => void;
+  openModalDelete: () => void;
 };
 
-const ItemComment: FC<TItemComment> = ({ comments, openUserReport }) => (
+const ItemComment: FC<TItemComment> = ({
+  comments,
+  openUserReport,
+  openModalDelete,
+}) => (
   <>
     {comments?.map((item) => (
       <section key={item.id} css={xw`my-8`}>
@@ -37,7 +42,7 @@ const ItemComment: FC<TItemComment> = ({ comments, openUserReport }) => (
                 <span css={xw`ml-2`}>Editar</span>
               </button>
 
-              <button type="button" onClick={() => alert('Eliminar')}>
+              <button type="button" onClick={openModalDelete}>
                 <FontAwesomeIcon icon={faTrash} height="1.2rem" />
                 <span css={xw`ml-2`}>Eliminar</span>
               </button>

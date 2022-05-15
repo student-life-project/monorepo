@@ -1,12 +1,13 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import xw from 'xwind';
 
-import { ErrorMessageInput, NameInput } from '@/constants';
+import { confirmMessage, ErrorMessageInput, NameInput } from '@/constants';
 
 import Anchor from '../common/Anchor';
 import Button from '../common/Button';
 import DoubleSpace from '../common/DoubleSpace';
+import ModalConfirm from '../common/ModalConfirm';
 import Textarea from '../common/Textarea';
 import ItemComment from './ItemComment';
 
@@ -33,13 +34,20 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
     formState: { errors },
   } = useForm({ mode: 'all' });
 
+  const [showModalDelete, setShowModalDelete] = useState(false);
+
   const comment = watch('comment');
+
   const onSubmit: SubmitHandler<ICommentData> = async (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
     reset();
     // Despues de enviar el comentario. enviarle un id de user.
     // Para obetener id, name, userImage, comment y date.
+  };
+
+  const handleOpenModalDelete = () => {
+    setShowModalDelete(!showModalDelete);
   };
 
   return (
@@ -77,7 +85,11 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
             </DoubleSpace>
           </form>
 
-          <ItemComment comments={comments} openUserReport={openUserReport} />
+          <ItemComment
+            comments={comments}
+            openUserReport={openUserReport}
+            openModalDelete={handleOpenModalDelete}
+          />
         </div>
       ) : (
         <div>
@@ -86,6 +98,16 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
             información de la vivienda como comentarios, calificaciones, etc.
           </h2>
         </div>
+      )}
+
+      {showModalDelete && (
+        <ModalConfirm
+          type="warning"
+          title={confirmMessage.titleDelete('comentario')}
+          description={confirmMessage.descriptionDelete('comentario')}
+          closeModal={handleOpenModalDelete}
+          action={() => alert('Hi')}
+        />
       )}
     </>
   );
