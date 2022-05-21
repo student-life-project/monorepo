@@ -40,6 +40,7 @@ export class RentalPlaceController {
   })
   @Post()
   async create(@Body() createRentalPlaceDto: CreateRentalPlaceDto) {
+    // TODO confirm rental-place/ POST works
     // create rules
     const rulesIds = await this.ruleService.createMany(
       createRentalPlaceDto.rules,
@@ -68,6 +69,7 @@ export class RentalPlaceController {
   @ApiOkResponse({ description: 'Find all the rental places' })
   @Get()
   findAll() {
+    // TODO make sure retrive all need info rentals GET check if made TOP RATE AND MOST COMMENTED limit to 5 ¡¡DISPONIBLES!! (si todos igual random entre los top on different request
     return this.rentalPlaceService.findAll();
   }
 
@@ -75,6 +77,7 @@ export class RentalPlaceController {
   @ApiOkResponse({ description: 'Get a rental place by id' })
   @Get(':id')
   async findOne(@Param('id') id: string) {
+    // TODO make sure retrive all need info rentals/:id GET
     const rentalPlace = await this.rentalPlaceService.findOne(id);
     if (!rentalPlace)
       throw new NotFoundException('Rental place does not exists');
