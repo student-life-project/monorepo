@@ -31,3 +31,4 @@ yarn-error.log*
 
 # build
 dist/*
+.devcontainer/scripts/mongo/init/.mongodb/*
