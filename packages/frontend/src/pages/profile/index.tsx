@@ -2,7 +2,7 @@
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import { FC, useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import BodyContainer from '@/components/common/BodyContainer';
 import Button from '@/components/common/Button';
@@ -14,6 +14,7 @@ import Textarea from '@/components/common/Textarea';
 import ResetPassword from '@/components/profile/ResetPassword';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { CalculateAge } from '@/utils/calculateAge';
+import { rgxNumber } from '@/utils/validations';
 
 const Content = styled.div`
   ${xw`
@@ -53,6 +54,7 @@ const Profile: FC = () => {
     register,
     reset,
     watch,
+    control,
     formState: { errors },
   } = useForm({ mode: 'all' });
 
@@ -138,17 +140,35 @@ const Profile: FC = () => {
                 <Label id="label-phone" htmlFor="phone">
                   {NameInput.phone}
                 </Label>
-                <Input
-                  type="tel"
-                  id="phone"
-                  placeholder="Tu número de teléfono"
-                  register={{
-                    ...register('phone', {
-                      required: ErrorMessageInput.inputRequire(NameInput.phone),
-                    }),
+                <Controller
+                  name="phone"
+                  defaultValue=""
+                  control={control}
+                  rules={{
+                    required: ErrorMessageInput.inputRequire(NameInput.phone),
+                    pattern: {
+                      value: rgxNumber,
+                      message: ErrorMessageInput.notNumber,
+                    },
                   }}
-                  error={errors.phone}
-                  messageError={errors.phone?.message}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Input
+                      id="phone"
+                      type="text"
+                      onBlur={onBlur}
+                      placeholder="Tu número de teléfono"
+                      onChange={({ target: { value: val } }) => {
+                        return onChange(
+                          rgxNumber.test(val)
+                            ? val
+                            : val.slice(0, val.length - 1),
+                        );
+                      }}
+                      value={value}
+                      error={errors.phone}
+                      messageError={errors.phone?.message}
+                    />
+                  )}
                 />
               </div>
 
