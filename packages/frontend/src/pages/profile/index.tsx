@@ -15,6 +15,7 @@ import ResetPassword from '@/components/profile/ResetPassword';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { CalculateAge } from '@/utils/calculateAge';
 import { rgxNumber } from '@/utils/validations';
+import withAuth from '@/utils/WithAuth';
 
 const Content = styled.div`
   ${xw`
@@ -268,4 +269,4 @@ const Profile: FC = () => {
   );
 };
 
-export default Profile;
+export default withAuth(Profile);
