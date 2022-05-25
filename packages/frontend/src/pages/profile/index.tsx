@@ -13,6 +13,7 @@ import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Textarea from '@/components/common/Textarea';
 import ResetPassword from '@/components/profile/ResetPassword';
 import { ErrorMessageInput, NameInput } from '@/constants';
+import { CalculateAge } from '@/utils/calculateAge';
 
 const Content = styled.div`
   ${xw`
@@ -164,6 +165,8 @@ const Profile: FC = () => {
                       required: ErrorMessageInput.inputRequire(
                         NameInput.birthDate,
                       ),
+                      validate: (value) =>
+                        CalculateAge(value) > 18 || ErrorMessageInput.ageValid,
                     }),
                   }}
                   error={errors.birthDate}
