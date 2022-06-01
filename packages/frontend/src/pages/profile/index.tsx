@@ -16,6 +16,8 @@ import { ErrorMessageInput, NameInput } from '@/constants';
 import { CalculateAge } from '@/utils/calculateAge';
 import { rgxNumber } from '@/utils/validations';
 import withAuth from '@/utils/WithAuth';
+import { getAccessToken } from '@auth0/nextjs-auth0';
+import { GetServerSideProps } from 'next';
 
 const Content = styled.div`
   ${xw`
@@ -267,6 +269,23 @@ const Profile: FC = () => {
       </BodyContainer>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  /*
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  )
+  */
+
+  const { accessToken } = await getAccessToken(req, res); // request the token
+  // eslint-disable-next-line no-console
+  console.log(accessToken);
+
+  return {
+    props: { accessToken },
+  };
 };
 
 export default withAuth(Profile);
