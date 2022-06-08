@@ -10,6 +10,7 @@ import Checkbox from '../common/Checkbox';
 import Label from '../common/Label';
 import SpanError from '../common/SpanError';
 import Textarea from '../common/Textarea';
+import Dropzone from './Dropzone/Dropzone';
 
 type TRentalPlaceStep3 = {
   register: UseFormRegister<FieldValues>;
@@ -129,7 +130,7 @@ const RentalPlaceStep3: FC<TRentalPlaceStep3> = ({
       {errors.security && <SpanError>{errors.security?.message}</SpanError>}
 
       <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Subir imagenes</h2>
-      <p css={xw`text-red-500`}>Apartado de imagenes</p>
+      <Dropzone />
     </div>
   </div>
 );
