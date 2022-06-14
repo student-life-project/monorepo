@@ -253,6 +253,11 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
                   type="email"
                   placeholder="Tu correo"
                   defaultValue={userData.email}
+                  register={{
+                    ...register('email', {
+                      required: ErrorMessageInput.inputRequire(NameInput.email),
+                    }),
+                  }}
                 />
               </div>
 
@@ -266,6 +271,13 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
                   type="password"
                   placeholder="Tu contraseña"
                   defaultValue={userData.password}
+                  register={{
+                    ...register('password', {
+                      required: ErrorMessageInput.inputRequire(
+                        NameInput.password,
+                      ),
+                    }),
+                  }}
                 />
               </div>
             </DoubleFormSpace>
