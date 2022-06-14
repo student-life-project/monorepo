@@ -1,8 +1,10 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { FC, useEffect, useState } from 'react';
+import { GetServerSideProps, NextPage } from 'next';
+import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { getAccessToken, useUser } from '@auth0/nextjs-auth0';
 
 import BodyContainer from '@/components/common/BodyContainer';
 import Button from '@/components/common/Button';
@@ -16,8 +18,6 @@ import { ErrorMessageInput, NameInput } from '@/constants';
 import { CalculateAge } from '@/utils/calculateAge';
 import { rgxNumber } from '@/utils/validations';
 import withAuth from '@/utils/WithAuth';
-import { getAccessToken } from '@auth0/nextjs-auth0';
-import { GetServerSideProps } from 'next';
 
 const Content = styled.div`
   ${xw`
@@ -51,7 +51,7 @@ const userData = {
   userImage: '/images/avatar.png',
 };
 
-const Profile: FC = () => {
+const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
   const {
     handleSubmit,
     register,
@@ -61,7 +61,29 @@ const Profile: FC = () => {
     formState: { errors },
   } = useForm({ mode: 'all' });
 
+  const { isLoading, user: oauthUser, error: authError } = useUser();
+
   useEffect(() => {
+    if (isLoading || !oauthUser) {
+      return;
+    }
+
+    if (authError) {
+      // insert error handler here
+    }
+
+    reset({
+      firstName: oauthUser.given_name,
+      lastName: oauthUser.family_name,
+      phone: '',
+      birthDate: '',
+      aboutMe: '',
+      email: oauthUser.email,
+      password: accessToken,
+      userImage: oauthUser.picture,
+    });
+
+    /*
     reset({
       firstName: userData.firstName,
       lastName: userData.lastName,
@@ -69,7 +91,8 @@ const Profile: FC = () => {
       birthDate: userData.birthDate,
       aboutMe: userData.aboutMe,
     });
-  }, [reset]);
+  */
+  }, [reset, isLoading, oauthUser, authError, accessToken]);
 
   const aboutMe = watch('aboutMe');
 
@@ -279,9 +302,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   )
   */
 
-  const { accessToken } = await getAccessToken(req, res); // request the token
+  const { accessToken, ...restParams } = await getAccessToken(req, res); // request the token
   // eslint-disable-next-line no-console
-  console.log(accessToken);
+  console.log(accessToken, restParams);
 
   return {
     props: { accessToken },
