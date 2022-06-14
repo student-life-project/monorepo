@@ -115,8 +115,11 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
           <form css={xw`w-full lg:w-6/12`} onSubmit={handleSubmit(onSubmit)}>
             <div css={xw`flex items-center justify-center`}>
               <img
-                alt={userData.firstName}
-                src={userData.userImage}
+                alt={oauthUser ? (oauthUser.nickname as string) : ''}
+                src={
+                  ((userData as unknown as any).picture as string) ||
+                  userData.userImage
+                }
                 css={xw`w-52 h-52 sm:w-48 sm:h-48 bg-gray-400 rounded-full mb-5`}
               />
             </div>
