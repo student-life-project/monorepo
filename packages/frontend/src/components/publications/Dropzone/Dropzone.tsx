@@ -52,6 +52,7 @@ const Dropzone: FC = () => {
     accept: '.jpg,.jpeg,.png',
     noKeyboard: true,
     multiple: true,
+    maxFiles: 7,
     onDrop,
   });
 
