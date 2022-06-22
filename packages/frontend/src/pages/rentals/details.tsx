@@ -45,11 +45,9 @@ const ContentGallery = styled.section<TContentGallery>`
     grid-cols-1
   `}
 
-  ${({ length }) => length === 1 && xw`sm:grid-rows-1 sm:grid-cols-1`}
-  ${({ length }) => length === 2 && xw`sm:grid-rows-1 sm:grid-cols-2`}
-  ${({ length }) => length === 3 && xw`sm:grid-rows-1 sm:grid-cols-3`}
-  ${({ length }) => length === 4 && xw`sm:grid-rows-2 sm:grid-cols-3`}
-  ${({ length }) => length >= 5 && xw`sm:grid-rows-2 sm:grid-cols-3`}
+  ${({ length }) => length === 2 && xw`sm:grid-cols-2`}
+  ${({ length }) => length === 3 && xw`sm:grid-cols-3`}
+  ${({ length }) => length >= 4 && xw`sm:grid-rows-2 sm:grid-cols-3`}
 `;
 
 const Img = styled.img<TImg>`
