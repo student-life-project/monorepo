@@ -24,7 +24,16 @@ import UserReport from '@/components/reports/UserReport';
 import Carousel from '@/components/common/Carousel';
 import Comments from '@/components/comments/Comments';
 
-const ContentGallery = styled.section`
+type TContentGallery = {
+  length: number;
+};
+
+type TImg = {
+  index: number;
+  length: number;
+};
+
+const ContentGallery = styled.section<TContentGallery>`
   ${xw`
     h-60
     grid
@@ -32,19 +41,29 @@ const ContentGallery = styled.section`
     gap-4
     w-full
     sm:h-96
-    grid-rows-2
-    grid-cols-2
-    sm:grid-cols-3
+    grid-rows-1
+    grid-cols-1
   `}
+
+  ${({ length }) => length === 1 && xw`sm:grid-rows-1 sm:grid-cols-1`}
+  ${({ length }) => length === 2 && xw`sm:grid-rows-1 sm:grid-cols-2`}
+  ${({ length }) => length === 3 && xw`sm:grid-rows-1 sm:grid-cols-3`}
+  ${({ length }) => length === 4 && xw`sm:grid-rows-2 sm:grid-cols-3`}
+  ${({ length }) => length >= 5 && xw`sm:grid-rows-2 sm:grid-cols-3`}
 `;
 
-const Img = styled.img`
+const Img = styled.img<TImg>`
   ${xw`
     w-full
     h-full
+    rounded-2xl
     bg-gray-400
     object-cover
   `}
+
+  ${({ index, length }) => length >= 4 && index === 0 && xw`row-span-2`}
+  ${({ index, length }) => length === 4 && index === 3 && xw`col-span-2`}
+  ${({ index }) => index !== 0 && xw`hidden sm:block`}
 `;
 
 const data = {
@@ -173,24 +192,20 @@ const Details: FC = () => {
       <NavBar allowRental allowLoginRegister />
 
       <BodyContainer css={xw`text-secondary-1`}>
-        <ContentGallery>
-          {data.images.map((img, index) => {
-            let css = '';
-
-            if (index === 0) {
-              css = xw`rounded-l-2xl row-span-2`;
-            } else if (index === 2) {
-              css = xw`rounded-tr-2xl`;
-            } else if (index === 4) {
-              css = xw`rounded-br-2xl`;
-            } else {
-              css = xw`hidden sm:block`;
-            }
-
-            return (
-              <Img key={img.name} src={img.url} alt={img.name} css={css} />
-            );
-          })}
+        <ContentGallery length={data.images.length}>
+          {data.images.map((img, index) => (
+            <>
+              {index < 5 && (
+                <Img
+                  key={img.name}
+                  src={img.url}
+                  alt={img.name}
+                  index={index}
+                  length={data.images.length}
+                />
+              )}
+            </>
+          ))}
         </ContentGallery>
 
         <div css={xw`relative`}>
