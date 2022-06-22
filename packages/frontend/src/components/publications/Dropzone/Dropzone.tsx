@@ -12,8 +12,12 @@ import { createId } from '@/utils/createId';
 
 import ItemFile from './ItemFile';
 
-const Dropzone: FC = () => {
-  const [files, setFiles] = useState<any>([]);
+type TDropzone = {
+  files: any;
+  setFiles: (files: any) => void;
+};
+
+const Dropzone: FC<TDropzone> = ({ files, setFiles }) => {
   const [filesRejected, setFilesRejected] = useState<any>([]);
 
   const onDrop = useCallback(
@@ -21,7 +25,7 @@ const Dropzone: FC = () => {
       const accepted = acceptedFiles.map((file) =>
         Object.assign(file, {
           id: createId(),
-          preview: URL.createObjectURL(file),
+          url: URL.createObjectURL(file),
         }),
       );
 
@@ -36,7 +40,6 @@ const Dropzone: FC = () => {
       setFilesRejected(rejected);
       setFiles(accepted);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setFiles, setFilesRejected],
   );
 
@@ -45,7 +48,7 @@ const Dropzone: FC = () => {
       setFiles(files.filter((file) => file.id !== id));
       toast.success(AlertMessage.deleted('la imagen'));
     },
-    [files],
+    [files, setFiles],
   );
 
   const { getRootProps, getInputProps } = useDropzone({

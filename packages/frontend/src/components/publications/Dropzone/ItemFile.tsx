@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type TItemFile = {
   files: any;
-  handleRemoveFile: (id: any) => any;
+  handleRemoveFile?: (id: any) => any;
 };
 
 const Card = styled.div`
@@ -31,24 +31,26 @@ const ItemFile: FC<TItemFile> = ({ files, handleRemoveFile }) => (
       <Card key={file.name}>
         <img
           alt={file.name}
-          src={file.preview}
+          src={file.url}
           css={xw`block w-auto h-full`}
           onLoad={() => {
-            URL.revokeObjectURL(file.preview);
+            URL.revokeObjectURL(file.url); // TODO: temporal solo para maquetar.
           }}
         />
 
-        <button
-          type="button"
-          css={xw`absolute right-2 bg-white p-1`}
-          onClick={() => handleRemoveFile(file.id)}
-        >
-          <FontAwesomeIcon
-            icon={faTrash}
-            height="1.2rem"
-            css={xw`text-primary`}
-          />
-        </button>
+        {handleRemoveFile && (
+          <button
+            type="button"
+            css={xw`absolute right-2 bg-white p-1`}
+            onClick={() => handleRemoveFile(file.id)}
+          >
+            <FontAwesomeIcon
+              icon={faTrash}
+              height="1.2rem"
+              css={xw`text-primary`}
+            />
+          </button>
+        )}
       </Card>
     ))}
   </aside>

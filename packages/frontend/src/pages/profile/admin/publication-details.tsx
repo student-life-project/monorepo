@@ -40,6 +40,28 @@ const getValues = () => ({
     'Salidas de emergencia',
     'Señalamientos de seguridad',
   ],
+  images: [
+    {
+      url: '/images/example_home_2.jpg',
+      name: 'img-home-1',
+    },
+    {
+      url: '/images/example_home.jpg',
+      name: 'img-home-2',
+    },
+    {
+      url: '/images/example_home_2.jpg',
+      name: 'img-home-3',
+    },
+    {
+      url: '/images/example_home.jpg',
+      name: 'img-home-4',
+    },
+    {
+      url: '/images/example_home_2.jpg',
+      name: 'img-home-5',
+    },
+  ],
 });
 
 const PublicationDetails: FC = () => {
