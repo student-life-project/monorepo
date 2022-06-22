@@ -206,16 +206,18 @@ const Details: FC = () => {
           ))}
         </ContentGallery>
 
-        <div css={xw`relative`}>
-          <Button
-            FSecondary
-            type="button"
-            onClick={handleShowCarousel}
-            css={xw`w-full static mt-2 sm:w-auto sm:mt-0 sm:absolute sm:bottom-0 sm:right-0`}
-          >
-            Mostrar todas las fotos
-          </Button>
-        </div>
+        {data.images.length > 1 && (
+          <div css={xw`relative`}>
+            <Button
+              FSecondary
+              type="button"
+              onClick={handleShowCarousel}
+              css={xw`w-full static mt-2 sm:w-auto sm:mt-0 sm:absolute sm:bottom-0 sm:right-0`}
+            >
+              Mostrar todas las fotos
+            </Button>
+          </div>
+        )}
 
         <div
           css={xw`flex flex-col-reverse mb-10 sm:mb-0 sm:flex-row sm:gap-10 sm:items-center`}
