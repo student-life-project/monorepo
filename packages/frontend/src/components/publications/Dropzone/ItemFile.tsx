@@ -5,10 +5,11 @@ import styled from '@emotion/styled';
 
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { TFile } from '@/types';
 
 type TItemFile = {
-  files: any;
-  handleRemoveFile?: (id: any) => any;
+  files: TFile[];
+  handleRemoveFile?: (id: string | number) => any;
 };
 
 const Card = styled.div`
@@ -34,7 +35,7 @@ const ItemFile: FC<TItemFile> = ({ files, handleRemoveFile }) => (
           src={file.url}
           css={xw`block w-auto h-full`}
           onLoad={() => {
-            URL.revokeObjectURL(file.url); // TODO: temporal solo para maquetar.
+            URL.revokeObjectURL(file.url || ''); // TODO: temporal solo para maquetar.
           }}
         />
 
@@ -42,7 +43,7 @@ const ItemFile: FC<TItemFile> = ({ files, handleRemoveFile }) => (
           <button
             type="button"
             css={xw`absolute right-2 bg-white p-1`}
-            onClick={() => handleRemoveFile(file.id)}
+            onClick={() => handleRemoveFile(file.id || 0)}
           >
             <FontAwesomeIcon
               icon={faTrash}

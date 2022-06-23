@@ -81,3 +81,8 @@ export type TTooltipType =
   | 'error'
   | 'info'
   | 'light';
+
+export type TFile = File & {
+  id?: string | number;
+  url?: string;
+};
