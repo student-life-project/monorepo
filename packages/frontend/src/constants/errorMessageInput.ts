@@ -3,8 +3,9 @@ export const ErrorMessageInput = {
   inputRequire: (name: string): string => `${name} es requerido.`,
   passwordDoNotMatch: 'La contraseña no coincide',
   max: (max: number): string => `Máximo ${max} cáracteres.`,
-  maxNumber: (max: number): string => `Máximo ${max} cáracteres.`,
+  maxNumber: (max: number): string => `Máximo ${max} dígitos.`,
   minNumber: (min: number): string => `Mínimo ${min} dígitos.`,
   notNumber: 'No es un número válido.',
   priceValid: 'El número debe de ser mayor o igual a 1',
+  ageValid: 'Student Life es para mayores de 18 años',
 };

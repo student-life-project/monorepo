@@ -41,6 +41,9 @@ const Create: FC = () => {
   const [step, setStep] = useState(0);
   const [steps, setSteps] = useState(PublicationSteps);
 
+  // TODO: mantender el estado con los archivos agregados.
+  const [files, setFiles] = useState<any>([]);
+
   const {
     reset,
     watch,
@@ -70,7 +73,7 @@ const Create: FC = () => {
 
   const onSubmit: SubmitHandler<IPublicationData> = async (data) => {
     // eslint-disable-next-line no-console
-    console.log(data);
+    console.log(data, files);
     router.push('/profile/publications');
     // Crear mensajes de success, info, warning, error
     toast.success('Sé ha creado la publicación exitosamente'); //! Agregar las alertas en otra vista para que sean visibles.
@@ -107,7 +110,7 @@ const Create: FC = () => {
     } else if (stepLocation) {
       setIsValid(location.some(truthy));
     } else {
-      setIsValid(rentalPlace.some(truthy));
+      setIsValid(rentalPlace.some(truthy) || files?.length === 0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [basicInfo, location, rentalPlace, step]);
@@ -149,11 +152,13 @@ const Create: FC = () => {
               register={register}
               errors={errors}
               rentalPlace={rentalPlace[0]?.length}
+              files={files}
+              setFiles={setFiles}
             />
           )}
 
           {step === EPublicationStep.DRAFT && (
-            <PreviewStep4 getValues={getValues} />
+            <PreviewStep4 files={files} getValues={getValues} />
           )}
 
           <div css={xw`flex justify-center mb-10`}>
