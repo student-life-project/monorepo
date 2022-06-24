@@ -1,6 +1,8 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 import { css, Global } from '@emotion/react';
+import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
@@ -17,6 +19,7 @@ type TDropzone = {
   setFiles: (files: any) => void;
 };
 
+// TODO: Agregar un loder si es necesario.
 const Dropzone: FC<TDropzone> = ({ files, setFiles }) => {
   const [filesRejected, setFilesRejected] = useState<any>([]);
 
@@ -87,6 +90,7 @@ const Dropzone: FC<TDropzone> = ({ files, setFiles }) => {
         <div {...getRootProps({ className: 'dropzone' })}>
           <input {...getInputProps()} />
           <div css={xw`flex items-center flex-col gap-4`}>
+            <FontAwesomeIcon icon={faCloudUploadAlt} height="5rem" />
             <p css={xw`text-center`}>
               Formato de archivos permitidos .JPG, .JPEG o .PNG
             </p>
