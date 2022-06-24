@@ -84,5 +84,5 @@ export type TTooltipType =
 
 export type TFile = File & {
   id?: string | number;
-  url?: string;
+  url?: string | any;
 };

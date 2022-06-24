@@ -63,8 +63,9 @@ const Dropzone: FC<TDropzone> = ({ files, setFiles }) => {
     onDrop,
   });
 
+  // TODO: Eliminar cuando ya no sea necesario.
   useEffect(() => {
-    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+    return () => files.forEach((file) => URL.revokeObjectURL(file.url));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -9,7 +9,7 @@ import { TFile } from '@/types';
 
 type TItemFile = {
   files: TFile[];
-  handleRemoveFile?: (id: string | number) => any;
+  handleRemoveFile?: (id: string | number | any) => void;
 };
 
 const Card = styled.div`
