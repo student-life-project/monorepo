@@ -8,6 +8,8 @@ const withPlugins = require('next-compose-plugins');
 
 const plugins = [[witTM], [withBundleAnalyzer]];
 
+const URL_POST_FIX = '/v1/api';
+
 module.exports = withPlugins(plugins, {
   webpack: (config, _options) => {
     config.resolve.alias = {
@@ -24,8 +26,8 @@ module.exports = withPlugins(plugins, {
   env: {
     API_URL:
       process.env.NODE_ENV === 'development'
-        ? 'http://localhost:3000/api/'
-        : 'here remot url',
+        ? `http://localhost:3010${URL_POST_FIX}`
+        : `here remot url${URL_POST_FIX}`,
   },
 });
 

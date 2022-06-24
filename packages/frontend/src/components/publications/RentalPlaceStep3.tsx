@@ -6,6 +6,7 @@ import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
 
+import { TFile } from '@/types';
 import Checkbox from '../common/Checkbox';
 import Label from '../common/Label';
 import SpanError from '../common/SpanError';
@@ -16,8 +17,8 @@ type TRentalPlaceStep3 = {
   register: UseFormRegister<FieldValues>;
   errors: any;
   rentalPlace: number;
-  files: any;
-  setFiles: (files: any) => void;
+  files: File[];
+  setFiles: (files: TFile[]) => void;
 };
 
 const RentalPlaceStep3: FC<TRentalPlaceStep3> = ({

@@ -14,6 +14,7 @@ import RentalPlaceStep3 from '@/components/publications/RentalPlaceStep3';
 import Steps from '@/components/publications/Steps';
 import UbicationStep2 from '@/components/publications/UbicationStep2';
 import { EPublicationStep, PublicationSteps } from '@/constants';
+import { TFile } from '@/types';
 import { scrollTo } from '@/utils/scrollTo';
 
 export interface IPublicationData {
@@ -42,7 +43,7 @@ const Create: FC = () => {
   const [steps, setSteps] = useState(PublicationSteps);
 
   // TODO: mantender el estado con los archivos agregados.
-  const [files, setFiles] = useState<any>([]);
+  const [files, setFiles] = useState<TFile[]>([]);
 
   const {
     reset,

@@ -4,27 +4,28 @@ import { css, Global } from '@emotion/react';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useCallback, useEffect, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { FileError, FileRejection, useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
 import xw from 'xwind';
 
 import Button from '@/components/common/Button';
 import { AlertMessage } from '@/constants/alertMessage';
+import { TFile } from '@/types';
 import { createId } from '@/utils/createId';
 
 import ItemFile from './ItemFile';
 
 type TDropzone = {
-  files: any;
-  setFiles: (files: any) => void;
+  files: TFile[];
+  setFiles: (files: TFile[]) => void;
 };
 
 // TODO: Agregar un loder si es necesario.
 const Dropzone: FC<TDropzone> = ({ files, setFiles }) => {
-  const [filesRejected, setFilesRejected] = useState<any>([]);
+  const [filesRejected, setFilesRejected] = useState<FileError[]>([]);
 
   const onDrop = useCallback(
-    (acceptedFiles, fileRejections) => {
+    (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       const accepted = acceptedFiles.map((file) =>
         Object.assign(file, {
           id: createId(),

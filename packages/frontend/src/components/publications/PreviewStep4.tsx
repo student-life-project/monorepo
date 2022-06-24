@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { FieldValues, UseFormGetValues } from 'react-hook-form';
 import xw from 'xwind';
 
 import { NameInput } from '@/constants';
@@ -10,8 +11,8 @@ import SubTitle from '../common/SubTitle';
 import ItemFile from './Dropzone/ItemFile';
 
 type TPreviewStep4 = {
-  files?: any;
-  getValues: any;
+  files?: File[];
+  getValues: UseFormGetValues<FieldValues>;
 };
 
 const PreviewStep4: FC<TPreviewStep4> = ({ files, getValues }) => {
