@@ -70,6 +70,7 @@ const Create: FC = () => {
     'zone',
   ]);
 
+  // TODO: security no required.
   const rentalPlace = watch(['rentalPlace', 'services', 'rules', 'security']);
 
   const onSubmit: SubmitHandler<IPublicationData> = async (data) => {

@@ -23,6 +23,8 @@ type TPostDetails = {
 const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
   // TODO: Need to implement
   const values = getValues();
+  // TODO: Admin puede aprobar o no aprobar la publicación. se dejaria de mostrar en la pagina, pero no se elimina.
+  // TODO: Arrendatario puede poner como disponible o no disponible la vivienda, pero se seguira viendo en la página.
   const options = admin ? RentalApprovedStatus : RentalAvailabilityStatus;
 
   const [showModal, setShowModal] = useState(false);
@@ -70,14 +72,16 @@ const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
           <div
             css={xw`flex justify-end flex-col-reverse sm:flex-row flex-wrap my-4`}
           >
-            <Button
-              BDanger
-              type="button"
-              css={xw`mb-5 sm:mr-5 sm:mb-0`}
-              onClick={handleShowModal}
-            >
-              Eliminar publicación
-            </Button>
+            {admin && (
+              <Button
+                BDanger
+                type="button"
+                css={xw`mb-5 sm:mr-5 sm:mb-0`}
+                onClick={handleShowModal}
+              >
+                Eliminar publicación
+              </Button>
+            )}
 
             {!admin && (
               <Button FPrimary type="button" css={xw`mb-5 sm:mb-0`}>

@@ -266,7 +266,11 @@ const Details: FC = () => {
 
               {isLogedIn && (
                 <div css={xw`flex`}>
-                  <ButtonLink type="button" onClick={handleRentalReport}>
+                  <ButtonLink
+                    type="button"
+                    css={xw`text-red-500`}
+                    onClick={handleRentalReport}
+                  >
                     <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
                     <p css={xw`ml-2`}>Reportar publicación</p>
                   </ButtonLink>

@@ -66,7 +66,11 @@ const CardUser: FC<TCardUser> = ({
             </Button>
           </a>
 
-          <ButtonLink type="button" css={xw`mt-5`} onClick={openUserReport}>
+          <ButtonLink
+            type="button"
+            onClick={openUserReport}
+            css={xw`mt-5 text-red-500`}
+          >
             <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
             <p css={xw`ml-2`}>Reportar usuario</p>
           </ButtonLink>
