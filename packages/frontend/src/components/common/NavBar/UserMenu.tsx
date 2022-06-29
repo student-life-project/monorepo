@@ -76,11 +76,13 @@ const UserMenu: FC<IUserMenu> = ({ user, onLogoutClick }) => {
   return (
     <MenuContent>
       <UserButton onClick={onClickUserButton} height="2.5rem" />
+
       {displayMenu && (
         <MenuList>
           <Triangle
             css={xw`block fill-current text-white w-4 h-4 absolute right-0 top-0 mr-5 -mt-3 z-0`}
           />
+
           <MenuItem>
             <Link href="/profile">
               <ImgLink>
@@ -89,11 +91,7 @@ const UserMenu: FC<IUserMenu> = ({ user, onLogoutClick }) => {
               </ImgLink>
             </Link>
           </MenuItem>
-          <MenuItem>
-            <Link href="/profile/messages">
-              <Anchor css={xw`text-secondary-1`}>Mensajes</Anchor>
-            </Link>
-          </MenuItem>
+
           {user.type === EUserType.OWNER && (
             <MenuItem>
               <Link href="/profile/publications">
@@ -101,6 +99,7 @@ const UserMenu: FC<IUserMenu> = ({ user, onLogoutClick }) => {
               </Link>
             </MenuItem>
           )}
+
           <MenuItem>
             <ExitButton type="button" onClick={onLogoutClick}>
               Cerrar Sesión

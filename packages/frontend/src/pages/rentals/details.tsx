@@ -329,6 +329,7 @@ const Details: FC = () => {
           <CardUser
             user={user}
             isLogedIn={isLogedIn}
+            titlePublication={data.title}
             openUserReport={handleUserReport}
           />
         </section>

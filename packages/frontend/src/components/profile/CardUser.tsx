@@ -5,7 +5,6 @@ import {
   faPhoneAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import NextLink from 'next/link';
 import { FC } from 'react';
 import xw from 'xwind';
 
@@ -18,10 +17,16 @@ import ButtonLink from '../common/ButtonLink';
 type TCardUser = {
   user: any;
   isLogedIn: boolean;
+  titlePublication: string;
   openUserReport: () => void;
 };
 
-const CardUser: FC<TCardUser> = ({ user, isLogedIn, openUserReport }) => (
+const CardUser: FC<TCardUser> = ({
+  user,
+  isLogedIn,
+  titlePublication,
+  openUserReport,
+}) => (
   <div css={xw`w-full mt-10 sm:mt-0 sm:w-4/12`}>
     <div
       css={xw`flex flex-col p-5 items-center mx-0 sm:mx-10 border border-secondary-2 rounded-md static sm:sticky top-20`}
@@ -51,12 +56,15 @@ const CardUser: FC<TCardUser> = ({ user, isLogedIn, openUserReport }) => (
             <p css={xw`ml-2 mb-5`}>{user.phoneNumber}</p>
           </div>
 
-          <NextLink href="/profile/messages">
-            <Button type="button" FPrimary>
+          <a
+            target="_bank"
+            href={`https://wa.me/${user.phoneNumber}?text=Hola ${user.firstName}, me gustaría información del anuncio: ${titlePublication}`}
+          >
+            <Button type="button" FSuccess>
               <FontAwesomeIcon icon={faComment} height="1.2rem" />
               <span css={xw`ml-2`}>Enviar mensaje</span>
             </Button>
-          </NextLink>
+          </a>
 
           <ButtonLink type="button" css={xw`mt-5`} onClick={openUserReport}>
             <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />

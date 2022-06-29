@@ -36,11 +36,6 @@ export const ItemsTermAndCond = [
   { link: '/help/terms-and-conditions', text: 'Términos y condiciones' },
 ];
 
-export const ItemsMessages = [
-  LinkProfile,
-  { link: '/profile/messages', text: 'Mensajes' },
-];
-
 export const ItemsPublicationDetails = [
   ...ItemsPublications,
   {
