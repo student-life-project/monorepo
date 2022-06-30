@@ -23,4 +23,16 @@ export class AddressService {
       new: true,
     });
   }
+
+  async remove(id: string) {
+    return this.AddressModel.findByIdAndDelete(id);
+  }
+
+  async deleteByPlaceId(id: string) {
+    return this.AddressModel.deleteMany({ placeId: id });
+  }
+
+  async deleteByOwnerId(id: string) {
+    return this.AddressModel.deleteMany({ ownerId: id });
+  }
 }
