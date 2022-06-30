@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
@@ -7,10 +8,9 @@ import { CharacteristicModule } from '../characteristic/characteristic.module';
 import { ImageModule } from '../image/image.module';
 import { ImageService } from '../image/image.service';
 import { RateModule } from '../rate/rate.module';
-// import { RateService } from '../rate/rate.service';
-import { RuleModule } from '../rule/rule.module';
-import { RuleService } from '../rule/rule.service';
-import { ServiceModule } from '../service/service.module';
+import { RateService } from '../rate/rate.service';
+import { UserModule } from '../user/user.module';
+import { UserService } from '../user/user.service';
 import { RentalPlaceController } from './rental-place.controller';
 import { RentalPlace, RentalPlaceSchema } from './rental-place.schema';
 import { RentalPlaceService } from './rental-place.service';
@@ -21,11 +21,11 @@ import { RentalPlaceService } from './rental-place.service';
       { name: RentalPlace.name, schema: RentalPlaceSchema },
     ]),
     AddressModule,
-    ServiceModule,
     CharacteristicModule,
-    RuleModule,
     ImageModule,
     RateModule,
+    UserModule,
+    HttpModule,
   ],
   exports: [
     MongooseModule.forFeature([
@@ -36,9 +36,9 @@ import { RentalPlaceService } from './rental-place.service';
   providers: [
     RentalPlaceService,
     AddressService,
-    RuleService,
     ImageService,
-    // RateService,
+    UserService,
+    RateService,
   ],
 })
 export class RentalPlaceModule {}
