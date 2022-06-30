@@ -18,10 +18,7 @@ async function bootstrap() {
     .setTitle('StudentLife')
     .setDescription('Backend application for lessers and students as API')
     .setVersion('1.0')
-    .addBearerAuth(
-      { type: 'http', scheme: 'bearer', bearerFormat: 'Token' },
-      'access-token',
-    )
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document, {
