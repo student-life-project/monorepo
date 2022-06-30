@@ -18,6 +18,14 @@ export class UserService {
   // eslint-disable-next-line no-useless-constructor
   constructor(private httpService: HttpService) {}
 
+  isAdmin(user: any): boolean {
+    return user['https://student-life-auth-api/roles']?.includes('ADMIN');
+  }
+
+  isUserAllowed(owner: string, user: any) {
+    return owner === user.sub || this.isAdmin(user);
+  }
+
   getToken(): Promise<ResponseTokenDto> {
     const url = `${this.baseURL}/oauth/token`;
     // @see https://rxjs.dev/deprecations/to-promise is depracadet on version 7 change to firstValueFrom or lastValueFrom
