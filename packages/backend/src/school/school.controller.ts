@@ -35,7 +35,8 @@ export class SchoolController {
   async create(@Body() createSchoolDto: CreateSchoolDto) {
     const addressId = await this.addressService.create(createSchoolDto.address);
     // eslint-disable-next-line no-param-reassign
-    createSchoolDto.address = addressId;
+    // createSchoolDto.address = addressId;
+    console.log(addressId);
     return this.schoolService.create(createSchoolDto);
   }
 
