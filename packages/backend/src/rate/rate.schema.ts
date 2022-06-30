@@ -10,9 +10,6 @@ export class Rate {
   @Prop({ required: true, min: 1, max: 5 })
   score: number;
 
-  @Prop({ required: true })
-  owerId: string;
-
   @Prop({ enum: ERateType, default: ERateType.PLACE, required: true })
   type: ERateType;
 
@@ -20,7 +17,7 @@ export class Rate {
   placeId?: string;
 
   @Prop({ default: null })
-  placeOwnerId?: string;
+  ownerId?: string;
 }
 
 export type RateDocument = Rate & Document;
