@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
+// import { RentalPlace } from 'src/rental-place/rental-place.schema';
 
 @Schema()
 export class Image {
@@ -7,13 +8,22 @@ export class Image {
   id?: string;
 
   @Prop({ requied: true })
-  name: string;
+  filename: string;
 
   @Prop({ required: true })
   location: string;
 
   @Prop({ required: true })
-  url: string;
+  mimetype: string;
+
+  @Prop({ required: true })
+  fullpath: string;
+
+  @Prop({ required: true })
+  size: number;
+
+  @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
+  owner?: string;
 }
 
 export type ImageDocument = Image & Document;

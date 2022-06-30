@@ -22,4 +22,8 @@ export class ImageService {
   async findAll(): Promise<Image[]> {
     return this.ImageModel.find().exec();
   }
+
+  async deleteByPlaceId(id: string) {
+    return this.ImageModel.deleteMany({ placeId: id });
+  }
 }
