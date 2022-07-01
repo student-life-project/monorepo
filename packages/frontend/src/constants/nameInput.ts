@@ -39,4 +39,5 @@ export const NameInput = {
   postDetails: 'Estatus de la publicación',
   ownerPost: 'Creado por',
   comment: 'Comentario',
+  userRole: 'Seleccione el tipo de rol',
 };

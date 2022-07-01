@@ -64,6 +64,7 @@ const RadioContainer = styled.div`
   `}
 `;
 
+// TODO: si se registran con gmail, cargar en nombre y el apellido.
 const Register: NextPage = () => {
   const {
     handleSubmit,
@@ -93,6 +94,9 @@ const Register: NextPage = () => {
           tu perfil
         </Text>
 
+        <Label id="label-first-name" htmlFor="first-name">
+          {NameInput.userRole}
+        </Label>
         <DoubleFormSpace>
           <Controller
             name="userType"
@@ -202,6 +206,12 @@ const Register: NextPage = () => {
             <FontAwesomeIcon icon={faChevronRight} height=".875rem" />
           </Button>
         </div>
+
+        <p css={xw`text-center sm:text-left`}>
+          Al registrarte aceptas nuestros&nbsp;
+          <span css={xw`font-bold`}>Términos y condiciones</span> y la&nbsp;
+          <span css={xw`font-bold`}>Política de privacidad</span>.
+        </p>
       </Form>
     </CenteredBody>
   );
