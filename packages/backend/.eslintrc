@@ -36,6 +36,7 @@
           "**/*.spec.ts"
         ]
       }
-    ]
+    ],
+    "no-param-reassign": 0
   }
 }
