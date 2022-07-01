@@ -8,7 +8,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { EUserType } from '@student_life/common';
 
 import { RoleDto } from './dto/role.dto';
@@ -35,6 +40,8 @@ export class UserController {
     description: 'Rol does not exists, not able to Update',
   })
   @UseGuards(AuthGuard('jwt'))
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
   @Put('role')
   async updateRole(@Body() desiredRolEnumerated: RoleDto, @Req() req: any) {
     // TODO check if the 200 default response with no data works
@@ -54,10 +61,12 @@ export class UserController {
     description: 'User does not exists, not able to Update',
   })
   @UseGuards(AuthGuard('jwt'))
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
   @Patch('/metadata')
-  // TODO check real user metadata to include it on DTO
-  // TODO add property to avoid security issue (send admin and any user could be admin)
   async updateMetadata(@Body() userMetadata: UserMetadataDto, @Req() req: any) {
+    // TODO check real user metadata to include it on DTO
+    // TODO add property to avoid security issue (send admin and any user could be admin)
     const token = await this.userService.getToken();
     return this.userService.updateUserMetadata(
       token,
