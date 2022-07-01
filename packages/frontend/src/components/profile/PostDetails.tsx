@@ -72,16 +72,14 @@ const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
           <div
             css={xw`flex justify-end flex-col-reverse sm:flex-row flex-wrap my-4`}
           >
-            {admin && (
-              <Button
-                BDanger
-                type="button"
-                css={xw`mb-5 sm:mr-5 sm:mb-0`}
-                onClick={handleShowModal}
-              >
-                Eliminar publicación
-              </Button>
-            )}
+            <Button
+              BDanger
+              type="button"
+              css={xw`mb-5 sm:mr-5 sm:mb-0`}
+              onClick={handleShowModal}
+            >
+              Eliminar publicación
+            </Button>
 
             {!admin && (
               <Button FPrimary type="button" css={xw`mb-5 sm:mb-0`}>
