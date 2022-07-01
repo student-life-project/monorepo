@@ -26,6 +26,10 @@ export class UserService {
     return owner === user.sub || this.isAdmin(user);
   }
 
+  userIdURIencode(userId: string): string {
+    return encodeURI(userId);
+  }
+
   getToken(): Promise<ResponseTokenDto> {
     const url = `${this.baseURL}/oauth/token`;
     // @see https://rxjs.dev/deprecations/to-promise is depracadet on version 7 change to firstValueFrom or lastValueFrom
@@ -57,7 +61,7 @@ export class UserService {
     userId: string,
     roleId: string,
   ): Observable<AxiosResponse<any>> {
-    const url = `${this.apiURL}/users/${userId}/roles`;
+    const url = `${this.apiURL}/users/${this.userIdURIencode(userId)}/roles`;
     // debug axios request
     // this.httpService.axiosRef.interceptors.request.use(config => {
     //   console.log(config);
@@ -83,7 +87,7 @@ export class UserService {
     userId: string,
     userMetadata: UserMetadataDto,
   ) {
-    const url = `${this.apiURL}/users/${userId}`;
+    const url = `${this.apiURL}/users/${this.userIdURIencode(userId)}`;
     return this.httpService
       .patch(
         url,
