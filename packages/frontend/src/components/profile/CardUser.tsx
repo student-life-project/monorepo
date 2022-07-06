@@ -55,7 +55,7 @@ const CardUser: FC<TCardUser> = ({
 
           <a
             target="_bank"
-            href={`https://wa.me/${user.phoneNumber}?text=Hola ${user.firstName}, me gustaría información del anuncio: ${titlePublication}`}
+            href={`https://wa.me/${user.phoneNumber}?text=Hola ${user.firstName}, me gustaría información sobre el anuncio: ${titlePublication}`}
           >
             <Button type="button" FSuccess>
               <FontAwesomeIcon icon={faComment} height="1.2rem" />
