@@ -6,6 +6,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
+import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
 import Button from '@/components/common/Button';
 import DoubleFormSpace from '@/components/common/DoubleFormSpace';
@@ -16,6 +17,7 @@ import Textarea from '@/components/common/Textarea';
 import Avatar from '@/components/profile/Avatar';
 import ResetPassword from '@/components/profile/ResetPassword';
 import { ErrorMessageInput, NameInput } from '@/constants';
+import { TFile } from '@/types';
 import { CalculateAge } from '@/utils/calculateAge';
 import { rgxNumber } from '@/utils/validations';
 import withAuth from '@/utils/WithAuth';
@@ -108,20 +110,28 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
     setShowUpdatePass(!showUpdatePass);
   };
 
+  // TODO: mantender el estado con los archivos agregados. Subir de golpe.
+  const [files, setFiles] = useState<TFile[]>([]);
+
   return (
     <>
       <NavBar allowRental allowLoginRegister />
+      <Alert />
+
       <BodyContainer>
         <Content>
           <form css={xw`w-full lg:w-6/12`} onSubmit={handleSubmit(onSubmit)}>
-            <div css={xw`flex items-center justify-center`}>
+            <div css={xw`flex items-center justify-center flex-col`}>
               <Avatar
+                large
+                showDropzone
+                files={files}
+                setFiles={setFiles}
                 alt={oauthUser ? (oauthUser.nickname as string) : ''}
                 url={
                   ((userData as unknown as any).picture as string) ||
                   userData.userImage
                 }
-                large
               />
             </div>
 

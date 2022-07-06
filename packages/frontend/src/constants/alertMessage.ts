@@ -5,5 +5,5 @@ export const AlertMessage = {
   deleted: (action: string): string => `Sé ha eliminado ${action} exitosamente`,
   loaded: (action: string): string => `Sé ha subido ${action} exitosamente`,
   'file-invalid-type': 'El tipo de archivo debe ser .jpg, .jpeg o .png',
-  'too-many-files': 'El total de archivos permitidos son 7',
+  'too-many-files': 'Se excedió el total de archivos permitidos',
 };
