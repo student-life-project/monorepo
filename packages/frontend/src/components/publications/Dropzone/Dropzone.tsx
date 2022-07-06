@@ -20,7 +20,7 @@ type TDropzone = {
   setFiles: (files: TFile[]) => void;
 };
 
-// TODO: Agregar un loder si es necesario.
+// TODO: Agregar un loader si es necesario.
 const Dropzone: FC<TDropzone> = ({ files, setFiles }) => {
   const [filesRejected, setFilesRejected] = useState<FileError[]>([]);
 
