@@ -4,6 +4,7 @@ import { FC } from 'react';
 import xw from 'xwind';
 
 import Options from '../common/Options';
+import Avatar from '../profile/Avatar';
 
 type TItemComment = {
   comments: any;
@@ -23,11 +24,7 @@ const ItemComment: FC<TItemComment> = ({
       <section key={item.id} css={xw`my-8`}>
         <div css={xw`w-full flex items-center`}>
           <div css={xw`w-full flex items-center gap-4`}>
-            <img
-              alt={item.name}
-              src={item.userImage}
-              css={xw`w-10 h-10 rounded-full bg-gray-400`}
-            />
+            <Avatar alt={item.name} url={item.userImage} small />
 
             <p>{item.name}</p>
           </div>

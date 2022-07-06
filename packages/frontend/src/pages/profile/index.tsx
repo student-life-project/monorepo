@@ -1,10 +1,10 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
+import { getAccessToken, useUser } from '@auth0/nextjs-auth0';
 import styled from '@emotion/styled';
 import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { getAccessToken, useUser } from '@auth0/nextjs-auth0';
 
 import BodyContainer from '@/components/common/BodyContainer';
 import Button from '@/components/common/Button';
@@ -13,6 +13,7 @@ import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Textarea from '@/components/common/Textarea';
+import Avatar from '@/components/profile/Avatar';
 import ResetPassword from '@/components/profile/ResetPassword';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { CalculateAge } from '@/utils/calculateAge';
@@ -114,13 +115,13 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
         <Content>
           <form css={xw`w-full lg:w-6/12`} onSubmit={handleSubmit(onSubmit)}>
             <div css={xw`flex items-center justify-center`}>
-              <img
+              <Avatar
                 alt={oauthUser ? (oauthUser.nickname as string) : ''}
-                src={
+                url={
                   ((userData as unknown as any).picture as string) ||
                   userData.userImage
                 }
-                css={xw`w-52 h-52 sm:w-48 sm:h-48 bg-gray-400 rounded-full mb-5`}
+                large
               />
             </div>
 

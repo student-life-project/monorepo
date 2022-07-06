@@ -13,6 +13,7 @@ import { CalculateAge } from '@/utils/calculateAge';
 import Anchor from '../common/Anchor';
 import Button from '../common/Button';
 import ButtonLink from '../common/ButtonLink';
+import Avatar from './Avatar';
 
 type TCardUser = {
   user: any;
@@ -33,11 +34,7 @@ const CardUser: FC<TCardUser> = ({
     >
       {isLogedIn ? (
         <>
-          <img
-            alt={user.firstName}
-            src={user.userImage}
-            css={xw`w-32 h-32 rounded-full bg-gray-400`}
-          />
+          <Avatar alt={user.firstName} url={user.userImage} medium />
 
           <h2 css={xw`py-3 text-xl text-center font-bold`}>
             {user.firstName} {user.lastName}

@@ -9,6 +9,7 @@ import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Status from '@/components/common/Status';
 import SubTitle from '@/components/common/SubTitle';
 import Switch from '@/components/common/Switch';
+import Avatar from '@/components/profile/Avatar';
 import {
   confirmMessage,
   ItemsUserDetails,
@@ -53,11 +54,7 @@ const UserDetails: FC = () => {
               <div
                 css={xw`flex justify-center items-center sm:justify-start sm:row-span-3`}
               >
-                <img
-                  alt={user.firstName}
-                  src={user.userImage}
-                  css={xw`w-52 h-52 sm:w-48 sm:h-48 bg-gray-400 rounded-full mb-5`}
-                />
+                <Avatar alt={user.firstName} url={user.userImage} large />
               </div>
 
               <div>
