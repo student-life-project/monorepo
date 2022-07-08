@@ -134,7 +134,10 @@ const RentalPlaceStep3: FC<TRentalPlaceStep3> = ({
 
       {errors.security && <SpanError>{errors.security?.message}</SpanError>}
 
-      <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Subir imagenes</h2>
+      <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>
+        Subir imagenes&nbsp;
+        <span css={xw`text-xs text-primary`}>(Máximo 7 imágenes)</span>
+      </h2>
       <Dropzone files={files} setFiles={setFiles} />
     </div>
   </div>
