@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import router from 'next/router';
 import { FC, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -120,9 +121,12 @@ const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
             </Button>
 
             {!admin && (
-              <Button FPrimary type="button" css={xw`mb-5 sm:mb-0`}>
-                Editar publicación
-              </Button>
+              // TODO: id de publicación
+              <Link href={`/profile/publications/post/${1}`}>
+                <Button FPrimary type="button" css={xw`mb-5 sm:mb-0`}>
+                  Editar publicación
+                </Button>
+              </Link>
             )}
           </div>
         </div>
