@@ -1,8 +1,10 @@
 import { FC, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import ModalConfirm from '@/components/common/ModalConfirm';
 import Table from '@/components/common/Table';
 import { ColumnsUser, confirmMessage, HeaderUser } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 import { TElementId } from '@/types';
 
 type TTableUsers = {
@@ -17,8 +19,9 @@ const TableUsers: FC<TTableUsers> = ({ data }) => {
   const [showModalUser, setShowModalUser] = useState(false);
 
   const statusUser = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Usuario ${id}`);
+    // eslint-disable-next-line no-console
+    console.log(`Usuario ${id}`);
+    toast.success(AlertMessage.updated('estatus'));
   };
 
   const handleOpenModalUser = (id: TElementId) => {
@@ -31,8 +34,9 @@ const TableUsers: FC<TTableUsers> = ({ data }) => {
   };
 
   const deleteUser = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Usuario ${id}`);
+    // eslint-disable-next-line no-console
+    console.log(`Usuario ${id}`);
+    toast.success(AlertMessage.deleted('usuario'));
   };
 
   return (

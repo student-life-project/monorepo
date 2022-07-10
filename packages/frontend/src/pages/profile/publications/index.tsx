@@ -135,8 +135,9 @@ const Publications: FC = () => {
   const [postId, setPostId] = useState<TElementId>(null);
 
   const availablePost = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(id);
+    // eslint-disable-next-line no-console
+    console.log(`Publicación ${id}`);
+    toast.success(AlertMessage.updated('disponibilidad'));
   };
 
   const handleOpenModal = (id: TElementId) => {
@@ -149,8 +150,9 @@ const Publications: FC = () => {
   };
 
   const deletePost = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(id);
+    // eslint-disable-next-line no-console
+    console.log(`Publicación ${id}`);
+    toast.success(AlertMessage.deleted('publicación'));
   };
 
   useEffect(() => {

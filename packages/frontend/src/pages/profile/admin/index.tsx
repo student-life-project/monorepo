@@ -4,6 +4,7 @@ import xw from 'xwind';
 import TablePublications from '@/components/admin/TablePublications';
 import TableReports from '@/components/admin/TableReports';
 import TableUsers from '@/components/admin/TableUsers';
+import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
@@ -226,8 +227,8 @@ const Admin: FC = () => {
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-
       <BreadCrumbs items={ItemsAdmin} />
+      <Alert />
 
       <Tabs
         items={[
