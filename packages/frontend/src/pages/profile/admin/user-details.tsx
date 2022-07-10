@@ -1,6 +1,9 @@
+import router from 'next/router';
 import { FC, useState } from 'react';
+import { toast } from 'react-toastify';
 import xw from 'xwind';
 
+import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import Button from '@/components/common/Button';
@@ -16,6 +19,7 @@ import {
   NameInput,
   UserActiveStatus,
 } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 
 const user = {
   id: 1,
@@ -29,21 +33,47 @@ const user = {
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam!',
 };
 
-const UserDetails: FC = () => {
-  // TODO: Need to implement
-  const status = true; //* Por defecto debe estar activo el usuario al momento que se registra.
+type TRedirectData = {
+  pathname: string;
+  query?: {
+    deletedUser?: boolean;
+  };
+} & any;
 
+// TODO: Need to implement
+const UserDetails: FC = () => {
+  //* Por defecto debe estar activo el usuario al momento que se registra.
+  const [status, setStatus] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
 
+  const handleStatus = () => {
+    setStatus(!status);
+    toast.success(AlertMessage.updated('estatus'));
+  };
+
+  const handleDeleteUser = () => {
+    // TODO: id de usuario para eliminarlo
+
+    // TODO: onSuccess y onError alerts
+    const redirectData: TRedirectData = {
+      pathname: '/profile/admin',
+      query: {
+        deletedUser: true,
+      },
+    };
+
+    router.push(redirectData);
+  };
+
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-
       <BreadCrumbs items={ItemsUserDetails} />
+      <Alert />
 
       <BodyContainer css={xw`pt-16 sm:pt-8`}>
         <div css={xw`flex justify-center mb-10`}>
@@ -61,6 +91,7 @@ const UserDetails: FC = () => {
                 <SubTitle>{NameInput.userStatus}</SubTitle>
                 <Switch
                   checked={status}
+                  onClick={handleStatus}
                   label={<Status status={status} options={UserActiveStatus} />}
                 />
               </div>
@@ -107,8 +138,7 @@ const UserDetails: FC = () => {
             title={confirmMessage.titleDelete('reporte')}
             description={confirmMessage.descriptionDelete('reporte')}
             closeModal={handleShowModal}
-            // eslint-disable-next-line no-console
-            action={() => console.log('hi')}
+            action={handleDeleteUser}
           />
         )}
       </BodyContainer>

@@ -1,4 +1,6 @@
+import router from 'next/router';
 import { FC, useState } from 'react';
+import { toast } from 'react-toastify';
 import xw from 'xwind';
 
 import {
@@ -7,7 +9,9 @@ import {
   RentalApprovedStatus,
   RentalAvailabilityStatus,
 } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 
+import Alert from '../common/Alert';
 import Button from '../common/Button';
 import ModalConfirm from '../common/ModalConfirm';
 import Status from '../common/Status';
@@ -20,21 +24,56 @@ type TPostDetails = {
   getValues: any;
 };
 
+type TRedirectData = {
+  pathname: string;
+  query?: {
+    deletedPublication?: boolean;
+  };
+} & any;
+
+// TODO: Need to implement
 const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
-  // TODO: Need to implement
   const values = getValues();
-  // TODO: Admin puede aprobar o no aprobar la publicación. se dejaria de mostrar en la pagina, pero no se elimina.
-  // TODO: Arrendatario puede poner como disponible o no disponible la vivienda, pero se seguira viendo en la página.
+
+  const alertMsg = admin ? 'aprobación' : 'disponibilidad';
+  const pathname = admin ? '/profile/admin' : '/profile/publications';
+  const initialStatus = admin ? values.approved : values.availability;
   const options = admin ? RentalApprovedStatus : RentalAvailabilityStatus;
 
+  const [status, setStatus] = useState(initialStatus);
   const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
 
+  const handleStatus = () => {
+    setStatus(!status);
+    toast.success(AlertMessage.updated(alertMsg));
+
+    // TODO: diferentes endpoints a ejecutar dependiendo del tipo de usuario:
+    // TODO: Admin puede aprobar o no aprobar la publicación. se dejaria de mostrar en la pagina, pero no se elimina.
+    // TODO: Arrendatario puede poner como disponible o no disponible la vivienda, pero se seguira viendo en la página.
+  };
+
+  const handleDeletePublication = () => {
+    // TODO: id de publicación para eliminarlo
+
+    // TODO: onSuccess y onError alerts
+    const redirectData: TRedirectData = {
+      pathname,
+      query: {
+        deletedPublication: true,
+      },
+    };
+
+    router.push(redirectData);
+  };
+
   return (
     <>
+      <Alert />
+
       <div css={xw`flex justify-center mb-10`}>
         <div css={xw`w-full lg:w-8/12`}>
           <h2 css={xw`py-5 text-lg font-bold`}>
@@ -45,10 +84,9 @@ const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
             <div>
               <SubTitle>{NameInput.postDetails}</SubTitle>
               <Switch
-                checked={values.availability}
-                label={
-                  <Status status={values.availability} options={options} />
-                }
+                checked={status}
+                onClick={handleStatus}
+                label={<Status status={status} options={options} />}
               />
             </div>
 
@@ -96,8 +134,7 @@ const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
           title={confirmMessage.titleDelete('publicación')}
           description={confirmMessage.descriptionDelete('publicación')}
           closeModal={handleShowModal}
-          // eslint-disable-next-line no-console
-          action={() => console.log('hi')}
+          action={handleDeletePublication}
         />
       )}
     </>

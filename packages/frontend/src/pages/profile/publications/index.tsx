@@ -126,10 +126,9 @@ const data = [
   },
 ];
 
+// TODO: need to implement
+// TODO: loading si la data aún no carga mostrar el Spinner.
 const Publications: FC = () => {
-  // TODO: need to implement
-  // TODO: loading si la data aún no carga mostrar el Spinner.
-
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [postId, setPostId] = useState<TElementId>(null);
@@ -157,12 +156,14 @@ const Publications: FC = () => {
 
   useEffect(() => {
     if (router.query) {
-      const { createPost, editPost } = router.query;
+      const { createdPost, updatedPost, deletedPublication } = router.query;
 
-      if (createPost === 'true') {
+      if (createdPost === 'true') {
         toast.success(AlertMessage.created('publicación'));
-      } else if (editPost === 'true') {
+      } else if (updatedPost === 'true') {
         toast.success(AlertMessage.updated('publicación'));
+      } else if (deletedPublication === 'true') {
+        toast.success(AlertMessage.deleted('publicación'));
       }
 
       router.replace('/profile/publications');

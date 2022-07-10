@@ -39,8 +39,8 @@ export interface IPublicationData {
 type TRedirectData = {
   pathname: string;
   query?: {
-    createPost?: boolean;
-    editPost?: boolean;
+    createdPost?: boolean;
+    updatedPost?: boolean;
   };
 } & any;
 
@@ -90,13 +90,13 @@ const Create: FC = () => {
       query: {},
     };
 
-    // TODO: createPost y editPost enviar un valor por la query para mostrar las alertas.
+    // TODO: createdPost y updatedPost enviar un valor por la query para mostrar las alertas.
     const id = null;
 
     if (id) {
-      redirectData.query.editPost = true;
+      redirectData.query.updatedPost = true;
     } else {
-      redirectData.query.createPost = true;
+      redirectData.query.createdPost = true;
     }
 
     router.push(redirectData);

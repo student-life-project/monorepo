@@ -13,6 +13,7 @@ const getValues = () => ({
   date: '11 de marzo 2022',
   gender: 'Hombre',
   availability: true,
+  approved: true,
   title: 'Casa cerca de CUCEI',
   reason: 'Quiero rentar',
   typeSpace: 'Cuarto privado',
@@ -70,7 +71,6 @@ const Details: FC = () => {
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-
       <BreadCrumbs items={ItemsPublicationDetails} />
 
       <BodyContainer css={xw`pt-16 sm:pt-8`}>
