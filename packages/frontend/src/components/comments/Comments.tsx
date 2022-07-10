@@ -1,8 +1,10 @@
 import { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import xw from 'xwind';
 
 import { confirmMessage, ErrorMessageInput, NameInput } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 
 import Anchor from '../common/Anchor';
 import Button from '../common/Button';
@@ -43,6 +45,7 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
   const onSubmit: SubmitHandler<ICommentData> = async (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
+    toast.success(AlertMessage.created('comentario'));
     reset();
     // Despues de enviar el comentario. enviarle un id de user.
     // Para obetener id, name, userImage, comment y date.
@@ -54,6 +57,11 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
 
   const handleOpenModalDelete = () => {
     setShowModalDelete(!showModalDelete);
+  };
+
+  const handleDeleteComment = () => {
+    // id de comentario a eliminar.
+    toast.success(AlertMessage.deleted('comentario'));
   };
 
   return (
@@ -115,7 +123,7 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
           title={confirmMessage.titleDelete('comentario')}
           description={confirmMessage.descriptionDelete('comentario')}
           closeModal={handleOpenModalDelete}
-          action={() => alert('Hi - id of comment')}
+          action={handleDeleteComment}
         />
       )}
     </>

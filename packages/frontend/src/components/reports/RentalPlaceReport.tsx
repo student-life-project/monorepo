@@ -4,10 +4,13 @@ import styled from '@emotion/styled';
 import { PlaceReport } from '@student_life/common';
 import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-
 // import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+
 import { ErrorMessageInput, NameInput } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 import { IOption } from '@/types';
+
 import Button from '../common/Button';
 import Modal from '../common/Modal';
 import Radio from '../common/Radio';
@@ -57,6 +60,8 @@ const RentalPlaceReport: FC<TRentalPlaceReport> = ({ closeModal }) => {
     // await dispath(data);
     // eslint-disable-next-line no-console
     console.log(data);
+    // TODO: Alerta success y error
+    toast.success(AlertMessage.created('reporte de publicación'));
     closeModal();
   };
 

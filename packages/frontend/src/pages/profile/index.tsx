@@ -21,6 +21,8 @@ import { TFile } from '@/types';
 import { CalculateAge } from '@/utils/calculateAge';
 import { rgxNumber } from '@/utils/validations';
 import withAuth from '@/utils/WithAuth';
+import { toast } from 'react-toastify';
+import { AlertMessage } from '@/constants/alertMessage';
 
 const Content = styled.div`
   ${xw`
@@ -102,6 +104,8 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
   const onSubmit: SubmitHandler<IProfileData> = async (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
+    // TODO: Alerta success y error
+    toast.success(AlertMessage.updated('usuario'));
   };
 
   const [showUpdatePass, setShowUpdatePass] = useState(false);

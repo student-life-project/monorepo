@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import xw from 'xwind';
 
 import Alert from '@/components/common/Alert';
@@ -37,6 +36,14 @@ export interface IPublicationData {
   security: string[];
 }
 
+type TRedirectData = {
+  pathname: string;
+  query?: {
+    createPost?: boolean;
+    editPost?: boolean;
+  };
+} & any;
+
 const Create: FC = () => {
   const router = useRouter();
   const [step, setStep] = useState(0);
@@ -70,15 +77,29 @@ const Create: FC = () => {
     'zone',
   ]);
 
-  // TODO: security no required.
+  // TODO: seguridad ya no es requerido.
   const rentalPlace = watch(['rentalPlace', 'services', 'rules', 'security']);
 
   const onSubmit: SubmitHandler<IPublicationData> = async (data) => {
     // eslint-disable-next-line no-console
     console.log(data, files);
-    router.push('/profile/publications');
-    // Crear mensajes de success, info, warning, error
-    toast.success('Sé ha creado la publicación exitosamente'); //! Agregar las alertas en otra vista para que sean visibles.
+
+    // TODO: esto debe de ir en el onSuccess, también se puede crear en onError alertas de error.
+    const redirectData: TRedirectData = {
+      pathname: '/profile/publications',
+      query: {},
+    };
+
+    // TODO: createPost y editPost enviar un valor por la query para mostrar las alertas.
+    const id = null;
+
+    if (id) {
+      redirectData.query.editPost = true;
+    } else {
+      redirectData.query.createPost = true;
+    }
+
+    router.push(redirectData);
   };
 
   const previousStep = () => {

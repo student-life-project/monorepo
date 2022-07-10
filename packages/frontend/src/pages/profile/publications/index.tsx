@@ -1,6 +1,9 @@
-import { FC, useState } from 'react';
+import { useRouter } from 'next/router';
+import { FC, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import xw from 'xwind';
 
+import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import ModalConfirm from '@/components/common/ModalConfirm';
@@ -12,6 +15,7 @@ import {
   HeaderPublicationUser,
   ItemsPublications,
 } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 import { TElementId } from '@/types';
 
 const data = [
@@ -126,6 +130,7 @@ const Publications: FC = () => {
   // TODO: need to implement
   // TODO: loading si la data aún no carga mostrar el Spinner.
 
+  const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [postId, setPostId] = useState<TElementId>(null);
 
@@ -148,10 +153,27 @@ const Publications: FC = () => {
     alert(id);
   };
 
+  useEffect(() => {
+    if (router.query) {
+      const { createPost, editPost } = router.query;
+
+      if (createPost === 'true') {
+        toast.success(AlertMessage.created('publicación'));
+      } else if (editPost === 'true') {
+        toast.success(AlertMessage.updated('publicación'));
+      }
+
+      router.replace('/profile/publications');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <NavBar allowRental allowLoginRegister />
       <BreadCrumbs items={ItemsPublications} />
+      <Alert />
+
       <BodyContainer css={xw`pt-0`}>
         <Table
           data={data}

@@ -1,8 +1,10 @@
 import { FC, useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import xw from 'xwind';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 import { rgxPassword } from '@/utils/validations';
 
 import Button from '../common/Button';
@@ -39,6 +41,9 @@ const ResetPassword: FC<TResetPassword> = ({ closeModal }) => {
   const onSubmit: SubmitHandler<IResetPasswordData> = async (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
+    // TODO: Alerta success y error
+    toast.success(AlertMessage.updated('contraseña'));
+    closeModal();
   };
 
   return (

@@ -13,16 +13,17 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useState } from 'react';
 
+import Comments from '@/components/comments/Comments';
+import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
 import Button from '@/components/common/Button';
 import ButtonLink from '@/components/common/ButtonLink';
+import Carousel from '@/components/common/Carousel';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
 import CardUser from '@/components/profile/CardUser';
 import RentalPlaceReport from '@/components/reports/RentalPlaceReport';
 import UserReport from '@/components/reports/UserReport';
-import Carousel from '@/components/common/Carousel';
-import Comments from '@/components/comments/Comments';
 
 type TContentGallery = {
   length: number;
@@ -188,6 +189,7 @@ const Details: FC = () => {
   return (
     <>
       <NavBar allowRental allowLoginRegister />
+      <Alert />
 
       <BodyContainer css={xw`text-secondary-1`}>
         <ContentGallery length={data.images.length}>

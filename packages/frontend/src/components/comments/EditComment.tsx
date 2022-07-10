@@ -1,8 +1,10 @@
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import xw from 'xwind';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 
 import Button from '../common/Button';
 import DoubleSpace from '../common/DoubleSpace';
@@ -33,6 +35,7 @@ const EditComment: FC<TEditComment> = ({ closeModal }) => {
   const onSubmit: SubmitHandler<TEditCommentData> = async (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
+    toast.success(AlertMessage.updated('comentario'));
     closeModal();
   };
 
