@@ -22,8 +22,15 @@ const Content = styled.div`
     border
     rounded
     bg-white
+    cursor-pointer
     font-montserrat
     border-secondary-2
+
+    transform
+    transition
+    ease-in-out
+    duration-500
+    hover:-translate-y-3
   `}
 `;
 
