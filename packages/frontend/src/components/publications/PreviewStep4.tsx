@@ -163,13 +163,17 @@ const PreviewStep4: FC<TPreviewStep4> = ({ files, getValues }) => {
 
           <div>
             <SubTitle>Seguridad</SubTitle>
-            <ul css={xw`list-disc flex flex-wrap my-2`}>
-              {values.security.map((item) => (
-                <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
-                  {item}
-                </li>
-              ))}
-            </ul>
+            {values.security.length > 0 ? (
+              <ul css={xw`list-disc flex flex-wrap my-2`}>
+                {values.security.map((item) => (
+                  <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <span css={xw`w-full text-red-500`}>Sin especificar</span>
+            )}
           </div>
         </div>
 

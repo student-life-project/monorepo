@@ -119,20 +119,12 @@ const RentalPlaceStep3: FC<TRentalPlaceStep3> = ({
                 name={value}
                 label={value}
                 value={value}
-                register={{
-                  ...register('security', {
-                    required: ErrorMessageInput.inputRequire(
-                      NameInput.security,
-                    ),
-                  }),
-                }}
+                register={{ ...register('security') }}
               />
             </div>
           );
         })}
       </div>
-
-      {errors.security && <SpanError>{errors.security?.message}</SpanError>}
 
       <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>
         Subir imagenes&nbsp;

@@ -77,8 +77,7 @@ const Create: FC = () => {
     'zone',
   ]);
 
-  // TODO: seguridad ya no es requerido.
-  const rentalPlace = watch(['rentalPlace', 'services', 'rules', 'security']);
+  const rentalPlace = watch(['rentalPlace', 'services', 'rules']);
 
   const onSubmit: SubmitHandler<IPublicationData> = async (data) => {
     // eslint-disable-next-line no-console
@@ -139,7 +138,7 @@ const Create: FC = () => {
   }, [basicInfo, location, rentalPlace, step]);
 
   useEffect(() => {
-    reset({ gender: 'Sin preferencia', availability: true });
+    reset({ gender: 'Sin preferencia', availability: true, security: [] });
   }, [reset]);
 
   return (
