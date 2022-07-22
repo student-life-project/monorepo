@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
@@ -16,13 +17,13 @@ import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Textarea from '@/components/common/Textarea';
 import Avatar from '@/components/profile/Avatar';
 import ResetPassword from '@/components/profile/ResetPassword';
+import UpdateUser from '@/components/profile/UpdateUser';
 import { ErrorMessageInput, NameInput } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 import { TFile } from '@/types';
-import { CalculateAge } from '@/utils/calculateAge';
+import { calculateAge } from '@/utils/managerDate';
 import { rgxNumber } from '@/utils/validations';
 import withAuth from '@/utils/WithAuth';
-import { toast } from 'react-toastify';
-import { AlertMessage } from '@/constants/alertMessage';
 
 const Content = styled.div`
   ${xw`
@@ -116,6 +117,16 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
 
   // TODO: mantender el estado con los archivos agregados. Subir de golpe.
   const [files, setFiles] = useState<TFile[]>([]);
+
+  // TODO: es necesario obtener un valor de backend para validar el form.
+  // TODO: es necesario que se mantenga abierto hasta que el usuario actualice su información.
+  // TODO: cuando se actualice la info de usuario se modifique el valor.
+  const valorBackend = false; // TODO: valor false y se pasa a true cuando el se actualiza.
+  const [updateUser, setUpdateUser] = useState(valorBackend);
+
+  const handleUpdateUser = () => {
+    setUpdateUser(!updateUser);
+  };
 
   return (
     <>
@@ -230,7 +241,7 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
                         NameInput.birthDate,
                       ),
                       validate: (value) =>
-                        CalculateAge(value) > 18 || ErrorMessageInput.ageValid,
+                        calculateAge(value) > 18 || ErrorMessageInput.ageValid,
                     }),
                   }}
                   error={errors.birthDate}
@@ -319,6 +330,8 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
         </Content>
 
         {showUpdatePass && <ResetPassword closeModal={handleShowUpdatePass} />}
+
+        {!updateUser && <UpdateUser closeModal={handleUpdateUser} />}
       </BodyContainer>
     </>
   );

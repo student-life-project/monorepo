@@ -4,19 +4,21 @@ import styled from '@emotion/styled';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EUserType } from '@student_life/common';
-import { NextPage } from 'next';
 import { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import Button from '@/components/common/Button';
-import CenteredBody from '@/components/common/CenteredBody';
 import DoubleFormSpace from '@/components/common/DoubleFormSpace';
 import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
 import Radio from '@/components/common/Radio';
 import Tooltip from '@/components/common/Tooltip';
 import { ErrorMessageInput, NameInput } from '@/constants';
-import { CalculateAge } from '@/utils/calculateAge';
+import { AlertMessage } from '@/constants/alertMessage';
+import { calculateAge } from '@/utils/managerDate';
+
+import Modal from '../common/Modal';
 
 interface IRegisterData {
   userType: EUserType;
@@ -24,14 +26,6 @@ interface IRegisterData {
   lastName: string;
   birthDate: string;
 }
-
-const Form = styled.form`
-  ${xw`
-    px-4
-    w-full
-    lg:w-6/12
-  `}
-`;
 
 const Title = styled.h1`
   ${xw`
@@ -64,8 +58,12 @@ const RadioContainer = styled.div`
   `}
 `;
 
+type TUpdateUser = {
+  closeModal: () => void;
+};
+
 // TODO: si se registran con gmail, cargar en nombre y el apellido.
-const Register: NextPage = () => {
+const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
   const {
     handleSubmit,
     register,
@@ -83,11 +81,13 @@ const Register: NextPage = () => {
   const onSubmit: SubmitHandler<IRegisterData> = async (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
+    toast.success(AlertMessage.updated('usuario'));
+    closeModal(); // TODO: cerrar si el resultado es success
   };
 
   return (
-    <CenteredBody css={xw`h-auto lg:h-screen py-10`}>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+    <Modal>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Title>Te damos la bienvenida</Title>
         <Text>
           Es importante que ingreses la siguiente información para personalizar
@@ -192,7 +192,7 @@ const Register: NextPage = () => {
               ...register('birthDate', {
                 required: ErrorMessageInput.inputRequire(NameInput.birthDate),
                 validate: (value) =>
-                  CalculateAge(value) >= 18 || ErrorMessageInput.ageValid,
+                  calculateAge(value) >= 18 || ErrorMessageInput.ageValid,
               }),
             }}
             error={errors.birthDate}
@@ -212,9 +212,9 @@ const Register: NextPage = () => {
           <span css={xw`font-bold`}>Términos y condiciones</span> y la&nbsp;
           <span css={xw`font-bold`}>Política de privacidad</span>.
         </p>
-      </Form>
-    </CenteredBody>
+      </form>
+    </Modal>
   );
 };
 
-export default Register;
+export default UpdateUser;

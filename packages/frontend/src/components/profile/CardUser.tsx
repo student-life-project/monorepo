@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 import xw from 'xwind';
 
-import { CalculateAge } from '@/utils/calculateAge';
+import { calculateAge } from '@/utils/managerDate';
 
 import Anchor from '../common/Anchor';
 import Button from '../common/Button';
@@ -40,7 +40,7 @@ const CardUser: FC<TCardUser> = ({
             {user.firstName} {user.lastName}
           </h2>
           <p css={xw`text-center font-semibold`}>
-            {CalculateAge(user.birthDate)} años
+            {calculateAge(user.birthDate)} años
           </p>
 
           <h2 css={xw`py-3 text-lg text-center font-bold`}>
