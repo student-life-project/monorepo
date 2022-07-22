@@ -99,7 +99,9 @@ const UserDetails: FC = () => {
               <div>
                 <SubTitle>{NameInput.fullName}</SubTitle>
                 <p css={xw`font-bold mt-2`}>
-                  {`${user.firstName} ${user.lastName}`}
+                  {user.firstName && user.lastName
+                    ? `${user.firstName} ${user.lastName}`
+                    : 'N/A'}
                 </p>
               </div>
 
@@ -110,18 +112,18 @@ const UserDetails: FC = () => {
 
               <div>
                 <SubTitle>{NameInput.phone}</SubTitle>
-                <p css={xw`font-bold mt-2`}>{user.phoneNumber}</p>
+                <p css={xw`font-bold mt-2`}>{user.phoneNumber || 'N/A'}</p>
               </div>
 
               <div>
                 <SubTitle>{NameInput.birthDate}</SubTitle>
-                <p css={xw`font-bold mt-2`}>{user.birthDate}</p>
+                <p css={xw`font-bold mt-2`}>{user.birthDate || 'N/A'}</p>
               </div>
             </div>
 
             <div css={xw`grid grid-cols-1`}>
               <SubTitle>{NameInput.aboutMe}</SubTitle>
-              <p css={xw`font-bold mt-2`}>{user.aboutMe}</p>
+              <p css={xw`font-bold mt-2`}>{user.aboutMe || 'N/A'}</p>
             </div>
 
             <div css={xw`w-full flex justify-center sm:justify-end mt-8`}>
