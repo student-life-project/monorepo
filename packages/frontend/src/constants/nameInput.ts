@@ -32,6 +32,7 @@ export const NameInput = {
   userStatus: 'Estatus del usuario',
   reportStatus: 'Estatus del reporte',
   reportType: 'Tipo de reporte',
+  reportReason: 'Motivo del reporte',
   date: 'Fecha',
   fromReport: 'Realizado por',
   toReport: 'Reporta a',

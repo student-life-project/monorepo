@@ -26,6 +26,7 @@ const report = {
   to: 'Erick Mejia Blanco', //  Comoda casa para descanso en Club de Golf Tequis
   from: 'Alfredo Carreón Urbano',
   date: '4 de abril 2021',
+  reason: 'Es irrespetuoso u ofensivo (Incita al odio)',
   description:
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam!',
 };
@@ -105,6 +106,11 @@ const ReportDetails: FC = () => {
               <div>
                 <SubTitle>{NameInput.toReport}</SubTitle>
                 <p css={xw`font-bold mt-2`}>{report.to}</p>
+              </div>
+
+              <div>
+                <SubTitle>{NameInput.reportReason}</SubTitle>
+                <p css={xw`font-bold`}>{report.reason}</p>
               </div>
             </div>
 
