@@ -1,17 +1,23 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { join } from 'path';
 
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.useStaticAssets(join(__dirname, '..', 'public'), {
+    prefix: '/public/',
+  });
   app.setGlobalPrefix('/v1/api');
   app.enableCors();
   app.useGlobalPipes(
-    new ValidationPipe({
-      disableErrorMessages: true,
-    }),
+    new ValidationPipe(),
+    // new ValidationPipe({
+    // disableErrorMessages: true,
+    // }),
   );
 
   const config = new DocumentBuilder()

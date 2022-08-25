@@ -1,16 +1,17 @@
 import { Module } from '@nestjs/common';
+import { CommandModule } from 'nestjs-command';
 
 import { AddressModule } from './address/address.module';
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
+import { AddressService } from './address/address.service';
 import { AuthzModule } from './authz/authz.module';
-import { CharacteristicModule } from './characteristic/characteristic.module';
+import { CommentModule } from './comment/comment.module';
 import { ImageModule } from './image/image.module';
-import { MessageModule } from './message/message.module';
+import { LikeModule } from './like/like.module';
 import { MongooseConfigModule } from './mongoose-config/mongoose-config.module';
 import { OwnerModule } from './owner/owner.module';
-import { RateModule } from './rate/rate.module';
+import { RentalPlaceCommand } from './rental-place/rental-place.command';
 import { RentalPlaceModule } from './rental-place/rental-place.module';
+import { RentalPlaceService } from './rental-place/rental-place.service';
 import { ReportModule } from './report/report.module';
 import { SchoolModule } from './school/school.module';
 import { StudentModule } from './student/student.module';
@@ -22,8 +23,7 @@ if (process.env.NODE_ENV !== 'PROD') {
 
 @Module({
   imports: [
-    MessageModule,
-    RateModule,
+    LikeModule,
     UserModule,
     OwnerModule,
     StudentModule,
@@ -32,11 +32,12 @@ if (process.env.NODE_ENV !== 'PROD') {
     RentalPlaceModule,
     SchoolModule,
     AddressModule,
-    CharacteristicModule,
     MongooseConfigModule,
     AuthzModule,
+    CommentModule,
+    CommandModule,
   ],
   // controllers: [AppController],
-  // providers: [AppService],
+  providers: [RentalPlaceCommand, RentalPlaceService, AddressService],
 })
 export class AppModule {}
