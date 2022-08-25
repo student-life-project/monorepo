@@ -6,8 +6,9 @@ import {
   NotFoundException,
   Param,
   Patch,
-  Post,
+  // Post,
   Put,
+  Query,
   Req,
   Res,
   UnsupportedMediaTypeException,
@@ -16,19 +17,24 @@ import {
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import {
+  ApiBadRequestResponse,
   ApiBody,
   ApiConsumes,
-  ApiCreatedResponse,
+  // ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
+  ApiUnsupportedMediaTypeResponse,
+  getSchemaPath,
 } from '@nestjs/swagger';
-// import { zip } from 'express-zip';
+// import { ValidationError } from 'class-validator';
 import { Response } from 'express';
 import { createReadStream } from 'fs';
 
 import { AddressService } from '../address/address.service';
-import { Auth } from '../auth.decorator';
+import { Auth } from '../authz/auth.decorator';
+import { CommentService } from '../comment/comment.service';
 import {
   asyncFilter,
   getFullPath,
@@ -38,58 +44,133 @@ import {
 import { FilesUploadDto } from '../helper/dto/file-upload.dto';
 import { UserNotAllowOrOwnerException } from '../helper/exceptions/user-not-allowed-to-update-data';
 import { ImageService } from '../image/image.service';
-import { RateService } from '../rate/rate.service';
+import { LikeService } from '../like/like.service';
 import { UserService } from '../user/user.service';
-import { CreateRentalPlaceDto } from './dto/create-rental-place.dto';
+// import { CreateRentalPlaceDto } from './dto/create-rental-place.dto';
 import { UpdateRentalPlaceDto } from './dto/update-rental-place.dto';
+import { RentalPlace } from './rental-place.schema';
 import { RentalPlaceService } from './rental-place.service';
 
 /* eslint no-underscore-dangle: 0 */
-@ApiTags('rental-place')
+@ApiTags('Rental Place')
 @Controller('rental-place')
 export class RentalPlaceController {
-  IMAGES_PATH = './uploads/rental-places';
-
   // eslint-disable-next-line no-useless-constructor
   constructor(
     private readonly rentalPlaceService: RentalPlaceService,
     private readonly addressService: AddressService,
     private readonly imageService: ImageService,
     private readonly userService: UserService,
-    private readonly rateService: RateService,
+    private readonly likeService: LikeService,
+    private readonly commentService: CommentService,
   ) {}
+  // TODO cross relationship beetween this and all other schemas
+  // @see https://stackoverflow.com/questions/33049707/push-items-into-mongo-array-via-mongoose for push new value to an array elements
 
-  @ApiCreatedResponse({
-    description: 'Rental place creation just for admins or lessors',
-    // type: CreateRentalPlaceDto
+  // TODO post create
+  // TODO put update
+  // TODO post upload Image
+  // TODO get Images
+  // TODO patch comment (only update by owner/admin)
+  // TODO patch like (only update by owner/admin) (toogle if like exist delete it, else create it find({owner: ownerId, place:placeId}))
+  // TODO patch report (only update by owner/admin)
+  // TODO patch approve (only admin)
+  // TODO patch availability (only owner/admin)
+  // TODO delete delete (only owner/admin)
+  // TODO get not approved (only admin)
+  // TODO get details (get by id)
+  // TODO get findByOwner ( get by owner/admin)
+  // TODO get all (only admin)
+  // TODO get home (all, only get approved & with availablity, sort by likes_count limit=5)
+  // TODO get search (search by title + approved & with availablity)
+  // @see https://dev.to/krishnakurtakoti/multiple-search-filter-using-nestjs-mongoose-77e
+  // TODO get filtered (all, only get approved & with availablity)
+  // posible additional filters to filtered:
+  // @see https://kb.objectrocket.com/mongo-db/the-mongoose-in-operator-1015
+  // TODO ?reason=[] (any of the elements on the array)
+  // TODO ?type=[] (any of the elements on the array)
+  // TODO ?gender=[] (any of the elements on the array)
+  // TODO ?price=”less than x”/”more than x”/”between x and y”
+  // @see https://stackoverflow.com/questions/36371190/mongoose-query-to-filter-an-array-and-populate-related-content
+  // @see https://www.codegrepper.com/code-examples/javascript/mongoose+filter+by+populated+field
+  // TODO ?services=[] (must contain all the elements on the array)
+  // TODO ?rules=[] (must contain all the elements on the array)
+  // TODO ?secrity=[] (must contain all the elements on the array)
+  // posible additional queries to filtered:
+  // TODO ?from=
+  // TODO ?limit=
+  // TODO ?sort=asc/desc (sort by price)
+
+  // TODO fix lat long
+
+  // @ApiCreatedResponse({
+  //   description: 'Rental place creation just for admins or lessors',
+  //   type: RentalPlace,
+  // })
+  // @ApiBadRequestResponse({ description: 'Bad Request' })
+  // @Post()
+  // @Auth('create:rental-place')
+  // async create(
+  //   @Body() createRentalPlaceDto: CreateRentalPlaceDto,
+  //   @Req() req: any,
+  // ) {
+  //   // // create address
+  //   const addressId = await this.addressService.create(
+  //     createRentalPlaceDto.address,
+  //   );
+
+  //   // // create rentalPlace
+  //   return this.rentalPlaceService.create({
+  //     ...createRentalPlaceDto,
+  //     owner: req.user.sub,
+  //     address: addressId,
+  //   });
+  // }
+
+  @ApiOkResponse({
+    description: 'Find all the rental places',
+    schema: {
+      allOf: [
+        {
+          type: 'array',
+          items: { $ref: getSchemaPath(RentalPlace) },
+        },
+      ],
+    },
   })
-  @Post()
-  @Auth('create:rental-place')
-  async create(
-    @Body() createRentalPlaceDto: CreateRentalPlaceDto,
-    @Req() req: any,
-  ) {
-    // // create address
-    const addressId = await this.addressService.create(
-      createRentalPlaceDto.address,
-    );
-
-    // // create rentalPlace
-    return this.rentalPlaceService.create({
-      ...createRentalPlaceDto,
-      owner: req.user.sub,
-      address: addressId,
-    });
-  }
-
-  @ApiOkResponse({ description: 'Find all the rental places' })
   @Get()
-  findAll() {
+  findAll(@Query() queries: any) {
     // TODO make sure retrive all need info rentals GET check if made TOP RATE AND MOST COMMENTED limit to 5 ¡¡DISPONIBLES!! (si todos igual random entre los top on different request
-    return this.rentalPlaceService.findAll();
+    console.log(queries);
+    const PAGINATOR_PAGE = 1;
+    const PAGINATOR_LIMIT = 10;
+    const DEFAULT_SORT = 'desc';
+
+    let query = {};
+    if (queries.price) {
+      query = this.rentalPlaceService.priceFilter(query, queries.price);
+    }
+    console.log('query', query);
+
+    // if(queries.)
+
+    const paginate = {
+      page: queries.page ?? PAGINATOR_PAGE,
+      limit: queries.limit ?? PAGINATOR_LIMIT,
+    };
+
+    const sort = queries.sort
+      ? this.rentalPlaceService.sort(queries.sort)
+      : DEFAULT_SORT;
+
+    // return this.rentalPlaceService.findAll();
+    return this.rentalPlaceService.find(query, sort, paginate);
   }
 
-  @ApiNotFoundResponse({ description: 'Rental place does not exists' })
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists',
+    type: RentalPlace,
+  })
   @ApiOkResponse({ description: 'Get a rental place by id' })
   @Get(':id')
   // @Auth('read:rental-place')
@@ -98,15 +179,34 @@ export class RentalPlaceController {
     const rentalPlace = await this.rentalPlaceService.findOne(id);
     if (!rentalPlace)
       throw new NotFoundException('Rental place does not exists');
+    const likesCount = await this.likeService.count(id);
+    return { ...rentalPlace, likesCount };
+  }
+
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists',
+    type: RentalPlace,
+  })
+  @ApiOkResponse({ description: 'Get a rental place by id' })
+  @Get(':id')
+  // @Auth('read:rental-place')
+  // TODO fix
+  async findByOwner(@Req() req: any) {
+    // TODO make sure retrive all need info rentals/:id GET
+    const rentalPlace = await this.rentalPlaceService.findOne(req.user.sub);
+    if (!rentalPlace)
+      throw new NotFoundException('Rental place does not exists');
     return rentalPlace;
   }
 
   @ApiOkResponse({
     description: 'Update a rental place',
+    type: RentalPlace,
   })
   @ApiNotFoundResponse({
     description: 'Rental place does not exists, not able to Update',
   })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
   @Put(':id')
   @Auth('update:rental-place')
   async update(
@@ -130,17 +230,20 @@ export class RentalPlaceController {
         updateRentalPlaceDto.address,
       );
     }
-    await this.rateService.deleteByPlaceId(id);
-    if (updateRentalPlaceDto.rates) {
-      updateRentalPlaceDto.rates = await this.rateService.createMany(
-        updateRentalPlaceDto.rates,
+    await this.likeService.deleteByPlaceId(id);
+    if (updateRentalPlaceDto.likes) {
+      updateRentalPlaceDto.likes = await this.likeService.createMany(
+        updateRentalPlaceDto.likes,
       );
     }
     await this.rentalPlaceService.update(id, updateRentalPlaceDto);
     return rentalPlace;
   }
 
-  @ApiOkResponse({ description: 'Delete a rental place by id' })
+  @ApiOkResponse({
+    description: 'Delete a rental place by id',
+    type: RentalPlace,
+  })
   @ApiNotFoundResponse({ description: 'Rental place does not exists' })
   @Delete(':id')
   @Auth('delete:rental-place')
@@ -157,17 +260,28 @@ export class RentalPlaceController {
     // remove on mongo
     this.imageService.deleteByPlaceId(id);
     this.addressService.deleteByPlaceId(rentalPlace.address.id ?? '');
-    this.rateService.deleteByPlaceId(id);
+    this.likeService.deleteByPlaceId(id);
+    this.commentService.deleteByPlaceId(id);
     const rentalPlaceDeleted = await this.rentalPlaceService.remove(id);
 
     return rentalPlaceDeleted;
   }
 
+  @ApiTags('File Upload')
+  @ApiOperation({
+    summary: 'upload a file',
+    description: 'Test',
+    operationId: 'operationid',
+  })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     description: 'Upload rental place images',
     type: FilesUploadDto,
   })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiUnsupportedMediaTypeResponse({ description: 'Unsopported' })
+  @ApiNotFoundResponse({ description: 'Rental place does not exists' })
+  @ApiOkResponse({ description: 'files succesfully' })
   @UseInterceptors(FilesInterceptor('files', 32, saveImageToStorage))
   @Patch(':id/upload')
   @Auth('upload-image:rental-place')
@@ -186,15 +300,14 @@ export class RentalPlaceController {
     // validate rental place
     if (!rentalPlace) {
       this.rentalPlaceService.removeFiles(files);
-      // files.map((file) => removeFile(file.filename));
       throw new NotFoundException('Rental place does not exists');
     }
     // validate has access to update
     if (!this.userService.isUserAllowed(rentalPlace.owner, req.user)) {
-      // files.map((file) => removeFile(file.filename));
       this.rentalPlaceService.removeFiles(files);
       throw new UserNotAllowOrOwnerException();
     }
+
     this.rentalPlaceService.removeFiles(rentalPlace.images);
     this.imageService.deleteByPlaceId(id);
 
@@ -208,6 +321,8 @@ export class RentalPlaceController {
     const unsafeFiles: Array<Express.Multer.File> = files.filter(
       (file) => !safeFiles.includes(file),
     );
+    // remove unsafe files (files interseptor automatically save the file has an option to filter invalid file types but change extension vulnerability continues being an issue)
+    this.rentalPlaceService.removeFiles(unsafeFiles);
 
     // prepare safe files to be saved
     const filesToSave = safeFiles.map((file) => {
@@ -220,13 +335,11 @@ export class RentalPlaceController {
         owner: id,
       };
     });
-    // remove unsafe files (files interseptor automatically save the file has an option to filter invalid file types but change extension vulnerability continues being an issue)
-    this.rentalPlaceService.removeFiles(unsafeFiles);
-    // unsafeFiles.map((file) => removeFile(file.filename));
     // save files in mongo
     const filesCreated = await this.imageService.createMany(filesToSave);
     // attach them to the rental place
     this.rentalPlaceService.update(id, { images: filesCreated });
+
     if (unsafeFiles.length) {
       return {
         succed: files.length - unsafeFiles.length, // safe files quantity
@@ -238,10 +351,9 @@ export class RentalPlaceController {
     return 'files succesfully uploaded';
   }
 
+  @ApiTags('File Upload')
   @Get('/images/:imagename')
   async getFiles(@Param('imagename') imageName: string, @Res() res: Response) {
-    // return file as file
-    // return res.sendFile(imageName, { root: multerConfig.dest })
     // return file as application/octet-stream
     const file = createReadStream(getFullPath(imageName));
     file.pipe(res);
