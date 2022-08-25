@@ -4,11 +4,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { AddressModule } from '../address/address.module';
 import { AddressService } from '../address/address.service';
-import { CharacteristicModule } from '../characteristic/characteristic.module';
+import { CommentModule } from '../comment/comment.module';
+import { CommentService } from '../comment/comment.service';
 import { ImageModule } from '../image/image.module';
 import { ImageService } from '../image/image.service';
-import { RateModule } from '../rate/rate.module';
-import { RateService } from '../rate/rate.service';
+import { LikeModule } from '../like/like.module';
+import { LikeService } from '../like/like.service';
 import { UserModule } from '../user/user.module';
 import { UserService } from '../user/user.service';
 import { RentalPlaceController } from './rental-place.controller';
@@ -21,9 +22,9 @@ import { RentalPlaceService } from './rental-place.service';
       { name: RentalPlace.name, schema: RentalPlaceSchema },
     ]),
     AddressModule,
-    CharacteristicModule,
     ImageModule,
-    RateModule,
+    LikeModule,
+    CommentModule,
     UserModule,
     HttpModule,
   ],
@@ -37,8 +38,9 @@ import { RentalPlaceService } from './rental-place.service';
     RentalPlaceService,
     AddressService,
     ImageService,
+    CommentService,
     UserService,
-    RateService,
+    LikeService,
   ],
 })
 export class RentalPlaceModule {}

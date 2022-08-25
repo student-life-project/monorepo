@@ -1,38 +1,69 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { States } from '@student_life/common';
 import { Document } from 'mongoose';
+
+import { Point } from './point.schema';
 
 @Schema()
 export class Address {
+  @ApiProperty()
   @Prop({ _id: true })
   id?: string;
 
+  @ApiProperty()
   @Prop({ required: true })
   street: string;
 
-  @Prop({ default: 'Jalisco' })
-  state: string;
+  @ApiProperty()
+  @Prop({ required: true })
+  extNumber: string;
 
+  @ApiPropertyOptional()
+  @Prop({ required: false })
+  intNumber: string;
+
+  @ApiPropertyOptional()
+  @Prop({ required: false })
+  crossStreet: string;
+
+  @ApiProperty()
+  @Prop({ default: 'Jalisco' })
+  state: States;
+
+  @ApiProperty()
   @Prop({ required: true })
   city: string;
 
-  @Prop({ required: true })
-  neighborhood: string;
-
+  @ApiProperty()
   @Prop({ required: true })
   stateCode: string;
 
+  @ApiProperty()
+  @Prop({ required: true, default: 'MX' })
+  countryCode: string;
+
+  @ApiProperty()
   @Prop({ required: true })
   reference: string;
 
+  @ApiProperty()
   @Prop({ required: true })
-  zone: string;
+  cologne: string;
 
+  @ApiProperty()
   @Prop({ default: 'México' })
   country?: string;
 
+  @ApiProperty()
+  @Prop({})
+  location: Point;
+
+  @ApiProperty()
   @Prop({ default: null })
   placeId?: string;
 
+  @ApiProperty()
   @Prop({ default: null })
   ownerId?: string;
 }

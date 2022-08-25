@@ -1,57 +1,60 @@
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import {
+  ArrayNotEmpty,
+  ArrayUnique,
+  IsCurrency,
+  IsEnum,
+} from 'class-validator';
+
+import { UpdateAddressDto } from '../../address/dto/update-address.dto';
+import {
   Gender,
   Reason,
   Rules,
   Security,
   Services,
   TypeSpace,
-} from '@student_life/common';
-import { Validate } from 'class-validator';
-
-import { UpdateAddressDto } from '../../address/dto/update-address.dto';
-import {
-  CustomEnum,
-  CustomEnumArray,
-  CustomEnumArrayOptional,
-} from '../../helper/custom-validation';
+} from '../../helper/types';
 import { CreateImageDto } from '../../image/dto/create-image.dto';
-import { CreateRateDto } from '../../rate/dto/create-rate.dto';
+import { CreateLikeDto } from '../../like/dto/create-like.dto';
 
 export class UpdateRentalPlaceDto {
+  @ApiHideProperty()
+  owner?: string;
+
   @ApiProperty({
     example: 'Casa cerca de la universidad',
   })
   title?: string;
 
+  @IsEnum(Reason)
   @ApiProperty({
-    example: 'Quiero rentar',
-    examples: ['Quiero rentar', 'Busco roomie'],
+    example: Reason['Quiero rentar'],
+    enum: Reason,
   })
-  @Validate(CustomEnum, Reason)
-  reason?: string;
+  reason?: Reason;
 
+  @IsEnum(TypeSpace)
   @ApiProperty({
-    example: 'Cuarto compartido',
-    examples: ['Lugar completo', 'Cuarto privado', 'Cuarto compartido', 'Otro'],
+    example: TypeSpace['Cuarto compartido'],
+    enum: TypeSpace,
   })
-  @Validate(CustomEnum, TypeSpace)
-  typeSpace?: string;
+  typeSpace?: TypeSpace;
 
+  @IsEnum(Gender)
   @ApiProperty({
-    example: 'Mujer',
-    examples: ['Hombre', 'Mujer', 'Non-binary', 'Sin preferencia'],
+    example: Gender.Mujer,
+    enum: Gender,
   })
-  @Validate(CustomEnum, Gender)
-  gender?: string;
+  gender?: Gender;
 
+  @IsCurrency({ allow_negatives: false })
   @ApiProperty({
-    example: 4500.0,
-    minimum: 0.0,
+    example: '3500.0',
   })
   price?: number;
 
-  @ApiProperty({ example: 1 })
+  @ApiProperty({ example: true })
   availability?: boolean;
 
   @ApiProperty()
@@ -60,70 +63,46 @@ export class UpdateRentalPlaceDto {
   @ApiProperty({ example: 'casa con baño completo, cocina, ...' })
   description?: string;
 
+  @ArrayNotEmpty()
+  @ArrayUnique()
+  @IsEnum(Services, { each: true })
   @ApiProperty({
     example: [
-      'Baño',
-      'Cocina',
-      'Lavadora',
-      'Servicios públicos',
-      'Wi-Fi incluido',
+      Services.Baño,
+      Services.Cocina,
+      Services.Lavadora,
+      Services['Servicios públicos'],
+      Services['Wi-Fi incluido'],
     ],
-    examples: [
-      'Baño',
-      'Cocina',
-      'Lavadora',
-      'Elevador',
-      'Amueblado',
-      'Estacionamiento',
-      'Con balcón o patio',
-      'Servicios públicos',
-      'Aire acondicionado',
-      'Área de estudio',
-      'TV',
-      'Wi-Fi incluido',
-      'Se admiten mascotas',
-    ],
+    enum: Services,
   })
-  @Validate(CustomEnumArray, Services)
-  services?: string[];
+  services?: Services[];
 
+  @ArrayNotEmpty()
+  @ArrayUnique()
+  @IsEnum(Rules, { each: true })
   @ApiProperty({
-    example: ['No fumar', 'No mascotas', 'No drogas', 'No fiestas'],
-    examples: [
-      'No fumar',
-      'No mascotas',
-      'No drogas',
-      'No beber',
-      'No Parejas',
-      'No fiestas',
-      'No invitados',
+    example: [
+      Rules['No fumar'],
+      Rules['No mascotas'],
+      Rules['No drogas'],
+      Rules['No fiestas'],
     ],
+    enum: Rules,
   })
-  @Validate(CustomEnumArrayOptional, Rules)
-  rules?: string[];
+  rules?: Rules[];
 
+  @ArrayUnique()
+  @IsEnum(Security, { each: true })
   @ApiProperty({
-    example: ['Cámaras', 'Seguridad privada'],
-    examples: [
-      'Alarma de incendios',
-      'Alarma antirrobo',
-      'Cámaras',
-      'Seguridad privada',
-      'Salidas de emergencia',
-      'Señalamientos de seguridad',
-      'Botiquín de primeros auxilios',
-      'Extintores',
-    ],
+    example: [Security.Cámaras, Security['Seguridad privada']],
+    enum: Security,
   })
-  @Validate(CustomEnumArrayOptional, Security)
-  security?: string[];
-
-  @ApiProperty()
-  owner?: string;
+  security?: Security[];
 
   @ApiHideProperty()
   images?: CreateImageDto[];
 
-  @ApiProperty({ type: [CreateRateDto] })
-  rates?: CreateRateDto[];
+  @ApiProperty({ type: [CreateLikeDto] })
+  likes?: CreateLikeDto[];
 }

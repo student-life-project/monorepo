@@ -7,47 +7,70 @@ import {
   Param,
   Post,
   Put,
+  Req,
+  UnauthorizedException,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
+  getSchemaPath,
 } from '@nestjs/swagger';
 
 import { AddressService } from '../address/address.service';
+import { Auth } from '../authz/auth.decorator';
+import { UserService } from '../user/user.service';
 import { CreateSchoolDto } from './dto/create-school.dto';
 import { UpdateSchoolDto } from './dto/update-school.dto';
+import { School } from './school.schema';
 import { SchoolService } from './school.service';
 
-@ApiTags('school')
+@ApiTags('School')
 @Controller('school')
 export class SchoolController {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     private readonly schoolService: SchoolService,
     private readonly addressService: AddressService,
+    private readonly userService: UserService,
   ) {}
 
-  // @ApiBearerAuth()
-  @ApiCreatedResponse({ description: 'School creation just for admins' })
+  @ApiCreatedResponse({
+    description: 'School creation just for admins',
+    type: School,
+  })
+  @Auth('create:school')
   @Post()
-  async create(@Body() createSchoolDto: CreateSchoolDto) {
-    const addressId = await this.addressService.create(createSchoolDto.address);
-    // eslint-disable-next-line no-param-reassign
-    // createSchoolDto.address = addressId;
-    console.log(addressId);
+  async create(@Body() createSchoolDto: CreateSchoolDto, @Req() req: any) {
+    if (!this.userService.isAdmin(req.user)) {
+      throw new UnauthorizedException();
+    }
+    await this.addressService.create(createSchoolDto.address);
     return this.schoolService.create(createSchoolDto);
   }
 
-  @ApiOkResponse({ description: 'Find all the schools' })
+  @ApiOkResponse({
+    description: 'Find all the schools',
+    schema: {
+      allOf: [
+        {
+          type: 'array',
+          items: { $ref: getSchemaPath(School) },
+        },
+      ],
+    },
+  })
   @Get()
   findAll() {
     return this.schoolService.findAll();
   }
 
   @ApiNotFoundResponse({ description: 'School does not exists' })
-  @ApiOkResponse({ description: 'Get a school by id' })
+  @ApiOkResponse({
+    description: 'Get a school by id',
+    type: School,
+  })
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const school = await this.schoolService.findOne(id);
@@ -55,15 +78,23 @@ export class SchoolController {
     return school;
   }
 
-  @ApiOkResponse({ description: 'Update a school and or it address by id' })
+  @ApiOkResponse({
+    description: 'Update a school and or it address by id',
+    type: School,
+  })
   @ApiNotFoundResponse({
     description: 'School does not exists, not able to Update',
   })
+  @Auth('update:school')
   @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() updateschoolDto: UpdateSchoolDto,
+    @Req() req: any,
   ) {
+    if (!this.userService.isAdmin(req.user)) {
+      throw new UnauthorizedException();
+    }
     const school = await this.schoolService.update(id, updateschoolDto);
     if (!school)
       throw new NotFoundException('School does not exists, not able to Update');
@@ -80,8 +111,12 @@ export class SchoolController {
 
   @ApiOkResponse({ description: 'Delete a school by id' })
   @ApiNotFoundResponse({ description: 'School does not exists' })
+  @Auth('delete:school')
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string, @Req() req: any) {
+    if (!this.userService.isAdmin(req.user)) {
+      throw new UnauthorizedException();
+    }
     const school = await this.schoolService.remove(id);
     if (!school) throw new NotFoundException('School does not exists');
     return school;

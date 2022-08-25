@@ -1,68 +1,52 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { States } from '@student_life/common';
-import { Validate } from 'class-validator';
+import { IsISO31661Alpha2, Validate } from 'class-validator';
 
-import { CustomEnum } from '../../helper/custom-validation';
+import { IsPostalCodeByCountryCode } from '../../helper/is-postal-code-by-country-code-validation';
 
 export class UpdateAddressDto {
   @ApiProperty()
   _id: string;
 
-  @ApiProperty({ example: 'Blvd. Gral. Marcelino García Barragán 142' })
+  @ApiProperty({ example: 'Blvd. Gral. Marcelino García Barragán' })
   street: string;
 
+  @ApiProperty({ example: '142' })
+  extNumber: string;
+
+  @ApiPropertyOptional()
+  intNumber: string;
+
+  @ApiPropertyOptional()
+  crossStreet: string;
+
+  // @Validate(CustomEnum, States)
   @ApiProperty({
-    example: 'Jalisco',
-    examples: [
-      'Aguascalientes',
-      'Baja California',
-      'Baja California Sur',
-      'Chihuahua',
-      'Chiapas',
-      'Campeche',
-      'Ciudad De México',
-      'Coahuila',
-      'Colima',
-      'Durango',
-      'Guerrero',
-      'Guanajuato',
-      'Hidalgo',
-      'Jalisco',
-      'Michoacan',
-      'Estado De México',
-      'Morelos',
-      'Nayarit',
-      'Nuevo León',
-      'Oaxaca',
-      'Puebla',
-      'Quintana Roo',
-      'Queretaro',
-      'Sinaloa',
-      'San Luis Potosí',
-      'Sonora',
-      'Tabasco',
-      'Tlaxcala',
-      'Tamaulipas',
-      'Veracruz',
-      'Yucatan',
-      'Zacatecas',
-    ],
+    example: States.Jalisco,
+    enum: States,
   })
-  @Validate(CustomEnum, States)
-  state: string;
+  state: States;
 
   @ApiProperty({ example: 'Guadalajara' })
   city: string;
 
-  @ApiProperty({ example: 'Olimpica' })
-  neighborhood: string;
-
+  @Validate(IsPostalCodeByCountryCode)
   @ApiProperty({
-    minLength: 5,
-    maxLength: 7,
+    title: 'Postal Code',
+    description: 'Postal Code/Zip Code (Zone Improvement Plan)',
     example: '44430',
   })
   stateCode: string;
+
+  @IsISO31661Alpha2()
+  @ApiProperty({
+    title: 'Country Code',
+    description:
+      'Country Code ISO 3166-1 alpha-2 officially assigned country code',
+    example: 'MX',
+    default: 'MX',
+  })
+  countryCode = 'MX';
 
   @ApiProperty({
     example:
@@ -70,13 +54,22 @@ export class UpdateAddressDto {
   })
   reference: string;
 
-  @ApiProperty({
-    example: 'Cerca de plaza forum, cfe, little cesar, linea 3 del tren ligero',
-  })
-  zone: string;
+  @ApiProperty({ example: 'Olimpica' })
+  cologne: string;
+
+  // @ApiProperty({
+  //   example: 'Cerca de plaza forum, cfe, little cesar, linea 3 del tren ligero',
+  // })
+  // zone: string;
 
   @ApiPropertyOptional({ example: 'México' })
   country?: string;
+
+  @ApiProperty({ example: [-103.3254497, 20.6548611] })
+  location: {
+    type: string;
+    coordinates: number[];
+  };
 
   @ApiPropertyOptional({})
   placeId?: string;

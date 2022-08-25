@@ -1,4 +1,16 @@
-import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
+import {
+  ApiHideProperty,
+  ApiProperty,
+  ApiPropertyOptional,
+} from '@nestjs/swagger';
+import {
+  ArrayNotEmpty,
+  ArrayUnique,
+  IsCurrency,
+  IsEnum,
+} from 'class-validator';
+
+import { CreateAddressDto } from '../../address/dto/create-address.dto';
 import {
   Gender,
   Reason,
@@ -6,50 +18,46 @@ import {
   Security,
   Services,
   TypeSpace,
-} from '@student_life/common';
-import { Validate } from 'class-validator';
-
-import { CreateAddressDto } from '../../address/dto/create-address.dto';
-import {
-  CustomEnum,
-  CustomEnumArray,
-  CustomEnumArrayOptional,
-} from '../../helper/custom-validation';
+} from '../../helper/types';
 
 export class CreateRentalPlaceDto {
+  @ApiHideProperty()
+  owner?: string;
+
   @ApiProperty({
     example: 'Casa cerca de la universidad',
   })
   title: string;
 
+  @IsEnum(Reason)
   @ApiProperty({
-    example: 'Quiero rentar',
-    examples: ['Quiero rentar', 'Busco roomie'],
+    example: Reason['Quiero rentar'],
+    enum: Reason,
   })
-  @Validate(CustomEnum, Reason)
-  reason: string;
+  reason: Reason;
 
+  @IsEnum(TypeSpace)
   @ApiProperty({
-    example: 'Lugar completo',
-    examples: ['Lugar completo', 'Cuarto privado', 'Cuarto compartido', 'Otro'],
+    example: TypeSpace['Lugar completo'],
+    enum: TypeSpace,
   })
-  @Validate(CustomEnum, TypeSpace)
-  typeSpace: string;
+  typeSpace: TypeSpace;
 
+  @IsEnum(Gender)
   @ApiProperty({
-    example: 'Sin preferencia',
-    examples: ['Hombre', 'Mujer', 'Non-binary', 'Sin preferencia'],
+    example: Gender['Sin preferencia'],
+    enum: Gender,
   })
-  @Validate(CustomEnum, Gender)
-  gender: string;
+  gender: Gender;
 
+  @IsCurrency({ allow_negatives: false })
   @ApiProperty({
-    example: 3500.0,
-    minimum: 0.0,
+    example: '3500.00',
+    format: '0 0.00 1000 1,000 1,000.00',
   })
-  price: number;
+  price: string;
 
-  @ApiProperty({ example: 1 })
+  @ApiProperty({ example: true })
   availability: boolean;
 
   @ApiProperty()
@@ -58,58 +66,34 @@ export class CreateRentalPlaceDto {
   @ApiProperty({ example: 'casa con baño completo, cocina, ...' })
   description: string;
 
+  @ArrayNotEmpty()
+  @ArrayUnique()
+  @IsEnum(Services, { each: true })
   @ApiProperty({
-    example: ['Baño', 'Cocina', 'Lavadora', 'Servicios públicos'],
-    examples: [
-      'Baño',
-      'Cocina',
-      'Lavadora',
-      'Elevador',
-      'Amueblado',
-      'Estacionamiento',
-      'Con balcón o patio',
-      'Servicios públicos',
-      'Aire acondicionado',
-      'Área de estudio',
-      'TV',
-      'Wi-Fi incluido',
-      'Se admiten mascotas',
+    example: [
+      Services.Baño,
+      Services.Cocina,
+      Services.Lavadora,
+      Services['Servicios públicos'],
     ],
+    enum: Services,
   })
-  @Validate(CustomEnumArray, Services)
-  services: string[];
+  services: Services[];
 
+  @ArrayNotEmpty()
+  @ArrayUnique()
+  @IsEnum(Rules, { each: true })
   @ApiProperty({
-    example: ['No fumar', 'No mascotas', 'No drogas'],
-    examples: [
-      'No fumar',
-      'No mascotas',
-      'No drogas',
-      'No beber',
-      'No Parejas',
-      'No fiestas',
-      'No invitados',
-    ],
+    example: [Rules['No fumar'], Rules['No mascotas'], Rules['No drogas']],
+    enum: Rules,
   })
-  @Validate(CustomEnumArrayOptional, Rules)
-  rules: string[];
+  rules: Rules[];
 
-  @ApiProperty({
+  @ArrayUnique()
+  @IsEnum(Security, { each: true })
+  @ApiPropertyOptional({
     example: [],
-    examples: [
-      'Alarma de incendios',
-      'Alarma antirrobo',
-      'Cámaras',
-      'Seguridad privada',
-      'Salidas de emergencia',
-      'Señalamientos de seguridad',
-      'Botiquín de primeros auxilios',
-      'Extintores',
-    ],
+    enum: Security,
   })
-  @Validate(CustomEnumArrayOptional, Security)
-  security: string[];
-
-  @ApiHideProperty()
-  owner?: string;
+  security: Security[];
 }
