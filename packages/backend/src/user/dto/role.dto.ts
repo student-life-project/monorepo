@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { EUserType } from '@student_life/common';
+
+import { UserType } from '../../helper/types';
 
 export class RoleDto {
-  @ApiProperty({ enum: EUserType, example: EUserType.OWNER })
-  role: EUserType;
+  @ApiProperty({ enum: UserType, example: UserType.OWNER })
+  role: UserType;
 }
