@@ -9,10 +9,10 @@ const MEGABYTE = 1024 * 1024;
 const MAX_FILE_SIZE = 20;
 
 export const multerConfig = {
-  base_path: process.env.UPLOAD_LOCATION_BASE_PATH ?? 'uploads',
+  base_path: process.env.UPLOAD_LOCATION_BASE_PATH ?? 'public',
   dest:
     process.env.UPLOAD_LOCATION ??
-    join(process.env.UPLOAD_LOCATION_BASE_PATH ?? 'uploads', 'rental-places'),
+    join(process.env.UPLOAD_LOCATION_BASE_PATH ?? 'public', 'rental-places'),
 };
 
 const allowedFileExtensions: FileExtension[] = ['png', 'jpg'];
