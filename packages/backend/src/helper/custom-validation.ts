@@ -1,3 +1,2 @@
-export * from './custom-enum-array-optional-validation';
-export * from './custom-enum-array-validation';
-export * from './custom-enum-validation';
+// export * from './is-phone-number-by-country-code-validation';
+export * from './is-postal-code-by-country-code-validation';
