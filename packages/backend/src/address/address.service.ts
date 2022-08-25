@@ -35,4 +35,11 @@ export class AddressService {
   async deleteByOwnerId(id: string) {
     return this.AddressModel.deleteMany({ ownerId: id });
   }
+
+  async createMany(createAddressDto: CreateAddressDto[]): Promise<Address[]> {
+    const createdAddresses = await this.AddressModel.insertMany(
+      createAddressDto,
+    );
+    return createdAddresses;
+  }
 }
