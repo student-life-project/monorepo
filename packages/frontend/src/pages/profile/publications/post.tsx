@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import xw from 'xwind';
 
 import Alert from '@/components/common/Alert';
@@ -14,6 +13,7 @@ import RentalPlaceStep3 from '@/components/publications/RentalPlaceStep3';
 import Steps from '@/components/publications/Steps';
 import UbicationStep2 from '@/components/publications/UbicationStep2';
 import { EPublicationStep, PublicationSteps } from '@/constants';
+import { TFile } from '@/types';
 import { scrollTo } from '@/utils/scrollTo';
 
 export interface IPublicationData {
@@ -36,10 +36,21 @@ export interface IPublicationData {
   security: string[];
 }
 
+type TRedirectData = {
+  pathname: string;
+  query?: {
+    createdPost?: boolean;
+    updatedPost?: boolean;
+  };
+} & any;
+
 const Create: FC = () => {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [steps, setSteps] = useState(PublicationSteps);
+
+  // TODO: mantender el estado con los archivos agregados.
+  const [files, setFiles] = useState<TFile[]>([]);
 
   const {
     reset,
@@ -66,14 +77,28 @@ const Create: FC = () => {
     'zone',
   ]);
 
-  const rentalPlace = watch(['rentalPlace', 'services', 'rules', 'security']);
+  const rentalPlace = watch(['rentalPlace', 'services', 'rules']);
 
   const onSubmit: SubmitHandler<IPublicationData> = async (data) => {
     // eslint-disable-next-line no-console
-    console.log(data);
-    router.push('/profile/publications');
-    // Crear mensajes de success, info, warning, error
-    toast.success('Sé ha creado la publicación exitosamente'); //! Agregar las alertas en otra vista para que sean visibles.
+    console.log(data, files);
+
+    // TODO: esto debe de ir en el onSuccess, también se puede crear en onError alertas de error.
+    const redirectData: TRedirectData = {
+      pathname: '/profile/publications',
+      query: {},
+    };
+
+    // TODO: createdPost y updatedPost enviar un valor por la query para mostrar las alertas.
+    const id = null;
+
+    if (id) {
+      redirectData.query.updatedPost = true;
+    } else {
+      redirectData.query.createdPost = true;
+    }
+
+    router.push(redirectData);
   };
 
   const previousStep = () => {
@@ -107,13 +132,13 @@ const Create: FC = () => {
     } else if (stepLocation) {
       setIsValid(location.some(truthy));
     } else {
-      setIsValid(rentalPlace.some(truthy));
+      setIsValid(rentalPlace.some(truthy) || files?.length === 0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [basicInfo, location, rentalPlace, step]);
 
   useEffect(() => {
-    reset({ gender: 'Sin preferencia', availability: true });
+    reset({ gender: 'Sin preferencia', availability: true, security: [] });
   }, [reset]);
 
   return (
@@ -149,11 +174,13 @@ const Create: FC = () => {
               register={register}
               errors={errors}
               rentalPlace={rentalPlace[0]?.length}
+              files={files}
+              setFiles={setFiles}
             />
           )}
 
           {step === EPublicationStep.DRAFT && (
-            <PreviewStep4 getValues={getValues} />
+            <PreviewStep4 files={files} getValues={getValues} />
           )}
 
           <div css={xw`flex justify-center mb-10`}>

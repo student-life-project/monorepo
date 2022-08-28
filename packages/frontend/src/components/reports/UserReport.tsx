@@ -2,9 +2,11 @@ import { ProfileReport } from '@student_life/common';
 import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 // import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import xw from 'xwind';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 import { IOption } from '@/types';
 
 import Button from '../common/Button';
@@ -46,6 +48,8 @@ const UserReport: FC<TUserReport> = ({ closeModal }) => {
     // await dispath(data);
     // eslint-disable-next-line no-console
     console.log(data);
+    // TODO: Alerta success y error
+    toast.success(AlertMessage.created('reporte de usuario'));
     closeModal();
   };
 

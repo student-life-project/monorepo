@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import ModalConfirm from '@/components/common/ModalConfirm';
 import Table from '@/components/common/Table';
@@ -7,6 +8,7 @@ import {
   confirmMessage,
   HeaderPublication,
 } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 import { TElementId } from '@/types';
 
 type TTablePublications = {
@@ -21,8 +23,9 @@ const TablePublications: FC<TTablePublications> = ({ data }) => {
   const [showModalPost, setShowModalPost] = useState(false);
 
   const approvePost = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Publicación ${id}`);
+    // eslint-disable-next-line no-console
+    console.log(`Publicación ${id}`);
+    toast.success(AlertMessage.updated('aprobación'));
   };
 
   const handleOpenModalPost = (id: TElementId) => {
@@ -35,8 +38,9 @@ const TablePublications: FC<TTablePublications> = ({ data }) => {
   };
 
   const deletePost = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Publicación ${id}`);
+    // eslint-disable-next-line no-console
+    console.log(`Publicación ${id}`);
+    toast.success(AlertMessage.deleted('publicación'));
   };
 
   return (

@@ -6,21 +6,27 @@ import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
 
+import { TFile } from '@/types';
 import Checkbox from '../common/Checkbox';
 import Label from '../common/Label';
 import SpanError from '../common/SpanError';
 import Textarea from '../common/Textarea';
+import Dropzone from './Dropzone/Dropzone';
 
 type TRentalPlaceStep3 = {
   register: UseFormRegister<FieldValues>;
   errors: any;
   rentalPlace: number;
+  files: File[];
+  setFiles: (files: TFile[]) => void;
 };
 
 const RentalPlaceStep3: FC<TRentalPlaceStep3> = ({
   register,
   errors,
   rentalPlace,
+  files,
+  setFiles,
 }) => (
   <div css={xw`flex justify-center mb-10`}>
     <div css={xw`w-full lg:w-8/12`}>
@@ -113,23 +119,18 @@ const RentalPlaceStep3: FC<TRentalPlaceStep3> = ({
                 name={value}
                 label={value}
                 value={value}
-                register={{
-                  ...register('security', {
-                    required: ErrorMessageInput.inputRequire(
-                      NameInput.security,
-                    ),
-                  }),
-                }}
+                register={{ ...register('security') }}
               />
             </div>
           );
         })}
       </div>
 
-      {errors.security && <SpanError>{errors.security?.message}</SpanError>}
-
-      <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Subir imagenes</h2>
-      <p css={xw`text-red-500`}>Apartado de imagenes</p>
+      <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>
+        Subir imagenes&nbsp;
+        <span css={xw`text-xs text-primary`}>(Máximo 7 imágenes)</span>
+      </h2>
+      <Dropzone files={files} setFiles={setFiles} />
     </div>
   </div>
 );

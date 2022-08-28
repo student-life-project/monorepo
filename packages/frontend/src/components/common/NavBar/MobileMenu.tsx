@@ -117,12 +117,6 @@ const MobileMenu: FC<INavBar> = ({
             </Anchor>
           )}
 
-          <MenuItem>
-            <Link href="/profile/messages">
-              <Anchor css={xw`text-secondary-1`}>Mensajes</Anchor>
-            </Link>
-          </MenuItem>
-
           {user?.type === EUserType.OWNER && (
             <MenuItem>
               <Link href="/profile/publications">

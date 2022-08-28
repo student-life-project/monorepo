@@ -29,7 +29,7 @@ const steps = [
   },
   {
     title: 'Revisar aplicantes',
-    text: 'Aprobar o rechazar solicitudes comunicándote por medio de un chat con los interesados.',
+    text: 'Comunicándote con los interesados por diferentes medios.',
     icon: faComments,
   },
   {

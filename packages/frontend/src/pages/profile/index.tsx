@@ -1,9 +1,13 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
+import { getAccessToken, useUser } from '@auth0/nextjs-auth0';
 import styled from '@emotion/styled';
-import { FC, useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { GetServerSideProps, NextPage } from 'next';
+import { useEffect, useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
+import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
 import Button from '@/components/common/Button';
 import DoubleFormSpace from '@/components/common/DoubleFormSpace';
@@ -11,8 +15,15 @@ import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Textarea from '@/components/common/Textarea';
+import Avatar from '@/components/profile/Avatar';
 import ResetPassword from '@/components/profile/ResetPassword';
+import UpdateUser from '@/components/profile/UpdateUser';
 import { ErrorMessageInput, NameInput } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
+import { TFile } from '@/types';
+import { calculateAge } from '@/utils/managerDate';
+import { rgxNumber } from '@/utils/validations';
+import withAuth from '@/utils/WithAuth';
 
 const Content = styled.div`
   ${xw`
@@ -46,16 +57,39 @@ const userData = {
   userImage: '/images/avatar.png',
 };
 
-const Profile: FC = () => {
+const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
   const {
     handleSubmit,
     register,
     reset,
     watch,
+    control,
     formState: { errors },
   } = useForm({ mode: 'all' });
 
+  const { isLoading, user: oauthUser, error: authError } = useUser();
+
   useEffect(() => {
+    if (isLoading || !oauthUser) {
+      return;
+    }
+
+    if (authError) {
+      // insert error handler here
+    }
+
+    reset({
+      firstName: oauthUser.given_name,
+      lastName: oauthUser.family_name,
+      phone: '',
+      birthDate: '',
+      aboutMe: '',
+      email: oauthUser.email,
+      password: accessToken,
+      userImage: oauthUser.picture,
+    });
+
+    /*
     reset({
       firstName: userData.firstName,
       lastName: userData.lastName,
@@ -63,13 +97,16 @@ const Profile: FC = () => {
       birthDate: userData.birthDate,
       aboutMe: userData.aboutMe,
     });
-  }, [reset]);
+  */
+  }, [reset, isLoading, oauthUser, authError, accessToken]);
 
   const aboutMe = watch('aboutMe');
 
   const onSubmit: SubmitHandler<IProfileData> = async (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
+    // TODO: Alerta success y error
+    toast.success(AlertMessage.updated('usuario'));
   };
 
   const [showUpdatePass, setShowUpdatePass] = useState(false);
@@ -78,17 +115,38 @@ const Profile: FC = () => {
     setShowUpdatePass(!showUpdatePass);
   };
 
+  // TODO: mantender el estado con los archivos agregados. Subir de golpe.
+  const [files, setFiles] = useState<TFile[]>([]);
+
+  // TODO: es necesario obtener un valor de backend para validar el form.
+  // TODO: es necesario que se mantenga abierto hasta que el usuario actualice su información.
+  // TODO: cuando se actualice la info de usuario se modifique el valor.
+  const valorBackend = false; // TODO: valor false y se pasa a true cuando el se actualiza.
+  const [updateUser, setUpdateUser] = useState(valorBackend);
+
+  const handleUpdateUser = () => {
+    setUpdateUser(!updateUser);
+  };
+
   return (
     <>
       <NavBar allowRental allowLoginRegister />
+      <Alert />
+
       <BodyContainer>
         <Content>
           <form css={xw`w-full lg:w-6/12`} onSubmit={handleSubmit(onSubmit)}>
-            <div css={xw`flex items-center justify-center`}>
-              <img
-                alt={userData.firstName}
-                src={userData.userImage}
-                css={xw`w-52 h-52 sm:w-48 sm:h-48 bg-gray-400 rounded-full mb-5`}
+            <div css={xw`flex items-center justify-center flex-col`}>
+              <Avatar
+                large
+                showDropzone
+                files={files}
+                setFiles={setFiles}
+                alt={oauthUser ? (oauthUser.nickname as string) : ''}
+                url={
+                  ((userData as unknown as any).picture as string) ||
+                  userData.userImage
+                }
               />
             </div>
 
@@ -137,17 +195,35 @@ const Profile: FC = () => {
                 <Label id="label-phone" htmlFor="phone">
                   {NameInput.phone}
                 </Label>
-                <Input
-                  type="tel"
-                  id="phone"
-                  placeholder="Tu número de teléfono"
-                  register={{
-                    ...register('phone', {
-                      required: ErrorMessageInput.inputRequire(NameInput.phone),
-                    }),
+                <Controller
+                  name="phone"
+                  defaultValue=""
+                  control={control}
+                  rules={{
+                    required: ErrorMessageInput.inputRequire(NameInput.phone),
+                    pattern: {
+                      value: rgxNumber,
+                      message: ErrorMessageInput.notNumber,
+                    },
                   }}
-                  error={errors.phone}
-                  messageError={errors.phone?.message}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Input
+                      id="phone"
+                      type="text"
+                      onBlur={onBlur}
+                      placeholder="Tu número de teléfono"
+                      onChange={({ target: { value: val } }) => {
+                        return onChange(
+                          rgxNumber.test(val)
+                            ? val
+                            : val.slice(0, val.length - 1),
+                        );
+                      }}
+                      value={value}
+                      error={errors.phone}
+                      messageError={errors.phone?.message}
+                    />
+                  )}
                 />
               </div>
 
@@ -164,6 +240,8 @@ const Profile: FC = () => {
                       required: ErrorMessageInput.inputRequire(
                         NameInput.birthDate,
                       ),
+                      validate: (value) =>
+                        calculateAge(value) > 18 || ErrorMessageInput.ageValid,
                     }),
                   }}
                   error={errors.birthDate}
@@ -204,6 +282,11 @@ const Profile: FC = () => {
                   type="email"
                   placeholder="Tu correo"
                   defaultValue={userData.email}
+                  register={{
+                    ...register('email', {
+                      required: ErrorMessageInput.inputRequire(NameInput.email),
+                    }),
+                  }}
                 />
               </div>
 
@@ -217,6 +300,13 @@ const Profile: FC = () => {
                   type="password"
                   placeholder="Tu contraseña"
                   defaultValue={userData.password}
+                  register={{
+                    ...register('password', {
+                      required: ErrorMessageInput.inputRequire(
+                        NameInput.password,
+                      ),
+                    }),
+                  }}
                 />
               </div>
             </DoubleFormSpace>
@@ -240,9 +330,28 @@ const Profile: FC = () => {
         </Content>
 
         {showUpdatePass && <ResetPassword closeModal={handleShowUpdatePass} />}
+
+        {!updateUser && <UpdateUser closeModal={handleUpdateUser} />}
       </BodyContainer>
     </>
   );
 };
 
-export default Profile;
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  /*
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  )
+  */
+
+  const { accessToken, ...restParams } = await getAccessToken(req, res); // request the token
+  // eslint-disable-next-line no-console
+  console.log(accessToken, restParams);
+
+  return {
+    props: { accessToken },
+  };
+};
+
+export default withAuth(Profile);

@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { FieldValues, UseFormGetValues } from 'react-hook-form';
 import xw from 'xwind';
 
 import { NameInput } from '@/constants';
@@ -7,12 +8,14 @@ import { formatter } from '@/utils/numberFormat';
 import ClampedText from '../common/ClampedText';
 import Status from '../common/Status';
 import SubTitle from '../common/SubTitle';
+import ItemFile from './Dropzone/ItemFile';
 
 type TPreviewStep4 = {
-  getValues: any;
+  files?: File[];
+  getValues: UseFormGetValues<FieldValues>;
 };
 
-const PreviewStep4: FC<TPreviewStep4> = ({ getValues }) => {
+const PreviewStep4: FC<TPreviewStep4> = ({ files, getValues }) => {
   const values = getValues();
 
   return (
@@ -160,18 +163,22 @@ const PreviewStep4: FC<TPreviewStep4> = ({ getValues }) => {
 
           <div>
             <SubTitle>Seguridad</SubTitle>
-            <ul css={xw`list-disc flex flex-wrap my-2`}>
-              {values.security.map((item) => (
-                <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
-                  {item}
-                </li>
-              ))}
-            </ul>
+            {values.security.length > 0 ? (
+              <ul css={xw`list-disc flex flex-wrap my-2`}>
+                {values.security.map((item) => (
+                  <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <span css={xw`w-full text-red-500`}>Sin especificar</span>
+            )}
           </div>
         </div>
 
         <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Subir imagenes</h2>
-        <p css={xw`text-red-500`}>Apartado de imagenes</p>
+        <ItemFile files={values.images || files} />
       </div>
     </div>
   );

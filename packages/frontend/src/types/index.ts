@@ -73,3 +73,16 @@ export type TStatus = 'success' | 'warning' | 'error' | 'info';
 export type TElementId = number | null;
 
 export type TImages = string[];
+
+export type TTooltipType =
+  | 'dark'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'info'
+  | 'light';
+
+export type TFile = File & {
+  id?: string | number;
+  url?: string | any;
+};

@@ -1,8 +1,10 @@
 import { FC, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import ModalConfirm from '@/components/common/ModalConfirm';
 import Table from '@/components/common/Table';
 import { ColumnsReport, confirmMessage, HeaderReport } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 import { TElementId } from '@/types';
 
 type TTableReports = {
@@ -17,8 +19,9 @@ const TableReports: FC<TTableReports> = ({ data }) => {
   const [showModalReport, setShowModalReport] = useState(false);
 
   const solveReport = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Reporte ${id}`);
+    // eslint-disable-next-line no-console
+    console.log(`Reporte ${id}`);
+    toast.success(AlertMessage.updated('estatus'));
   };
 
   const handleOpenModalReport = (id: TElementId) => {
@@ -31,8 +34,9 @@ const TableReports: FC<TTableReports> = ({ data }) => {
   };
 
   const deleteReport = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Reporte ${id}`);
+    // eslint-disable-next-line no-console
+    console.log(`Reporte ${id}`);
+    toast.success(AlertMessage.deleted('reporte'));
   };
 
   return (

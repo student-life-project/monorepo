@@ -13,18 +13,28 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useState } from 'react';
 
+import Comments from '@/components/comments/Comments';
+import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
 import Button from '@/components/common/Button';
 import ButtonLink from '@/components/common/ButtonLink';
+import Carousel from '@/components/common/Carousel';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
 import CardUser from '@/components/profile/CardUser';
 import RentalPlaceReport from '@/components/reports/RentalPlaceReport';
 import UserReport from '@/components/reports/UserReport';
-import Carousel from '@/components/common/Carousel';
-import Comments from '@/components/comments/Comments';
 
-const ContentGallery = styled.section`
+type TContentGallery = {
+  length: number;
+};
+
+type TImg = {
+  index: number;
+  length: number;
+};
+
+const ContentGallery = styled.section<TContentGallery>`
   ${xw`
     h-60
     grid
@@ -32,19 +42,27 @@ const ContentGallery = styled.section`
     gap-4
     w-full
     sm:h-96
-    grid-rows-2
-    grid-cols-2
-    sm:grid-cols-3
+    grid-rows-1
+    grid-cols-1
   `}
+
+  ${({ length }) => length === 2 && xw`sm:grid-cols-2`}
+  ${({ length }) => length === 3 && xw`sm:grid-cols-3`}
+  ${({ length }) => length >= 4 && xw`sm:grid-rows-2 sm:grid-cols-3`}
 `;
 
-const Img = styled.img`
+const Img = styled.img<TImg>`
   ${xw`
     w-full
     h-full
+    rounded-2xl
     bg-gray-400
     object-cover
   `}
+
+  ${({ index, length }) => length >= 4 && index === 0 && xw`row-span-2`}
+  ${({ index, length }) => length === 4 && index === 3 && xw`col-span-2`}
+  ${({ index }) => index !== 0 && xw`hidden sm:block`}
 `;
 
 const data = {
@@ -171,38 +189,37 @@ const Details: FC = () => {
   return (
     <>
       <NavBar allowRental allowLoginRegister />
+      <Alert />
 
       <BodyContainer css={xw`text-secondary-1`}>
-        <ContentGallery>
-          {data.images.map((img, index) => {
-            let css = '';
-
-            if (index === 0) {
-              css = xw`rounded-l-2xl row-span-2`;
-            } else if (index === 2) {
-              css = xw`rounded-tr-2xl`;
-            } else if (index === 4) {
-              css = xw`rounded-br-2xl`;
-            } else {
-              css = xw`hidden sm:block`;
-            }
-
-            return (
-              <Img key={img.name} src={img.url} alt={img.name} css={css} />
-            );
-          })}
+        <ContentGallery length={data.images.length}>
+          {data.images.map((img, index) => (
+            <>
+              {index < 5 && (
+                <Img
+                  key={img.name}
+                  src={img.url}
+                  alt={img.name}
+                  index={index}
+                  length={data.images.length}
+                />
+              )}
+            </>
+          ))}
         </ContentGallery>
 
-        <div css={xw`relative`}>
-          <Button
-            FSecondary
-            type="button"
-            onClick={handleShowCarousel}
-            css={xw`w-full static mt-2 sm:w-auto sm:mt-0 sm:absolute sm:bottom-0 sm:right-0`}
-          >
-            Mostrar todas las fotos
-          </Button>
-        </div>
+        {data.images.length > 1 && (
+          <div css={xw`relative`}>
+            <Button
+              FSecondary
+              type="button"
+              onClick={handleShowCarousel}
+              css={xw`w-full static mt-2 sm:w-auto sm:mt-0 sm:absolute sm:bottom-0 sm:right-0`}
+            >
+              Mostrar todas las fotos
+            </Button>
+          </div>
+        )}
 
         <div
           css={xw`flex flex-col-reverse mb-10 sm:mb-0 sm:flex-row sm:gap-10 sm:items-center`}
@@ -251,7 +268,11 @@ const Details: FC = () => {
 
               {isLogedIn && (
                 <div css={xw`flex`}>
-                  <ButtonLink type="button" onClick={handleRentalReport}>
+                  <ButtonLink
+                    type="button"
+                    css={xw`text-red-500`}
+                    onClick={handleRentalReport}
+                  >
                     <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
                     <p css={xw`ml-2`}>Reportar publicación</p>
                   </ButtonLink>
@@ -314,6 +335,7 @@ const Details: FC = () => {
           <CardUser
             user={user}
             isLogedIn={isLogedIn}
+            titlePublication={data.title}
             openUserReport={handleUserReport}
           />
         </section>

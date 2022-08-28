@@ -1,14 +1,18 @@
-import { FC, useState } from 'react';
+import { useRouter } from 'next/router';
+import { FC, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import xw from 'xwind';
 
 import TablePublications from '@/components/admin/TablePublications';
 import TableReports from '@/components/admin/TableReports';
 import TableUsers from '@/components/admin/TableUsers';
+import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Tabs from '@/components/common/Tabs';
 import { ETables, ItemsAdmin } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 
 const dataUsers = [
   {
@@ -215,19 +219,37 @@ const dataReports = [
   },
 ];
 
+// TODO: need to implement
 const Admin: FC = () => {
-  // TODO: need to implement
+  const router = useRouter();
   const [tab, setTab] = useState(0);
 
   const handleTab = (tabCurrent) => {
     setTab(tabCurrent);
   };
 
+  useEffect(() => {
+    if (router.query) {
+      const { deletedUser, deletedReport, deletedPublication } = router.query;
+
+      if (deletedUser === 'true') {
+        toast.success(AlertMessage.deleted('usuario'));
+      } else if (deletedReport === 'true') {
+        toast.success(AlertMessage.deleted('reporte'));
+      } else if (deletedPublication === 'true') {
+        toast.success(AlertMessage.deleted('publicación'));
+      }
+
+      router.replace('/profile/admin');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-
       <BreadCrumbs items={ItemsAdmin} />
+      <Alert />
 
       <Tabs
         items={[
