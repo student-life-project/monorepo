@@ -6,7 +6,7 @@ import {
   NotFoundException,
   Param,
   Patch,
-  // Post,
+  Post,
   Put,
   Query,
   Req,
@@ -20,7 +20,7 @@ import {
   ApiBadRequestResponse,
   ApiBody,
   ApiConsumes,
-  // ApiCreatedResponse,
+  ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -46,7 +46,7 @@ import { UserNotAllowOrOwnerException } from '../helper/exceptions/user-not-allo
 import { ImageService } from '../image/image.service';
 import { LikeService } from '../like/like.service';
 import { UserService } from '../user/user.service';
-// import { CreateRentalPlaceDto } from './dto/create-rental-place.dto';
+import { CreateRentalPlaceDto } from './dto/create-rental-place.dto';
 import { UpdateRentalPlaceDto } from './dto/update-rental-place.dto';
 import { RentalPlace } from './rental-place.schema';
 import { RentalPlaceService } from './rental-place.service';
@@ -64,68 +64,30 @@ export class RentalPlaceController {
     private readonly likeService: LikeService,
     private readonly commentService: CommentService,
   ) {}
-  // TODO cross relationship beetween this and all other schemas
-  // @see https://stackoverflow.com/questions/33049707/push-items-into-mongo-array-via-mongoose for push new value to an array elements
 
-  // TODO post create
-  // TODO put update
-  // TODO post upload Image
-  // TODO get Images
-  // TODO patch comment (only update by owner/admin)
-  // TODO patch like (only update by owner/admin) (toogle if like exist delete it, else create it find({owner: ownerId, place:placeId}))
-  // TODO patch report (only update by owner/admin)
-  // TODO patch approve (only admin)
-  // TODO patch availability (only owner/admin)
-  // TODO delete delete (only owner/admin)
-  // TODO get not approved (only admin)
-  // TODO get details (get by id)
-  // TODO get findByOwner ( get by owner/admin)
-  // TODO get all (only admin)
-  // TODO get home (all, only get approved & with availablity, sort by likes_count limit=5)
-  // TODO get search (search by title + approved & with availablity)
-  // @see https://dev.to/krishnakurtakoti/multiple-search-filter-using-nestjs-mongoose-77e
-  // TODO get filtered (all, only get approved & with availablity)
-  // posible additional filters to filtered:
-  // @see https://kb.objectrocket.com/mongo-db/the-mongoose-in-operator-1015
-  // TODO ?reason=[] (any of the elements on the array)
-  // TODO ?type=[] (any of the elements on the array)
-  // TODO ?gender=[] (any of the elements on the array)
-  // TODO ?price=”less than x”/”more than x”/”between x and y”
-  // @see https://stackoverflow.com/questions/36371190/mongoose-query-to-filter-an-array-and-populate-related-content
-  // @see https://www.codegrepper.com/code-examples/javascript/mongoose+filter+by+populated+field
-  // TODO ?services=[] (must contain all the elements on the array)
-  // TODO ?rules=[] (must contain all the elements on the array)
-  // TODO ?secrity=[] (must contain all the elements on the array)
-  // posible additional queries to filtered:
-  // TODO ?from=
-  // TODO ?limit=
-  // TODO ?sort=asc/desc (sort by price)
+  @ApiCreatedResponse({
+    description: 'Rental place creation just for admins or lessors',
+    type: RentalPlace,
+  })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @Post()
+  @Auth('create:rental-place')
+  async create(
+    @Body() createRentalPlaceDto: CreateRentalPlaceDto,
+    @Req() req: any,
+  ) {
+    // // create address
+    const addressId = await this.addressService.create(
+      createRentalPlaceDto.address,
+    );
 
-  // TODO fix lat long
-
-  // @ApiCreatedResponse({
-  //   description: 'Rental place creation just for admins or lessors',
-  //   type: RentalPlace,
-  // })
-  // @ApiBadRequestResponse({ description: 'Bad Request' })
-  // @Post()
-  // @Auth('create:rental-place')
-  // async create(
-  //   @Body() createRentalPlaceDto: CreateRentalPlaceDto,
-  //   @Req() req: any,
-  // ) {
-  //   // // create address
-  //   const addressId = await this.addressService.create(
-  //     createRentalPlaceDto.address,
-  //   );
-
-  //   // // create rentalPlace
-  //   return this.rentalPlaceService.create({
-  //     ...createRentalPlaceDto,
-  //     owner: req.user.sub,
-  //     address: addressId,
-  //   });
-  // }
+    // // create rentalPlace
+    return this.rentalPlaceService.create({
+      ...createRentalPlaceDto,
+      owner: req.user.sub,
+      address: addressId,
+    });
+  }
 
   @ApiOkResponse({
     description: 'Find all the rental places',
@@ -265,6 +227,36 @@ export class RentalPlaceController {
     const rentalPlaceDeleted = await this.rentalPlaceService.remove(id);
 
     return rentalPlaceDeleted;
+  }
+
+  @ApiOkResponse({
+    description: 'Update a rental place',
+    type: RentalPlace,
+  })
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists, not able to Update',
+  })
+  @Patch(':id')
+  // @Auth('comment:rental-place')
+  async comment(
+    @Param('id') id: string,
+    @Body() comment: AddCommentPlaceDto,
+    @Req() req: any,
+  ) {
+    const rentalPlace = await this.findRental(id);
+    this.isAllowed(rentalPlace.owner, req.user);
+  }
+
+  async findRental(id: string) {
+    const rentalPlace = await this.rentalPlaceService.findOne(id);
+    if (!rentalPlace)
+      throw new NotFoundException('Rental place does not exists');
+    return rentalPlace;
+  }
+
+  async isAllowed(owner: string, user: any) {
+    if (!this.userService.isUserAllowed(owner, user))
+      throw new UserNotAllowOrOwnerException();
   }
 
   @ApiTags('File Upload')

@@ -22,7 +22,7 @@ import {
 
 export class CreateRentalPlaceDto {
   @ApiHideProperty()
-  owner?: string;
+  owner: string;
 
   @ApiProperty({
     example: 'Casa cerca de la universidad',
@@ -57,8 +57,8 @@ export class CreateRentalPlaceDto {
   })
   price: string;
 
-  @ApiProperty({ example: true })
-  availability: boolean;
+  // @ApiProperty({ example: true })
+  // availability: boolean;
 
   @ApiProperty()
   address: CreateAddressDto;

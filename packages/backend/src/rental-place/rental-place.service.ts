@@ -31,11 +31,47 @@ export class RentalPlaceService {
     });
   }
 
+  async pushComment(id: string, comment: any) {
+    const rentalPlace = await this.findById(id);
+    rentalPlace?.comments?.push(comment);
+    rentalPlace?.save(); // check if works like this or need to save on push
+  }
+
+  async pushLike(id: string, like: any) {
+    const rentalPlace = await this.findById(id);
+    rentalPlace?.likes?.push(like);
+    rentalPlace?.save(); // check if works like this or need to save on push
+  }
+
+  async pushReport(id: string, report: any) {
+    const rentalPlace = await this.findById(id);
+    rentalPlace?.reports?.push(report);
+    rentalPlace?.save(); // check if works like this or need to save on push
+  }
+
+  async approve(id: string, approve: boolean) {
+    return this.RentalPlaceModel.findByIdAndUpdate(id, { approved: approve });
+  }
+
+  async availability(id: string, availability: boolean) {
+    return this.RentalPlaceModel.findByIdAndUpdate(id, {
+      availability,
+    }); // check if need to be changed by { availability: availability }
+  }
+
+  async findNotApproved(): Promise<RentalPlace[]> {
+    return this.RentalPlaceModel.find({ approved: false }).exec();
+  }
+
+  async findById(id: string): Promise<RentalPlaceDocument | null> {
+    return this.RentalPlaceModel.findById(id).exec();
+  }
+
   async findAll(): Promise<RentalPlace[]> {
     return this.RentalPlaceModel.find().populate(this.populateQuery).exec();
   }
 
-  async findOne(id: string): Promise<RentalPlace | null> {
+  async findbyId(id: string): Promise<RentalPlace | null> {
     return this.RentalPlaceModel.findById(id).populate(this.populateQuery);
   }
 

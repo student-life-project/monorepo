@@ -16,6 +16,7 @@ import {
 import { Image } from '../image/image.schema';
 // eslint-disable-next-line import/no-cycle
 import { Like } from '../like/like.schema';
+import { Report } from '../report/report.schema';
 
 const setPrice = (price: string) => {
   const findDigitsAndDotRegex = /\d*\.\d{1,2}/;
@@ -108,6 +109,12 @@ export class RentalPlace {
     { type: MongooseSchema.Types.ObjectId, ref: 'Comment', required: false },
   ])
   comments?: Comment[];
+
+  @ApiProperty({ type: [Comment] })
+  @Prop([
+    { type: MongooseSchema.Types.ObjectId, ref: 'Report', required: false },
+  ])
+  reports?: Report[];
 }
 
 export type RentalPlaceDocument = RentalPlace & Document;

@@ -116,7 +116,7 @@ export class RentalPlaceCommand {
   createRandomImages(): Image {
     const longPath = faker.system.filePath();
     const pathStrSplit = longPath.split('/');
-    const fileName = pathStrSplit.pop();
+    const fileName = pathStrSplit.pop() ?? 'test_file';
     const directoryName = pathStrSplit.join('/');
     return {
       filename: fileName,
