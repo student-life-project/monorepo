@@ -1,4 +1,3 @@
-// TODO: need to implement
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';

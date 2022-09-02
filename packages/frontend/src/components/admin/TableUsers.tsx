@@ -1,26 +1,26 @@
+// TODO: Crear types y cambiar los any
 import { FC, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import ModalConfirm from '@/components/common/ModalConfirm';
 import Table from '@/components/common/Table';
 import { ColumnsUser, confirmMessage, HeaderUser } from '@/constants';
 import { AlertMessage } from '@/constants/alertMessage';
+import { changeUserStatus } from '@/store/actions/admin';
 import { TElementId } from '@/types';
 
 type TTableUsers = {
-  data: any; //! Crear type
+  data: any;
 };
 
 const TableUsers: FC<TTableUsers> = ({ data }) => {
-  // TODO: need to implement
-  // TODO: loading si la data aún no carga mostrar el Spinner.
-
+  const dispatch = useDispatch();
   const [userId, setUserId] = useState<TElementId>(null);
   const [showModalUser, setShowModalUser] = useState(false);
 
   const statusUser = (id: TElementId) => {
-    // eslint-disable-next-line no-console
-    console.log(`Usuario ${id}`);
+    dispatch(changeUserStatus(id));
     toast.success(AlertMessage.updated('estatus'));
   };
 
@@ -43,7 +43,7 @@ const TableUsers: FC<TTableUsers> = ({ data }) => {
     <>
       <Table
         data={data}
-        loading={false}
+        loading={false} // TODO: loading si la data aún no carga mostrar el Spinner.
         columns={ColumnsUser(statusUser, handleOpenModalUser)}
         header={HeaderUser}
       />
