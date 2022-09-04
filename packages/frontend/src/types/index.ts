@@ -86,3 +86,5 @@ export type TFile = File & {
   id?: string | number;
   url?: string | any;
 };
+
+export type TReportType = 'Usuario' | 'Publicación';

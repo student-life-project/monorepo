@@ -22,8 +22,7 @@ import Carousel from '@/components/common/Carousel';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
 import CardUser from '@/components/profile/CardUser';
-import RentalPlaceReport from '@/components/reports/RentalPlaceReport';
-import UserReport from '@/components/reports/UserReport';
+import ModalReport from '@/components/reports/ModalReport';
 
 type TContentGallery = {
   length: number;
@@ -340,9 +339,13 @@ const Details: FC = () => {
           />
         </section>
 
-        {rentalReport && <RentalPlaceReport closeModal={handleRentalReport} />}
+        {rentalReport && (
+          <ModalReport type="Publicación" closeModal={handleRentalReport} />
+        )}
 
-        {userReport && <UserReport closeModal={handleUserReport} />}
+        {userReport && (
+          <ModalReport type="Usuario" closeModal={handleUserReport} />
+        )}
 
         {showCarousel && (
           <Carousel
