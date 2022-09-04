@@ -212,15 +212,15 @@ const initialState = {
   reportsList: dataReports,
 };
 
-const adminReducer = (state = initialState, action): any => {
-  switch (action.type) {
+const adminReducer = (state = initialState, payload): any => {
+  switch (payload.type) {
     case types.SEARCH_USER:
       return state;
     case types.CHANGE_USER_STATUS:
       return {
         ...state,
         usersList: state.usersList.map((item) =>
-          item.id === action.payload ? { ...item, status: !item.status } : item,
+          item.id === payload.id ? { ...item, status: !item.status } : item,
         ),
       };
     case types.DELETE_USER:

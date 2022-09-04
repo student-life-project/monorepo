@@ -2,47 +2,47 @@
 import { types } from '@/store/types/admin';
 import { TElementId } from '@/types';
 
-export const searchUser = (payload: string): any => ({
+export const searchUser = (name: string): any => ({
   type: types.SEARCH_USER,
-  payload,
+  name,
 });
 
-export const changeUserStatus = (payload: TElementId): any => ({
+export const changeUserStatus = (id: TElementId): any => ({
   type: types.CHANGE_USER_STATUS,
-  payload,
+  id,
 });
 
-export const deleteUser = (payload: TElementId): any => ({
+export const deleteUser = (id: TElementId): any => ({
   type: types.DELETE_USER,
-  payload,
+  id,
 });
 
-export const searchPublication = (payload: string): any => ({
+export const searchPublication = (name: string): any => ({
   type: types.SEARCH_PUBLICATION,
-  payload,
+  name,
 });
 
-export const changePublicationApproval = (payload: TElementId): any => ({
+export const changePublicationApproval = (id: TElementId): any => ({
   type: types.CHANGE_PUBLICATION_APPROVAL,
-  payload,
+  id,
 });
 
-export const deletePublication = (payload: TElementId): any => ({
+export const deletePublication = (id: TElementId): any => ({
   type: types.DELETE_PUBLICATION,
-  payload,
+  id,
 });
 
-export const searchReport = (payload: string): any => ({
+export const searchReport = (name: string): any => ({
   type: types.SEARCH_REPORT,
-  payload,
+  name,
 });
 
-export const changeReportStatus = (payload: TElementId): any => ({
+export const changeReportStatus = (id: TElementId): any => ({
   type: types.CHANGE_REPORT_STATUS,
-  payload,
+  id,
 });
 
-export const deleteReport = (payload: TElementId): any => ({
+export const deleteReport = (id: TElementId): any => ({
   type: types.DELETE_PUBLICATION,
-  payload,
+  id,
 });
