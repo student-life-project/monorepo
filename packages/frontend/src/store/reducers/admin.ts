@@ -1,5 +1,20 @@
+//! ELIMINAR
 // TODO: Crear types y cambiar los any
-import { types } from '@/store/types/admin';
+import {
+  CHANGE_PUBLICATION_APPROVAL,
+  DELETE_PUBLICATION,
+  SEARCH_PUBLICATION,
+} from '../types/managePublication';
+import {
+  CHANGE_REPORT_STATUS,
+  DELETE_REPORT,
+  SEARCH_REPORT,
+} from '../types/manageReport';
+import {
+  CHANGE_USER_STATUS,
+  DELETE_USER,
+  SEARCH_USER,
+} from '../types/manageUser';
 
 const dataUsers = [
   {
@@ -214,28 +229,28 @@ const initialState = {
 
 const adminReducer = (state = initialState, payload): any => {
   switch (payload.type) {
-    case types.SEARCH_USER:
+    case SEARCH_USER:
       return state;
-    case types.CHANGE_USER_STATUS:
+    case CHANGE_USER_STATUS:
       return {
         ...state,
         usersList: state.usersList.map((item) =>
           item.id === payload.id ? { ...item, status: !item.status } : item,
         ),
       };
-    case types.DELETE_USER:
+    case DELETE_USER:
       return state;
-    case types.SEARCH_PUBLICATION:
+    case SEARCH_PUBLICATION:
       return state;
-    case types.CHANGE_PUBLICATION_APPROVAL:
+    case CHANGE_PUBLICATION_APPROVAL:
       return state;
-    case types.DELETE_PUBLICATION:
+    case DELETE_PUBLICATION:
       return state;
-    case types.SEARCH_REPORT:
+    case SEARCH_REPORT:
       return state;
-    case types.CHANGE_REPORT_STATUS:
+    case CHANGE_REPORT_STATUS:
       return state;
-    case types.DELETE_REPORT:
+    case DELETE_REPORT:
       return state;
     default:
       return state;

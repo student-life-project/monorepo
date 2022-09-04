@@ -1,3 +1,4 @@
+//! ELIMINAR
 // TODO: Crear types y cambiar los any
 
 export const usersListSelector = (state: any): any => state.admin.usersList;

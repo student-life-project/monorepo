@@ -1,2 +1,2 @@
-export const UPDATE_ME = 'PROFILE/UPDATE_ME';
-export const RETRIEVE_ME = 'PROFILE/RETRIEVE_ME';
+export const GET_ME = 'USER/GET_ME';
+export const UPDATE_ME = 'USER/UPDATE_ME';

@@ -21,7 +21,6 @@ const TableUsers: FC<TTableUsers> = ({ data }) => {
 
   const statusUser = (id: TElementId) => {
     dispatch(changeUserStatus(id));
-    toast.success(AlertMessage.updated('estatus'));
   };
 
   const handleOpenModalUser = (id: TElementId) => {
