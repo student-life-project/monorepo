@@ -3,10 +3,10 @@ import { AxiosError } from 'axios';
 
 import { IRentalPlacesAction } from '@/store/actions/rentalTypes';
 import {
-  GET_RENTAL_PLACES_ERROR,
-  GET_RENTAL_PLACES_PENDING,
-  GET_RENTAL_PLACES_SUCCESS,
-} from '@/store/types/rentalTypes';
+  GET_RENTAL_PLACE_ERROR,
+  GET_RENTAL_PLACE_PENDING,
+  GET_RENTAL_PLACE_SUCCESS,
+} from '@/store/types/rentalPlace';
 
 export interface IState {
   rentalPlaces: IRentalPlace[];
@@ -25,21 +25,21 @@ const reducer = (
   payload: IRentalPlacesAction,
 ): IState => {
   switch (payload.type) {
-    case GET_RENTAL_PLACES_PENDING:
+    case GET_RENTAL_PLACE_PENDING:
       return {
         ...state,
         rentalPlaces: [],
         isFetching: true,
         error: null,
       };
-    case GET_RENTAL_PLACES_SUCCESS:
+    case GET_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
         rentalPlaces: payload.data.slice(),
         isFetching: false,
         error: null,
       };
-    case GET_RENTAL_PLACES_ERROR:
+    case GET_RENTAL_PLACE_ERROR:
       return {
         ...state,
         isFetching: false,

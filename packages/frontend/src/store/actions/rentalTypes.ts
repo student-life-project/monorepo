@@ -5,23 +5,23 @@ import { ThunkAction } from 'redux-thunk';
 // import { api } from '@/services/api';
 import { TRootState } from '@/store/reducers';
 import {
-  GET_RENTAL_PLACES_ERROR,
-  GET_RENTAL_PLACES_PENDING,
-  GET_RENTAL_PLACES_SUCCESS,
-} from '@/store/types/rentalTypes';
+  GET_RENTAL_PLACE_ERROR,
+  GET_RENTAL_PLACE_PENDING,
+  GET_RENTAL_PLACE_SUCCESS,
+} from '@/store/types/rentalPlace';
 import { IQueryCommonFilters } from '@/types';
 
 interface IGetRentalPlacesPendingAction {
-  type: typeof GET_RENTAL_PLACES_PENDING;
+  type: typeof GET_RENTAL_PLACE_PENDING;
 }
 
 interface IGetRentalPlacesSuccessgAction {
-  type: typeof GET_RENTAL_PLACES_SUCCESS;
+  type: typeof GET_RENTAL_PLACE_SUCCESS;
   data: IRentalPlace[];
 }
 
 interface IGetRentalPlacesErrorAction {
-  type: typeof GET_RENTAL_PLACES_ERROR;
+  type: typeof GET_RENTAL_PLACE_ERROR;
   error: AxiosError;
 }
 
@@ -32,20 +32,20 @@ export type IRentalPlacesAction =
 
 export const getRentalPlacesPendingAction =
   (): IGetRentalPlacesPendingAction => ({
-    type: GET_RENTAL_PLACES_PENDING,
+    type: GET_RENTAL_PLACE_PENDING,
   });
 
 export const getRentalPlacesSuccessAction = (
   data: IRentalPlace[],
 ): IGetRentalPlacesSuccessgAction => ({
-  type: GET_RENTAL_PLACES_SUCCESS,
+  type: GET_RENTAL_PLACE_SUCCESS,
   data,
 });
 
 export const getRentalPlacesErrorAction = (
   error: AxiosError,
 ): IGetRentalPlacesErrorAction => ({
-  type: GET_RENTAL_PLACES_ERROR,
+  type: GET_RENTAL_PLACE_ERROR,
   error,
 });
 

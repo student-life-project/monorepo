@@ -6,4 +6,5 @@ export const AlertMessage = {
   loaded: (action: string): string => `Sé ha subido ${action} exitosamente`,
   'file-invalid-type': 'El tipo de archivo debe ser .jpg, .jpeg o .png',
   'too-many-files': 'Se excedió el total de archivos permitidos',
+  error: 'Ha ocurrido un problema al procesar su última acción',
 };
