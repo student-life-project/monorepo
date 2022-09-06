@@ -78,7 +78,7 @@ export const createComment =
   async (dispatch) => {
     try {
       dispatch(createCommentPendingAction());
-      // const { data } = await api.post('/create', { comment });
+      // const { data } = await api.post('/comment', { comment });
 
       // TODO: Eliminar
       const data = {};
@@ -117,7 +117,7 @@ export const updateComment =
   async (dispatch) => {
     try {
       dispatch(createCommentPendingAction());
-      // const { data } = await api.put(`/update/${id}`, { comment });
+      // const { data } = await api.put(`/comment/${id}`, { comment });
 
       // TODO: Eliminar
       const data = {};
@@ -153,7 +153,7 @@ export const deleteComment =
   async (dispatch) => {
     try {
       dispatch(createCommentPendingAction());
-      // const { data } = await api.delete(`/delete/${id}`);
+      // const { data } = await api.delete(`/comment/${id}`);
 
       // TODO: Eliminar
       const data = {};
