@@ -116,7 +116,7 @@ export const updateComment =
   ): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {
-      dispatch(createCommentPendingAction());
+      dispatch(updateCommentPendingAction());
       // const { data } = await api.put(`/comment/${id}`, { comment });
 
       // TODO: Eliminar
@@ -124,10 +124,10 @@ export const updateComment =
       // eslint-disable-next-line no-console
       console.log(id, comment);
 
-      dispatch(createCommentSuccessAction(data));
+      dispatch(updateCommentSuccessAction(data));
       toast.success(AlertMessage.updated('comentario'));
     } catch (error) {
-      dispatch(createCommentErrorAction(error));
+      dispatch(updateCommentErrorAction(error));
       toast.error(AlertMessage.error);
     }
   };
@@ -152,7 +152,7 @@ export const deleteComment =
   (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {
-      dispatch(createCommentPendingAction());
+      dispatch(deleteCommentPendingAction());
       // const { data } = await api.delete(`/comment/${id}`);
 
       // TODO: Eliminar
@@ -160,10 +160,10 @@ export const deleteComment =
       // eslint-disable-next-line no-console
       console.log(id);
 
-      dispatch(createCommentSuccessAction(data));
+      dispatch(deleteCommentSuccessAction(data));
       toast.success(AlertMessage.deleted('comentario'));
     } catch (error) {
-      dispatch(createCommentErrorAction(error));
+      dispatch(deleteCommentErrorAction(error));
       toast.error(AlertMessage.error);
     }
   };
