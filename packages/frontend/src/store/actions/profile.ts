@@ -79,7 +79,7 @@ export const updateMe =
       console.log(id, me);
 
       dispatch(updateMeSuccessAction(data));
-      toast.success(AlertMessage.updated('comentario'));
+      toast.success(AlertMessage.updated('perfil'));
     } catch (error) {
       dispatch(updateMeErrorAction(error));
       toast.error(AlertMessage.error);
