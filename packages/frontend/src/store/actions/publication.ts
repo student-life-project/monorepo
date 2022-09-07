@@ -20,6 +20,9 @@ import {
   GET_PUBLICATION_ERROR,
   GET_PUBLICATION_PENDING,
   GET_PUBLICATION_SUCCESS,
+  SEARCH_PUBLICATION_ERROR,
+  SEARCH_PUBLICATION_PENDING,
+  SEARCH_PUBLICATION_SUCCESS,
   UPDATE_PUBLICATION_ERROR,
   UPDATE_PUBLICATION_PENDING,
   UPDATE_PUBLICATION_SUCCESS,
@@ -47,9 +50,9 @@ export const getPublication =
   async (dispatch) => {
     try {
       dispatch(getPublicationPendingAction());
+      // const { data } = await api.get(`/publication/${id}`);
 
       // TODO: Eliminar
-      // const { data } = await api.get(`/publication/${id}`);
       const data = {};
       // eslint-disable-next-line no-console
       console.log(id);
@@ -209,6 +212,42 @@ export const getAllPublication =
       dispatch(getAllPublicationSuccessAction(data));
     } catch (error) {
       dispatch(getAllPublicationErrorAction(error));
+      toast.error(AlertMessage.error);
+    }
+  };
+
+// =============================================================================
+
+export const searchPublicationPendingAction = (): any => ({
+  type: SEARCH_PUBLICATION_PENDING,
+});
+
+export const searchPublicationSuccessAction = (data: unknown): any => ({
+  type: SEARCH_PUBLICATION_SUCCESS,
+  data,
+});
+
+export const searchPublicationErrorAction = (error: AxiosError): any => ({
+  type: SEARCH_PUBLICATION_ERROR,
+  error,
+});
+
+export const searchPublication =
+  (text = ''): ThunkAction<void, TRootState, unknown, any> =>
+  async (dispatch) => {
+    try {
+      dispatch(searchPublicationPendingAction());
+      // const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
+      // const { data } = await api.get(`/publication${filter}`);
+
+      // TODO: Eliminar
+      const data = {};
+      // eslint-disable-next-line no-console
+      console.log(text);
+
+      dispatch(searchPublicationSuccessAction(data));
+    } catch (error) {
+      dispatch(searchPublicationErrorAction(error));
       toast.error(AlertMessage.error);
     }
   };

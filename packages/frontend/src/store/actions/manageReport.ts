@@ -44,9 +44,9 @@ export const getReport =
   async (dispatch) => {
     try {
       dispatch(getReportPendingAction());
+      // const { data } = await api.get(`/report/${id}`);
 
       // TODO: Eliminar
-      // const { data } = await api.get(`/report/${id}`);
       const data = {};
       // eslint-disable-next-line no-console
       console.log(id);
@@ -79,10 +79,8 @@ export const searchReport =
   async (dispatch) => {
     try {
       dispatch(searchReportPendingAction());
-      // const limitQuery = text
-      //   ? `?filter=${encodeURI(JSON.stringify(text))}`
-      //   : '';
-      // const { data } = await api.get(`/report${limitQuery}`);
+      // const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
+      // const { data } = await api.get(`/report${filter}`);
 
       // TODO: Eliminar
       const data = {};

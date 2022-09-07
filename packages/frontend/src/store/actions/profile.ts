@@ -35,9 +35,9 @@ export const getMe =
   async (dispatch) => {
     try {
       dispatch(getMePendingAction());
+      // const { data } = await api.get(`/me/${id}`);
 
       // TODO: Eliminar
-      // const { data } = await api.get(`/me/${id}`);
       const data = {};
       // eslint-disable-next-line no-console
       console.log(id);

@@ -43,9 +43,9 @@ export const getComment =
   async (dispatch) => {
     try {
       dispatch(getCommentPendingAction());
+      // const { data } = await api.get(`/comment/${id}`);
 
       // TODO: Eliminar
-      // const { data } = await api.get(`/comment/${id}`);
       const data = {};
       // eslint-disable-next-line no-console
       console.log(id);

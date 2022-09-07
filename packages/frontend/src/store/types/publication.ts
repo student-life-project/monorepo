@@ -24,6 +24,12 @@ export const DELETE_PUBLICATION_ERROR = 'OWNER/DELETE_PUBLICATION_ERROR';
 
 // =============================================================================
 
+export const SEARCH_PUBLICATION_PENDING = 'OWNER/SEARCH_PUBLICATION_PENDING';
+export const SEARCH_PUBLICATION_SUCCESS = 'OWNER/SEARCH_PUBLICATION_SUCCESS';
+export const SEARCH_PUBLICATION_ERROR = 'OWNER/SEARCH_PUBLICATION_ERROR';
+
+// =============================================================================
+
 export const GET_ALL_PUBLICATIONS_PENDING =
   'OWNER/GET_ALL_PUBLICATIONS_PENDING';
 export const GET_ALL_PUBLICATIONS_SUCCESS =

@@ -45,8 +45,9 @@ export const getPublication =
     try {
       dispatch(getPublicationPendingAction());
 
-      // TODO: Eliminar
       // const { data } = await api.get(`/publication/${id}`);
+
+      // TODO: Eliminar
       const data = {};
       // eslint-disable-next-line no-console
       console.log(id);
@@ -79,10 +80,8 @@ export const searchPublication =
   async (dispatch) => {
     try {
       dispatch(searchPublicationPendingAction());
-      // const limitQuery = text
-      //   ? `?filter=${encodeURI(JSON.stringify(text))}`
-      //   : '';
-      // const { data } = await api.get(`/publication${limitQuery}`);
+      // const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
+      // const { data } = await api.get(`/publication${filter}`);
 
       // TODO: Eliminar
       const data = {};

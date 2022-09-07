@@ -44,9 +44,9 @@ export const getUser =
   async (dispatch) => {
     try {
       dispatch(getUserPendingAction());
+      // const { data } = await api.get(`/user/${id}`);
 
       // TODO: Eliminar
-      // const { data } = await api.get(`/user/${id}`);
       const data = {};
       // eslint-disable-next-line no-console
       console.log(id);
@@ -79,10 +79,8 @@ export const searchUser =
   async (dispatch) => {
     try {
       dispatch(searchUserPendingAction());
-      // const limitQuery = text
-      //   ? `?filter=${encodeURI(JSON.stringify(text))}`
-      //   : '';
-      // const { data } = await api.get(`/user${limitQuery}`);
+      // const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
+      // const { data } = await api.get(`/user${filter}`);
 
       // TODO: Eliminar
       const data = {};
