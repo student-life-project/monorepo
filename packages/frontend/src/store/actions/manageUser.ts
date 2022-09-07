@@ -4,8 +4,6 @@ import { ThunkAction } from 'redux-thunk';
 
 import { AlertMessage } from '@/constants/alertMessage';
 import { TRootState } from '@/store/reducers';
-import { IQueryCommonFilters, TElementId } from '@/types';
-
 import {
   CHANGE_USER_STATUS_ERROR,
   CHANGE_USER_STATUS_PENDING,
@@ -22,7 +20,8 @@ import {
   SEARCH_USER_ERROR,
   SEARCH_USER_PENDING,
   SEARCH_USER_SUCCESS,
-} from '../types/manageUser';
+} from '@/store/types/manageUser';
+import { IQueryCommonFilters, TElementId } from '@/types';
 
 // =============================================================================
 
@@ -176,16 +175,16 @@ export const getAllUser =
 
 // =============================================================================
 
-export const changeUserPendingAction = (): any => ({
+export const changeUserStatusPendingAction = (): any => ({
   type: CHANGE_USER_STATUS_PENDING,
 });
 
-export const changeUserSuccessAction = (data: unknown): any => ({
+export const changeUserStatusSuccessAction = (data: unknown): any => ({
   type: CHANGE_USER_STATUS_SUCCESS,
   data,
 });
 
-export const changeUserErrorAction = (error: AxiosError): any => ({
+export const changeUserStatusErrorAction = (error: AxiosError): any => ({
   type: CHANGE_USER_STATUS_ERROR,
   error,
 });
@@ -194,7 +193,7 @@ export const changeUser =
   (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {
-      dispatch(changeUserPendingAction());
+      dispatch(changeUserStatusPendingAction());
       // const { data } = await api.put(`/user/${id}`);
 
       // TODO: Eliminar
@@ -202,10 +201,10 @@ export const changeUser =
       // eslint-disable-next-line no-console
       console.log(id);
 
-      dispatch(changeUserSuccessAction(data));
+      dispatch(changeUserStatusSuccessAction(data));
       toast.success(AlertMessage.updated('estatus'));
     } catch (error) {
-      dispatch(changeUserErrorAction(error));
+      dispatch(changeUserStatusErrorAction(error));
       toast.error(AlertMessage.error);
     }
   };

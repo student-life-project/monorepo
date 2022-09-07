@@ -4,8 +4,6 @@ import { ThunkAction } from 'redux-thunk';
 
 import { AlertMessage } from '@/constants/alertMessage';
 import { TRootState } from '@/store/reducers';
-import { IQueryCommonFilters, TElementId } from '@/types';
-
 import {
   CHANGE_PUBLICATION_APPROVAL_ERROR,
   CHANGE_PUBLICATION_APPROVAL_PENDING,
@@ -13,6 +11,7 @@ import {
   DELETE_PUBLICATION_ERROR,
   DELETE_PUBLICATION_PENDING,
   DELETE_PUBLICATION_SUCCESS,
+  GET_ALL_PUBLICATIONS_ERROR,
   GET_ALL_PUBLICATIONS_PENDING,
   GET_ALL_PUBLICATIONS_SUCCESS,
   GET_PUBLICATION_ERROR,
@@ -21,8 +20,8 @@ import {
   SEARCH_PUBLICATION_ERROR,
   SEARCH_PUBLICATION_PENDING,
   SEARCH_PUBLICATION_SUCCESS,
-} from '../types/managePublication';
-import { GET_ALL_PUBLICATIONS_ERROR } from '../types/publication';
+} from '@/store/types/managePublication';
+import { IQueryCommonFilters, TElementId } from '@/types';
 
 // =============================================================================
 
@@ -176,16 +175,18 @@ export const getAllPublications =
 
 // =============================================================================
 
-export const changePublicationPendingAction = (): any => ({
+export const changePublicationApprovalPendingAction = (): any => ({
   type: CHANGE_PUBLICATION_APPROVAL_PENDING,
 });
 
-export const changePublicationSuccessAction = (data: unknown): any => ({
+export const changePublicationApprovalSuccessAction = (data: unknown): any => ({
   type: CHANGE_PUBLICATION_APPROVAL_SUCCESS,
   data,
 });
 
-export const changePublicationErrorAction = (error: AxiosError): any => ({
+export const changePublicationApprovalErrorAction = (
+  error: AxiosError,
+): any => ({
   type: CHANGE_PUBLICATION_APPROVAL_ERROR,
   error,
 });
@@ -194,7 +195,7 @@ export const changePublication =
   (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {
-      dispatch(changePublicationPendingAction());
+      dispatch(changePublicationApprovalPendingAction());
       // const { data } = await api.put(`/publication/${id}`);
 
       // TODO: Eliminar
@@ -202,10 +203,10 @@ export const changePublication =
       // eslint-disable-next-line no-console
       console.log(id);
 
-      dispatch(changePublicationSuccessAction(data));
+      dispatch(changePublicationApprovalSuccessAction(data));
       toast.success(AlertMessage.updated('aprobación'));
     } catch (error) {
-      dispatch(changePublicationErrorAction(error));
+      dispatch(changePublicationApprovalErrorAction(error));
       toast.error(AlertMessage.error);
     }
   };

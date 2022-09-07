@@ -4,8 +4,6 @@ import { ThunkAction } from 'redux-thunk';
 
 import { AlertMessage } from '@/constants/alertMessage';
 import { TRootState } from '@/store/reducers';
-import { TElementId } from '@/types';
-
 import {
   GET_ME_ERROR,
   GET_ME_PENDING,
@@ -13,7 +11,8 @@ import {
   UPDATE_ME_ERROR,
   UPDATE_ME_PENDING,
   UPDATE_ME_SUCCESS,
-} from '../types/profile';
+} from '@/store/types/profile';
+import { TElementId } from '@/types';
 
 // =============================================================================
 

@@ -4,8 +4,6 @@ import { ThunkAction } from 'redux-thunk';
 
 import { AlertMessage } from '@/constants/alertMessage';
 import { TRootState } from '@/store/reducers';
-import { IQueryCommonFilters, TElementId } from '@/types';
-
 import {
   CHANGE_REPORT_STATUS_ERROR,
   CHANGE_REPORT_STATUS_PENDING,
@@ -22,7 +20,8 @@ import {
   SEARCH_REPORT_ERROR,
   SEARCH_REPORT_PENDING,
   SEARCH_REPORT_SUCCESS,
-} from '../types/manageReport';
+} from '@/store/types/manageReport';
+import { IQueryCommonFilters, TElementId } from '@/types';
 
 // =============================================================================
 
@@ -176,16 +175,16 @@ export const getAllReports =
 
 // =============================================================================
 
-export const changeReportPendingAction = (): any => ({
+export const changeReportStatusPendingAction = (): any => ({
   type: CHANGE_REPORT_STATUS_PENDING,
 });
 
-export const changeReportSuccessAction = (data: unknown): any => ({
+export const changeReportStatusSuccessAction = (data: unknown): any => ({
   type: CHANGE_REPORT_STATUS_SUCCESS,
   data,
 });
 
-export const changeReportErrorAction = (error: AxiosError): any => ({
+export const changeReportStatusErrorAction = (error: AxiosError): any => ({
   type: CHANGE_REPORT_STATUS_ERROR,
   error,
 });
@@ -194,7 +193,7 @@ export const changeReport =
   (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {
-      dispatch(changeReportPendingAction());
+      dispatch(changeReportStatusPendingAction());
       // const { data } = await api.put(`/report/${id}`);
 
       // TODO: Eliminar
@@ -202,10 +201,10 @@ export const changeReport =
       // eslint-disable-next-line no-console
       console.log(id);
 
-      dispatch(changeReportSuccessAction(data));
+      dispatch(changeReportStatusSuccessAction(data));
       toast.success(AlertMessage.updated('estatus'));
     } catch (error) {
-      dispatch(changeReportErrorAction(error));
+      dispatch(changeReportStatusErrorAction(error));
       toast.error(AlertMessage.error);
     }
   };

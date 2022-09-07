@@ -28,7 +28,7 @@ export const getCommentPendingAction = (): any => ({
   type: GET_COMMENT_PENDING,
 });
 
-export const getCommnetSuccessAction = (data: unknown): any => ({
+export const getCommentSuccessAction = (data: unknown): any => ({
   type: GET_COMMENT_SUCCESS,
   data,
 });
@@ -50,7 +50,7 @@ export const getComment =
       // eslint-disable-next-line no-console
       console.log(id);
 
-      dispatch(getCommnetSuccessAction(data));
+      dispatch(getCommentSuccessAction(data));
     } catch (error) {
       dispatch(getCommentErrorAction(error));
       toast.error(AlertMessage.error);
