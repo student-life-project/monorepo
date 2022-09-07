@@ -1,13 +1,12 @@
-// TODO: Crear types y cambiar los any
+// TODO: Crear types y cambiar los any, cambiar funcion a ejecurtar
 import { FC, useState } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import ModalConfirm from '@/components/common/ModalConfirm';
 import Table from '@/components/common/Table';
 import { ColumnsUser, confirmMessage, HeaderUser } from '@/constants';
 import { AlertMessage } from '@/constants/alertMessage';
-import { changeUserStatus } from '@/store/actions/admin';
 import { TElementId } from '@/types';
 
 type TTableUsers = {
@@ -15,12 +14,14 @@ type TTableUsers = {
 };
 
 const TableUsers: FC<TTableUsers> = ({ data }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [userId, setUserId] = useState<TElementId>(null);
   const [showModalUser, setShowModalUser] = useState(false);
 
   const statusUser = (id: TElementId) => {
-    dispatch(changeUserStatus(id));
+    // dispatch(changeUserStatus(id));
+    // eslint-disable-next-line no-console
+    console.log(id);
   };
 
   const handleOpenModalUser = (id: TElementId) => {

@@ -208,21 +208,21 @@ export const likeRentalPlace =
 
 // =============================================================================
 
-export const getAllRentalPlacePendingAction = (): any => ({
+export const getAllRentalPlacesPendingAction = (): any => ({
   type: GET_ALL_RENTAL_PLACES_PENDING,
 });
 
-export const getAllRentalPlaceSuccessAction = (data: unknown): any => ({
+export const getAllRentalPlacesSuccessAction = (data: unknown): any => ({
   type: GET_ALL_RENTAL_PLACES_SUCCESS,
   data,
 });
 
-export const getAllRentalPlaceErrorAction = (error: AxiosError): any => ({
+export const getAllRentalPlacesErrorAction = (error: AxiosError): any => ({
   type: GET_ALL_RENTAL_PLACES_ERROR,
   error,
 });
 
-export const getAllRentalPlace =
+export const getAllRentalPlaces =
   ({ limit }: IQueryCommonFilters = {}): ThunkAction<
     void,
     TRootState,
@@ -231,7 +231,7 @@ export const getAllRentalPlace =
   > =>
   async (dispatch) => {
     try {
-      dispatch(getAllRentalPlacePendingAction());
+      dispatch(getAllRentalPlacesPendingAction());
       // const limitQuery = limit ? `?limit=${limit}` : '';
       // const { data } = await api.get(`/rental${limitQuery}`);
 
@@ -240,9 +240,9 @@ export const getAllRentalPlace =
       // eslint-disable-next-line no-console
       console.log(limit);
 
-      dispatch(getAllRentalPlaceSuccessAction(data));
+      dispatch(getAllRentalPlacesSuccessAction(data));
     } catch (error) {
-      dispatch(getAllRentalPlaceErrorAction(error));
+      dispatch(getAllRentalPlacesErrorAction(error));
       toast.error(AlertMessage.error);
     }
   };
