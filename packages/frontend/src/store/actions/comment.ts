@@ -9,6 +9,7 @@ import {
   CREATE_COMMENT_PENDING,
   CREATE_COMMENT_SUCCESS,
   DELETE_COMMENT_ERROR,
+  DELETE_COMMENT_PENDING,
   DELETE_COMMENT_SUCCESS,
   GET_ALL_COMMENTS_ERROR,
   GET_ALL_COMMENTS_PENDING,
@@ -135,7 +136,7 @@ export const updateComment =
 // =============================================================================
 
 export const deleteCommentPendingAction = (): any => ({
-  type: DELETE_COMMENT_SUCCESS,
+  type: DELETE_COMMENT_PENDING,
 });
 
 export const deleteCommentSuccessAction = (data: unknown): any => ({
