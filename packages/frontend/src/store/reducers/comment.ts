@@ -32,7 +32,10 @@ const initialState: IState = {
   error: null,
 };
 
-const reducer = (state: IState = initialState, payload): IState => {
+const reducer = (
+  state: IState = initialState,
+  payload: { type: any; data: any; error: any },
+): IState => {
   switch (payload.type) {
     case GET_COMMENT_PENDING:
       return {
