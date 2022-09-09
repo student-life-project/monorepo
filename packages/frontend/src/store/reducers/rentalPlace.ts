@@ -22,15 +22,15 @@ import {
 } from '@/store/types/rentalPlace';
 
 export interface IState {
-  publications: any;
-  publication: any;
+  rentalPlaces: any;
+  rentalPlace: any;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
-  publications: [],
-  publication: {},
+  rentalPlaces: [],
+  rentalPlace: {},
   isFetching: false,
   error: null,
 };
@@ -43,14 +43,14 @@ const reducer = (
     case GET_RENTAL_PLACE_PENDING:
       return {
         ...state,
-        publication: {},
+        rentalPlace: {},
         isFetching: true,
         error: null,
       };
     case GET_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        publication: payload.data,
+        rentalPlace: payload.data,
         isFetching: false,
         error: null,
       };
@@ -63,14 +63,14 @@ const reducer = (
     case SEARCH_RENTAL_PLACE_PENDING:
       return {
         ...state,
-        publications: [],
+        rentalPlaces: [],
         isFetching: true,
         error: null,
       };
     case SEARCH_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        publications: payload.data,
+        rentalPlaces: payload.data,
         isFetching: false,
         error: null,
       };
@@ -83,14 +83,14 @@ const reducer = (
     case ORDER_RENTAL_PLACE_PENDING:
       return {
         ...state,
-        publications: [],
+        rentalPlaces: [],
         isFetching: true,
         error: null,
       };
     case ORDER_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        publications: payload.data,
+        rentalPlaces: payload.data,
         isFetching: false,
         error: null,
       };
@@ -103,14 +103,14 @@ const reducer = (
     case FILTER_RENTAL_PLACE_PENDING:
       return {
         ...state,
-        publications: [],
+        rentalPlaces: [],
         isFetching: true,
         error: null,
       };
     case FILTER_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        publications: payload.data,
+        rentalPlaces: payload.data,
         isFetching: false,
         error: null,
       };
@@ -123,14 +123,14 @@ const reducer = (
     case LIKE_RENTAL_PLACE_PENDING:
       return {
         ...state,
-        publication: {},
+        rentalPlace: {},
         isFetching: true,
         error: null,
       };
     case LIKE_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        publication: payload.data,
+        rentalPlace: payload.data,
         isFetching: false,
         error: null,
       };
@@ -143,14 +143,14 @@ const reducer = (
     case GET_ALL_RENTAL_PLACES_PENDING:
       return {
         ...state,
-        publications: [],
+        rentalPlaces: [],
         isFetching: true,
         error: null,
       };
     case GET_ALL_RENTAL_PLACES_SUCCESS:
       return {
         ...state,
-        publications: payload.data,
+        rentalPlaces: payload.data,
         isFetching: false,
         error: null,
       };
