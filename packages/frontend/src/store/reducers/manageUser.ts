@@ -20,14 +20,12 @@ import {
 
 export interface IState {
   users: any;
-  user: any;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
   users: [],
-  user: {},
   isFetching: false,
   error: null,
 };
@@ -40,14 +38,14 @@ const reducer = (
     case GET_USER_PENDING:
       return {
         ...state,
-        user: {},
+        users: [],
         isFetching: true,
         error: null,
       };
     case GET_USER_SUCCESS:
       return {
         ...state,
-        user: payload.data,
+        users: payload.data,
         isFetching: false,
         error: null,
       };
@@ -80,14 +78,14 @@ const reducer = (
     case DELETE_USER_PENDING:
       return {
         ...state,
-        user: {},
+        users: [],
         isFetching: true,
         error: null,
       };
     case DELETE_USER_SUCCESS:
       return {
         ...state,
-        user: payload.data,
+        users: payload.data,
         isFetching: false,
         error: null,
       };
@@ -120,14 +118,14 @@ const reducer = (
     case CHANGE_USER_STATUS_PENDING:
       return {
         ...state,
-        user: {},
+        users: [],
         isFetching: true,
         error: null,
       };
     case CHANGE_USER_STATUS_SUCCESS:
       return {
         ...state,
-        user: payload.data,
+        users: payload.data,
         isFetching: false,
         error: null,
       };

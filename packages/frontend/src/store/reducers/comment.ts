@@ -20,14 +20,12 @@ import {
 
 export interface IState {
   comments: any;
-  comment: any;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
   comments: [],
-  comment: {},
   isFetching: false,
   error: null,
 };
@@ -40,14 +38,14 @@ const reducer = (
     case GET_COMMENT_PENDING:
       return {
         ...state,
-        comment: {},
+        comments: [],
         isFetching: true,
         error: null,
       };
     case GET_COMMENT_SUCCESS:
       return {
         ...state,
-        comment: payload.data,
+        comments: payload.data,
         isFetching: false,
         error: null,
       };
@@ -60,14 +58,14 @@ const reducer = (
     case CREATE_COMMENT_PENDING:
       return {
         ...state,
-        comment: {},
+        comments: [],
         isFetching: true,
         error: null,
       };
     case CREATE_COMMENT_SUCCESS:
       return {
         ...state,
-        comment: payload.data,
+        comments: payload.data,
         isFetching: false,
         error: null,
       };
@@ -80,14 +78,14 @@ const reducer = (
     case UPDATE_COMMENT_PENDING:
       return {
         ...state,
-        comment: {},
+        comments: [],
         isFetching: true,
         error: null,
       };
     case UPDATE_COMMENT_SUCCESS:
       return {
         ...state,
-        comment: payload.data,
+        comments: payload.data,
         isFetching: false,
         error: null,
       };
@@ -100,14 +98,14 @@ const reducer = (
     case DELETE_COMMENT_PENDING:
       return {
         ...state,
-        comment: {},
+        comments: [],
         isFetching: true,
         error: null,
       };
     case DELETE_COMMENT_SUCCESS:
       return {
         ...state,
-        comment: payload.data,
+        comments: payload.data,
         isFetching: false,
         error: null,
       };

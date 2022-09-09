@@ -20,14 +20,12 @@ import {
 
 export interface IState {
   reports: any;
-  report: any;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
   reports: [],
-  report: {},
   isFetching: false,
   error: null,
 };
@@ -40,14 +38,14 @@ const reducer = (
     case GET_REPORT_PENDING:
       return {
         ...state,
-        report: {},
+        reports: [],
         isFetching: true,
         error: null,
       };
     case GET_REPORT_SUCCESS:
       return {
         ...state,
-        report: payload.data,
+        reports: payload.data,
         isFetching: false,
         error: null,
       };
@@ -80,14 +78,14 @@ const reducer = (
     case DELETE_REPORT_PENDING:
       return {
         ...state,
-        report: {},
+        reports: [],
         isFetching: true,
         error: null,
       };
     case DELETE_REPORT_SUCCESS:
       return {
         ...state,
-        report: payload.data,
+        reports: payload.data,
         isFetching: false,
         error: null,
       };
@@ -120,14 +118,14 @@ const reducer = (
     case CHANGE_REPORT_STATUS_PENDING:
       return {
         ...state,
-        report: {},
+        reports: [],
         isFetching: true,
         error: null,
       };
     case CHANGE_REPORT_STATUS_SUCCESS:
       return {
         ...state,
-        report: payload.data,
+        reports: payload.data,
         isFetching: false,
         error: null,
       };

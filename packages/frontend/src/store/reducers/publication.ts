@@ -26,14 +26,12 @@ import {
 
 export interface IState {
   publications: any;
-  publication: any;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
   publications: [],
-  publication: {},
   isFetching: false,
   error: null,
 };
@@ -46,14 +44,14 @@ const reducer = (
     case GET_PUBLICATION_PENDING:
       return {
         ...state,
-        publication: {},
+        publications: [],
         isFetching: true,
         error: null,
       };
     case GET_PUBLICATION_SUCCESS:
       return {
         ...state,
-        publication: payload.data,
+        publications: payload.data,
         isFetching: false,
         error: null,
       };
@@ -66,14 +64,14 @@ const reducer = (
     case CREATE_PUBLICATION_PENDING:
       return {
         ...state,
-        publication: {},
+        publications: [],
         isFetching: true,
         error: null,
       };
     case CREATE_PUBLICATION_SUCCESS:
       return {
         ...state,
-        publication: payload.data,
+        publications: payload.data,
         isFetching: false,
         error: null,
       };
@@ -86,14 +84,14 @@ const reducer = (
     case UPDATE_PUBLICATION_PENDING:
       return {
         ...state,
-        publication: {},
+        publications: [],
         isFetching: true,
         error: null,
       };
     case UPDATE_PUBLICATION_SUCCESS:
       return {
         ...state,
-        publication: payload.data,
+        publications: payload.data,
         isFetching: false,
         error: null,
       };
@@ -106,14 +104,14 @@ const reducer = (
     case DELETE_PUBLICATION_PENDING:
       return {
         ...state,
-        publication: {},
+        publications: [],
         isFetching: true,
         error: null,
       };
     case DELETE_PUBLICATION_SUCCESS:
       return {
         ...state,
-        publication: payload.data,
+        publications: payload.data,
         isFetching: false,
         error: null,
       };
@@ -166,14 +164,14 @@ const reducer = (
     case CHANGE_PUBLICATION_AVAILABILITY_PENDING:
       return {
         ...state,
-        publication: {},
+        publications: [],
         isFetching: true,
         error: null,
       };
     case CHANGE_PUBLICATION_AVAILABILITY_SUCCESS:
       return {
         ...state,
-        publication: payload.data,
+        publications: payload.data,
         isFetching: false,
         error: null,
       };

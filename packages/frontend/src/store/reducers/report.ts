@@ -7,13 +7,13 @@ import {
 } from '@/store/types/report';
 
 export interface IState {
-  report: any;
+  reports: any;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
-  report: {},
+  reports: [],
   isFetching: false,
   error: null,
 };
@@ -26,14 +26,14 @@ const reducer = (
     case CREATE_REPORT_ERROR:
       return {
         ...state,
-        report: {},
+        reports: [],
         isFetching: true,
         error: null,
       };
     case CREATE_REPORT_PENDING:
       return {
         ...state,
-        report: payload.data,
+        reports: payload.data,
         isFetching: false,
         error: null,
       };

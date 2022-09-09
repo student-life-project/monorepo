@@ -23,14 +23,12 @@ import {
 
 export interface IState {
   rentalPlaces: any;
-  rentalPlace: any;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
   rentalPlaces: [],
-  rentalPlace: {},
   isFetching: false,
   error: null,
 };
@@ -43,14 +41,14 @@ const reducer = (
     case GET_RENTAL_PLACE_PENDING:
       return {
         ...state,
-        rentalPlace: {},
+        rentalPlaces: [],
         isFetching: true,
         error: null,
       };
     case GET_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlace: payload.data,
+        rentalPlaces: payload.data,
         isFetching: false,
         error: null,
       };
@@ -123,14 +121,14 @@ const reducer = (
     case LIKE_RENTAL_PLACE_PENDING:
       return {
         ...state,
-        rentalPlace: {},
+        rentalPlaces: [],
         isFetching: true,
         error: null,
       };
     case LIKE_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlace: payload.data,
+        rentalPlaces: payload.data,
         isFetching: false,
         error: null,
       };
