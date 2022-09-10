@@ -1,31 +1,31 @@
 import { AxiosError } from 'axios';
 
 import {
-  CHANGE_PUBLICATION_APPROVAL_ERROR,
-  CHANGE_PUBLICATION_APPROVAL_PENDING,
-  CHANGE_PUBLICATION_APPROVAL_SUCCESS,
-  DELETE_PUBLICATION_ERROR,
-  DELETE_PUBLICATION_PENDING,
-  DELETE_PUBLICATION_SUCCESS,
-  GET_ALL_PUBLICATIONS_ERROR,
-  GET_ALL_PUBLICATIONS_PENDING,
-  GET_ALL_PUBLICATIONS_SUCCESS,
-  GET_PUBLICATION_ERROR,
-  GET_PUBLICATION_PENDING,
-  GET_PUBLICATION_SUCCESS,
-  SEARCH_PUBLICATION_ERROR,
-  SEARCH_PUBLICATION_PENDING,
-  SEARCH_PUBLICATION_SUCCESS,
-} from '@/store/types/managePublication';
+  CREATE_COMMENT_ERROR,
+  CREATE_COMMENT_PENDING,
+  CREATE_COMMENT_SUCCESS,
+  DELETE_COMMENT_ERROR,
+  DELETE_COMMENT_PENDING,
+  DELETE_COMMENT_SUCCESS,
+  GET_ALL_COMMENTS_ERROR,
+  GET_ALL_COMMENTS_PENDING,
+  GET_ALL_COMMENTS_SUCCESS,
+  GET_COMMENT_ERROR,
+  GET_COMMENT_PENDING,
+  GET_COMMENT_SUCCESS,
+  UPDATE_COMMENT_ERROR,
+  UPDATE_COMMENT_PENDING,
+  UPDATE_COMMENT_SUCCESS,
+} from '@/store/types/comments';
 
 export interface IState {
-  publications: any;
+  comments: any;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
-  publications: [],
+  comments: [],
   isFetching: false,
   error: null,
 };
@@ -35,101 +35,101 @@ const reducer = (
   payload: { type: any; data: any; error: any },
 ): IState => {
   switch (payload.type) {
-    case GET_PUBLICATION_PENDING:
+    case GET_COMMENT_PENDING:
       return {
         ...state,
-        publications: [],
+        comments: [],
         isFetching: true,
         error: null,
       };
-    case GET_PUBLICATION_SUCCESS:
+    case GET_COMMENT_SUCCESS:
       return {
         ...state,
-        publications: payload.data,
+        comments: payload.data,
         isFetching: false,
         error: null,
       };
-    case GET_PUBLICATION_ERROR:
+    case GET_COMMENT_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case SEARCH_PUBLICATION_PENDING:
+    case CREATE_COMMENT_PENDING:
       return {
         ...state,
-        publications: [],
+        comments: [],
         isFetching: true,
         error: null,
       };
-    case SEARCH_PUBLICATION_SUCCESS:
+    case CREATE_COMMENT_SUCCESS:
       return {
         ...state,
-        publications: payload.data,
+        comments: payload.data,
         isFetching: false,
         error: null,
       };
-    case SEARCH_PUBLICATION_ERROR:
+    case CREATE_COMMENT_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case DELETE_PUBLICATION_PENDING:
+    case UPDATE_COMMENT_PENDING:
       return {
         ...state,
-        publications: [],
+        comments: [],
         isFetching: true,
         error: null,
       };
-    case DELETE_PUBLICATION_SUCCESS:
+    case UPDATE_COMMENT_SUCCESS:
       return {
         ...state,
-        publications: payload.data,
+        comments: payload.data,
         isFetching: false,
         error: null,
       };
-    case DELETE_PUBLICATION_ERROR:
+    case UPDATE_COMMENT_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case GET_ALL_PUBLICATIONS_PENDING:
+    case DELETE_COMMENT_PENDING:
       return {
         ...state,
-        publications: [],
+        comments: [],
         isFetching: true,
         error: null,
       };
-    case GET_ALL_PUBLICATIONS_SUCCESS:
+    case DELETE_COMMENT_SUCCESS:
       return {
         ...state,
-        publications: payload.data,
+        comments: payload.data,
         isFetching: false,
         error: null,
       };
-    case GET_ALL_PUBLICATIONS_ERROR:
+    case DELETE_COMMENT_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case CHANGE_PUBLICATION_APPROVAL_PENDING:
+    case GET_ALL_COMMENTS_PENDING:
       return {
         ...state,
-        publications: [],
+        comments: [],
         isFetching: true,
         error: null,
       };
-    case CHANGE_PUBLICATION_APPROVAL_SUCCESS:
+    case GET_ALL_COMMENTS_SUCCESS:
       return {
         ...state,
-        publications: payload.data,
+        comments: payload.data,
         isFetching: false,
         error: null,
       };
-    case CHANGE_PUBLICATION_APPROVAL_ERROR:
+    case GET_ALL_COMMENTS_ERROR:
       return {
         ...state,
         isFetching: false,

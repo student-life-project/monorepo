@@ -4,7 +4,7 @@ import {
   CREATE_REPORT_ERROR,
   CREATE_REPORT_PENDING,
   CREATE_REPORT_SUCCESS,
-} from '@/store/types/report';
+} from '@/store/types/reports';
 
 export interface IState {
   reports: any;

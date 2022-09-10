@@ -20,7 +20,7 @@ import {
   SEARCH_REPORT_ERROR,
   SEARCH_REPORT_PENDING,
   SEARCH_REPORT_SUCCESS,
-} from '@/store/types/manageReport';
+} from '@/store/types/manageReports';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
 // =============================================================================

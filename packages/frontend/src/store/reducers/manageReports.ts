@@ -1,31 +1,31 @@
 import { AxiosError } from 'axios';
 
 import {
-  CHANGE_USER_STATUS_ERROR,
-  CHANGE_USER_STATUS_PENDING,
-  CHANGE_USER_STATUS_SUCCESS,
-  DELETE_USER_ERROR,
-  DELETE_USER_PENDING,
-  DELETE_USER_SUCCESS,
-  GET_ALL_USERS_ERROR,
-  GET_ALL_USERS_PENDING,
-  GET_ALL_USERS_SUCCESS,
-  GET_USER_ERROR,
-  GET_USER_PENDING,
-  GET_USER_SUCCESS,
-  SEARCH_USER_ERROR,
-  SEARCH_USER_PENDING,
-  SEARCH_USER_SUCCESS,
-} from '@/store/types/manageUser';
+  CHANGE_REPORT_STATUS_ERROR,
+  CHANGE_REPORT_STATUS_PENDING,
+  CHANGE_REPORT_STATUS_SUCCESS,
+  DELETE_REPORT_ERROR,
+  DELETE_REPORT_PENDING,
+  DELETE_REPORT_SUCCESS,
+  GET_ALL_REPORTS_ERROR,
+  GET_ALL_REPORTS_PENDING,
+  GET_ALL_REPORTS_SUCCESS,
+  GET_REPORT_ERROR,
+  GET_REPORT_PENDING,
+  GET_REPORT_SUCCESS,
+  SEARCH_REPORT_ERROR,
+  SEARCH_REPORT_PENDING,
+  SEARCH_REPORT_SUCCESS,
+} from '@/store/types/manageReports';
 
 export interface IState {
-  users: any;
+  reports: any;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
-  users: [],
+  reports: [],
   isFetching: false,
   error: null,
 };
@@ -35,101 +35,101 @@ const reducer = (
   payload: { type: any; data: any; error: any },
 ): IState => {
   switch (payload.type) {
-    case GET_USER_PENDING:
+    case GET_REPORT_PENDING:
       return {
         ...state,
-        users: [],
+        reports: [],
         isFetching: true,
         error: null,
       };
-    case GET_USER_SUCCESS:
+    case GET_REPORT_SUCCESS:
       return {
         ...state,
-        users: payload.data,
+        reports: payload.data,
         isFetching: false,
         error: null,
       };
-    case GET_USER_ERROR:
+    case GET_REPORT_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case SEARCH_USER_PENDING:
+    case SEARCH_REPORT_PENDING:
       return {
         ...state,
-        users: [],
+        reports: [],
         isFetching: true,
         error: null,
       };
-    case SEARCH_USER_SUCCESS:
+    case SEARCH_REPORT_SUCCESS:
       return {
         ...state,
-        users: payload.data,
+        reports: payload.data,
         isFetching: false,
         error: null,
       };
-    case SEARCH_USER_ERROR:
+    case SEARCH_REPORT_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case DELETE_USER_PENDING:
+    case DELETE_REPORT_PENDING:
       return {
         ...state,
-        users: [],
+        reports: [],
         isFetching: true,
         error: null,
       };
-    case DELETE_USER_SUCCESS:
+    case DELETE_REPORT_SUCCESS:
       return {
         ...state,
-        users: payload.data,
+        reports: payload.data,
         isFetching: false,
         error: null,
       };
-    case DELETE_USER_ERROR:
+    case DELETE_REPORT_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case GET_ALL_USERS_PENDING:
+    case GET_ALL_REPORTS_PENDING:
       return {
         ...state,
-        users: [],
+        reports: [],
         isFetching: true,
         error: null,
       };
-    case GET_ALL_USERS_SUCCESS:
+    case GET_ALL_REPORTS_SUCCESS:
       return {
         ...state,
-        users: payload.data,
+        reports: payload.data,
         isFetching: false,
         error: null,
       };
-    case GET_ALL_USERS_ERROR:
+    case GET_ALL_REPORTS_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case CHANGE_USER_STATUS_PENDING:
+    case CHANGE_REPORT_STATUS_PENDING:
       return {
         ...state,
-        users: [],
+        reports: [],
         isFetching: true,
         error: null,
       };
-    case CHANGE_USER_STATUS_SUCCESS:
+    case CHANGE_REPORT_STATUS_SUCCESS:
       return {
         ...state,
-        users: payload.data,
+        reports: payload.data,
         isFetching: false,
         error: null,
       };
-    case CHANGE_USER_STATUS_ERROR:
+    case CHANGE_REPORT_STATUS_ERROR:
       return {
         ...state,
         isFetching: false,

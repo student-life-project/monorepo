@@ -23,7 +23,7 @@ import {
   SEARCH_RENTAL_PLACE_ERROR,
   SEARCH_RENTAL_PLACE_PENDING,
   SEARCH_RENTAL_PLACE_SUCCESS,
-} from '@/store/types/rentalPlace';
+} from '@/store/types/rentalPlaces';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
 // =============================================================================

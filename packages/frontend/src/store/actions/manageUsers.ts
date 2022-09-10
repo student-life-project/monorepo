@@ -20,7 +20,7 @@ import {
   SEARCH_USER_ERROR,
   SEARCH_USER_PENDING,
   SEARCH_USER_SUCCESS,
-} from '@/store/types/manageUser';
+} from '@/store/types/manageUsers';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
 // =============================================================================

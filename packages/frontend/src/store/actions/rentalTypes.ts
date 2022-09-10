@@ -1,3 +1,4 @@
+//! ELIMINAR
 import { IImage, IRentalPlace } from '@student_life/common';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
@@ -8,7 +9,7 @@ import {
   GET_RENTAL_PLACE_ERROR,
   GET_RENTAL_PLACE_PENDING,
   GET_RENTAL_PLACE_SUCCESS,
-} from '@/store/types/rentalPlace';
+} from '@/store/types/rentalPlaces';
 import { IQueryCommonFilters } from '@/types';
 
 interface IGetRentalPlacesPendingAction {

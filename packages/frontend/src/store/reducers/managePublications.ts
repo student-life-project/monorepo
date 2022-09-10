@@ -1,31 +1,31 @@
 import { AxiosError } from 'axios';
 
 import {
-  CHANGE_REPORT_STATUS_ERROR,
-  CHANGE_REPORT_STATUS_PENDING,
-  CHANGE_REPORT_STATUS_SUCCESS,
-  DELETE_REPORT_ERROR,
-  DELETE_REPORT_PENDING,
-  DELETE_REPORT_SUCCESS,
-  GET_ALL_REPORTS_ERROR,
-  GET_ALL_REPORTS_PENDING,
-  GET_ALL_REPORTS_SUCCESS,
-  GET_REPORT_ERROR,
-  GET_REPORT_PENDING,
-  GET_REPORT_SUCCESS,
-  SEARCH_REPORT_ERROR,
-  SEARCH_REPORT_PENDING,
-  SEARCH_REPORT_SUCCESS,
-} from '@/store/types/manageReport';
+  CHANGE_PUBLICATION_APPROVAL_ERROR,
+  CHANGE_PUBLICATION_APPROVAL_PENDING,
+  CHANGE_PUBLICATION_APPROVAL_SUCCESS,
+  DELETE_PUBLICATION_ERROR,
+  DELETE_PUBLICATION_PENDING,
+  DELETE_PUBLICATION_SUCCESS,
+  GET_ALL_PUBLICATIONS_ERROR,
+  GET_ALL_PUBLICATIONS_PENDING,
+  GET_ALL_PUBLICATIONS_SUCCESS,
+  GET_PUBLICATION_ERROR,
+  GET_PUBLICATION_PENDING,
+  GET_PUBLICATION_SUCCESS,
+  SEARCH_PUBLICATION_ERROR,
+  SEARCH_PUBLICATION_PENDING,
+  SEARCH_PUBLICATION_SUCCESS,
+} from '@/store/types/managePublications';
 
 export interface IState {
-  reports: any;
+  publications: any;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
-  reports: [],
+  publications: [],
   isFetching: false,
   error: null,
 };
@@ -35,101 +35,101 @@ const reducer = (
   payload: { type: any; data: any; error: any },
 ): IState => {
   switch (payload.type) {
-    case GET_REPORT_PENDING:
+    case GET_PUBLICATION_PENDING:
       return {
         ...state,
-        reports: [],
+        publications: [],
         isFetching: true,
         error: null,
       };
-    case GET_REPORT_SUCCESS:
+    case GET_PUBLICATION_SUCCESS:
       return {
         ...state,
-        reports: payload.data,
+        publications: payload.data,
         isFetching: false,
         error: null,
       };
-    case GET_REPORT_ERROR:
+    case GET_PUBLICATION_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case SEARCH_REPORT_PENDING:
+    case SEARCH_PUBLICATION_PENDING:
       return {
         ...state,
-        reports: [],
+        publications: [],
         isFetching: true,
         error: null,
       };
-    case SEARCH_REPORT_SUCCESS:
+    case SEARCH_PUBLICATION_SUCCESS:
       return {
         ...state,
-        reports: payload.data,
+        publications: payload.data,
         isFetching: false,
         error: null,
       };
-    case SEARCH_REPORT_ERROR:
+    case SEARCH_PUBLICATION_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case DELETE_REPORT_PENDING:
+    case DELETE_PUBLICATION_PENDING:
       return {
         ...state,
-        reports: [],
+        publications: [],
         isFetching: true,
         error: null,
       };
-    case DELETE_REPORT_SUCCESS:
+    case DELETE_PUBLICATION_SUCCESS:
       return {
         ...state,
-        reports: payload.data,
+        publications: payload.data,
         isFetching: false,
         error: null,
       };
-    case DELETE_REPORT_ERROR:
+    case DELETE_PUBLICATION_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case GET_ALL_REPORTS_PENDING:
+    case GET_ALL_PUBLICATIONS_PENDING:
       return {
         ...state,
-        reports: [],
+        publications: [],
         isFetching: true,
         error: null,
       };
-    case GET_ALL_REPORTS_SUCCESS:
+    case GET_ALL_PUBLICATIONS_SUCCESS:
       return {
         ...state,
-        reports: payload.data,
+        publications: payload.data,
         isFetching: false,
         error: null,
       };
-    case GET_ALL_REPORTS_ERROR:
+    case GET_ALL_PUBLICATIONS_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case CHANGE_REPORT_STATUS_PENDING:
+    case CHANGE_PUBLICATION_APPROVAL_PENDING:
       return {
         ...state,
-        reports: [],
+        publications: [],
         isFetching: true,
         error: null,
       };
-    case CHANGE_REPORT_STATUS_SUCCESS:
+    case CHANGE_PUBLICATION_APPROVAL_SUCCESS:
       return {
         ...state,
-        reports: payload.data,
+        publications: payload.data,
         isFetching: false,
         error: null,
       };
-    case CHANGE_REPORT_STATUS_ERROR:
+    case CHANGE_PUBLICATION_APPROVAL_ERROR:
       return {
         ...state,
         isFetching: false,

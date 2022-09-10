@@ -1,31 +1,31 @@
 import { AxiosError } from 'axios';
 
 import {
-  CREATE_COMMENT_ERROR,
-  CREATE_COMMENT_PENDING,
-  CREATE_COMMENT_SUCCESS,
-  DELETE_COMMENT_ERROR,
-  DELETE_COMMENT_PENDING,
-  DELETE_COMMENT_SUCCESS,
-  GET_ALL_COMMENTS_ERROR,
-  GET_ALL_COMMENTS_PENDING,
-  GET_ALL_COMMENTS_SUCCESS,
-  GET_COMMENT_ERROR,
-  GET_COMMENT_PENDING,
-  GET_COMMENT_SUCCESS,
-  UPDATE_COMMENT_ERROR,
-  UPDATE_COMMENT_PENDING,
-  UPDATE_COMMENT_SUCCESS,
-} from '@/store/types/comment';
+  CHANGE_USER_STATUS_ERROR,
+  CHANGE_USER_STATUS_PENDING,
+  CHANGE_USER_STATUS_SUCCESS,
+  DELETE_USER_ERROR,
+  DELETE_USER_PENDING,
+  DELETE_USER_SUCCESS,
+  GET_ALL_USERS_ERROR,
+  GET_ALL_USERS_PENDING,
+  GET_ALL_USERS_SUCCESS,
+  GET_USER_ERROR,
+  GET_USER_PENDING,
+  GET_USER_SUCCESS,
+  SEARCH_USER_ERROR,
+  SEARCH_USER_PENDING,
+  SEARCH_USER_SUCCESS,
+} from '@/store/types/manageUsers';
 
 export interface IState {
-  comments: any;
+  users: any;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
-  comments: [],
+  users: [],
   isFetching: false,
   error: null,
 };
@@ -35,101 +35,101 @@ const reducer = (
   payload: { type: any; data: any; error: any },
 ): IState => {
   switch (payload.type) {
-    case GET_COMMENT_PENDING:
+    case GET_USER_PENDING:
       return {
         ...state,
-        comments: [],
+        users: [],
         isFetching: true,
         error: null,
       };
-    case GET_COMMENT_SUCCESS:
+    case GET_USER_SUCCESS:
       return {
         ...state,
-        comments: payload.data,
+        users: payload.data,
         isFetching: false,
         error: null,
       };
-    case GET_COMMENT_ERROR:
+    case GET_USER_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case CREATE_COMMENT_PENDING:
+    case SEARCH_USER_PENDING:
       return {
         ...state,
-        comments: [],
+        users: [],
         isFetching: true,
         error: null,
       };
-    case CREATE_COMMENT_SUCCESS:
+    case SEARCH_USER_SUCCESS:
       return {
         ...state,
-        comments: payload.data,
+        users: payload.data,
         isFetching: false,
         error: null,
       };
-    case CREATE_COMMENT_ERROR:
+    case SEARCH_USER_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case UPDATE_COMMENT_PENDING:
+    case DELETE_USER_PENDING:
       return {
         ...state,
-        comments: [],
+        users: [],
         isFetching: true,
         error: null,
       };
-    case UPDATE_COMMENT_SUCCESS:
+    case DELETE_USER_SUCCESS:
       return {
         ...state,
-        comments: payload.data,
+        users: payload.data,
         isFetching: false,
         error: null,
       };
-    case UPDATE_COMMENT_ERROR:
+    case DELETE_USER_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case DELETE_COMMENT_PENDING:
+    case GET_ALL_USERS_PENDING:
       return {
         ...state,
-        comments: [],
+        users: [],
         isFetching: true,
         error: null,
       };
-    case DELETE_COMMENT_SUCCESS:
+    case GET_ALL_USERS_SUCCESS:
       return {
         ...state,
-        comments: payload.data,
+        users: payload.data,
         isFetching: false,
         error: null,
       };
-    case DELETE_COMMENT_ERROR:
+    case GET_ALL_USERS_ERROR:
       return {
         ...state,
         isFetching: false,
         error: payload.error,
       };
-    case GET_ALL_COMMENTS_PENDING:
+    case CHANGE_USER_STATUS_PENDING:
       return {
         ...state,
-        comments: [],
+        users: [],
         isFetching: true,
         error: null,
       };
-    case GET_ALL_COMMENTS_SUCCESS:
+    case CHANGE_USER_STATUS_SUCCESS:
       return {
         ...state,
-        comments: payload.data,
+        users: payload.data,
         isFetching: false,
         error: null,
       };
-    case GET_ALL_COMMENTS_ERROR:
+    case CHANGE_USER_STATUS_ERROR:
       return {
         ...state,
         isFetching: false,

@@ -20,7 +20,7 @@ import {
   UPDATE_COMMENT_ERROR,
   UPDATE_COMMENT_PENDING,
   UPDATE_COMMENT_SUCCESS,
-} from '@/store/types/comment';
+} from '@/store/types/comments';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
 // =============================================================================

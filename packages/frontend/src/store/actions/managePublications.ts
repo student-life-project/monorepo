@@ -20,7 +20,7 @@ import {
   SEARCH_PUBLICATION_ERROR,
   SEARCH_PUBLICATION_PENDING,
   SEARCH_PUBLICATION_SUCCESS,
-} from '@/store/types/managePublication';
+} from '@/store/types/managePublications';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
 // =============================================================================

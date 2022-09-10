@@ -22,7 +22,7 @@ import {
   UPDATE_PUBLICATION_ERROR,
   UPDATE_PUBLICATION_PENDING,
   UPDATE_PUBLICATION_SUCCESS,
-} from '@/store/types/publication';
+} from '@/store/types/publications';
 
 export interface IState {
   publications: any;
