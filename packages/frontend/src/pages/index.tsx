@@ -18,10 +18,7 @@ import NavBar from '@/components/common/NavBar/NavBarContainer';
 import GetStartedCard from '@/components/home/GetStartedCard';
 import HeroImage from '@/components/home/HeroImage';
 import { TStore } from '@/store';
-import {
-  getRentalPlaces,
-  IRentalPlacesAction,
-} from '@/store/actions/rentalTypes';
+import { getAllRentalPlaces } from '@/store/actions/rentalPlaces';
 import { TRootState } from '@/store/reducers';
 import { rentalPlacesSelector } from '@/store/selectors/rentalPlaces';
 
@@ -157,13 +154,9 @@ export const Home: NextPage = () => {
 Home.getInitialProps = async ({
   reduxStore,
 }: NextPageContext & { reduxStore: TStore }) => {
-  await (
-    reduxStore.dispatch as ThunkDispatch<
-      TRootState,
-      unknown,
-      IRentalPlacesAction
-    >
-  )(getRentalPlaces({ limit: 4 }));
+  await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+    getAllRentalPlaces({ limit: 4 }),
+  );
 
   return {};
 };

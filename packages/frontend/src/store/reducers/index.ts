@@ -7,7 +7,6 @@ import manageUsersReducer from './manageUsers';
 import profileReducer from './profile';
 import publicationsReducer from './publications';
 import rentalPlacesReducer from './rentalPlaces';
-import rentalPlacesTempReducer from './rentalPlacesTemp'; //! ELIMINAR
 import reportsReducer from './reports';
 import userReducer from './users';
 
@@ -19,7 +18,6 @@ export const rootReducer = combineReducers({
   profile: profileReducer,
   publications: publicationsReducer,
   rentalPlaces: rentalPlacesReducer,
-  rentalPlacesTemp: rentalPlacesTempReducer, //! ELIMINAR
   reports: reportsReducer,
   user: userReducer,
 });
