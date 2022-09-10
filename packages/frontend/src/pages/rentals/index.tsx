@@ -27,7 +27,7 @@ import {
   IRentalPlacesAction,
 } from '@/store/actions/rentalTypes';
 import { TRootState } from '@/store/reducers';
-import { rentaPlacesSelector } from '@/store/selectors/rentalPlaces';
+import { rentalPlacesSelector } from '@/store/selectors/rentalPlaces';
 import { IFilters } from '@/types';
 import { ScrollToAnimation } from '@/utils/scrollTo';
 
@@ -51,7 +51,7 @@ const filters: IFilters = {
 };
 
 const Rentals: NextPage = () => {
-  const rentalPlaces = useSelector(rentaPlacesSelector);
+  const rentalPlaces = useSelector(rentalPlacesSelector);
 
   const totalPlaces = rentalPlaces.length;
   const [pageCount, setPageCount] = useState(0);

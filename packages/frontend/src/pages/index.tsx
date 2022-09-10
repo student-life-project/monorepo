@@ -23,7 +23,7 @@ import {
   IRentalPlacesAction,
 } from '@/store/actions/rentalTypes';
 import { TRootState } from '@/store/reducers';
-import { rentaPlacesSelector } from '@/store/selectors/rentalPlaces';
+import { rentalPlacesSelector } from '@/store/selectors/rentalPlaces';
 
 const PlaceContent = styled.div`
   ${xw`
@@ -66,7 +66,7 @@ const ActionContent = styled.div`
 `;
 
 export const Home: NextPage = () => {
-  const rentalPlaces = useSelector(rentaPlacesSelector);
+  const rentalPlaces = useSelector(rentalPlacesSelector);
 
   return (
     <>
