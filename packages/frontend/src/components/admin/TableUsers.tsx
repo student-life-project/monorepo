@@ -49,9 +49,9 @@ const TableUsers: FC<TTableUsers> = ({ data }) => {
     <>
       <Table
         data={data}
-        header={header}
         loading={loading}
         columns={ColumnsUser(statusUser, handleOpenModalUser)}
+        header={header}
       />
 
       {showModalUser && (
