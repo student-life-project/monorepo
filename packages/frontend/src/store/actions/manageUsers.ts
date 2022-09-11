@@ -23,6 +23,9 @@ import {
 } from '@/store/types/manageUsers';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
+// TODO: ELIMINAR
+import { dataUsers } from '../dataFakeTemp';
+
 // =============================================================================
 
 export const getUserPendingAction = (): any => ({
@@ -160,7 +163,7 @@ export const getAllUser =
       // const { data } = await api.get(`/user${limitQuery}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataUsers;
       // eslint-disable-next-line no-console
       console.log(limit);
 

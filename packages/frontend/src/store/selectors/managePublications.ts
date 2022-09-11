@@ -1,11 +1,11 @@
 export const stateManagePublicationsSelector = (state: any) =>
-  state.publications;
+  state.managePublications;
 
 export const managePublicationsSelector = (state: any) =>
-  state.publications.publications;
+  state.managePublications.publications;
 
 export const isFetchingManagePublicationsSelector = (state: any) =>
-  state.publications.isFetching;
+  state.managePublications.isFetching;
 
 export const errorManagePublicationsSelector = (state: any) =>
-  state.publications.error;
+  state.managePublications.error;

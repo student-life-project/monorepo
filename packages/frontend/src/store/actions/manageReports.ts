@@ -23,6 +23,9 @@ import {
 } from '@/store/types/manageReports';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
+// TODO: ELIMINAR
+import { dataReports } from '../dataFakeTemp';
+
 // =============================================================================
 
 export const getReportPendingAction = (): any => ({
@@ -160,7 +163,7 @@ export const getAllReports =
       // const { data } = await api.get(`/report${limitQuery}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataReports;
       // eslint-disable-next-line no-console
       console.log(limit);
 

@@ -1,4 +1,3 @@
-import { IImage, IRentalPlace } from '@student_life/common';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { ThunkAction } from 'redux-thunk';
@@ -26,6 +25,9 @@ import {
   SEARCH_RENTAL_PLACE_SUCCESS,
 } from '@/store/types/rentalPlaces';
 import { IQueryCommonFilters, TElementId } from '@/types';
+
+// TODO: ELIMINAR
+import { dataRentalPlaces } from '../dataFakeTemp';
 
 // =============================================================================
 
@@ -237,133 +239,11 @@ export const getAllRentalPlaces =
       // const { data } = await api.get(`/rental${limitQuery}`);
 
       // TODO: Eliminar
-      // const data = {};
-      const dataFake: IRentalPlace[] = [
-        {
-          id: '1',
-          title: 'Primera',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 1349,
-          likes: 10,
-        } as IRentalPlace,
-        {
-          id: '2',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 50.25,
-        } as IRentalPlace,
-        {
-          id: '3',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 120.5,
-          likes: 1230,
-        } as IRentalPlace,
-        {
-          id: '4',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 1349,
-          likes: 2550,
-        } as IRentalPlace,
-        {
-          id: '5',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 50.25,
-        } as IRentalPlace,
-        {
-          id: '6',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 120.5,
-          likes: 1500,
-        } as IRentalPlace,
-        {
-          id: '7',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 1349,
-          likes: 147,
-        } as IRentalPlace,
-        {
-          id: '8',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 50.25,
-        } as IRentalPlace,
-        {
-          id: '9',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 120.5,
-          likes: 29,
-        } as IRentalPlace,
-        {
-          id: '10',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 1349,
-          likes: 14,
-        } as IRentalPlace,
-        {
-          id: '11',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 50.25,
-        } as IRentalPlace,
-        {
-          id: '12',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 120.5,
-          likes: 0,
-        } as IRentalPlace,
-        {
-          id: '13',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 1349,
-          likes: 20,
-        } as IRentalPlace,
-        {
-          id: '14',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 50.25,
-        } as IRentalPlace,
-        {
-          id: '15',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 120.5,
-          likes: 0,
-        } as IRentalPlace,
-        {
-          id: '16',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 1349,
-          likes: 50,
-        } as IRentalPlace,
-        {
-          id: '17',
-          title: 'Comoda casa para descanso en Club de Golf Tequis',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 50.25,
-        } as IRentalPlace,
-        {
-          id: '18',
-          title: 'Ultima',
-          images: [{ url: '/images/example_home.jpg' } as IImage], // <a href='https://www.freepik.com/vectors/sale'>Sale vector created by upklyak - www.freepik.com</a>
-          price: 120.5,
-          likes: 100,
-        } as IRentalPlace,
-      ].slice(0, limit);
+      const data = dataRentalPlaces(limit);
       // eslint-disable-next-line no-console
       console.log(limit);
 
-      dispatch(getAllRentalPlacesSuccessAction(dataFake));
+      dispatch(getAllRentalPlacesSuccessAction(data));
     } catch (error) {
       dispatch(getAllRentalPlacesErrorAction(error));
       toast.error(AlertMessage.error);

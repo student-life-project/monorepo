@@ -23,6 +23,9 @@ import {
 } from '@/store/types/managePublications';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
+// TODO: ELIMINAR
+import { dataPublications } from '../dataFakeTemp';
+
 // =============================================================================
 
 export const getPublicationPendingAction = (): any => ({
@@ -161,7 +164,7 @@ export const getAllPublications =
       // const { data } = await api.get(`/publication${limitQuery}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataPublications;
       // eslint-disable-next-line no-console
       console.log(limit);
 

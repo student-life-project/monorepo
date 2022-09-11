@@ -1,6 +1,4 @@
-// TODO: Crear types y cambiar los any, cambiar funcion a ejecurtar
 import { FC, useState } from 'react';
-// import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import ModalConfirm from '@/components/common/ModalConfirm';
