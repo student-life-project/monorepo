@@ -66,9 +66,9 @@ const Admin: NextPage = () => {
 
       <Tabs
         items={[
-          { text: 'Usuarios', handleTab },
-          { text: 'Publicaciones', handleTab },
-          { text: 'Reportes', handleTab },
+          { text: 'Usuarios', tab, handleTab },
+          { text: 'Publicaciones', tab, handleTab },
+          { text: 'Reportes', tab, handleTab },
         ]}
       />
 

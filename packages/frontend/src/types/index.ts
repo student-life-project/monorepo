@@ -51,6 +51,7 @@ export interface IStep {
 }
 
 export interface Itab {
+  tab: number;
   text: string;
   handleTab: (tabCurrent: number) => void;
 }

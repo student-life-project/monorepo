@@ -224,7 +224,7 @@ const Details: FC = () => {
           css={xw`flex flex-col-reverse mb-10 sm:mb-0 sm:flex-row sm:gap-10 sm:items-center`}
         >
           {isLogedIn ? (
-            <Button BPrimary round like={like} css={xw`h-10`}>
+            <Button BPrimary round active={like} css={xw`h-10`}>
               <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
               <span css={xw`ml-2`}>157 Me gusta</span>
             </Button>
