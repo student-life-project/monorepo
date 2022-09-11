@@ -1,10 +1,11 @@
 import { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import xw from 'xwind';
 
 import { confirmMessage, ErrorMessageInput, NameInput } from '@/constants';
-import { AlertMessage } from '@/constants/alertMessage';
+import { createComment, deleteComment } from '@/store/actions/comments';
+import { TElementId } from '@/types';
 
 import Anchor from '../common/Anchor';
 import Button from '../common/Button';
@@ -16,6 +17,7 @@ import ItemComment from './ItemComment';
 
 type TComments = {
   comments: any;
+  userId: TElementId;
   isLogedIn: boolean;
   openUserReport: () => void;
 };
@@ -24,11 +26,12 @@ interface ICommentData {
   comment: string;
 }
 
-const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
-  // TODO: Need to implement
-  // Ver comentarios sólo si existe una sesión iniciada.
-  // Las opciones de editar y eliminar solo son para el owner.
-
+const Comments: FC<TComments> = ({
+  userId,
+  comments,
+  isLogedIn,
+  openUserReport,
+}) => {
   const {
     handleSubmit,
     register,
@@ -37,31 +40,37 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
     formState: { errors },
   } = useForm({ mode: 'all' });
 
+  const dispatch = useDispatch();
+  const [commentId, setCommentId] = useState<TElementId>(null);
+
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
 
   const comment = watch('comment');
 
   const onSubmit: SubmitHandler<ICommentData> = async (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
-    toast.success(AlertMessage.created('comentario'));
+    //! Despues de enviar el comentario. enviarle un id de user.
+    //! Para obtener id, name, userImage, comment y date.
+    dispatch(createComment(data));
     reset();
-    // Despues de enviar el comentario. enviarle un id de user.
-    // Para obetener id, name, userImage, comment y date.
   };
 
-  const handleOpenModalEdit = () => {
+  const handleOpenModalEdit = (id: TElementId) => {
     setShowModalEdit(!showModalEdit);
+    setCommentId(id);
   };
 
-  const handleOpenModalDelete = () => {
-    setShowModalDelete(!showModalDelete);
+  const handleCloseModalEdit = () => {
+    setShowModalEdit(false);
   };
 
-  const handleDeleteComment = () => {
-    // id de comentario a eliminar.
-    toast.success(AlertMessage.deleted('comentario'));
+  const handleOpenModalDelete = (id: TElementId) => {
+    setShowModalDelete(true);
+    setCommentId(id);
+  };
+
+  const handleCloseModalDelete = () => {
+    setShowModalDelete(false);
   };
 
   return (
@@ -100,6 +109,7 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
           </form>
 
           <ItemComment
+            userId={userId}
             comments={comments}
             openUserReport={openUserReport}
             openModalDelete={handleOpenModalDelete}
@@ -115,15 +125,17 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
         </div>
       )}
 
-      {showModalEdit && <EditComment closeModal={handleOpenModalEdit} />}
+      {showModalEdit && (
+        <EditComment commentId={commentId} closeModal={handleCloseModalEdit} />
+      )}
 
       {showModalDelete && (
         <ModalConfirm
           type="warning"
           title={confirmMessage.titleDelete('comentario')}
           description={confirmMessage.descriptionDelete('comentario')}
-          closeModal={handleOpenModalDelete}
-          action={handleDeleteComment}
+          closeModal={handleCloseModalDelete}
+          action={() => dispatch(deleteComment(commentId))}
         />
       )}
     </>

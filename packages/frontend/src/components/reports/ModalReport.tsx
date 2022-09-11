@@ -1,11 +1,11 @@
 import { PlaceReport, ProfileReport } from '@student_life/common';
 import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import xw from 'xwind';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
-import { AlertMessage } from '@/constants/alertMessage';
+import { createReport } from '@/store/actions/reports';
 import { IOption, TReportType } from '@/types';
 
 import Button from '../common/Button';
@@ -29,8 +29,9 @@ interface IReportData {
   description: string;
 }
 
-// TODO: need to implement
 const ModalReport: FC<TModalReport> = ({ type, closeModal }) => {
+  const dispatch = useDispatch();
+
   const {
     handleSubmit,
     register,
@@ -44,14 +45,12 @@ const ModalReport: FC<TModalReport> = ({ type, closeModal }) => {
   const description = watch('description');
 
   let reasonDefault = 'Es irrespetuoso u ofensivo (Incita al odio)';
-  let alertType = 'reporte de usuario';
   let title = 'Reportar usuario';
   let subTitle = 'Seleccione el motivo del reporte';
   let options: IOption[] = ProfileReport;
 
   if (type === ERentalType.RENTAL_PLACE) {
     reasonDefault = 'Es impreciso o incorrecto';
-    alertType = 'reporte de alojamiento';
     title = 'Reportar alojamiento';
     subTitle =
       'Ayúdanos a entender cuál es el problema con este alojamiento. ¿Cómo lo describirías?';
@@ -64,12 +63,8 @@ const ModalReport: FC<TModalReport> = ({ type, closeModal }) => {
   }, [reset]);
 
   const onSubmit: SubmitHandler<IReportData> = async (data) => {
-    // TODO: Es necesario enviar tipo de reporte y más info en la data.
-    // eslint-disable-next-line no-console
-    console.log(data);
-
-    // TODO: Alerta success y error
-    toast.success(AlertMessage.created(alertType));
+    //! Enviar más data necesaria
+    dispatch(createReport(data));
     closeModal();
   };
 

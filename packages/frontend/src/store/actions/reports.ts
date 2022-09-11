@@ -37,14 +37,7 @@ export const createReport =
       console.log(report);
 
       dispatch(createReportSuccessAction(data));
-
-      // let alertType = 'reporte de usuario';
-
-      // if (type === ERentalType.RENTAL_PLACE) {
-      //   alertType = 'reporte de alojamiento';
-      // }
-
-      toast.success(AlertMessage.created('reporte')); // alertType
+      toast.success(AlertMessage.created('reporte'));
     } catch (error) {
       dispatch(createReportErrorAction(error));
       toast.error(AlertMessage.error);

@@ -65,6 +65,7 @@ const Img = styled.img<TImg>`
 `;
 
 const data = {
+  userId: 1,
   title: 'Hudson Heights',
   price: '885.00',
   reason: 'Busco roomie',
@@ -146,6 +147,7 @@ const user = {
 const comments = [
   {
     id: 1,
+    userId: 11,
     name: 'Alfredo Carreón Urbano',
     userImage: '/images/avatar.png',
     comment:
@@ -154,6 +156,7 @@ const comments = [
   },
   {
     id: 2,
+    userId: 18,
     name: 'Erick Mejia Blanco',
     userImage: '/images/avatar.png',
     comment:
@@ -162,6 +165,7 @@ const comments = [
   },
 ];
 
+// TODO: Ver comentarios sólo si existe una sesión iniciada.
 const isLogedIn = true;
 
 const Details: FC = () => {
@@ -181,9 +185,11 @@ const Details: FC = () => {
     setShowCarousel(!showCarousel);
   };
 
-  // TODO: need to implement
-  // Ver apartados sólo si existe una sesión iniciada.
+  // TODO: Ver apartados sólo si existe una sesión iniciada.
   const like = true;
+
+  // TODO: Las opciones de editar y eliminar solo son para el owner.
+  const userId = 11;
 
   return (
     <>
@@ -265,7 +271,7 @@ const Details: FC = () => {
                 <p css={xw`ml-2`}>{data.gender}</p>
               </div>
 
-              {isLogedIn && (
+              {isLogedIn && data.userId !== userId && (
                 <div css={xw`flex`}>
                   <ButtonLink
                     type="button"
@@ -324,6 +330,7 @@ const Details: FC = () => {
               />
 
               <Comments
+                userId={userId}
                 comments={comments}
                 isLogedIn={isLogedIn}
                 openUserReport={handleUserReport}
@@ -333,6 +340,7 @@ const Details: FC = () => {
 
           <CardUser
             user={user}
+            userId={userId}
             isLogedIn={isLogedIn}
             titlePublication={data.title}
             openUserReport={handleUserReport}
