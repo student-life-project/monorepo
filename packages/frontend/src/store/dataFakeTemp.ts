@@ -329,3 +329,46 @@ export const dataRentalPlaces = (limit): IRentalPlace[] =>
       likes: 100,
     } as IRentalPlace,
   ].slice(0, limit);
+
+export const dataComments = [
+  {
+    id: 1,
+    userId: 11,
+    name: 'Alfredo Carreón Urbano',
+    userImage: '/images/avatar.png',
+    comment:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
+    date: '12 de mayo 2022',
+  },
+  {
+    id: 2,
+    userId: 18,
+    name: 'Erick Mejia Blanco',
+    userImage: '/images/avatar.png',
+    comment:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
+    date: '11 de mayo 2022',
+  },
+];
+
+export const dataComment = (id) =>
+  [
+    {
+      id: 1,
+      userId: 11,
+      name: 'Alfredo Carreón Urbano',
+      userImage: '/images/avatar.png',
+      comment:
+        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
+      date: '12 de mayo 2022',
+    },
+    {
+      id: 2,
+      userId: 18,
+      name: 'Erick Mejia Blanco',
+      userImage: '/images/avatar.png',
+      comment:
+        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
+      date: '11 de mayo 2022',
+    },
+  ].filter((item) => item.id === id);

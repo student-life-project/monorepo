@@ -23,6 +23,9 @@ import {
 } from '@/store/types/comments';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
+// TODO: ELIMINAR
+import { dataComment, dataComments } from '../dataFakeTemp';
+
 // =============================================================================
 
 export const getCommentPendingAction = (): any => ({
@@ -47,7 +50,7 @@ export const getComment =
       // const { data } = await api.get(`/comment/${id}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataComment(id);
       // eslint-disable-next-line no-console
       console.log(id);
 
@@ -199,7 +202,7 @@ export const getAllComments =
       // const { data } = await api.get(`/comment${limitQuery}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataComments;
       // eslint-disable-next-line no-console
       console.log(limit);
 

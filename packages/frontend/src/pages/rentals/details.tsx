@@ -11,7 +11,10 @@ import {
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FC, useState } from 'react';
+import { NextPage, NextPageContext } from 'next';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import Comments from '@/components/comments/Comments';
 import Alert from '@/components/common/Alert';
@@ -23,6 +26,10 @@ import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
 import CardUser from '@/components/profile/CardUser';
 import ModalReport from '@/components/reports/ModalReport';
+import { TStore } from '@/store';
+import { getAllComments } from '@/store/actions/comments';
+import { TRootState } from '@/store/reducers';
+import { commentsSelector } from '@/store/selectors/comment';
 
 type TContentGallery = {
   length: number;
@@ -144,34 +151,15 @@ const user = {
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
 };
 
-const comments = [
-  {
-    id: 1,
-    userId: 11,
-    name: 'Alfredo Carreón Urbano',
-    userImage: '/images/avatar.png',
-    comment:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
-    date: '12 de mayo 2022',
-  },
-  {
-    id: 2,
-    userId: 18,
-    name: 'Erick Mejia Blanco',
-    userImage: '/images/avatar.png',
-    comment:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
-    date: '11 de mayo 2022',
-  },
-];
-
 // TODO: Ver comentarios sólo si existe una sesión iniciada.
 const isLogedIn = true;
 
-const Details: FC = () => {
+const Details: NextPage = () => {
   const [userReport, setUserReport] = useState(false);
   const [rentalReport, setRentalReport] = useState(false);
   const [showCarousel, setShowCarousel] = useState(false);
+
+  const commentList = useSelector((state) => commentsSelector(state));
 
   const handleUserReport = () => {
     setUserReport(!userReport);
@@ -331,7 +319,7 @@ const Details: FC = () => {
 
               <Comments
                 userId={userId}
-                comments={comments}
+                comments={commentList}
                 isLogedIn={isLogedIn}
                 openUserReport={handleUserReport}
               />
@@ -364,6 +352,16 @@ const Details: FC = () => {
       </BodyContainer>
     </>
   );
+};
+
+Details.getInitialProps = async ({
+  reduxStore,
+}: NextPageContext & { reduxStore: TStore }) => {
+  await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+    getAllComments(),
+  );
+
+  return {};
 };
 
 export default Details;

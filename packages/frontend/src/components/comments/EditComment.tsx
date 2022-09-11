@@ -1,10 +1,11 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import xw from 'xwind';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
-import { updateComment } from '@/store/actions/comments';
+import { getComment, updateComment } from '@/store/actions/comments';
+import { commentsSelector } from '@/store/selectors/comment';
 import { TElementId } from '@/types';
 
 import Button from '../common/Button';
@@ -26,12 +27,20 @@ const EditComment: FC<TEditComment> = ({ commentId, closeModal }) => {
     handleSubmit,
     register,
     watch,
+    reset,
     formState: { errors },
   } = useForm({ mode: 'all' });
 
   const dispatch = useDispatch();
   const comment = watch('comment');
-  // TODO: cargar data
+  const dataComment = useSelector((state) => commentsSelector(state));
+
+  // TODO: Es neceario mejor usar otro estado para no afectar el estado de comments.
+  useEffect(() => {
+    dispatch(getComment(commentId));
+    reset({ comment: dataComment[0].comment });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit: SubmitHandler<TEditCommentData> = async (data) => {
     //! Enviar más data necesaria
