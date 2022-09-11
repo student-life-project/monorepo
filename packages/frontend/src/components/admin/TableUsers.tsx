@@ -1,10 +1,15 @@
 import { FC, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ModalConfirm from '@/components/common/ModalConfirm';
 import Table from '@/components/common/Table';
 import { ColumnsUser, confirmMessage, HeaderUser } from '@/constants';
-import { AlertMessage } from '@/constants/alertMessage';
+import {
+  changeUserStatus,
+  deleteUser,
+  searchUser,
+} from '@/store/actions/manageUsers';
+import { isFetchingManageUserSelector } from '@/store/selectors/manageUsers';
 import { TElementId } from '@/types';
 
 type TTableUsers = {
@@ -12,14 +17,18 @@ type TTableUsers = {
 };
 
 const TableUsers: FC<TTableUsers> = ({ data }) => {
-  // const dispatch = useDispatch();
   const [userId, setUserId] = useState<TElementId>(null);
   const [showModalUser, setShowModalUser] = useState(false);
 
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => isFetchingManageUserSelector(state));
+
+  const handleChange = ({ target }) => {
+    dispatch(searchUser(target.value));
+  };
+
   const statusUser = (id: TElementId) => {
-    // dispatch(changeUserStatus(id));
-    // eslint-disable-next-line no-console
-    console.log(id);
+    dispatch(changeUserStatus(id));
   };
 
   const handleOpenModalUser = (id: TElementId) => {
@@ -31,19 +40,18 @@ const TableUsers: FC<TTableUsers> = ({ data }) => {
     setShowModalUser(false);
   };
 
-  const deleteUser = (id: TElementId) => {
-    // eslint-disable-next-line no-console
-    console.log(`Usuario ${id}`);
-    toast.success(AlertMessage.deleted('usuario'));
+  const header = {
+    ...HeaderUser,
+    onChange: handleChange,
   };
 
   return (
     <>
       <Table
         data={data}
-        loading={false} // TODO: loading si la data aún no carga mostrar el Spinner.
+        header={header}
+        loading={loading}
         columns={ColumnsUser(statusUser, handleOpenModalUser)}
-        header={HeaderUser}
       />
 
       {showModalUser && (
@@ -52,8 +60,7 @@ const TableUsers: FC<TTableUsers> = ({ data }) => {
           title={confirmMessage.titleDelete('usuario')}
           description={confirmMessage.descriptionDelete('usuario')}
           closeModal={handleCloseModalUser}
-          // eslint-disable-next-line no-console
-          action={() => deleteUser(userId)}
+          action={() => dispatch(deleteUser(userId))}
         />
       )}
     </>

@@ -190,7 +190,7 @@ export const changeUserStatusErrorAction = (error: AxiosError): any => ({
   error,
 });
 
-export const changeUser =
+export const changeUserStatus =
   (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {

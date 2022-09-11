@@ -193,7 +193,7 @@ export const changePublicationApprovalErrorAction = (
   error,
 });
 
-export const changePublication =
+export const changePublicationApproval =
   (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {
