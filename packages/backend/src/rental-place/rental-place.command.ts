@@ -7,7 +7,6 @@ import { Command, Option } from 'nestjs-command';
 import { Address } from '../address/address.schema';
 import { AddressService } from '../address/address.service';
 import { CreateAddressDto } from '../address/dto/create-address.dto';
-import { Comment } from '../comment/comment.schema';
 import { CommentService } from '../comment/comment.service';
 import { CreateCommentDto } from '../comment/dto/create-comment.dto';
 import {
@@ -21,8 +20,8 @@ import {
 } from '../helper/types';
 import { Image } from '../image/image.schema';
 import { CreateLikeDto } from '../like/dto/create-like.dto';
-import { Like } from '../like/like.schema';
 import { LikeService } from '../like/like.service';
+import { CreateRentalPlaceDto } from './dto/create-rental-place.dto';
 // import { CreateRentalPlaceDto } from './dto/create-rental-place.dto';
 import { RentalPlace } from './rental-place.schema';
 import { RentalPlaceService } from './rental-place.service';
@@ -75,7 +74,9 @@ export class RentalPlaceCommand {
         const comments: CreateCommentDto[] = [];
         const likes: CreateLikeDto[] = [];
         Array.from({ length: Math.floor(Math.random() * 15) }).forEach(() => {
-          comments.push(this.createRandomComments(rental));
+          comments.push(
+            this.createRandomComments(rental as CreateRentalPlaceDto),
+          );
         });
         Array.from({ length: Math.floor(Math.random() * 15) }).forEach(() => {
           likes.push(this.createRandomLikes(rental));
@@ -98,14 +99,15 @@ export class RentalPlaceCommand {
     // const createdLikes = await this.likeService.createMany(likes);
     await this.likeService.createMany(likes);
 
-    createdComments.forEach(async (e) => {
+    const updateCommentPromises = createdComments.map(async (e) => {
       if (e.placeId.id) {
-        await this.rentalPlaceService.update(e.placeId.id, {
-          ...e.placeId,
-          comments: e,
-        });
+        const place = await this.rentalPlaceService.findById(e.placeId.id);
+        place?.comments?.push(e);
+        place?.save();
       }
     });
+
+    await Promise.all(updateCommentPromises);
   }
 
   refresh() {
@@ -127,17 +129,17 @@ export class RentalPlaceCommand {
     };
   }
 
-  createRandomLikes(rental: RentalPlace): Like {
+  createRandomLikes(rental: RentalPlace): CreateLikeDto {
     return {
       type: ERateType.PLACE,
-      placeId: rental,
+      placeId: rental as CreateRentalPlaceDto,
       ownerId: faker.random.numeric()
         ? 'auth0|621ae78a2fda510070202476'
         : faker.datatype.uuid(),
     };
   }
 
-  createRandomComments(rental: RentalPlace): Comment {
+  createRandomComments(rental: CreateRentalPlaceDto): CreateCommentDto {
     return {
       placeId: rental,
       ownerId: faker.random.numeric()
@@ -147,7 +149,7 @@ export class RentalPlaceCommand {
     };
   }
 
-  createRandomRentalPlace(addreess: Address): RentalPlace {
+  createRandomRentalPlace(addreess: Address): CreateRentalPlaceDto {
     return {
       owner: faker.random.numeric()
         ? 'auth0|621ae78a2fda510070202476'
@@ -208,10 +210,10 @@ export class RentalPlaceCommand {
         Security.Extintores,
       ]),
       approved: faker.datatype.boolean(),
-    };
+    } as CreateRentalPlaceDto;
   }
 
-  createRandomAddress(): Address {
+  createRandomAddress(): CreateAddressDto {
     return {
       street: faker.address.streetName(),
       extNumber: faker.address.buildingNumber(),

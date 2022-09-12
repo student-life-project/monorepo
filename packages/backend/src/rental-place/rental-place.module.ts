@@ -12,7 +12,7 @@ import { LikeModule } from '../like/like.module';
 import { LikeService } from '../like/like.service';
 import { UserModule } from '../user/user.module';
 import { UserService } from '../user/user.service';
-import { RentalPlaceController } from './rental-place.controller';
+// import { RentalPlaceController } from './rental-place.controller';
 import { RentalPlace, RentalPlaceSchema } from './rental-place.schema';
 import { RentalPlaceService } from './rental-place.service';
 
@@ -33,7 +33,7 @@ import { RentalPlaceService } from './rental-place.service';
       { name: RentalPlace.name, schema: RentalPlaceSchema },
     ]),
   ],
-  controllers: [RentalPlaceController],
+  // controllers: [RentalPlaceController],
   providers: [
     RentalPlaceService,
     AddressService,

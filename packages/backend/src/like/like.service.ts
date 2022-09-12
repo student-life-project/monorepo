@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
+import {
+  RentalPlace,
+  RentalPlaceDocument,
+} from '../rental-place/rental-place.schema';
 import { CreateLikeDto } from './dto/create-like.dto';
 import { Like, LikeDocument } from './like.schema';
 
@@ -11,6 +15,8 @@ export class LikeService {
   constructor(
     @InjectModel(Like.name)
     private LikeModel: Model<LikeDocument>,
+    @InjectModel(RentalPlace.name)
+    private RentalPlaceModel: Model<RentalPlaceDocument>,
   ) {}
 
   async createMany(createImageDto: CreateLikeDto[]): Promise<Like[]> {
@@ -19,7 +25,10 @@ export class LikeService {
   }
 
   async deleteByPlaceId(id: string) {
-    return this.LikeModel.deleteMany({ placeId: id });
+    const rentalPlacefinded =
+      (await this.RentalPlaceModel.findById(id)) || undefined;
+
+    return this.LikeModel.deleteMany({ placeId: rentalPlacefinded });
   }
 
   async deleteByOwnerId(id: string) {

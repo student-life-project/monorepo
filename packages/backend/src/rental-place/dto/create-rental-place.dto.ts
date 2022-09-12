@@ -19,6 +19,8 @@ import {
   Services,
   TypeSpace,
 } from '../../helper/types';
+import { CreateImageDto } from '../../image/dto/create-image.dto';
+import { CreateLikeDto } from '../../like/dto/create-like.dto';
 
 export class CreateRentalPlaceDto {
   @ApiHideProperty()
@@ -57,9 +59,6 @@ export class CreateRentalPlaceDto {
   })
   price: string;
 
-  // @ApiProperty({ example: true })
-  // availability: boolean;
-
   @ApiProperty()
   address: CreateAddressDto;
 
@@ -96,4 +95,20 @@ export class CreateRentalPlaceDto {
     enum: Security,
   })
   security: Security[];
+
+  @ApiProperty({
+    example: false,
+  })
+  availability: boolean;
+
+  @ApiProperty({
+    example: false,
+  })
+  approved: boolean;
+
+  @ApiProperty()
+  likes: CreateLikeDto[];
+
+  @ApiProperty()
+  images: CreateImageDto[];
 }

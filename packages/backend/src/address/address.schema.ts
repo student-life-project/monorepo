@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { States } from '@student_life/common';
 import { Document } from 'mongoose';
 
 import { Point } from './point.schema';
@@ -29,7 +28,7 @@ export class Address {
 
   @ApiProperty()
   @Prop({ default: 'Jalisco' })
-  state: States;
+  state: string;
 
   @ApiProperty()
   @Prop({ required: true })

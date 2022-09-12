@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
+import {
+  RentalPlace,
+  RentalPlaceDocument,
+} from '../rental-place/rental-place.schema';
 import { Comment, CommentDocument } from './comment.schema';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
@@ -11,6 +15,8 @@ export class CommentService {
   constructor(
     @InjectModel(Comment.name)
     private CommentModel: Model<CommentDocument>,
+    @InjectModel(RentalPlace.name)
+    private RentalPlaceModel: Model<RentalPlaceDocument>,
   ) {}
 
   async createMany(createImageDto: CreateCommentDto[]): Promise<Comment[]> {
@@ -23,6 +29,9 @@ export class CommentService {
   }
 
   async deleteByPlaceId(id: string) {
-    return this.CommentModel.deleteMany({ placeId: id });
+    const rentalPlacefinded =
+      (await this.RentalPlaceModel.findById(id)) || undefined;
+
+    return this.CommentModel.deleteMany({ placeId: rentalPlacefinded });
   }
 }

@@ -4,6 +4,8 @@ import { IsISO31661Alpha2, Validate } from 'class-validator';
 
 import { IsPostalCodeByCountryCode } from '../../helper/is-postal-code-by-country-code-validation';
 
+const defaultState = States.find((state) => Boolean(state.Jalisco))?.Jalisco;
+
 export class UpdateAddressDto {
   @ApiProperty()
   _id: string;
@@ -22,10 +24,10 @@ export class UpdateAddressDto {
 
   // @Validate(CustomEnum, States)
   @ApiProperty({
-    example: States.Jalisco,
+    example: defaultState,
     enum: States,
   })
-  state: States;
+  state: string;
 
   @ApiProperty({ example: 'Guadalajara' })
   city: string;

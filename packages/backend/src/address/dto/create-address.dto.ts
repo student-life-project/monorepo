@@ -4,6 +4,8 @@ import { IsISO31661Alpha2, Validate } from 'class-validator';
 
 import { IsPostalCodeByCountryCode } from '../../helper/custom-validation';
 
+const defaultState = States.find((state) => Boolean(state.Jalisco))?.Jalisco;
+
 export class CreateAddressDto {
   @ApiProperty({
     title: 'Full Street',
@@ -23,10 +25,10 @@ export class CreateAddressDto {
 
   @ApiProperty({
     description: 'State (now only in México)',
-    example: States.Jalisco,
+    example: defaultState,
     enum: States,
   })
-  state: States;
+  state: string;
 
   @ApiProperty({
     description: 'City',

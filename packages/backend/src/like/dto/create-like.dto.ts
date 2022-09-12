@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ERateType } from '@student_life/common';
 
-import { CreateRentalPlaceDto } from '../../rental-place/dto/create-rental-place.dto';
+import { RentalPlace } from '../../rental-place/rental-place.schema';
 
 export class CreateLikeDto {
   @ApiProperty({
@@ -11,7 +11,7 @@ export class CreateLikeDto {
   type: ERateType;
 
   @ApiProperty({})
-  placeId: CreateRentalPlaceDto;
+  placeId: RentalPlace;
 
   @ApiProperty({})
   ownerId: string;

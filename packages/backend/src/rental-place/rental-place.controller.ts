@@ -33,6 +33,7 @@ import { Response } from 'express';
 import { createReadStream } from 'fs';
 
 import { AddressService } from '../address/address.service';
+import { UpdateAddressDto } from '../address/dto/update-address.dto';
 import { Auth } from '../authz/auth.decorator';
 import { CommentService } from '../comment/comment.service';
 import {
@@ -44,6 +45,7 @@ import {
 import { FilesUploadDto } from '../helper/dto/file-upload.dto';
 import { UserNotAllowOrOwnerException } from '../helper/exceptions/user-not-allowed-to-update-data';
 import { ImageService } from '../image/image.service';
+import { CreateLikeDto } from '../like/dto/create-like.dto';
 import { LikeService } from '../like/like.service';
 import { UserService } from '../user/user.service';
 import { CreateRentalPlaceDto } from './dto/create-rental-place.dto';
@@ -103,7 +105,7 @@ export class RentalPlaceController {
   @Get()
   findAll(@Query() queries: any) {
     // TODO make sure retrive all need info rentals GET check if made TOP RATE AND MOST COMMENTED limit to 5 ¡¡DISPONIBLES!! (si todos igual random entre los top on different request
-    console.log(queries);
+    // console.log(queries);
     const PAGINATOR_PAGE = 1;
     const PAGINATOR_LIMIT = 10;
     const DEFAULT_SORT = 'desc';
@@ -112,7 +114,7 @@ export class RentalPlaceController {
     if (queries.price) {
       query = this.rentalPlaceService.priceFilter(query, queries.price);
     }
-    console.log('query', query);
+    // console.log('query', query);
 
     // if(queries.)
 
@@ -138,7 +140,7 @@ export class RentalPlaceController {
   // @Auth('read:rental-place')
   async findOne(@Param('id') id: string) {
     // TODO make sure retrive all need info rentals/:id GET
-    const rentalPlace = await this.rentalPlaceService.findOne(id);
+    const rentalPlace = await this.rentalPlaceService.findById(id);
     if (!rentalPlace)
       throw new NotFoundException('Rental place does not exists');
     const likesCount = await this.likeService.count(id);
@@ -155,7 +157,7 @@ export class RentalPlaceController {
   // TODO fix
   async findByOwner(@Req() req: any) {
     // TODO make sure retrive all need info rentals/:id GET
-    const rentalPlace = await this.rentalPlaceService.findOne(req.user.sub);
+    const rentalPlace = await this.rentalPlaceService.findById(req.user.sub);
     if (!rentalPlace)
       throw new NotFoundException('Rental place does not exists');
     return rentalPlace;
@@ -176,7 +178,7 @@ export class RentalPlaceController {
     @Body() updateRentalPlaceDto: UpdateRentalPlaceDto,
     @Req() req: any,
   ) {
-    const rentalPlace = await this.rentalPlaceService.findOne(id);
+    const rentalPlace = await this.rentalPlaceService.findById(id);
     if (!rentalPlace) {
       throw new NotFoundException(
         'Rental Place does not exists, not able to Update',
@@ -188,15 +190,17 @@ export class RentalPlaceController {
     // delete pass address and rates
     if (updateRentalPlaceDto.address) {
       await this.addressService.update(
-        updateRentalPlaceDto.address._id ?? '',
-        updateRentalPlaceDto.address,
+        (updateRentalPlaceDto.address as UpdateAddressDto)._id || '',
+        updateRentalPlaceDto.address as UpdateAddressDto,
       );
     }
     await this.likeService.deleteByPlaceId(id);
     if (updateRentalPlaceDto.likes) {
-      updateRentalPlaceDto.likes = await this.likeService.createMany(
+      const likesAdded = await this.likeService.createMany(
         updateRentalPlaceDto.likes,
       );
+
+      updateRentalPlaceDto.likes.push(likesAdded as unknown as CreateLikeDto);
     }
     await this.rentalPlaceService.update(id, updateRentalPlaceDto);
     return rentalPlace;
@@ -210,7 +214,7 @@ export class RentalPlaceController {
   @Delete(':id')
   @Auth('delete:rental-place')
   async remove(@Param('id') id: string, @Req() req: any) {
-    const rentalPlace = await this.rentalPlaceService.findOne(id);
+    const rentalPlace = await this.rentalPlaceService.findById(id);
     if (!rentalPlace)
       throw new NotFoundException('Rental place does not exists');
 
@@ -218,7 +222,7 @@ export class RentalPlaceController {
       throw new UserNotAllowOrOwnerException();
     }
     // delete from disk last images
-    this.rentalPlaceService.removeFiles(rentalPlace.images);
+    this.rentalPlaceService.removeFiles(rentalPlace.images || []);
     // remove on mongo
     this.imageService.deleteByPlaceId(id);
     this.addressService.deleteByPlaceId(rentalPlace.address.id ?? '');
@@ -240,7 +244,7 @@ export class RentalPlaceController {
   // @Auth('comment:rental-place')
   async comment(
     @Param('id') id: string,
-    @Body() comment: AddCommentPlaceDto,
+    // @Body() comment: AddCommentPlaceDto,
     @Req() req: any,
   ) {
     const rentalPlace = await this.findRental(id);
@@ -248,7 +252,7 @@ export class RentalPlaceController {
   }
 
   async findRental(id: string) {
-    const rentalPlace = await this.rentalPlaceService.findOne(id);
+    const rentalPlace = await this.rentalPlaceService.findById(id);
     if (!rentalPlace)
       throw new NotFoundException('Rental place does not exists');
     return rentalPlace;
@@ -288,7 +292,7 @@ export class RentalPlaceController {
       throw new UnsupportedMediaTypeException('File must be a png, jpg/jpeg');
 
     // delete from disk last images
-    const rentalPlace = await this.rentalPlaceService.findOne(id);
+    const rentalPlace = await this.rentalPlaceService.findById(id);
     // validate rental place
     if (!rentalPlace) {
       this.rentalPlaceService.removeFiles(files);
@@ -300,7 +304,7 @@ export class RentalPlaceController {
       throw new UserNotAllowOrOwnerException();
     }
 
-    this.rentalPlaceService.removeFiles(rentalPlace.images);
+    this.rentalPlaceService.removeFiles(rentalPlace.images || []);
     this.imageService.deleteByPlaceId(id);
 
     // separate safe and unsafe files to prevent change extension vulnerability
@@ -329,8 +333,12 @@ export class RentalPlaceController {
     });
     // save files in mongo
     const filesCreated = await this.imageService.createMany(filesToSave);
+    const placeToUpdate = await this.rentalPlaceService.findById(id);
     // attach them to the rental place
-    this.rentalPlaceService.update(id, { images: filesCreated });
+    this.rentalPlaceService.update(id, {
+      ...placeToUpdate,
+      images: filesCreated,
+    } as UpdateRentalPlaceDto);
 
     if (unsafeFiles.length) {
       return {
