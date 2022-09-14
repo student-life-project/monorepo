@@ -20,12 +20,14 @@ import {
 
 export interface IState {
   comments: any;
+  comment: any;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
   comments: [],
+  comment: {},
   isFetching: false,
   error: null,
 };
@@ -38,14 +40,14 @@ const reducer = (
     case GET_COMMENT_PENDING:
       return {
         ...state,
-        comments: [],
+        comment: {},
         isFetching: true,
         error: null,
       };
     case GET_COMMENT_SUCCESS:
       return {
         ...state,
-        comments: payload.data,
+        comment: payload.data,
         isFetching: false,
         error: null,
       };

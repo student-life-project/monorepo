@@ -5,7 +5,7 @@ import xw from 'xwind';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { getComment, updateComment } from '@/store/actions/comments';
-import { commentsSelector } from '@/store/selectors/comment';
+import { commentSelector } from '@/store/selectors/comment';
 import { TElementId } from '@/types';
 
 import Button from '../common/Button';
@@ -33,14 +33,12 @@ const EditComment: FC<TEditComment> = ({ commentId, closeModal }) => {
 
   const dispatch = useDispatch();
   const comment = watch('comment');
-  const dataComment = useSelector((state) => commentsSelector(state));
+  const dataComment = useSelector((state) => commentSelector(state));
 
-  // TODO: Es neceario mejor usar otro estado para no afectar el estado de comments.
   useEffect(() => {
     dispatch(getComment(commentId));
-    reset({ comment: dataComment[0].comment });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    reset({ comment: dataComment.comment });
+  }, [commentId, dataComment.comment, dispatch, reset]);
 
   const onSubmit: SubmitHandler<TEditCommentData> = async (data) => {
     //! Enviar más data necesaria

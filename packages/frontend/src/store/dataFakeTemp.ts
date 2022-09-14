@@ -371,4 +371,4 @@ export const dataComment = (id) =>
         'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
       date: '11 de mayo 2022',
     },
-  ].filter((item) => item.id === id);
+  ].filter((item) => item.id === id)[0];
