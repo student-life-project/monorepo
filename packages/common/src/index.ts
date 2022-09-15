@@ -1,5 +1,6 @@
 export const exampleFunction = (): void => console.log('Hello world');
 export * from './types/Addres';
+export * from './types/Auth.type';
 export * from './types/Characteristic.type';
 export * from './types/Image.type';
 export * from './types/Message.type';

@@ -5,6 +5,7 @@ import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { formatter } from '@/utils/numberFormat';
 
 const Content = styled.div`
@@ -38,7 +39,7 @@ interface IPriceSection {
 
 const PriceSection: FC<IPriceSection> = ({ price, currency = 'MXN' }) => (
   <Content>
-    <Icon icon={faHome} height="1.2rem" />
+    <Icon icon={faHome as IconProp} height="1.2rem" />
     <Text>{formatter(currency).format(price)} / mes</Text>
   </Content>
 );

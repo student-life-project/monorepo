@@ -166,7 +166,7 @@ export const ColumnsPublication = (
     sortable: true,
   },
   {
-    name: 'Aprobado',
+    name: 'Aprobación',
     selector: 'approved',
     cell: (row: { approved: any }) => {
       const { approved } = row;

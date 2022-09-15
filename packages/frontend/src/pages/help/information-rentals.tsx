@@ -28,8 +28,8 @@ const steps = [
     icon: faLaptopHouse,
   },
   {
-    title: 'Chatea y manda solicitudes',
-    text: 'Manda una solicitud de chat para obtener más información sobre algún anuncio de un alojamiento.',
+    title: 'Comunicate',
+    text: 'Llamé o mandé un mensaje para obtener más información sobre algún anuncio de un alojamiento.',
     icon: faComments,
   },
   {

@@ -1,6 +1,9 @@
-import { FC, useState } from 'react';
+import { useRouter } from 'next/router';
+import { FC, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import xw from 'xwind';
 
+import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import ModalConfirm from '@/components/common/ModalConfirm';
@@ -12,6 +15,7 @@ import {
   HeaderPublicationUser,
   ItemsPublications,
 } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 import { TElementId } from '@/types';
 
 const data = [
@@ -122,16 +126,17 @@ const data = [
   },
 ];
 
+// TODO: need to implement
+// TODO: loading si la data aún no carga mostrar el Spinner.
 const Publications: FC = () => {
-  // TODO: need to implement
-  // TODO: loading si la data aún no carga mostrar el Spinner.
-
+  const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [postId, setPostId] = useState<TElementId>(null);
 
   const availablePost = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(id);
+    // eslint-disable-next-line no-console
+    console.log(`Publicación ${id}`);
+    toast.success(AlertMessage.updated('disponibilidad'));
   };
 
   const handleOpenModal = (id: TElementId) => {
@@ -144,14 +149,34 @@ const Publications: FC = () => {
   };
 
   const deletePost = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(id);
+    // eslint-disable-next-line no-console
+    console.log(`Publicación ${id}`);
+    toast.success(AlertMessage.deleted('publicación'));
   };
+
+  useEffect(() => {
+    if (router.query) {
+      const { createdPost, updatedPost, deletedPublication } = router.query;
+
+      if (createdPost === 'true') {
+        toast.success(AlertMessage.created('publicación'));
+      } else if (updatedPost === 'true') {
+        toast.success(AlertMessage.updated('publicación'));
+      } else if (deletedPublication === 'true') {
+        toast.success(AlertMessage.deleted('publicación'));
+      }
+
+      router.replace('/profile/publications');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
       <NavBar allowRental allowLoginRegister />
       <BreadCrumbs items={ItemsPublications} />
+      <Alert />
+
       <BodyContainer css={xw`pt-0`}>
         <Table
           data={data}

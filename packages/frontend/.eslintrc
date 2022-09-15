@@ -82,6 +82,16 @@
         "import/no-cicle": [
             "off"
         ],
-        "no-param-reassign": "warn"
+        "no-param-reassign": "warn",
+        "react/no-unknown-property": [
+            "warn",
+            {
+                "ignore": [
+                    "css"
+                ]
+            }
+        ],
+        "react/require-default-props": "off",
+        "react/no-unused-prop-types": "off"
     }
 }

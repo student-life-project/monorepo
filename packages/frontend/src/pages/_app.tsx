@@ -1,14 +1,15 @@
-import { UserProvider } from '@auth0/nextjs-auth0';
+// eslint-disable-next-line simple-import-sort/imports
+import xw from 'xwind';
 import { css, Global } from '@emotion/react';
+import { UserProvider } from '@auth0/nextjs-auth0';
 import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
-import xw from 'xwind';
 
 import { configServerSideCredentials } from '@/services/api';
-import { fetchUserData, IUserAction } from '@/store/actions/user';
+import { fetchUserData, IUserAction } from '@/store/actions/users';
 import { TRootState } from '@/store/reducers';
 import { parseCookies } from '@/utils/cookie';
 import withReduxStore, { Props } from '@/utils/with-redux';

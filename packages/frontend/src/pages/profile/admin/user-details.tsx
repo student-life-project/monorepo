@@ -1,6 +1,9 @@
+import router from 'next/router';
 import { FC, useState } from 'react';
+import { toast } from 'react-toastify';
 import xw from 'xwind';
 
+import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import Button from '@/components/common/Button';
@@ -9,12 +12,14 @@ import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Status from '@/components/common/Status';
 import SubTitle from '@/components/common/SubTitle';
 import Switch from '@/components/common/Switch';
+import Avatar from '@/components/profile/Avatar';
 import {
   confirmMessage,
   ItemsUserDetails,
   NameInput,
   UserActiveStatus,
 } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 
 const user = {
   id: 1,
@@ -28,21 +33,47 @@ const user = {
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam!',
 };
 
-const UserDetails: FC = () => {
-  // TODO: Need to implement
-  const status = true; //* Por defecto debe estar activo el usuario al momento que se registra.
+type TRedirectData = {
+  pathname: string;
+  query?: {
+    deletedUser?: boolean;
+  };
+} & any;
 
+// TODO: Need to implement
+const UserDetails: FC = () => {
+  //* Por defecto debe estar activo el usuario al momento que se registra.
+  const [status, setStatus] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
 
+  const handleStatus = () => {
+    setStatus(!status);
+    toast.success(AlertMessage.updated('estatus'));
+  };
+
+  const handleDeleteUser = () => {
+    // TODO: id de usuario para eliminarlo
+
+    // TODO: onSuccess y onError alerts
+    const redirectData: TRedirectData = {
+      pathname: '/profile/admin',
+      query: {
+        deletedUser: true,
+      },
+    };
+
+    router.push(redirectData);
+  };
+
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-
       <BreadCrumbs items={ItemsUserDetails} />
+      <Alert />
 
       <BodyContainer css={xw`pt-16 sm:pt-8`}>
         <div css={xw`flex justify-center mb-10`}>
@@ -53,17 +84,14 @@ const UserDetails: FC = () => {
               <div
                 css={xw`flex justify-center items-center sm:justify-start sm:row-span-3`}
               >
-                <img
-                  alt={user.firstName}
-                  src={user.userImage}
-                  css={xw`w-52 h-52 sm:w-48 sm:h-48 bg-gray-400 rounded-full mb-5`}
-                />
+                <Avatar alt={user.firstName} url={user.userImage} large />
               </div>
 
               <div>
                 <SubTitle>{NameInput.userStatus}</SubTitle>
                 <Switch
                   checked={status}
+                  onClick={handleStatus}
                   label={<Status status={status} options={UserActiveStatus} />}
                 />
               </div>
@@ -71,7 +99,9 @@ const UserDetails: FC = () => {
               <div>
                 <SubTitle>{NameInput.fullName}</SubTitle>
                 <p css={xw`font-bold mt-2`}>
-                  {`${user.firstName} ${user.lastName}`}
+                  {user.firstName && user.lastName
+                    ? `${user.firstName} ${user.lastName}`
+                    : 'N/A'}
                 </p>
               </div>
 
@@ -82,18 +112,18 @@ const UserDetails: FC = () => {
 
               <div>
                 <SubTitle>{NameInput.phone}</SubTitle>
-                <p css={xw`font-bold mt-2`}>{user.phoneNumber}</p>
+                <p css={xw`font-bold mt-2`}>{user.phoneNumber || 'N/A'}</p>
               </div>
 
               <div>
                 <SubTitle>{NameInput.birthDate}</SubTitle>
-                <p css={xw`font-bold mt-2`}>{user.birthDate}</p>
+                <p css={xw`font-bold mt-2`}>{user.birthDate || 'N/A'}</p>
               </div>
             </div>
 
             <div css={xw`grid grid-cols-1`}>
               <SubTitle>{NameInput.aboutMe}</SubTitle>
-              <p css={xw`font-bold mt-2`}>{user.aboutMe}</p>
+              <p css={xw`font-bold mt-2`}>{user.aboutMe || 'N/A'}</p>
             </div>
 
             <div css={xw`w-full flex justify-center sm:justify-end mt-8`}>
@@ -110,8 +140,7 @@ const UserDetails: FC = () => {
             title={confirmMessage.titleDelete('reporte')}
             description={confirmMessage.descriptionDelete('reporte')}
             closeModal={handleShowModal}
-            // eslint-disable-next-line no-console
-            action={() => console.log('hi')}
+            action={handleDeleteUser}
           />
         )}
       </BodyContainer>

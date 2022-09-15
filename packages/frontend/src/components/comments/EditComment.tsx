@@ -1,38 +1,50 @@
-import { FC } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FC, useEffect } from 'react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import xw from 'xwind';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
+import { getComment, updateComment } from '@/store/actions/comments';
+import { commentSelector } from '@/store/selectors/comment';
+import { TElementId } from '@/types';
 
 import Button from '../common/Button';
 import DoubleSpace from '../common/DoubleSpace';
 import Modal from '../common/Modal';
 import Textarea from '../common/Textarea';
 
+/*
 interface TEditCommentData {
   comment: string;
 }
+*/
 
 type TEditComment = {
+  commentId: TElementId;
   closeModal: () => void;
 };
 
-const EditComment: FC<TEditComment> = ({ closeModal }) => {
-  // TODO: need to implement
-  // Editar el comentario
-
+const EditComment: FC<TEditComment> = ({ commentId, closeModal }) => {
   const {
     handleSubmit,
     register,
     watch,
+    reset,
     formState: { errors },
   } = useForm({ mode: 'all' });
 
+  const dispatch = useDispatch();
   const comment = watch('comment');
+  const dataComment = useSelector((state) => commentSelector(state));
 
-  const onSubmit: SubmitHandler<TEditCommentData> = async (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
+  useEffect(() => {
+    dispatch(getComment(commentId));
+    reset({ comment: dataComment.comment });
+  }, [commentId, dataComment.comment, dispatch, reset]);
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    //! Enviar más data necesaria
+    dispatch(updateComment(commentId, data as TEditComment));
     closeModal();
   };
 
@@ -57,8 +69,8 @@ const EditComment: FC<TEditComment> = ({ closeModal }) => {
               },
             }),
           }}
-          error={errors.comment}
-          messageError={errors.comment?.message}
+          error={Boolean(errors.comment)}
+          messageError={errors.comment?.message as string}
         />
 
         <DoubleSpace>

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IBreadCrumb } from '@/types';
 
 import Anchor from './Anchor';
@@ -49,7 +50,7 @@ const BreadCrumbs: FC<IBreadCrumbs> = ({ items }) => (
         </Link>
         {index !== items.length - 1 && (
           <div>
-            <Icon icon={faChevronRight} height="1rem" />
+            <Icon icon={faChevronRight as IconProp} height="1rem" />
           </div>
         )}
       </List>

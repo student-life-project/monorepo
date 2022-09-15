@@ -1,7 +1,11 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-const Loader = styled.div`
+type TProps = {
+  large?: boolean;
+};
+
+const Loader = styled.div<TProps>`
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -18,8 +22,16 @@ const Loader = styled.div`
       transform: rotate(360deg);
     }
   }
+
+  ${({ large }) =>
+    large &&
+    `
+      width: 100px;
+      height: 100px;
+      border-width: 10px;
+    `}
 `;
 
-const Spinner: FC = () => <Loader />;
+const Spinner: FC<TProps> = ({ large }) => <Loader large={large} />;
 
 export default Spinner;

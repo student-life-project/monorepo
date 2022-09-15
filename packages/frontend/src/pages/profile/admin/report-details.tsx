@@ -1,6 +1,9 @@
+import router from 'next/router';
 import { FC, useState } from 'react';
+import { toast } from 'react-toastify';
 import xw from 'xwind';
 
+import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import Button from '@/components/common/Button';
@@ -15,6 +18,7 @@ import {
   NameInput,
   ReportStatus,
 } from '@/constants';
+import { AlertMessage } from '@/constants/alertMessage';
 
 const report = {
   id: 1,
@@ -22,25 +26,52 @@ const report = {
   to: 'Erick Mejia Blanco', //  Comoda casa para descanso en Club de Golf Tequis
   from: 'Alfredo Carreón Urbano',
   date: '4 de abril 2021',
+  reason: 'Es irrespetuoso u ofensivo (Incita al odio)',
   description:
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam!',
 };
 
-const ReportDetails: FC = () => {
-  // TODO: Need to implement
-  const status = false; //* Por defecto debe estar no resuelto.
+type TRedirectData = {
+  pathname: string;
+  query?: {
+    deletedReport?: boolean;
+  };
+} & any;
 
+// TODO: Need to implement
+const ReportDetails: FC = () => {
+  //* Por defecto debe estar no resuelto.
+  const [status, setStatus] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
 
+  const handleStatus = () => {
+    setStatus(!status);
+    toast.success(AlertMessage.updated('estatus'));
+  };
+
+  const handleDeleteReport = () => {
+    // TODO: id de reporte para eliminarlo
+
+    // TODO: onSuccess y onError alerts
+    const redirectData: TRedirectData = {
+      pathname: '/profile/admin',
+      query: {
+        deletedReport: true,
+      },
+    };
+
+    router.push(redirectData);
+  };
+
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-
       <BreadCrumbs items={ItemsReportDetails} />
+      <Alert />
 
       <BodyContainer css={xw`pt-16 sm:pt-8`}>
         <div css={xw`flex justify-center mb-10`}>
@@ -52,6 +83,7 @@ const ReportDetails: FC = () => {
                 <SubTitle>{NameInput.reportStatus}</SubTitle>
                 <Switch
                   checked={status}
+                  onClick={handleStatus}
                   label={<Status status={status} options={ReportStatus} />}
                 />
               </div>
@@ -75,6 +107,11 @@ const ReportDetails: FC = () => {
                 <SubTitle>{NameInput.toReport}</SubTitle>
                 <p css={xw`font-bold mt-2`}>{report.to}</p>
               </div>
+
+              <div>
+                <SubTitle>{NameInput.reportReason}</SubTitle>
+                <p css={xw`font-bold`}>{report.reason}</p>
+              </div>
             </div>
 
             <div css={xw`grid grid-cols-1`}>
@@ -96,8 +133,7 @@ const ReportDetails: FC = () => {
             title={confirmMessage.titleDelete('reporte')}
             description={confirmMessage.descriptionDelete('reporte')}
             closeModal={handleShowModal}
-            // eslint-disable-next-line no-console
-            action={() => console.log('hi')}
+            action={handleDeleteReport}
           />
         )}
       </BodyContainer>

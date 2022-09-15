@@ -10,6 +10,7 @@ import { FC, useState } from 'react';
 import { Triangle } from '@/icons';
 import { INavBar } from '@/types';
 
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import Anchor from '../Anchor';
 import UserButton from './UserButton';
 
@@ -83,7 +84,7 @@ const MobileMenu: FC<INavBar> = ({
   return (
     <MenuContent>
       <MenuButton type="button" onClick={onClick}>
-        <MenuIconBar icon={faBars} height="2.5rem" />
+        <MenuIconBar icon={faBars as IconProp} height="2.5rem" />
       </MenuButton>
 
       {displayMenu && (
@@ -116,12 +117,6 @@ const MobileMenu: FC<INavBar> = ({
               Enviar una solicitud
             </Anchor>
           )}
-
-          <MenuItem>
-            <Link href="/profile/messages">
-              <Anchor css={xw`text-secondary-1`}>Mensajes</Anchor>
-            </Link>
-          </MenuItem>
 
           {user?.type === EUserType.OWNER && (
             <MenuItem>

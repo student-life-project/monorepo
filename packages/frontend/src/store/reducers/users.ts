@@ -1,7 +1,7 @@
 import { IUser } from '@student_life/common';
 import { AxiosError } from 'axios';
 
-import { IUserAction } from '@/store/actions/user';
+import { IUserAction } from '@/store/actions/users';
 import {
   FETCH_USER_FAILURE,
   FETCH_USER_PEDING,
@@ -12,7 +12,7 @@ import {
   LOGOUT,
   REGISTER_USER_PENDING,
   REGISTER_USER_SUCCESS,
-} from '@/store/types/user';
+} from '@/store/types/users';
 import { ILoginResponse } from '@/types';
 
 export interface IState {

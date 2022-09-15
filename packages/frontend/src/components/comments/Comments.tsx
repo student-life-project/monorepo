@@ -1,8 +1,11 @@
 import { FC, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import xw from 'xwind';
 
 import { confirmMessage, ErrorMessageInput, NameInput } from '@/constants';
+import { createComment, deleteComment } from '@/store/actions/comments';
+import { TElementId } from '@/types';
 
 import Anchor from '../common/Anchor';
 import Button from '../common/Button';
@@ -14,6 +17,7 @@ import ItemComment from './ItemComment';
 
 type TComments = {
   comments: any;
+  userId: TElementId;
   isLogedIn: boolean;
   openUserReport: () => void;
 };
@@ -22,11 +26,12 @@ interface ICommentData {
   comment: string;
 }
 
-const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
-  // TODO: Need to implement
-  // Ver comentarios sólo si existe una sesión iniciada.
-  // Las opciones de editar y eliminar solo son para el owner.
-
+const Comments: FC<TComments> = ({
+  userId,
+  comments,
+  isLogedIn,
+  openUserReport,
+}) => {
   const {
     handleSubmit,
     register,
@@ -35,25 +40,37 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
     formState: { errors },
   } = useForm({ mode: 'all' });
 
+  const dispatch = useDispatch();
+  const [commentId, setCommentId] = useState<TElementId>(null);
+
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
 
   const comment = watch('comment');
 
-  const onSubmit: SubmitHandler<ICommentData> = async (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    //! Despues de enviar el comentario. enviarle un id de user.
+    //! Para obtener id, name, userImage, comment y date.
+    dispatch(createComment(data as ICommentData));
     reset();
-    // Despues de enviar el comentario. enviarle un id de user.
-    // Para obetener id, name, userImage, comment y date.
   };
 
-  const handleOpenModalEdit = () => {
+  const handleOpenModalEdit = (id: TElementId) => {
     setShowModalEdit(!showModalEdit);
+    setCommentId(id);
   };
 
-  const handleOpenModalDelete = () => {
-    setShowModalDelete(!showModalDelete);
+  const handleCloseModalEdit = () => {
+    setShowModalEdit(false);
+  };
+
+  const handleOpenModalDelete = (id: TElementId) => {
+    setShowModalDelete(true);
+    setCommentId(id);
+  };
+
+  const handleCloseModalDelete = () => {
+    setShowModalDelete(false);
   };
 
   return (
@@ -77,8 +94,8 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
                   },
                 }),
               }}
-              error={errors.comment}
-              messageError={errors.comment?.message}
+              error={Boolean(errors.comment)}
+              messageError={errors.comment?.message as string}
             />
 
             <DoubleSpace classNames={xw`sm:justify-end sm:gap-4 sm:mt-2`}>
@@ -92,6 +109,7 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
           </form>
 
           <ItemComment
+            userId={userId}
             comments={comments}
             openUserReport={openUserReport}
             openModalDelete={handleOpenModalDelete}
@@ -107,15 +125,17 @@ const Comments: FC<TComments> = ({ comments, isLogedIn, openUserReport }) => {
         </div>
       )}
 
-      {showModalEdit && <EditComment closeModal={handleOpenModalEdit} />}
+      {showModalEdit && (
+        <EditComment commentId={commentId} closeModal={handleCloseModalEdit} />
+      )}
 
       {showModalDelete && (
         <ModalConfirm
           type="warning"
           title={confirmMessage.titleDelete('comentario')}
           description={confirmMessage.descriptionDelete('comentario')}
-          closeModal={handleOpenModalDelete}
-          action={() => alert('Hi - id of comment')}
+          closeModal={handleCloseModalDelete}
+          action={() => dispatch(deleteComment(commentId))}
         />
       )}
     </>

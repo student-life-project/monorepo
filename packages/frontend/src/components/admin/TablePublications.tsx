@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ModalConfirm from '@/components/common/ModalConfirm';
 import Table from '@/components/common/Table';
@@ -7,22 +8,33 @@ import {
   confirmMessage,
   HeaderPublication,
 } from '@/constants';
+import {
+  changePublicationApproval,
+  deletePublication,
+  searchPublication,
+} from '@/store/actions/managePublications';
+import { isFetchingManagePublicationsSelector } from '@/store/selectors/managePublications';
 import { TElementId } from '@/types';
 
 type TTablePublications = {
-  data: any; //! Crear type
+  data: any;
 };
 
 const TablePublications: FC<TTablePublications> = ({ data }) => {
-  // TODO: need to implement
-  // TODO: loading si la data aún no carga mostrar el Spinner.
-
   const [postId, setPostId] = useState<TElementId>(null);
   const [showModalPost, setShowModalPost] = useState(false);
 
+  const dispatch = useDispatch();
+  const loading = useSelector((state) =>
+    isFetchingManagePublicationsSelector(state),
+  );
+
+  const handleChange = ({ target }) => {
+    dispatch(searchPublication(target.value));
+  };
+
   const approvePost = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Publicación ${id}`);
+    dispatch(changePublicationApproval(id));
   };
 
   const handleOpenModalPost = (id: TElementId) => {
@@ -34,18 +46,18 @@ const TablePublications: FC<TTablePublications> = ({ data }) => {
     setShowModalPost(false);
   };
 
-  const deletePost = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Publicación ${id}`);
+  const header = {
+    ...HeaderPublication,
+    onChange: handleChange,
   };
 
   return (
     <>
       <Table
         data={data}
-        loading={false}
+        loading={loading}
         columns={ColumnsPublication(approvePost, handleOpenModalPost)}
-        header={HeaderPublication}
+        header={header}
       />
 
       {showModalPost && (
@@ -54,8 +66,7 @@ const TablePublications: FC<TTablePublications> = ({ data }) => {
           title={confirmMessage.titleDelete('publicación')}
           description={confirmMessage.descriptionDelete('publicación')}
           closeModal={handleCloseModalPost}
-          // eslint-disable-next-line no-console
-          action={() => deletePost(postId)}
+          action={() => dispatch(deletePublication(postId))}
         />
       )}
     </>

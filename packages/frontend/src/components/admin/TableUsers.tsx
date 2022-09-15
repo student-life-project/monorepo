@@ -1,24 +1,34 @@
 import { FC, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ModalConfirm from '@/components/common/ModalConfirm';
 import Table from '@/components/common/Table';
 import { ColumnsUser, confirmMessage, HeaderUser } from '@/constants';
+import {
+  changeUserStatus,
+  deleteUser,
+  searchUser,
+} from '@/store/actions/manageUsers';
+import { isFetchingManageUserSelector } from '@/store/selectors/manageUsers';
 import { TElementId } from '@/types';
 
 type TTableUsers = {
-  data: any; //! Crear type
+  data: any;
 };
 
 const TableUsers: FC<TTableUsers> = ({ data }) => {
-  // TODO: need to implement
-  // TODO: loading si la data aún no carga mostrar el Spinner.
-
   const [userId, setUserId] = useState<TElementId>(null);
   const [showModalUser, setShowModalUser] = useState(false);
 
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => isFetchingManageUserSelector(state));
+
+  const handleChange = ({ target }) => {
+    dispatch(searchUser(target.value));
+  };
+
   const statusUser = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Usuario ${id}`);
+    dispatch(changeUserStatus(id));
   };
 
   const handleOpenModalUser = (id: TElementId) => {
@@ -30,18 +40,18 @@ const TableUsers: FC<TTableUsers> = ({ data }) => {
     setShowModalUser(false);
   };
 
-  const deleteUser = (id: TElementId) => {
-    // eslint-disable-next-line no-alert
-    alert(`Usuario ${id}`);
+  const header = {
+    ...HeaderUser,
+    onChange: handleChange,
   };
 
   return (
     <>
       <Table
         data={data}
-        loading={false}
+        loading={loading}
         columns={ColumnsUser(statusUser, handleOpenModalUser)}
-        header={HeaderUser}
+        header={header}
       />
 
       {showModalUser && (
@@ -50,8 +60,7 @@ const TableUsers: FC<TTableUsers> = ({ data }) => {
           title={confirmMessage.titleDelete('usuario')}
           description={confirmMessage.descriptionDelete('usuario')}
           closeModal={handleCloseModalUser}
-          // eslint-disable-next-line no-console
-          action={() => deleteUser(userId)}
+          action={() => dispatch(deleteUser(userId))}
         />
       )}
     </>

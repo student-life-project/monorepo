@@ -1,18 +1,24 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faBullhorn, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 import xw from 'xwind';
 
+import { TElementId } from '@/types';
+
 import Options from '../common/Options';
+import Avatar from '../profile/Avatar';
 
 type TItemComment = {
   comments: any;
+  userId: TElementId;
   openUserReport: () => void;
-  openModalDelete: () => void;
-  openModalEdit: () => void;
+  openModalDelete: (id: TElementId) => void;
+  openModalEdit: (id: TElementId) => void;
 };
 
 const ItemComment: FC<TItemComment> = ({
+  userId,
   comments,
   openUserReport,
   openModalDelete,
@@ -23,31 +29,36 @@ const ItemComment: FC<TItemComment> = ({
       <section key={item.id} css={xw`my-8`}>
         <div css={xw`w-full flex items-center`}>
           <div css={xw`w-full flex items-center gap-4`}>
-            <img
-              alt={item.name}
-              src={item.userImage}
-              css={xw`w-10 h-10 rounded-full bg-gray-400`}
-            />
+            <Avatar alt={item.name} url={item.userImage} small />
 
             <p>{item.name}</p>
           </div>
 
           <div css={xw`relative`}>
             <Options>
-              <button type="button" onClick={openUserReport}>
-                <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
-                <span css={xw`ml-2`}>Reportar</span>
-              </button>
+              {userId !== item.userId && (
+                <button type="button" onClick={openUserReport}>
+                  <FontAwesomeIcon
+                    icon={faBullhorn as IconProp}
+                    height="1.2rem"
+                  />
+                  <span css={xw`ml-2`}>Reportar</span>
+                </button>
+              )}
 
-              <button type="button" onClick={openModalEdit}>
-                <FontAwesomeIcon icon={faPen} height="1.2rem" />
-                <span css={xw`ml-2`}>Editar</span>
-              </button>
+              {userId === item.userId && (
+                <button type="button" onClick={() => openModalEdit(item.id)}>
+                  <FontAwesomeIcon icon={faPen as IconProp} height="1.2rem" />
+                  <span css={xw`ml-2`}>Editar</span>
+                </button>
+              )}
 
-              <button type="button" onClick={openModalDelete}>
-                <FontAwesomeIcon icon={faTrash} height="1.2rem" />
-                <span css={xw`ml-2`}>Eliminar</span>
-              </button>
+              {userId === item.userId && (
+                <button type="button" onClick={() => openModalDelete(item.id)}>
+                  <FontAwesomeIcon icon={faTrash as IconProp} height="1.2rem" />
+                  <span css={xw`ml-2`}>Eliminar</span>
+                </button>
+              )}
             </Options>
           </div>
         </div>

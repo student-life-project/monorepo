@@ -42,7 +42,8 @@
       "@/public/*": [
         "public/*"
       ]
-    }
+    },
+    "incremental": false
   },
   "exclude": [
     "node_modules",

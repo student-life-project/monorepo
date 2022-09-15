@@ -125,7 +125,11 @@ const Text = styled.p`
   `}
 `;
 
-const Link: FC<LinkProps> = ({ href, children, ...linkSettings }) => (
+const Link: FC<LinkProps & { children: JSX.Element | string }> = ({
+  href,
+  children,
+  ...linkSettings
+}) => (
   <NextLink href={href} {...linkSettings}>
     <TextLink>{children}</TextLink>
   </NextLink>
