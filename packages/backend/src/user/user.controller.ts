@@ -20,6 +20,6 @@ export class UserController {
   async getProfile(@Req() req: TReq, @Res() _: Response) {
     // console.log({ user: req.user }, req.user.sub);
 
-    return this.userService.validateToken(req.user);
+    return this.userService.validateToken(req.user as unknown as string);
   }
 }

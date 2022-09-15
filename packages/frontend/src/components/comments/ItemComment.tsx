@@ -1,3 +1,4 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faBullhorn, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
@@ -37,21 +38,24 @@ const ItemComment: FC<TItemComment> = ({
             <Options>
               {userId !== item.userId && (
                 <button type="button" onClick={openUserReport}>
-                  <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
+                  <FontAwesomeIcon
+                    icon={faBullhorn as IconProp}
+                    height="1.2rem"
+                  />
                   <span css={xw`ml-2`}>Reportar</span>
                 </button>
               )}
 
               {userId === item.userId && (
                 <button type="button" onClick={() => openModalEdit(item.id)}>
-                  <FontAwesomeIcon icon={faPen} height="1.2rem" />
+                  <FontAwesomeIcon icon={faPen as IconProp} height="1.2rem" />
                   <span css={xw`ml-2`}>Editar</span>
                 </button>
               )}
 
               {userId === item.userId && (
                 <button type="button" onClick={() => openModalDelete(item.id)}>
-                  <FontAwesomeIcon icon={faTrash} height="1.2rem" />
+                  <FontAwesomeIcon icon={faTrash as IconProp} height="1.2rem" />
                   <span css={xw`ml-2`}>Eliminar</span>
                 </button>
               )}

@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 interface IRateSection {
   likes: number;
@@ -35,7 +36,7 @@ const Text = styled.p`
 
 const RateSection: FC<IRateSection> = ({ likes }) => (
   <Content>
-    <Icon icon={faThumbsUp} height="1rem" />
+    <Icon icon={faThumbsUp as IconProp} height="1rem" />
     <Text>{likes} Me gusta</Text>
   </Content>
 );

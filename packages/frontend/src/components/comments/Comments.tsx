@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import xw from 'xwind';
 
@@ -48,10 +48,10 @@ const Comments: FC<TComments> = ({
 
   const comment = watch('comment');
 
-  const onSubmit: SubmitHandler<ICommentData> = async (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     //! Despues de enviar el comentario. enviarle un id de user.
     //! Para obtener id, name, userImage, comment y date.
-    dispatch(createComment(data));
+    dispatch(createComment(data as ICommentData));
     reset();
   };
 
@@ -94,8 +94,8 @@ const Comments: FC<TComments> = ({
                   },
                 }),
               }}
-              error={errors.comment}
-              messageError={errors.comment?.message}
+              error={Boolean(errors.comment)}
+              messageError={errors.comment?.message as string}
             />
 
             <DoubleSpace classNames={xw`sm:justify-end sm:gap-4 sm:mt-2`}>

@@ -5,6 +5,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import Title from './Title';
 
 type TModal = {
@@ -73,7 +74,7 @@ const Modal: FC<TModal> = ({ title, classNames, children, close }) => (
         <Header>
           <Title css={xw`my-0`}>{title}</Title>
           <button type="button" onClick={close}>
-            <FontAwesomeIcon icon={faTimes} height="2rem" />
+            <FontAwesomeIcon icon={faTimes as IconProp} height="2rem" />
           </button>
         </Header>
       )}

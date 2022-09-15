@@ -1,9 +1,13 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
-import { getAccessToken, useUser } from '@auth0/nextjs-auth0';
+import {
+  getAccessToken,
+  useUser,
+  WithPageAuthRequiredProps,
+} from '@auth0/nextjs-auth0';
 import styled from '@emotion/styled';
 import { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ComponentType } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -335,4 +339,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   };
 };
 
-export default withAuth(Profile);
+export default withAuth(
+  Profile as unknown as ComponentType<WithPageAuthRequiredProps>,
+);

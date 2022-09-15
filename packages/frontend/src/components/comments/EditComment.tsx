@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import xw from 'xwind';
 
@@ -13,9 +13,11 @@ import DoubleSpace from '../common/DoubleSpace';
 import Modal from '../common/Modal';
 import Textarea from '../common/Textarea';
 
+/*
 interface TEditCommentData {
   comment: string;
 }
+*/
 
 type TEditComment = {
   commentId: TElementId;
@@ -40,9 +42,9 @@ const EditComment: FC<TEditComment> = ({ commentId, closeModal }) => {
     reset({ comment: dataComment.comment });
   }, [commentId, dataComment.comment, dispatch, reset]);
 
-  const onSubmit: SubmitHandler<TEditCommentData> = async (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     //! Enviar más data necesaria
-    dispatch(updateComment(commentId, data));
+    dispatch(updateComment(commentId, data as TEditComment));
     closeModal();
   };
 
@@ -67,8 +69,8 @@ const EditComment: FC<TEditComment> = ({ commentId, closeModal }) => {
               },
             }),
           }}
-          error={errors.comment}
-          messageError={errors.comment?.message}
+          error={Boolean(errors.comment)}
+          messageError={errors.comment?.message as string}
         />
 
         <DoubleSpace>
