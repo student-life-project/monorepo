@@ -16,7 +16,6 @@ import Label from '@/components/common/Label';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Textarea from '@/components/common/Textarea';
 import Avatar from '@/components/profile/Avatar';
-import ResetPassword from '@/components/profile/ResetPassword';
 import UpdateUser from '@/components/profile/UpdateUser';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { AlertMessage } from '@/constants/alertMessage';
@@ -109,19 +108,13 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
     toast.success(AlertMessage.updated('usuario'));
   };
 
-  const [showUpdatePass, setShowUpdatePass] = useState(false);
-
-  const handleShowUpdatePass = () => {
-    setShowUpdatePass(!showUpdatePass);
-  };
-
   // TODO: mantender el estado con los archivos agregados. Subir de golpe.
   const [files, setFiles] = useState<TFile[]>([]);
 
   // TODO: es necesario obtener un valor de backend para validar el form.
   // TODO: es necesario que se mantenga abierto hasta que el usuario actualice su información.
   // TODO: cuando se actualice la info de usuario se modifique el valor.
-  const valorBackend = false; // TODO: valor false y se pasa a true cuando el se actualiza.
+  const valorBackend = true; // TODO: valor false y se pasa a true cuando el se actualiza.
   const [updateUser, setUpdateUser] = useState(valorBackend);
 
   const handleUpdateUser = () => {
@@ -311,16 +304,6 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
               </div>
             </DoubleFormSpace>
 
-            <div css={xw`flex sm:justify-end`}>
-              <button
-                type="button"
-                css={xw`text-primary hover:underline text-sm`}
-                onClick={handleShowUpdatePass}
-              >
-                Cambiar contraseña
-              </button>
-            </div>
-
             <div css={xw`flex justify-center my-3`}>
               <Button type="submit" FPrimary css={xw`w-2/4`}>
                 Editar
@@ -328,8 +311,6 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
             </div>
           </form>
         </Content>
-
-        {showUpdatePass && <ResetPassword closeModal={handleShowUpdatePass} />}
 
         {!updateUser && <UpdateUser closeModal={handleUpdateUser} />}
       </BodyContainer>

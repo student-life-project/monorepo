@@ -8,7 +8,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import xw from 'xwind';
 
 import { configServerSideCredentials } from '@/services/api';
-import { fetchUserData, IUserAction } from '@/store/actions/user';
+import { fetchUserData, IUserAction } from '@/store/actions/users';
 import { TRootState } from '@/store/reducers';
 import { parseCookies } from '@/utils/cookie';
 import withReduxStore, { Props } from '@/utils/with-redux';

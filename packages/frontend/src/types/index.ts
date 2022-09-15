@@ -51,6 +51,7 @@ export interface IStep {
 }
 
 export interface Itab {
+  tab: number;
   text: string;
   handleTab: (tabCurrent: number) => void;
 }
@@ -70,7 +71,7 @@ export interface IFilters {
 
 export type TStatus = 'success' | 'warning' | 'error' | 'info';
 
-export type TElementId = number | null;
+export type TElementId = number | string | null;
 
 export type TImages = string[];
 
@@ -86,3 +87,5 @@ export type TFile = File & {
   id?: string | number;
   url?: string | any;
 };
+
+export type TReportType = 'Usuario' | 'Publicación';

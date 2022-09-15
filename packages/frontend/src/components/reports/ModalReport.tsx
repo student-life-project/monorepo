@@ -1,13 +1,12 @@
-import { ProfileReport } from '@student_life/common';
+import { PlaceReport, ProfileReport } from '@student_life/common';
 import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-// import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import xw from 'xwind';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
-import { AlertMessage } from '@/constants/alertMessage';
-import { IOption } from '@/types';
+import { createReport } from '@/store/actions/reports';
+import { IOption, TReportType } from '@/types';
 
 import Button from '../common/Button';
 import DoubleSpace from '../common/DoubleSpace';
@@ -15,18 +14,23 @@ import Modal from '../common/Modal';
 import Radio from '../common/Radio';
 import Textarea from '../common/Textarea';
 
-type TUserReport = {
+type TModalReport = {
+  type: TReportType;
   closeModal: () => void;
 };
 
-interface IUserReportData {
+enum ERentalType {
+  USER = 'Usuario',
+  RENTAL_PLACE = 'Publicación',
+}
+
+interface IReportData {
   reason: IOption[];
   description: string;
 }
 
-const UserReport: FC<TUserReport> = ({ closeModal }) => {
-  // TODO: need to implement
-  // const dispath = useDispatch();
+const ModalReport: FC<TModalReport> = ({ type, closeModal }) => {
+  const dispatch = useDispatch();
 
   const {
     handleSubmit,
@@ -40,28 +44,37 @@ const UserReport: FC<TUserReport> = ({ closeModal }) => {
 
   const description = watch('description');
 
+  let reasonDefault = 'Es irrespetuoso u ofensivo (Incita al odio)';
+  let title = 'Reportar usuario';
+  let subTitle = 'Seleccione el motivo del reporte';
+  let options: IOption[] = ProfileReport;
+
+  if (type === ERentalType.RENTAL_PLACE) {
+    reasonDefault = 'Es impreciso o incorrecto';
+    title = 'Reportar alojamiento';
+    subTitle =
+      'Ayúdanos a entender cuál es el problema con este alojamiento. ¿Cómo lo describirías?';
+    options = PlaceReport;
+  }
+
   useEffect(() => {
-    reset({ reason: 'Es irrespetuoso u ofensivo (Incita al odio)' });
+    reset({ reason: reasonDefault });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reset]);
 
-  const onSubmit: SubmitHandler<IUserReportData> = async (data) => {
-    // await dispath(data);
-    // eslint-disable-next-line no-console
-    console.log(data);
-    // TODO: Alerta success y error
-    toast.success(AlertMessage.created('reporte de usuario'));
+  const onSubmit: SubmitHandler<IReportData> = async (data) => {
+    //! Enviar más data necesaria
+    dispatch(createReport(data));
     closeModal();
   };
 
   return (
-    <Modal title="Reportar usuario" close={closeModal}>
+    <Modal title={title} close={closeModal}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h2 css={xw`py-4 text-base sm:text-lg font-bold`}>
-          Seleccione el motivo del reporte
-        </h2>
+        <h2 css={xw`py-4 text-base sm:text-lg font-bold`}>{subTitle}</h2>
 
         <div css={xw`flex flex-col items-start`}>
-          {ProfileReport.map((item) => {
+          {options.map((item) => {
             const value = Object.values(item)[0];
 
             return (
@@ -121,4 +134,4 @@ const UserReport: FC<TUserReport> = ({ closeModal }) => {
   );
 };
 
-export default UserReport;
+export default ModalReport;

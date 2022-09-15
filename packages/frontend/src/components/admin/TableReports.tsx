@@ -1,27 +1,36 @@
 import { FC, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ModalConfirm from '@/components/common/ModalConfirm';
 import Table from '@/components/common/Table';
 import { ColumnsReport, confirmMessage, HeaderReport } from '@/constants';
-import { AlertMessage } from '@/constants/alertMessage';
+import {
+  changeReportStatus,
+  deleteReport,
+  searchReport,
+} from '@/store/actions/manageReports';
+import { isFetchingManageReportsSelector } from '@/store/selectors/manageReports';
 import { TElementId } from '@/types';
 
 type TTableReports = {
-  data: any; //! Crear type
+  data: any;
 };
 
 const TableReports: FC<TTableReports> = ({ data }) => {
-  // TODO: need to implement
-  // TODO: loading si la data aún no carga mostrar el Spinner.
-
   const [reportId, setReportId] = useState<TElementId>(null);
   const [showModalReport, setShowModalReport] = useState(false);
 
+  const dispatch = useDispatch();
+  const loading = useSelector((state) =>
+    isFetchingManageReportsSelector(state),
+  );
+
+  const handleChange = ({ target }) => {
+    dispatch(searchReport(target.value));
+  };
+
   const solveReport = (id: TElementId) => {
-    // eslint-disable-next-line no-console
-    console.log(`Reporte ${id}`);
-    toast.success(AlertMessage.updated('estatus'));
+    dispatch(changeReportStatus(id));
   };
 
   const handleOpenModalReport = (id: TElementId) => {
@@ -33,19 +42,18 @@ const TableReports: FC<TTableReports> = ({ data }) => {
     setShowModalReport(false);
   };
 
-  const deleteReport = (id: TElementId) => {
-    // eslint-disable-next-line no-console
-    console.log(`Reporte ${id}`);
-    toast.success(AlertMessage.deleted('reporte'));
+  const header = {
+    ...HeaderReport,
+    onChange: handleChange,
   };
 
   return (
     <>
       <Table
         data={data}
-        loading={false}
+        loading={loading}
         columns={ColumnsReport(solveReport, handleOpenModalReport)}
-        header={HeaderReport}
+        header={header}
       />
 
       {showModalReport && (
@@ -54,8 +62,7 @@ const TableReports: FC<TTableReports> = ({ data }) => {
           title={confirmMessage.titleDelete('reporte')}
           description={confirmMessage.descriptionDelete('reporte')}
           closeModal={handleCloseModalReport}
-          // eslint-disable-next-line no-console
-          action={() => deleteReport(reportId)}
+          action={() => dispatch(deleteReport(reportId))}
         />
       )}
     </>

@@ -22,12 +22,9 @@ import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Pagination from '@/components/common/Pagination';
 import FilterAndSort from '@/components/rentals/FilterAndSort';
 import { TStore } from '@/store';
-import {
-  getRentalPlaces,
-  IRentalPlacesAction,
-} from '@/store/actions/rentalTypes';
+import { getAllRentalPlaces } from '@/store/actions/rentalPlaces';
 import { TRootState } from '@/store/reducers';
-import { rentaPlacesSelector } from '@/store/selectors/rentalPlaces';
+import { rentalPlacesSelector } from '@/store/selectors/rentalPlaces';
 import { IFilters } from '@/types';
 import { ScrollToAnimation } from '@/utils/scrollTo';
 
@@ -51,7 +48,7 @@ const filters: IFilters = {
 };
 
 const Rentals: NextPage = () => {
-  const rentalPlaces = useSelector(rentaPlacesSelector);
+  const rentalPlaces = useSelector(rentalPlacesSelector);
 
   const totalPlaces = rentalPlaces.length;
   const [pageCount, setPageCount] = useState(0);
@@ -105,13 +102,9 @@ const Rentals: NextPage = () => {
 Rentals.getInitialProps = async ({
   reduxStore,
 }: NextPageContext & { reduxStore: TStore }) => {
-  await (
-    reduxStore.dispatch as ThunkDispatch<
-      TRootState,
-      unknown,
-      IRentalPlacesAction
-    >
-  )(getRentalPlaces());
+  await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+    getAllRentalPlaces(),
+  );
 
   return {};
 };

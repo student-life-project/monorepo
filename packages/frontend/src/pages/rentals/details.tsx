@@ -11,7 +11,10 @@ import {
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FC, useState } from 'react';
+import { NextPage, NextPageContext } from 'next';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import Comments from '@/components/comments/Comments';
 import Alert from '@/components/common/Alert';
@@ -22,8 +25,11 @@ import Carousel from '@/components/common/Carousel';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
 import CardUser from '@/components/profile/CardUser';
-import RentalPlaceReport from '@/components/reports/RentalPlaceReport';
-import UserReport from '@/components/reports/UserReport';
+import ModalReport from '@/components/reports/ModalReport';
+import { TStore } from '@/store';
+import { getAllComments } from '@/store/actions/comments';
+import { TRootState } from '@/store/reducers';
+import { commentsSelector } from '@/store/selectors/comment';
 
 type TContentGallery = {
   length: number;
@@ -66,6 +72,7 @@ const Img = styled.img<TImg>`
 `;
 
 const data = {
+  userId: 1,
   title: 'Hudson Heights',
   price: '885.00',
   reason: 'Busco roomie',
@@ -144,31 +151,15 @@ const user = {
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
 };
 
-const comments = [
-  {
-    id: 1,
-    name: 'Alfredo Carreón Urbano',
-    userImage: '/images/avatar.png',
-    comment:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
-    date: '12 de mayo 2022',
-  },
-  {
-    id: 2,
-    name: 'Erick Mejia Blanco',
-    userImage: '/images/avatar.png',
-    comment:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
-    date: '11 de mayo 2022',
-  },
-];
-
+// TODO: Ver comentarios sólo si existe una sesión iniciada.
 const isLogedIn = true;
 
-const Details: FC = () => {
+const Details: NextPage = () => {
   const [userReport, setUserReport] = useState(false);
   const [rentalReport, setRentalReport] = useState(false);
   const [showCarousel, setShowCarousel] = useState(false);
+
+  const commentList = useSelector((state) => commentsSelector(state));
 
   const handleUserReport = () => {
     setUserReport(!userReport);
@@ -182,9 +173,11 @@ const Details: FC = () => {
     setShowCarousel(!showCarousel);
   };
 
-  // TODO: need to implement
-  // Ver apartados sólo si existe una sesión iniciada.
+  // TODO: Ver apartados sólo si existe una sesión iniciada.
   const like = true;
+
+  // TODO: Las opciones de editar y eliminar solo son para el owner.
+  const userId = 11;
 
   return (
     <>
@@ -225,7 +218,7 @@ const Details: FC = () => {
           css={xw`flex flex-col-reverse mb-10 sm:mb-0 sm:flex-row sm:gap-10 sm:items-center`}
         >
           {isLogedIn ? (
-            <Button BPrimary round like={like} css={xw`h-10`}>
+            <Button BPrimary round active={like} css={xw`h-10`}>
               <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
               <span css={xw`ml-2`}>157 Me gusta</span>
             </Button>
@@ -266,7 +259,7 @@ const Details: FC = () => {
                 <p css={xw`ml-2`}>{data.gender}</p>
               </div>
 
-              {isLogedIn && (
+              {isLogedIn && data.userId !== userId && (
                 <div css={xw`flex`}>
                   <ButtonLink
                     type="button"
@@ -325,7 +318,8 @@ const Details: FC = () => {
               />
 
               <Comments
-                comments={comments}
+                userId={userId}
+                comments={commentList}
                 isLogedIn={isLogedIn}
                 openUserReport={handleUserReport}
               />
@@ -334,15 +328,20 @@ const Details: FC = () => {
 
           <CardUser
             user={user}
+            userId={userId}
             isLogedIn={isLogedIn}
             titlePublication={data.title}
             openUserReport={handleUserReport}
           />
         </section>
 
-        {rentalReport && <RentalPlaceReport closeModal={handleRentalReport} />}
+        {rentalReport && (
+          <ModalReport type="Publicación" closeModal={handleRentalReport} />
+        )}
 
-        {userReport && <UserReport closeModal={handleUserReport} />}
+        {userReport && (
+          <ModalReport type="Usuario" closeModal={handleUserReport} />
+        )}
 
         {showCarousel && (
           <Carousel
@@ -353,6 +352,16 @@ const Details: FC = () => {
       </BodyContainer>
     </>
   );
+};
+
+Details.getInitialProps = async ({
+  reduxStore,
+}: NextPageContext & { reduxStore: TStore }) => {
+  await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+    getAllComments(),
+  );
+
+  return {};
 };
 
 export default Details;

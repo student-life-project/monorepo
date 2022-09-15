@@ -17,6 +17,7 @@ const Tabs: FC<TTabs> = ({ items }) => (
         type="button"
         key={item.text}
         css={xw`mb-3 mr-3`}
+        active={item.tab === index}
         onClick={() => item.handleTab(index)}
       >
         {item.text}

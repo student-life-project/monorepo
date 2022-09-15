@@ -1,10 +1,12 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
 import xw from 'xwind';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
-import { AlertMessage } from '@/constants/alertMessage';
+import { getComment, updateComment } from '@/store/actions/comments';
+import { commentSelector } from '@/store/selectors/comment';
+import { TElementId } from '@/types';
 
 import Button from '../common/Button';
 import DoubleSpace from '../common/DoubleSpace';
@@ -16,26 +18,31 @@ interface TEditCommentData {
 }
 
 type TEditComment = {
+  commentId: TElementId;
   closeModal: () => void;
 };
 
-const EditComment: FC<TEditComment> = ({ closeModal }) => {
-  // TODO: need to implement
-  // Editar el comentario
-
+const EditComment: FC<TEditComment> = ({ commentId, closeModal }) => {
   const {
     handleSubmit,
     register,
     watch,
+    reset,
     formState: { errors },
   } = useForm({ mode: 'all' });
 
+  const dispatch = useDispatch();
   const comment = watch('comment');
+  const dataComment = useSelector((state) => commentSelector(state));
+
+  useEffect(() => {
+    dispatch(getComment(commentId));
+    reset({ comment: dataComment.comment });
+  }, [commentId, dataComment.comment, dispatch, reset]);
 
   const onSubmit: SubmitHandler<TEditCommentData> = async (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
-    toast.success(AlertMessage.updated('comentario'));
+    //! Enviar más data necesaria
+    dispatch(updateComment(commentId, data));
     closeModal();
   };
 

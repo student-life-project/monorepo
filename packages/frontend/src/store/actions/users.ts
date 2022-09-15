@@ -16,7 +16,7 @@ import {
   REGISTER_USER_FAILURE,
   REGISTER_USER_PENDING,
   REGISTER_USER_SUCCESS,
-} from '@/store/types/user';
+} from '@/store/types/users';
 import { ILoginResponse, IRegisterResponse } from '@/types';
 
 interface ILoginCredentials {

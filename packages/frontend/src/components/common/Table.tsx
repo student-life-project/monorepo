@@ -45,9 +45,10 @@ const HeaderTable = ({ values }) => (
         <Input
           required
           type="text"
+          onChange={values.onChange}
           id={`search-${values.title.toLowerCase()}`}
-          placeholder={`Buscar ${values.title.toLowerCase()}`}
           css={xw`w-full lg:w-80 h-10 my-5 sm:my-0 sm:mx-5`}
+          placeholder={`Buscar ${values.title.toLowerCase()}`}
         />
       )}
 

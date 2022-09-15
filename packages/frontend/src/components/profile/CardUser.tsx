@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 import xw from 'xwind';
 
+import { TElementId } from '@/types';
 import { calculateAge } from '@/utils/managerDate';
 
 import Anchor from '../common/Anchor';
@@ -17,6 +18,7 @@ import Avatar from './Avatar';
 
 type TCardUser = {
   user: any;
+  userId: TElementId;
   isLogedIn: boolean;
   titlePublication: string;
   openUserReport: () => void;
@@ -24,6 +26,7 @@ type TCardUser = {
 
 const CardUser: FC<TCardUser> = ({
   user,
+  userId,
   isLogedIn,
   titlePublication,
   openUserReport,
@@ -53,24 +56,28 @@ const CardUser: FC<TCardUser> = ({
             <p css={xw`ml-2 mb-5`}>{user.phoneNumber}</p>
           </div>
 
-          <a
-            target="_bank"
-            href={`https://wa.me/${user.phoneNumber}?text=Hola ${user.firstName}, me gustaría información sobre el anuncio: ${titlePublication}`}
-          >
-            <Button type="button" FSuccess>
-              <FontAwesomeIcon icon={faComment} height="1.2rem" />
-              <span css={xw`ml-2`}>Enviar mensaje</span>
-            </Button>
-          </a>
+          {user.id !== userId && (
+            <>
+              <a
+                target="_bank"
+                href={`https://wa.me/${user.phoneNumber}?text=Hola ${user.firstName}, me gustaría información sobre el anuncio: ${titlePublication}`}
+              >
+                <Button type="button" FSuccess>
+                  <FontAwesomeIcon icon={faComment} height="1.2rem" />
+                  <span css={xw`ml-2`}>Enviar mensaje</span>
+                </Button>
+              </a>
 
-          <ButtonLink
-            type="button"
-            onClick={openUserReport}
-            css={xw`mt-5 text-red-500`}
-          >
-            <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
-            <p css={xw`ml-2`}>Reportar usuario</p>
-          </ButtonLink>
+              <ButtonLink
+                type="button"
+                onClick={openUserReport}
+                css={xw`mt-5 text-red-500`}
+              >
+                <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
+                <p css={xw`ml-2`}>Reportar usuario</p>
+              </ButtonLink>
+            </>
+          )}
         </>
       ) : (
         <h2 css={xw`w-full text-lg font-bold text-center`}>
