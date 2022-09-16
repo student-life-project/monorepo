@@ -65,13 +65,14 @@ const getValues = () => ({
   ],
 });
 
+// TODO: Need to implement
 const PublicationDetails: FC = () => {
-  // TODO: Need to implement
+  const { id } = getValues();
 
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-      <BreadCrumbs items={ItemsPublicationDetailsAdmin} />
+      <BreadCrumbs items={ItemsPublicationDetailsAdmin(id)} />
 
       <BodyContainer css={xw`pt-16 sm:pt-8`}>
         <PostDetails getValues={getValues} admin />

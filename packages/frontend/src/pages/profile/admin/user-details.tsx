@@ -72,7 +72,7 @@ const UserDetails: FC = () => {
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-      <BreadCrumbs items={ItemsUserDetails} />
+      <BreadCrumbs items={ItemsUserDetails(user.id)} />
       <Alert />
 
       <BodyContainer css={xw`pt-16 sm:pt-8`}>
