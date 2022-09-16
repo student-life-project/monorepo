@@ -1,6 +1,8 @@
+import { NextPage, NextPageContext } from 'next';
 import router from 'next/router';
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { ThunkDispatch } from 'redux-thunk';
 import xw from 'xwind';
 
 import Alert from '@/components/common/Alert';
@@ -19,8 +21,19 @@ import {
   ReportStatus,
 } from '@/constants';
 import { AlertMessage } from '@/constants/alertMessage';
+import { TStore } from '@/store';
+import { getReport } from '@/store/actions/manageReports';
+import { TRootState } from '@/store/reducers';
 
-const report = {
+type TRedirectData = {
+  pathname: string;
+  query?: {
+    deletedReport?: boolean;
+  };
+} & any;
+
+// TODO: Eliminar esto.
+export const report = {
   id: 1,
   type: 'Usuario', // Publicación
   to: 'Erick Mejia Blanco', //  Comoda casa para descanso en Club de Golf Tequis
@@ -31,15 +44,7 @@ const report = {
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam!',
 };
 
-type TRedirectData = {
-  pathname: string;
-  query?: {
-    deletedReport?: boolean;
-  };
-} & any;
-
-// TODO: Need to implement
-const ReportDetails: FC = () => {
+const ReportDetails: NextPage = () => {
   //* Por defecto debe estar no resuelto.
   const [status, setStatus] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -70,7 +75,7 @@ const ReportDetails: FC = () => {
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-      <BreadCrumbs items={ItemsReportDetails} />
+      <BreadCrumbs items={ItemsReportDetails(report.id)} />
       <Alert />
 
       <BodyContainer css={xw`pt-16 sm:pt-8`}>
@@ -139,6 +144,17 @@ const ReportDetails: FC = () => {
       </BodyContainer>
     </>
   );
+};
+
+ReportDetails.getInitialProps = async ({
+  id,
+  reduxStore,
+}: NextPageContext & { id: number; reduxStore: TStore }) => {
+  await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+    getReport(id),
+  );
+
+  return {};
 };
 
 export default ReportDetails;
