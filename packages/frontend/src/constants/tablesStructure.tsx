@@ -9,6 +9,7 @@ import Options from '@/components/common/Options';
 import Status from '@/components/common/Status';
 import { IOption } from '@/types';
 import { formatDate } from '@/utils/managerDate';
+import { formatter } from '@/utils/numberFormat';
 
 import {
   RentalApprovedStatus,
@@ -34,15 +35,23 @@ export const ColumnsPublicationUser = (
   handleOpenModal: (id: number) => any,
 ): TColumns => [
   { name: 'Titulo', selector: 'title', sortable: true },
-  { name: 'Precio', selector: 'price', sortable: true },
+  {
+    name: 'Precio',
+    selector: 'price',
+    sortable: true,
+    cell: (row: { price: any }) => {
+      const { price } = row;
+      return formatter('MXN').format(price);
+    },
+  },
   {
     name: 'Disponibilidad',
     selector: 'available',
+    sortable: true,
     cell: (row: { available: any }) => {
       const { available } = row;
       return <Status status={available} options={RentalAvailabilityStatus} />;
     },
-    sortable: true,
   },
   {
     name: 'Acciones',
@@ -109,22 +118,22 @@ export const ColumnsUser = (
   {
     name: 'Rol',
     selector: 'role',
+    sortable: true,
     cell: (row: { role: any }) => {
       const { role } = row;
       const roleName = ['Admin', 'Estudiante', 'Arrendatario'];
 
       return <p>{roleName[role]}</p>;
     },
-    sortable: true,
   },
   {
     name: 'Estatus',
     selector: 'status',
+    sortable: true,
     cell: (row: { status: any }) => {
       const { status } = row;
       return <Status status={status} options={UserActiveStatus} />;
     },
-    sortable: true,
   },
   {
     name: 'Acciones',
@@ -156,24 +165,32 @@ export const ColumnsPublication = (
 ): TColumns => [
   { name: 'ID', selector: 'id', sortable: true },
   { name: 'Titulo', selector: 'title', sortable: true },
-  { name: 'Precio', selector: 'price', sortable: true },
+  {
+    name: 'Precio',
+    selector: 'price',
+    sortable: true,
+    cell: (row: { price: any }) => {
+      const { price } = row;
+      return formatter('MXN').format(price);
+    },
+  },
   {
     name: 'Disponibilidad',
     selector: 'available',
+    sortable: true,
     cell: (row: { available: any }) => {
       const { available } = row;
       return <p>{available ? 'Disponible' : 'No disponible'}</p>;
     },
-    sortable: true,
   },
   {
     name: 'Aprobación',
     selector: 'approved',
+    sortable: true,
     cell: (row: { approved: any }) => {
       const { approved } = row;
       return <Status status={approved} options={RentalApprovedStatus} />;
     },
-    sortable: true,
   },
   {
     name: 'Acciones',
