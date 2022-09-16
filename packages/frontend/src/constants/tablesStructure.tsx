@@ -8,6 +8,7 @@ import xw from 'xwind';
 import Options from '@/components/common/Options';
 import Status from '@/components/common/Status';
 import { IOption } from '@/types';
+import { formatDate } from '@/utils/managerDate';
 
 import {
   RentalApprovedStatus,
@@ -205,15 +206,23 @@ export const ColumnsReport = (
   { name: 'ID', selector: 'id', sortable: true },
   { name: 'Tipo', selector: 'type', sortable: true },
   { name: 'Descripción', selector: 'description', sortable: true },
-  { name: 'Fecha', selector: 'createdAt', sortable: true },
+  {
+    name: 'Fecha',
+    selector: 'createdAt',
+    sortable: true,
+    cell: (row: { createdAt: any }) => {
+      const { createdAt } = row;
+      return formatDate(createdAt);
+    },
+  },
   {
     name: 'Estatus',
     selector: 'status',
-    cell: (row: { status: any }) => {
+    sortable: true,
+    cell: (row: { status: boolean }) => {
       const { status } = row;
       return <Status status={status} options={ReportStatus} />;
     },
-    sortable: true,
   },
   {
     name: 'Acciones',

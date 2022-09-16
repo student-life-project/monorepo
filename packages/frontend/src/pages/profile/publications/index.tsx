@@ -183,6 +183,7 @@ const Publications: FC = () => {
           loading={false}
           header={HeaderPublicationUser}
           columns={ColumnsPublicationUser(availablePost, handleOpenModal)}
+          linkRow="/profile/publications/details"
         />
       </BodyContainer>
 
