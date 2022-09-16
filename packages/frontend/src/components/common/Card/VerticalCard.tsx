@@ -1,16 +1,17 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { FC } from 'react';
 
 import PriceSection from './PriceSection';
 import RateSection from './RateSection';
 
 interface IVerticalCard {
+  id: any;
   likes?: number;
   title: string;
   imageUrl: string;
-  placeId?: string;
   pricePerMonth: number;
 }
 
@@ -76,24 +77,26 @@ const Description = styled.p`
 `;
 
 const Verticalcard: FC<IVerticalCard> = ({
+  id,
   title,
   imageUrl,
-  // placeId,
   likes,
   pricePerMonth,
 }) => (
-  <Content>
-    <Img src={imageUrl} alt={title} />
-    <Info>
-      {likes ? (
-        <RateSection likes={likes} />
-      ) : (
-        <NotRate>No hay evaluaciones</NotRate>
-      )}
-      <Description>{title}</Description>
-      <PriceSection price={pricePerMonth} />
-    </Info>
-  </Content>
+  <Link href={`/rentals/details/${id}`}>
+    <Content>
+      <Img src={imageUrl} alt={title} />
+      <Info>
+        {likes ? (
+          <RateSection likes={likes} />
+        ) : (
+          <NotRate>No hay evaluaciones</NotRate>
+        )}
+        <Description>{title}</Description>
+        <PriceSection price={pricePerMonth} />
+      </Info>
+    </Content>
+  </Link>
 );
 
 export default Verticalcard;

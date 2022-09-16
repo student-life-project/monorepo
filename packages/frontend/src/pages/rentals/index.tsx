@@ -84,6 +84,7 @@ const Rentals: NextPage = () => {
           {currentItems?.map((rentalPlace) => (
             <div key={`rental_place${rentalPlace.id}`}>
               <VerticalCard
+                id={rentalPlace.id}
                 likes={rentalPlace.likes}
                 title={rentalPlace.title}
                 pricePerMonth={rentalPlace.price}
