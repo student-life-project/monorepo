@@ -43,7 +43,7 @@ const EditComment: FC<TEditComment> = ({ commentId, closeModal }) => {
   }, [commentId, dataComment.comment, dispatch, reset]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    //! Enviar más data necesaria
+    // TODO: Enviar más data necesaria
     dispatch(updateComment(commentId, data as TEditComment));
     closeModal();
   };
