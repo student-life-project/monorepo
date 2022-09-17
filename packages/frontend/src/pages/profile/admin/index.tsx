@@ -39,9 +39,14 @@ const Admin: NextPage = () => {
 
   const handleTab = (tabCurrent) => {
     setTab(tabCurrent);
+    localStorage.setItem('tab', JSON.stringify(tabCurrent));
   };
 
   useEffect(() => {
+    const getTab = localStorage.getItem('tab');
+    const intialState = getTab !== null ? JSON.parse(getTab) : 0;
+    setTab(Number(intialState));
+
     if (router.query) {
       const { deletedUser, deletedReport, deletedPublication } = router.query;
 
