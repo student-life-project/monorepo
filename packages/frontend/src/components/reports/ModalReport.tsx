@@ -63,7 +63,7 @@ const ModalReport: FC<TModalReport> = ({ type, closeModal }) => {
   }, [reset]);
 
   const onSubmit: SubmitHandler<IReportData> = async (data) => {
-    //! Enviar más data necesaria
+    // TODO: Enviar más data necesaria
     dispatch(createReport(data));
     closeModal();
   };

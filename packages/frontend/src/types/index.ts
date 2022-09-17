@@ -71,7 +71,7 @@ export interface IFilters {
 
 export type TStatus = 'success' | 'warning' | 'error' | 'info';
 
-export type TElementId = number | string | null;
+export type TElementId = number | string | string[] | null | undefined;
 
 export type TImages = string[];
 

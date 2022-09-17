@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 // TODO: ELIMINAR
 import { IImage, IRentalPlace } from '@student_life/common';
 
@@ -168,44 +169,6 @@ export const dataPublications = [
   },
 ];
 
-export const dataReports = [
-  {
-    id: 1,
-    type: 'Usuario',
-    description: 'Lorem ipsum dolor sit amet',
-    createdAt: '2021-03-12',
-    status: true,
-  },
-  {
-    id: 2,
-    type: 'Publicación',
-    description: 'Lorem ipsum dolor sit amet',
-    createdAt: '2021-05-12',
-    status: true,
-  },
-  {
-    id: 3,
-    type: 'Usuario',
-    description: 'Lorem ipsum dolor sit amet',
-    createdAt: '2021-02-21',
-    status: false,
-  },
-  {
-    id: 4,
-    type: 'Publicación',
-    description: 'Lorem ipsum dolor sit amet',
-    createdAt: '2021-05-10',
-    status: false,
-  },
-  {
-    id: 5,
-    type: 'Publicación',
-    description: 'Lorem ipsum dolor sit amet',
-    createdAt: '2021-01-11',
-    status: true,
-  },
-];
-
 export const dataRentalPlaces = (limit): IRentalPlace[] =>
   [
     {
@@ -372,3 +335,81 @@ export const dataComment = (id) =>
       date: '11 de mayo 2022',
     },
   ].filter((item) => item.id === id)[0];
+
+// =============================================================================
+
+export const dataReports = [
+  {
+    id: 1,
+    type: 'Usuario',
+    to: 'Erick Mejia Blanco',
+    from: 'Alfredo Carreón Urbano',
+    description: 'Es información falsa',
+    reason: 'Es irrespetuoso u ofensivo (Incita al odio)',
+    createdAt: '2021-03-12',
+    status: true,
+  },
+  {
+    id: 2,
+    type: 'Publicación',
+    to: 'Casa por CUCEI',
+    from: 'Juan Martinez Lora',
+    description: 'Todo es una mentira',
+    reason: 'No es un alojamiento real',
+    createdAt: '2021-10-07',
+    status: true,
+  },
+  {
+    id: 3,
+    type: 'Usuario',
+    to: 'Cesar Armando Lopez',
+    from: 'Marlena Hernandez Chavez',
+    description: 'Me falto al respecto',
+    reason: 'Comportamiento inapropiado',
+    createdAt: '2021-12-09',
+    status: false,
+  },
+  {
+    id: 4,
+    type: 'Publicación',
+    to: 'Departamento cerca de CUCEA',
+    from: 'Samantha Rivera',
+    description: 'La dirección es incorrecta',
+    reason: 'Es impreciso o incorrecto',
+    createdAt: '2022-02-14',
+    status: false,
+  },
+  {
+    id: 5,
+    type: 'Publicación',
+    to: 'Departamento cerca de CUCS',
+    from: 'Ana Valencia',
+    description: 'Es una publicación erronea',
+    reason: 'Es una estafa',
+    createdAt: '2022-05-22',
+    status: true,
+  },
+];
+
+export const dataReportsSearch = (text) => {
+  const res = text.toLowerCase()
+    ? dataReports.filter(
+        (item) =>
+          item.description.toLowerCase().indexOf(text.toLowerCase()) > -1,
+      )
+    : dataReports;
+
+  return res;
+};
+
+export const dataReportsChangeStatus = (id) => {
+  const res = dataReports.map((item) =>
+    item.id === id ? { ...item, status: !item.status } : item,
+  );
+
+  return res;
+};
+
+export const dataReport = (id) => {
+  return dataReports.filter((item) => item.id === Number(id))[0];
+};

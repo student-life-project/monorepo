@@ -1,7 +1,7 @@
 import { NextPage, NextPageContext } from 'next';
 import router from 'next/router';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import xw from 'xwind';
 
@@ -20,10 +20,15 @@ import {
   NameInput,
   ReportStatus,
 } from '@/constants';
-import { AlertMessage } from '@/constants/alertMessage';
 import { TStore } from '@/store';
-import { getReport } from '@/store/actions/manageReports';
+import {
+  changeReportStatus,
+  deleteReport,
+  getReport,
+} from '@/store/actions/manageReports';
 import { TRootState } from '@/store/reducers';
+import { manageReportsSelector } from '@/store/selectors/manageReports';
+import { formatDate } from '@/utils/managerDate';
 
 type TRedirectData = {
   pathname: string;
@@ -32,22 +37,12 @@ type TRedirectData = {
   };
 } & any;
 
-// TODO: Eliminar esto.
-export const report = {
-  id: 1,
-  type: 'Usuario', // Publicación
-  to: 'Erick Mejia Blanco', //  Comoda casa para descanso en Club de Golf Tequis
-  from: 'Alfredo Carreón Urbano',
-  date: '4 de abril 2021',
-  reason: 'Es irrespetuoso u ofensivo (Incita al odio)',
-  description:
-    'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam!',
-};
-
 const ReportDetails: NextPage = () => {
-  //* Por defecto debe estar no resuelto.
-  const [status, setStatus] = useState(false);
+  const dispatch = useDispatch();
+  const report = useSelector((state) => manageReportsSelector(state));
+
   const [showModal, setShowModal] = useState(false);
+  const [status, setStatus] = useState(report.report);
 
   const handleShowModal = () => {
     setShowModal(!showModal);
@@ -55,13 +50,12 @@ const ReportDetails: NextPage = () => {
 
   const handleStatus = () => {
     setStatus(!status);
-    toast.success(AlertMessage.updated('estatus'));
+    dispatch(changeReportStatus(report.id));
   };
 
   const handleDeleteReport = () => {
-    // TODO: id de reporte para eliminarlo
+    dispatch(deleteReport(report.id));
 
-    // TODO: onSuccess y onError alerts
     const redirectData: TRedirectData = {
       pathname: '/profile/admin',
       query: {
@@ -100,7 +94,9 @@ const ReportDetails: NextPage = () => {
 
               <div>
                 <SubTitle>{NameInput.date}</SubTitle>
-                <p css={xw`font-bold mt-2`}>{report.date}</p>
+                <p css={xw`font-bold mt-2`}>
+                  {report.createdAt && formatDate(report.createdAt)}
+                </p>
               </div>
 
               <div>
@@ -147,11 +143,11 @@ const ReportDetails: NextPage = () => {
 };
 
 ReportDetails.getInitialProps = async ({
-  id,
+  query,
   reduxStore,
 }: NextPageContext & { id: number; reduxStore: TStore }) => {
   await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
-    getReport(id),
+    getReport(query.id),
   );
 
   return {};
