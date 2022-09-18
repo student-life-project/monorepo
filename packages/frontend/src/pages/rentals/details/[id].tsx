@@ -71,6 +71,7 @@ const Img = styled.img<TImg>`
   ${({ index }) => index !== 0 && xw`hidden sm:block`}
 `;
 
+// TODO: available
 const data = {
   userId: 1,
   title: 'Hudson Heights',

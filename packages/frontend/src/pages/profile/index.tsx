@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState, ComponentType } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 
 import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
@@ -22,7 +22,7 @@ import Textarea from '@/components/common/Textarea';
 import Avatar from '@/components/profile/Avatar';
 import UpdateUser from '@/components/profile/UpdateUser';
 import { ErrorMessageInput, NameInput } from '@/constants';
-import { AlertMessage } from '@/constants/alertMessage';
+// import { AlertMessage } from '@/constants/alertMessage';
 import { TFile } from '@/types';
 import { calculateAge } from '@/utils/managerDate';
 import { rgxNumber } from '@/utils/validations';
@@ -109,7 +109,7 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
     // eslint-disable-next-line no-console
     console.log(data);
     // TODO: Alerta success y error
-    toast.success(AlertMessage.updated('usuario'));
+    //! toast.success(AlertMessage.updated('usuario'));
   };
 
   // TODO: mantender el estado con los archivos agregados. Subir de golpe.
