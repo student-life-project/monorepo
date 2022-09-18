@@ -28,6 +28,15 @@
     "import/prefer-default-export": "off",
     "@typescript-eslint/no-var-requires": "off",
     "global-require": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.spec.ts"
+        ]
+      }
+    ],
+    "no-param-reassign": 0
   }
 }

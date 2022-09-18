@@ -1,17 +1,18 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { AddressModule } from '../address/address.module';
 import { AddressService } from '../address/address.service';
-import { CharacteristicModule } from '../characteristic/characteristic.module';
+import { CommentModule } from '../comment/comment.module';
+import { CommentService } from '../comment/comment.service';
 import { ImageModule } from '../image/image.module';
 import { ImageService } from '../image/image.service';
-import { RateModule } from '../rate/rate.module';
-// import { RateService } from '../rate/rate.service';
-import { RuleModule } from '../rule/rule.module';
-import { RuleService } from '../rule/rule.service';
-import { ServiceModule } from '../service/service.module';
-import { RentalPlaceController } from './rental-place.controller';
+import { LikeModule } from '../like/like.module';
+import { LikeService } from '../like/like.service';
+import { UserModule } from '../user/user.module';
+import { UserService } from '../user/user.service';
+// import { RentalPlaceController } from './rental-place.controller';
 import { RentalPlace, RentalPlaceSchema } from './rental-place.schema';
 import { RentalPlaceService } from './rental-place.service';
 
@@ -21,24 +22,25 @@ import { RentalPlaceService } from './rental-place.service';
       { name: RentalPlace.name, schema: RentalPlaceSchema },
     ]),
     AddressModule,
-    ServiceModule,
-    CharacteristicModule,
-    RuleModule,
     ImageModule,
-    RateModule,
+    LikeModule,
+    CommentModule,
+    UserModule,
+    HttpModule,
   ],
   exports: [
     MongooseModule.forFeature([
       { name: RentalPlace.name, schema: RentalPlaceSchema },
     ]),
   ],
-  controllers: [RentalPlaceController],
+  // controllers: [RentalPlaceController],
   providers: [
     RentalPlaceService,
     AddressService,
-    RuleService,
     ImageService,
-    // RateService,
+    CommentService,
+    UserService,
+    LikeService,
   ],
 })
 export class RentalPlaceModule {}

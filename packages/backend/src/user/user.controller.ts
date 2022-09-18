@@ -1,25 +1,80 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  NotFoundException,
+  Patch,
+  Put,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { IAuth0User } from '@student_life/common';
-import { Request, Response } from 'express';
+import {
+  ApiBearerAuth,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
+import { UserType } from '../helper/types';
+import { RoleDto } from './dto/role.dto';
+import { UserMetadataDto } from './dto/userMetadata.dto';
 import { UserService } from './user.service';
 
-type TReq = Request & { user: IAuth0User };
-
-@ApiTags('user')
+@ApiTags('User')
 @Controller('user')
 export class UserController {
+  // eslint-disable-next-line no-useless-constructor
   constructor(private readonly userService: UserService) {}
 
-  @ApiNotFoundResponse({ description: 'Service does not exists' })
-  @ApiOkResponse({ description: 'Get a user profile by auth token' })
-  @UseGuards(AuthGuard('jwt'))
-  @Get('/profile')
-  async getProfile(@Req() req: TReq, @Res() _: Response) {
-    // console.log({ user: req.user }, req.user.sub);
+  // TODO add a school and rental-place to a student
+  // TODO add many rental-places to a owner (dont think)
+  // TODO implement rate controller
+  // TODO implement report service and controller, add report to user and rental place
+  // TODO profile/rental-place GET for owner just show owner rentals (here or in rental-place??)
 
-    return this.userService.validateToken(req.user as unknown as string);
+  // TODO reports POST in reports
+  // TODO refactor school service populate as in rental place
+
+  @ApiOkResponse({
+    description: 'Update user role',
+  })
+  @ApiNotFoundResponse({
+    description: 'Rol does not exists, not able to Update',
+  })
+  @UseGuards(AuthGuard('jwt'))
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
+  @Put('role')
+  async updateRole(@Body() desiredRolEnumerated: RoleDto, @Req() req: any) {
+    // TODO check if the 200 default response with no data works
+    const token = await this.userService.getToken();
+    const roles = await this.userService.getRoles(token);
+    const desiredRol = UserType[desiredRolEnumerated.role];
+    const rolId = roles.find((rol) => rol.name === desiredRol)?.id;
+    if (!rolId) throw new NotFoundException('Rol does not exists');
+    // encodeURI because is userid is a param from the post method
+    return this.userService.updateUserRole(token, req.user.sub, rolId);
+  }
+
+  @ApiOkResponse({
+    description: 'Update user metadata',
+  })
+  @ApiNotFoundResponse({
+    description: 'User does not exists, not able to Update',
+  })
+  @UseGuards(AuthGuard('jwt'))
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
+  @Patch('/metadata')
+  async updateMetadata(@Body() userMetadata: UserMetadataDto, @Req() req: any) {
+    // TODO check real user metadata to include it on DTO
+    // TODO add property to avoid security issue (send admin and any user could be admin)
+    const token = await this.userService.getToken();
+    return this.userService.updateUserMetadata(
+      token,
+      req.user.sub,
+      userMetadata,
+    );
   }
 }

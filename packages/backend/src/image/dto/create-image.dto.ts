@@ -1,12 +1,21 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateImageDto {
   @ApiProperty()
-  name: string;
+  filename: string;
 
   @ApiProperty()
   location: string;
 
   @ApiProperty()
-  url: string;
+  mimetype: string;
+
+  @ApiProperty()
+  fullpath: string;
+
+  @ApiProperty()
+  size: number;
+
+  @ApiPropertyOptional()
+  placeId?: string;
 }
