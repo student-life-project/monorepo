@@ -46,23 +46,25 @@ export const ColumnsPublicationUser = (
   },
   {
     name: 'Disponibilidad',
-    selector: 'available',
+    selector: 'availability',
     sortable: true,
-    cell: (row: { available: any }) => {
-      const { available } = row;
-      return <Status status={available} options={RentalAvailabilityStatus} />;
+    cell: (row: { availability: any }) => {
+      const { availability } = row;
+      return (
+        <Status status={availability} options={RentalAvailabilityStatus} />
+      );
     },
   },
   {
     name: 'Acciones',
-    cell: (row: { id: any; available: any }) => {
-      const { id, available } = row;
+    cell: (row: { id: any; availability: any }) => {
+      const { id, availability } = row;
 
       return (
         <Options>
           <button type="button" onClick={() => availablePost(id)}>
             <span css={xw`ml-2`}>
-              {available ? 'No disponible' : 'Disponible'}
+              {availability ? 'No disponible' : 'Disponible'}
             </span>
           </button>
 
@@ -176,11 +178,11 @@ export const ColumnsPublication = (
   },
   {
     name: 'Disponibilidad',
-    selector: 'available',
+    selector: 'availability',
     sortable: true,
-    cell: (row: { available: any }) => {
-      const { available } = row;
-      return <p>{available ? 'Disponible' : 'No disponible'}</p>;
+    cell: (row: { availability: any }) => {
+      const { availability } = row;
+      return <p>{availability ? 'Disponible' : 'No disponible'}</p>;
     },
   },
   {

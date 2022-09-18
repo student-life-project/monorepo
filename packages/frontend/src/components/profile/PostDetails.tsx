@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import router from 'next/router';
 import { FC, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import xw from 'xwind';
 
 import {
@@ -10,7 +10,15 @@ import {
   RentalApprovedStatus,
   RentalAvailabilityStatus,
 } from '@/constants';
-import { AlertMessage } from '@/constants/alertMessage';
+import {
+  changePublicationApproval,
+  deletePublication as deleteAdminPublication,
+} from '@/store/actions/managePublications';
+import {
+  changePublicationAvailability,
+  deletePublication,
+} from '@/store/actions/publications';
+import { formatDate } from '@/utils/managerDate';
 
 import Alert from '../common/Alert';
 import Button from '../common/Button';
@@ -22,7 +30,7 @@ import PreviewStep4 from '../publications/PreviewStep4';
 
 type TPostDetails = {
   admin?: boolean;
-  getValues: any;
+  values: any;
 };
 
 type TRedirectData = {
@@ -32,17 +40,16 @@ type TRedirectData = {
   };
 } & any;
 
-// TODO: Need to implement
-const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
-  const values = getValues();
+const PostDetails: FC<TPostDetails> = ({ admin, values }) => {
+  const dispatch = useDispatch();
+  const getValues = () => values;
 
-  const alertMsg = admin ? 'aprobación' : 'disponibilidad';
   const pathname = admin ? '/profile/admin' : '/profile/publications';
   const initialStatus = admin ? values.approved : values.availability;
   const options = admin ? RentalApprovedStatus : RentalAvailabilityStatus;
 
-  const [status, setStatus] = useState(initialStatus);
   const [showModal, setShowModal] = useState(false);
+  const [status, setStatus] = useState(initialStatus);
 
   const handleShowModal = () => {
     setShowModal(!showModal);
@@ -50,17 +57,23 @@ const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
 
   const handleStatus = () => {
     setStatus(!status);
-    toast.success(AlertMessage.updated(alertMsg));
 
-    // TODO: diferentes endpoints a ejecutar dependiendo del tipo de usuario:
-    // TODO: Admin puede aprobar o no aprobar la publicación. se dejaria de mostrar en la pagina, pero no se elimina.
-    // TODO: Arrendatario puede poner como disponible o no disponible la vivienda, pero se seguira viendo en la página.
+    if (admin) {
+      // * Admin puede aprobar o no aprobar la publicación. Se dejaría de mostrar en la página, pero no se elimina.
+      dispatch(changePublicationApproval(values.id));
+    } else {
+      // * Arrendatario puede poner como disponible o no disponible la vivienda, pero se seguirá viendo en la página.
+      dispatch(changePublicationAvailability(values.id));
+    }
   };
 
   const handleDeletePublication = () => {
-    // TODO: id de publicación para eliminarlo
+    if (admin) {
+      dispatch(deleteAdminPublication(values.id));
+    } else {
+      dispatch(deletePublication(values.id));
+    }
 
-    // TODO: onSuccess y onError alerts
     const redirectData: TRedirectData = {
       pathname,
       query: {
@@ -98,7 +111,9 @@ const PostDetails: FC<TPostDetails> = ({ admin, getValues }) => {
 
             <div>
               <SubTitle>{NameInput.date}</SubTitle>
-              <p css={xw`font-bold mt-2`}>{values.date}</p>
+              <p css={xw`font-bold mt-2`}>
+                {values.date && formatDate(values.date)}
+              </p>
             </div>
           </div>
         </div>
