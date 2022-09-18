@@ -113,7 +113,7 @@ export const ColumnsUser = (
   handleOpenModalUser: (id: number) => any,
 ): TColumns => [
   { name: 'ID', selector: 'id', sortable: true },
-  { name: 'Nombre', selector: 'name', sortable: true },
+  { name: 'Nombre', selector: 'fullName', sortable: true },
   { name: 'Correo', selector: 'email', sortable: true },
   {
     name: 'Rol',

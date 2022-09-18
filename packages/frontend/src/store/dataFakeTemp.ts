@@ -2,43 +2,101 @@
 // TODO: ELIMINAR
 import { IImage, IRentalPlace } from '@student_life/common';
 
+// =============================================================================
+
 export const dataUsers = [
   {
     id: 1,
-    name: 'Alfredo Carreón Urbano',
-    email: 'alfredo11cu@gmail.com',
     role: 0,
     status: true,
+    firstName: 'Alfredo',
+    lastName: 'Carreón Urbano',
+    fullName: 'Alfredo Carreón Urbano',
+    userImage: '/images/avatar.png',
+    email: 'alfredo11cu@gmail.com',
+    phoneNumber: '3315448430',
+    birthDate: '1997-02-11',
+    aboutMe:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam!',
   },
   {
     id: 2,
-    name: 'Fernanda Hernandez',
-    email: 'fer@hotmail.com',
     role: 1,
     status: false,
+    firstName: 'Fernanda',
+    lastName: 'Hernandez',
+    fullName: 'Fernanda Hernandez',
+    userImage: '/images/avatar.png',
+    email: 'fer@hotmail.com',
+    phoneNumber: '3315212412',
+    birthDate: '1997-03-10',
+    aboutMe:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam!',
   },
   {
     id: 3,
-    name: 'Victor Reyes',
-    email: 'victor@gmail.com',
     role: 2,
     status: true,
+    firstName: 'Victor',
+    lastName: 'Reyes',
+    fullName: 'Victor Reyes',
+    userImage: '/images/avatar.png',
+    email: 'victor@gmail.com',
+    phoneNumber: '3315269411',
+    birthDate: '1994-05-18',
+    aboutMe: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
   },
   {
     id: 4,
-    name: 'Angelica Victoria',
-    email: 'angie@gmail.com',
     role: 2,
     status: true,
+    firstName: 'Angelica',
+    lastName: 'Victoria',
+    fullName: 'Angelica Victoria',
+    userImage: '/images/avatar.png',
+    email: 'angie@gmail.com',
+    phoneNumber: '3317776312',
+    birthDate: '1999-07-02',
+    aboutMe: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
   },
   {
     id: 5,
-    name: 'karla Valdos',
-    email: 'kvaldos@gmail.com',
     role: 1,
     status: false,
+    firstName: 'Karla',
+    lastName: 'Valdos',
+    fullName: 'karla Valdos',
+    userImage: '/images/avatar.png',
+    email: 'kvaldos@gmail.com',
+    phoneNumber: '',
+    birthDate: '',
+    aboutMe: '',
   },
 ];
+
+export const dataUserSearch = (text) => {
+  const res = text.toLowerCase()
+    ? dataUsers.filter(
+        (item) => item.fullName.toLowerCase().indexOf(text.toLowerCase()) > -1,
+      )
+    : dataUsers;
+
+  return res;
+};
+
+export const dataUsersChangeStatus = (id) => {
+  const res = dataUsers.map((item) =>
+    item.id === id ? { ...item, status: !item.status } : item,
+  );
+
+  return res;
+};
+
+export const dataUser = (id) => {
+  return dataUsers.filter((item) => item.id === Number(id))[0];
+};
+
+// =============================================================================
 
 export const dataPublications = [
   {
@@ -413,3 +471,5 @@ export const dataReportsChangeStatus = (id) => {
 export const dataReport = (id) => {
   return dataReports.filter((item) => item.id === Number(id))[0];
 };
+
+// =============================================================================

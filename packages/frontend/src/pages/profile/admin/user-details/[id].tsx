@@ -1,6 +1,8 @@
+import { NextPage, NextPageContext } from 'next';
 import router from 'next/router';
-import { FC, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 import xw from 'xwind';
 
 import Alert from '@/components/common/Alert';
@@ -19,19 +21,15 @@ import {
   NameInput,
   UserActiveStatus,
 } from '@/constants';
-import { AlertMessage } from '@/constants/alertMessage';
-
-const user = {
-  id: 1,
-  userImage: '/images/avatar.png',
-  firstName: 'Alfredo',
-  lastName: 'Carreón Urbano',
-  email: 'alfredo11cu@gmail.com',
-  phoneNumber: '3315448430',
-  birthDate: '11 de febrero 1997',
-  aboutMe:
-    'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam!',
-};
+import { TStore } from '@/store';
+import {
+  changeUserStatus,
+  deleteUser,
+  getUser,
+} from '@/store/actions/manageUsers';
+import { TRootState } from '@/store/reducers';
+import { manageUserSelector } from '@/store/selectors/manageUsers';
+import { formatDate } from '@/utils/managerDate';
 
 type TRedirectData = {
   pathname: string;
@@ -40,11 +38,12 @@ type TRedirectData = {
   };
 } & any;
 
-// TODO: Need to implement
-const UserDetails: FC = () => {
-  //* Por defecto debe estar activo el usuario al momento que se registra.
-  const [status, setStatus] = useState(true);
+const UserDetails: NextPage = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => manageUserSelector(state));
+
   const [showModal, setShowModal] = useState(false);
+  const [status, setStatus] = useState(user.status);
 
   const handleShowModal = () => {
     setShowModal(!showModal);
@@ -52,13 +51,12 @@ const UserDetails: FC = () => {
 
   const handleStatus = () => {
     setStatus(!status);
-    toast.success(AlertMessage.updated('estatus'));
+    dispatch(changeUserStatus(user.id));
   };
 
   const handleDeleteUser = () => {
-    // TODO: id de usuario para eliminarlo
+    dispatch(deleteUser(user.id));
 
-    // TODO: onSuccess y onError alerts
     const redirectData: TRedirectData = {
       pathname: '/profile/admin',
       query: {
@@ -117,7 +115,9 @@ const UserDetails: FC = () => {
 
               <div>
                 <SubTitle>{NameInput.birthDate}</SubTitle>
-                <p css={xw`font-bold mt-2`}>{user.birthDate || 'N/A'}</p>
+                <p css={xw`font-bold mt-2`}>
+                  {(user.birthDate && formatDate(user.birthDate)) || 'N/A'}
+                </p>
               </div>
             </div>
 
@@ -146,6 +146,17 @@ const UserDetails: FC = () => {
       </BodyContainer>
     </>
   );
+};
+
+UserDetails.getInitialProps = async ({
+  query,
+  reduxStore,
+}: NextPageContext & { id: number; reduxStore: TStore }) => {
+  await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+    getUser(query.id),
+  );
+
+  return {};
 };
 
 export default UserDetails;
