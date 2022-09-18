@@ -145,7 +145,7 @@ const ReportDetails: NextPage = () => {
 ReportDetails.getInitialProps = async ({
   query,
   reduxStore,
-}: NextPageContext & { id: number; reduxStore: TStore }) => {
+}: NextPageContext & { query: any; reduxStore: TStore }) => {
   await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
     getReport(query.id),
   );
