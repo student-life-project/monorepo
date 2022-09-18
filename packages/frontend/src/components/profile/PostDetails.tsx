@@ -136,8 +136,7 @@ const PostDetails: FC<TPostDetails> = ({ admin, values }) => {
             </Button>
 
             {!admin && (
-              // TODO: id de publicación
-              <Link href={`/profile/publications/post/${1}`}>
+              <Link href={`/profile/publications/post/${values.id}`}>
                 <Button FPrimary type="button" css={xw`mb-5 sm:mb-0`}>
                   Editar publicación
                 </Button>

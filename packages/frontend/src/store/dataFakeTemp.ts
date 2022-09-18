@@ -2,6 +2,7 @@
 // TODO: ELIMINAR
 import { IImage, IRentalPlace } from '@student_life/common';
 
+// * MANAGE USERS
 // =============================================================================
 
 export const dataUsers = [
@@ -96,6 +97,7 @@ export const dataUser = (id) => {
   return dataUsers.filter((item) => item.id === Number(id))[0];
 };
 
+// * MANAGE PUBLICATIONS
 // =============================================================================
 
 export const dataPublications = [
@@ -258,6 +260,7 @@ export const dataPublication = (id) => {
   return dataPublications.filter((item) => item.id === Number(id))[0];
 };
 
+// * MANAGE REPORTS
 // =============================================================================
 
 export const dataReports = [
@@ -334,6 +337,195 @@ export const dataReportsChangeStatus = (id) => {
 
 export const dataReport = (id) => {
   return dataReports.filter((item) => item.id === Number(id))[0];
+};
+
+// * PUBLICATIONS
+// =============================================================================
+
+export const dataMyPublications = [
+  {
+    id: 1,
+    owner: 'Alfredo Carreón Urbano',
+    date: '2022-03-11',
+    gender: 'Hombre',
+    availability: true,
+    approved: true,
+    title: 'Casa cerca de CUCEI',
+    reason: 'Quiero rentar',
+    typeSpace: 'Cuarto privado',
+    price: '1500',
+    street: 'Pallas #1523 A',
+    state: 'Jalisco',
+    city: 'Guadalajara',
+    neighborhood: '18 de marzo',
+    reference:
+      'Casa tipo minimalista con mucha iluminación, muy ventilada, zona tranquila, segura, a 5 minutos de los mejores centros comerciales, restaurantes y bares. A 30 minutos de la playa y zona arqueológica de Dzibichaltun en coche.',
+    zone: 'Casa tipo minimalista con mucha iluminación, muy ventilada, zona tranquila, segura, a 5 minutos de los mejores centros comerciales, restaurantes y bares. A 30 minutos de la playa y zona arqueológica de Dzibichaltun en coche.',
+    stateCode: '44960',
+    rentalPlace:
+      'Casa tipo minimalista con mucha iluminación, muy ventilada, zona tranquila, segura, a 5 minutos de los mejores centros comerciales, restaurantes y bares. A 30 minutos de la playa y zona arqueológica de Dzibichaltun en coche.',
+    services: [
+      'Baño',
+      'Elevador',
+      'Servicios públicos',
+      'Aire acondicionado',
+      'Wi-Fi incluido',
+    ],
+    rules: ['No fumar', 'No mascotas', 'No drogas', 'No beber', 'No invitados'],
+    security: [
+      'Alarma de incendios',
+      'Salidas de emergencia',
+      'Señalamientos de seguridad',
+    ],
+    images: [
+      {
+        url: '/images/example_home_2.jpg',
+        name: 'img-home-1',
+      },
+      {
+        url: '/images/example_home.jpg',
+        name: 'img-home-2',
+      },
+      {
+        url: '/images/example_home_2.jpg',
+        name: 'img-home-3',
+      },
+      {
+        url: '/images/example_home.jpg',
+        name: 'img-home-4',
+      },
+      {
+        url: '/images/example_home_2.jpg',
+        name: 'img-home-5',
+      },
+    ],
+  },
+  {
+    id: 2,
+    owner: 'Alfredo Carreón Urbano',
+    date: '2022-07-11',
+    gender: 'Hombre',
+    availability: true,
+    approved: true,
+    title: 'Departamento cerca de CUCEA',
+    reason: 'Quiero rentar',
+    typeSpace: 'Cuarto privado',
+    price: '3500',
+    street: 'Pallas #1523 A',
+    state: 'Jalisco',
+    city: 'Guadalajara',
+    neighborhood: '18 de marzo',
+    reference:
+      'Casa tipo minimalista con mucha iluminación, muy ventilada, zona tranquila, segura, a 5 minutos de los mejores centros comerciales, restaurantes y bares. A 30 minutos de la playa y zona arqueológica de Dzibichaltun en coche.',
+    zone: 'Casa tipo minimalista con mucha iluminación, muy ventilada, zona tranquila, segura, a 5 minutos de los mejores centros comerciales, restaurantes y bares. A 30 minutos de la playa y zona arqueológica de Dzibichaltun en coche.',
+    stateCode: '44960',
+    rentalPlace:
+      'Casa tipo minimalista con mucha iluminación, muy ventilada, zona tranquila, segura, a 5 minutos de los mejores centros comerciales, restaurantes y bares. A 30 minutos de la playa y zona arqueológica de Dzibichaltun en coche.',
+    services: [
+      'Baño',
+      'Elevador',
+      'Servicios públicos',
+      'Aire acondicionado',
+      'Wi-Fi incluido',
+    ],
+    rules: ['No fumar', 'No mascotas', 'No drogas', 'No beber', 'No invitados'],
+    security: [
+      'Alarma de incendios',
+      'Salidas de emergencia',
+      'Señalamientos de seguridad',
+    ],
+    images: [
+      {
+        url: '/images/example_home_2.jpg',
+        name: 'img-home-1',
+      },
+      {
+        url: '/images/example_home.jpg',
+        name: 'img-home-2',
+      },
+    ],
+  },
+  {
+    id: 3,
+    owner: 'Alfredo Carreón Urbano',
+    date: '2022-08-07',
+    gender: 'Hombre',
+    availability: true,
+    approved: true,
+    title: 'Cuarto privado cerca de CUCS',
+    reason: 'Quiero rentar',
+    typeSpace: 'Cuarto privado',
+    price: '4500',
+    street: 'Pallas #1523 A',
+    state: 'Jalisco',
+    city: 'Guadalajara',
+    neighborhood: '18 de marzo',
+    reference:
+      'Casa tipo minimalista con mucha iluminación, muy ventilada, zona tranquila, segura, a 5 minutos de los mejores centros comerciales, restaurantes y bares. A 30 minutos de la playa y zona arqueológica de Dzibichaltun en coche.',
+    zone: 'Casa tipo minimalista con mucha iluminación, muy ventilada, zona tranquila, segura, a 5 minutos de los mejores centros comerciales, restaurantes y bares. A 30 minutos de la playa y zona arqueológica de Dzibichaltun en coche.',
+    stateCode: '44960',
+    rentalPlace:
+      'Casa tipo minimalista con mucha iluminación, muy ventilada, zona tranquila, segura, a 5 minutos de los mejores centros comerciales, restaurantes y bares. A 30 minutos de la playa y zona arqueológica de Dzibichaltun en coche.',
+    services: [
+      'Baño',
+      'Elevador',
+      'Servicios públicos',
+      'Aire acondicionado',
+      'Wi-Fi incluido',
+    ],
+    rules: ['No fumar', 'No mascotas', 'No drogas', 'No beber', 'No invitados'],
+    security: [
+      'Alarma de incendios',
+      'Salidas de emergencia',
+      'Señalamientos de seguridad',
+    ],
+    images: [
+      {
+        url: '/images/example_home_2.jpg',
+        name: 'img-home-1',
+      },
+      {
+        url: '/images/example_home.jpg',
+        name: 'img-home-2',
+      },
+      {
+        url: '/images/example_home_2.jpg',
+        name: 'img-home-3',
+      },
+      {
+        url: '/images/example_home.jpg',
+        name: 'img-home-4',
+      },
+      {
+        url: '/images/example_home_2.jpg',
+        name: 'img-home-5',
+      },
+    ],
+  },
+];
+
+export const dataMyPublicationSearch = (text) => {
+  const res = text.toLowerCase()
+    ? dataMyPublications.filter(
+        (item) => item.title.toLowerCase().indexOf(text.toLowerCase()) > -1,
+      )
+    : dataMyPublications;
+
+  return res;
+};
+
+export const dataMyPublicationChangeAvailability = (id) => {
+  const res = dataMyPublications.map((item) =>
+    item.id === Number(id)
+      ? { ...item, availability: !item.availability }
+      : item,
+  );
+
+  return res;
+};
+
+export const dataMyPublication = (id) => {
+  return dataMyPublications.filter((item) => item.id === Number(id))[0];
 };
 
 // =============================================================================
