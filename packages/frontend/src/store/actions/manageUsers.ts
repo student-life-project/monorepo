@@ -24,7 +24,12 @@ import {
 import { IQueryCommonFilters, TElementId } from '@/types';
 
 // TODO: ELIMINAR
-import { dataUsers } from '../dataFakeTemp';
+import {
+  dataUser,
+  dataUsers,
+  dataUsersChangeStatus,
+  dataUserSearch,
+} from '../dataFakeTemp';
 
 // =============================================================================
 
@@ -50,7 +55,7 @@ export const getUser =
       // const { data } = await api.get(`/user/${id}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataUser(id);
       // eslint-disable-next-line no-console
       console.log(id);
 
@@ -86,7 +91,7 @@ export const searchUser =
       // const { data } = await api.get(`/user${filter}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataUserSearch(text);
       // eslint-disable-next-line no-console
       console.log(text);
 
@@ -198,7 +203,7 @@ export const changeUserStatus =
       // const { data } = await api.put(`/user/${id}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataUsersChangeStatus(id);
       // eslint-disable-next-line no-console
       console.log(id);
 

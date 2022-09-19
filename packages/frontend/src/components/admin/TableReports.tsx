@@ -54,6 +54,7 @@ const TableReports: FC<TTableReports> = ({ data }) => {
         loading={loading}
         columns={ColumnsReport(solveReport, handleOpenModalReport)}
         header={header}
+        linkRow="/profile/admin/report-details/"
       />
 
       {showModalReport && (

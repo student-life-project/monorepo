@@ -49,8 +49,8 @@ const Comments: FC<TComments> = ({
   const comment = watch('comment');
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    //! Despues de enviar el comentario. enviarle un id de user.
-    //! Para obtener id, name, userImage, comment y date.
+    // TODO: Despues de enviar el comentario. enviarle un id de user.
+    // TODO: Para obtener id, name, userImage, comment y date.
     dispatch(createComment(data as ICommentData));
     reset();
   };

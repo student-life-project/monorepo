@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EUserType } from '@student_life/common';
 import { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 
 import Button from '@/components/common/Button';
 import DoubleFormSpace from '@/components/common/DoubleFormSpace';
@@ -15,7 +15,7 @@ import Label from '@/components/common/Label';
 import Radio from '@/components/common/Radio';
 import Tooltip from '@/components/common/Tooltip';
 import { ErrorMessageInput, NameInput } from '@/constants';
-import { AlertMessage } from '@/constants/alertMessage';
+// import { AlertMessage } from '@/constants/alertMessage';
 import { calculateAge } from '@/utils/managerDate';
 
 import Modal from '../common/Modal';
@@ -81,7 +81,7 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
   const onSubmit: SubmitHandler<IRegisterData> = async (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
-    toast.success(AlertMessage.updated('usuario'));
+    //! toast.success(AlertMessage.updated('usuario'));
     closeModal(); // TODO: cerrar si el resultado es success
   };
 
