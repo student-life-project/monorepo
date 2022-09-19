@@ -24,7 +24,12 @@ import {
 import { IQueryCommonFilters, TElementId } from '@/types';
 
 // TODO: ELIMINAR
-import { dataPublications } from '../dataFakeTemp';
+import {
+  dataPublication,
+  dataPublicationChangeApproved,
+  dataPublications,
+  dataPublicationSearch,
+} from '../dataFakeTemp';
 
 // =============================================================================
 
@@ -51,7 +56,7 @@ export const getPublication =
       // const { data } = await api.get(`/publication/${id}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataPublication(id);
       // eslint-disable-next-line no-console
       console.log(id);
 
@@ -87,7 +92,7 @@ export const searchPublication =
       // const { data } = await api.get(`/publication${filter}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataPublicationSearch(text);
       // eslint-disable-next-line no-console
       console.log(text);
 
@@ -201,7 +206,7 @@ export const changePublicationApproval =
       // const { data } = await api.put(`/publication/${id}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataPublicationChangeApproved(id);
       // eslint-disable-next-line no-console
       console.log(id);
 

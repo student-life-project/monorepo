@@ -52,6 +52,7 @@ const TableUsers: FC<TTableUsers> = ({ data }) => {
         loading={loading}
         columns={ColumnsUser(statusUser, handleOpenModalUser)}
         header={header}
+        linkRow="/profile/admin/user-details/"
       />
 
       {showModalUser && (

@@ -1,3 +1,5 @@
+import { TElementId } from '@/types';
+
 const LinkHome = { link: '/', text: 'Student Life' };
 const LinkHelp = { link: '/help', text: 'Ayuda' };
 const LinkProfile = { link: '/profile', text: 'Perfil' };
@@ -36,28 +38,28 @@ export const ItemsTermAndCond = [
   { link: '/help/terms-and-conditions', text: 'Términos y condiciones' },
 ];
 
-export const ItemsPublicationDetails = [
+export const ItemsPublicationDetails = (id: TElementId): Array<any> => [
   ...ItemsPublications,
   {
-    link: '/profile/publications/details',
+    link: `/profile/publications/details/${id}`,
     text: 'Detalles de la publiación',
   },
 ];
 
-export const ItemsPublicationDetailsAdmin = [
+export const ItemsPublicationDetailsAdmin = (id: TElementId): Array<any> => [
   ...ItemsAdmin,
   {
-    link: '/profile/admin/publication-details',
+    link: `/profile/admin/publication-details/${id}`,
     text: 'Detalles de la publiación',
   },
 ];
 
-export const ItemsReportDetails = [
+export const ItemsReportDetails = (id: TElementId): Array<any> => [
   ...ItemsAdmin,
-  { link: '/profile/admin/report-details', text: 'Detalles del reporte' },
+  { link: `/profile/admin/report-details/${id}`, text: 'Detalles del reporte' },
 ];
 
-export const ItemsUserDetails = [
+export const ItemsUserDetails = (id: TElementId): Array<any> => [
   ...ItemsAdmin,
-  { link: '/profile/admin/user-details', text: 'Detalles del usuario' },
+  { link: `/profile/admin/user-details/${id}`, text: 'Detalles del usuario' },
 ];

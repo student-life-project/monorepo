@@ -29,6 +29,14 @@ import {
 } from '@/store/types/publications';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
+// TODO: ELIMINAR
+import {
+  dataMyPublication,
+  dataMyPublicationChangeAvailability,
+  dataMyPublications,
+  dataMyPublicationSearch,
+} from '../dataFakeTemp';
+
 // =============================================================================
 
 export const getPublicationPendingAction = (): any => ({
@@ -53,7 +61,7 @@ export const getPublication =
       // const { data } = await api.get(`/publication/${id}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataMyPublication(id);
       // eslint-disable-next-line no-console
       console.log(id);
 
@@ -205,7 +213,7 @@ export const getAllPublication =
       // const { data } = await api.get(`/publication${limitQuery}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataMyPublications;
       // eslint-disable-next-line no-console
       console.log(limit);
 
@@ -241,7 +249,7 @@ export const searchPublication =
       // const { data } = await api.get(`/publication${filter}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataMyPublicationSearch(text);
       // eslint-disable-next-line no-console
       console.log(text);
 
@@ -280,7 +288,7 @@ export const changePublicationAvailability =
       // const { data } = await api.put(`/publication/${id}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataMyPublicationChangeAvailability(id);
       // eslint-disable-next-line no-console
       console.log(id);
 

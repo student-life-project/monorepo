@@ -58,6 +58,7 @@ const TablePublications: FC<TTablePublications> = ({ data }) => {
         loading={loading}
         columns={ColumnsPublication(approvePost, handleOpenModalPost)}
         header={header}
+        linkRow="/profile/admin/publication-details/"
       />
 
       {showModalPost && (

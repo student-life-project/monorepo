@@ -8,6 +8,8 @@ import xw from 'xwind';
 import Options from '@/components/common/Options';
 import Status from '@/components/common/Status';
 import { IOption } from '@/types';
+import { formatDate } from '@/utils/managerDate';
+import { formatter } from '@/utils/numberFormat';
 
 import {
   RentalApprovedStatus,
@@ -33,26 +35,36 @@ export const ColumnsPublicationUser = (
   handleOpenModal: (id: number) => any,
 ): TColumns => [
   { name: 'Titulo', selector: 'title', sortable: true },
-  { name: 'Precio', selector: 'price', sortable: true },
+  {
+    name: 'Precio',
+    selector: 'price',
+    sortable: true,
+    cell: (row: { price: any }) => {
+      const { price } = row;
+      return formatter('MXN').format(price);
+    },
+  },
   {
     name: 'Disponibilidad',
-    selector: 'available',
-    cell: (row: { available: any }) => {
-      const { available } = row;
-      return <Status status={available} options={RentalAvailabilityStatus} />;
-    },
+    selector: 'availability',
     sortable: true,
+    cell: (row: { availability: any }) => {
+      const { availability } = row;
+      return (
+        <Status status={availability} options={RentalAvailabilityStatus} />
+      );
+    },
   },
   {
     name: 'Acciones',
-    cell: (row: { id: any; available: any }) => {
-      const { id, available } = row;
+    cell: (row: { id: any; availability: any }) => {
+      const { id, availability } = row;
 
       return (
         <Options>
           <button type="button" onClick={() => availablePost(id)}>
             <span css={xw`ml-2`}>
-              {available ? 'No disponible' : 'Disponible'}
+              {availability ? 'No disponible' : 'Disponible'}
             </span>
           </button>
 
@@ -103,27 +115,27 @@ export const ColumnsUser = (
   handleOpenModalUser: (id: number) => any,
 ): TColumns => [
   { name: 'ID', selector: 'id', sortable: true },
-  { name: 'Nombre', selector: 'name', sortable: true },
+  { name: 'Nombre', selector: 'fullName', sortable: true },
   { name: 'Correo', selector: 'email', sortable: true },
   {
     name: 'Rol',
     selector: 'role',
+    sortable: true,
     cell: (row: { role: any }) => {
       const { role } = row;
       const roleName = ['Admin', 'Estudiante', 'Arrendatario'];
 
       return <p>{roleName[role]}</p>;
     },
-    sortable: true,
   },
   {
     name: 'Estatus',
     selector: 'status',
+    sortable: true,
     cell: (row: { status: any }) => {
       const { status } = row;
       return <Status status={status} options={UserActiveStatus} />;
     },
-    sortable: true,
   },
   {
     name: 'Acciones',
@@ -155,24 +167,32 @@ export const ColumnsPublication = (
 ): TColumns => [
   { name: 'ID', selector: 'id', sortable: true },
   { name: 'Titulo', selector: 'title', sortable: true },
-  { name: 'Precio', selector: 'price', sortable: true },
+  {
+    name: 'Precio',
+    selector: 'price',
+    sortable: true,
+    cell: (row: { price: any }) => {
+      const { price } = row;
+      return formatter('MXN').format(price);
+    },
+  },
   {
     name: 'Disponibilidad',
-    selector: 'available',
-    cell: (row: { available: any }) => {
-      const { available } = row;
-      return <p>{available ? 'Disponible' : 'No disponible'}</p>;
-    },
+    selector: 'availability',
     sortable: true,
+    cell: (row: { availability: any }) => {
+      const { availability } = row;
+      return <p>{availability ? 'Disponible' : 'No disponible'}</p>;
+    },
   },
   {
     name: 'Aprobación',
     selector: 'approved',
+    sortable: true,
     cell: (row: { approved: any }) => {
       const { approved } = row;
       return <Status status={approved} options={RentalApprovedStatus} />;
     },
-    sortable: true,
   },
   {
     name: 'Acciones',
@@ -205,15 +225,23 @@ export const ColumnsReport = (
   { name: 'ID', selector: 'id', sortable: true },
   { name: 'Tipo', selector: 'type', sortable: true },
   { name: 'Descripción', selector: 'description', sortable: true },
-  { name: 'Fecha', selector: 'createdAt', sortable: true },
+  {
+    name: 'Fecha',
+    selector: 'createdAt',
+    sortable: true,
+    cell: (row: { createdAt: any }) => {
+      const { createdAt } = row;
+      return formatDate(createdAt);
+    },
+  },
   {
     name: 'Estatus',
     selector: 'status',
-    cell: (row: { status: any }) => {
+    sortable: true,
+    cell: (row: { status: boolean }) => {
       const { status } = row;
       return <Status status={status} options={ReportStatus} />;
     },
-    sortable: true,
   },
   {
     name: 'Acciones',

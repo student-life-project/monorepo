@@ -1,6 +1,9 @@
+import { NextPage, NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 import xw from 'xwind';
 
 import Alert from '@/components/common/Alert';
@@ -13,6 +16,14 @@ import RentalPlaceStep3 from '@/components/publications/RentalPlaceStep3';
 import Steps from '@/components/publications/Steps';
 import UbicationStep2 from '@/components/publications/UbicationStep2';
 import { EPublicationStep, PublicationSteps } from '@/constants';
+import { TStore } from '@/store';
+import {
+  createPublication,
+  getPublication,
+  updatePublication,
+} from '@/store/actions/publications';
+import { TRootState } from '@/store/reducers';
+import { publicationsSelector } from '@/store/selectors/publications';
 import { TFile } from '@/types';
 import { scrollTo } from '@/utils/scrollTo';
 
@@ -44,13 +55,15 @@ type TRedirectData = {
   };
 } & any;
 
-const Create: FC = () => {
+const Post: NextPage = () => {
   const router = useRouter();
-  const [step, setStep] = useState(0);
-  const [steps, setSteps] = useState(PublicationSteps);
+  const dispatch = useDispatch();
 
-  // TODO: mantender el estado con los archivos agregados.
-  const [files, setFiles] = useState<TFile[]>([]);
+  const post = useSelector((state) => publicationsSelector(state));
+
+  const [step, setStep] = useState(0);
+  const [files, setFiles] = useState<TFile[]>([]); // TODO: mantender el estado con los archivos agregados.
+  const [steps, setSteps] = useState(PublicationSteps);
 
   const {
     reset,
@@ -80,21 +93,16 @@ const Create: FC = () => {
   const rentalPlace = watch(['rentalPlace', 'services', 'rules']);
 
   const onSubmit: SubmitHandler<IPublicationData> = async (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data, files);
-
-    // TODO: esto debe de ir en el onSuccess, también se puede crear en onError alertas de error.
     const redirectData: TRedirectData = {
       pathname: '/profile/publications',
       query: {},
     };
 
-    // TODO: createdPost y updatedPost enviar un valor por la query para mostrar las alertas.
-    const id = null;
-
-    if (id) {
+    if (post.id) {
+      dispatch(updatePublication(post.id, { ...data, images: files }));
       redirectData.query.updatedPost = true;
     } else {
+      dispatch(createPublication({ ...data, images: files }));
       redirectData.query.createdPost = true;
     }
 
@@ -138,8 +146,13 @@ const Create: FC = () => {
   }, [basicInfo, location, rentalPlace, step]);
 
   useEffect(() => {
-    reset({ gender: 'Sin preferencia', availability: true, security: [] });
-  }, [reset]);
+    if (post.id) {
+      reset({ ...post });
+      setFiles(post.images);
+    } else {
+      reset({ gender: 'Sin preferencia', availability: true, security: [] });
+    }
+  }, [post, reset]);
 
   return (
     <>
@@ -228,4 +241,17 @@ const Create: FC = () => {
   );
 };
 
-export default Create;
+Post.getInitialProps = async ({
+  query,
+  reduxStore,
+}: NextPageContext & { query: any; reduxStore: TStore }) => {
+  if (query.id) {
+    await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+      getPublication(query.id[0]),
+    );
+  }
+
+  return {};
+};
+
+export default Post;

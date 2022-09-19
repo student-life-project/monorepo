@@ -142,7 +142,7 @@ const PreviewStep4: FC<TPreviewStep4> = ({ files, getValues }) => {
           <div>
             <SubTitle>Servicios</SubTitle>
             <ul css={xw`list-disc flex flex-wrap my-2`}>
-              {values.services.map((item) => (
+              {values?.services?.map((item) => (
                 <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
                   {item}
                 </li>
@@ -153,7 +153,7 @@ const PreviewStep4: FC<TPreviewStep4> = ({ files, getValues }) => {
           <div>
             <SubTitle>Reglas</SubTitle>
             <ul css={xw`list-disc flex flex-wrap my-2`}>
-              {values.rules.map((item) => (
+              {values?.rules?.map((item) => (
                 <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
                   {item}
                 </li>
@@ -163,7 +163,7 @@ const PreviewStep4: FC<TPreviewStep4> = ({ files, getValues }) => {
 
           <div>
             <SubTitle>Seguridad</SubTitle>
-            {values.security.length > 0 ? (
+            {values?.security?.length > 0 ? (
               <ul css={xw`list-disc flex flex-wrap my-2`}>
                 {values.security.map((item) => (
                   <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>

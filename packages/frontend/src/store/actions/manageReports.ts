@@ -24,7 +24,12 @@ import {
 import { IQueryCommonFilters, TElementId } from '@/types';
 
 // TODO: ELIMINAR
-import { dataReports } from '../dataFakeTemp';
+import {
+  dataReport,
+  dataReports,
+  dataReportsChangeStatus,
+  dataReportsSearch,
+} from '../dataFakeTemp';
 
 // =============================================================================
 
@@ -50,7 +55,7 @@ export const getReport =
       // const { data } = await api.get(`/report/${id}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataReport(id);
       // eslint-disable-next-line no-console
       console.log(id);
 
@@ -86,9 +91,8 @@ export const searchReport =
       // const { data } = await api.get(`/report${filter}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataReportsSearch(text);
       // eslint-disable-next-line no-console
-      console.log(text);
 
       dispatch(searchReportSuccessAction(data));
     } catch (error) {
@@ -198,7 +202,7 @@ export const changeReportStatus =
       // const { data } = await api.put(`/report/${id}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = dataReportsChangeStatus(id);
       // eslint-disable-next-line no-console
       console.log(id);
 

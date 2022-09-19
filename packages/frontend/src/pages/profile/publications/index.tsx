@@ -1,6 +1,9 @@
+import { NextPage, NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { ThunkDispatch } from 'redux-thunk';
 import xw from 'xwind';
 
 import Alert from '@/components/common/Alert';
@@ -16,127 +19,36 @@ import {
   ItemsPublications,
 } from '@/constants';
 import { AlertMessage } from '@/constants/alertMessage';
+import { TStore } from '@/store';
+import {
+  changePublicationAvailability,
+  deletePublication,
+  getAllPublication,
+  searchPublication,
+} from '@/store/actions/publications';
+import { TRootState } from '@/store/reducers';
+import {
+  isFetchingPublicationsSelector,
+  publicationsSelector,
+} from '@/store/selectors/publications';
 import { TElementId } from '@/types';
 
-const data = [
-  { id: 1, title: 'Casa cerca de CUCEI', price: 700, available: true },
-  {
-    id: 2,
-    title: 'Depatamento cerca de CUCEI',
-    price: 800,
-    available: true,
-  },
-  {
-    id: 3,
-    title: 'Cuarto privado cerca de CUCEI',
-    price: 1000,
-    available: false,
-  },
-  {
-    id: 4,
-    title: 'Cuarto compartido cerca de CUCEI',
-    price: 1200,
-    available: true,
-  },
-  {
-    id: 5,
-    title: 'Depatamento cerca de CUCEI',
-    price: 1500,
-    available: true,
-  },
-  {
-    id: 6,
-    title: 'Cuarto cerca de CUCEI',
-    price: 600,
-    available: true,
-  },
-  {
-    id: 7,
-    title: 'Piso cerca de CUCEI',
-    price: 950,
-    available: false,
-  },
-  { id: 8, title: 'Casa cerca de CUCEI', price: 200, available: true },
-  {
-    id: 9,
-    title: 'Casa cerca de CUCEI',
-    price: 200,
-    available: false,
-  },
-  {
-    id: 10,
-    title: 'Cuarto privado cerca de CUCEI',
-    price: 120,
-    available: true,
-  },
-  {
-    id: 11,
-    title: 'Casa cerca de CUCEI',
-    price: 640,
-    available: false,
-  },
-  {
-    id: 12,
-    title: 'Depatamento cerca de CUCEI',
-    price: 320,
-    available: true,
-  },
-  {
-    id: 13,
-    title: 'Cuarto privado cerca de CUCEI',
-    price: 700,
-    available: false,
-  },
-  {
-    id: 14,
-    title: 'Cuarto compartido',
-    price: 840,
-    available: true,
-  },
-  {
-    id: 15,
-    title: 'Depatamento cerca de CUCEI',
-    price: 500,
-    available: true,
-  },
-  {
-    id: 16,
-    title: 'Cuarto cerca de CUCEI',
-    price: 250,
-    available: false,
-  },
-  { id: 17, title: 'Piso cerca de CUCEI', price: 700, available: true },
-  {
-    id: 18,
-    title: 'Casa cerca de CUCEI',
-    price: 300,
-    available: false,
-  },
-  {
-    id: 19,
-    title: 'Casa cerca de CUCEI',
-    price: 2000,
-    available: true,
-  },
-  {
-    id: 20,
-    title: 'Cuarto privado cerca de CUCEI',
-    price: 500,
-    available: true,
-  },
-];
-
-// TODO: need to implement
-// TODO: loading si la data aún no carga mostrar el Spinner.
-const Publications: FC = () => {
+const Publications: NextPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const [showModal, setShowModal] = useState(false);
   const [postId, setPostId] = useState<TElementId>(null);
 
+  const publicationList = useSelector((state) => publicationsSelector(state));
+  const loading = useSelector((state) => isFetchingPublicationsSelector(state));
+
+  const handleChange = ({ target }) => {
+    dispatch(searchPublication(target.value));
+  };
+
   const availablePost = (id: TElementId) => {
-    // eslint-disable-next-line no-console
-    console.log(`Publicación ${id}`);
-    toast.success(AlertMessage.updated('disponibilidad'));
+    dispatch(changePublicationAvailability(id));
   };
 
   const handleOpenModal = (id: TElementId) => {
@@ -146,12 +58,6 @@ const Publications: FC = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-  };
-
-  const deletePost = (id: TElementId) => {
-    // eslint-disable-next-line no-console
-    console.log(`Publicación ${id}`);
-    toast.success(AlertMessage.deleted('publicación'));
   };
 
   useEffect(() => {
@@ -171,6 +77,11 @@ const Publications: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const header = {
+    ...HeaderPublicationUser,
+    onChange: handleChange,
+  };
+
   return (
     <>
       <NavBar allowRental allowLoginRegister />
@@ -179,10 +90,11 @@ const Publications: FC = () => {
 
       <BodyContainer css={xw`pt-0`}>
         <Table
-          data={data}
-          loading={false}
-          header={HeaderPublicationUser}
+          data={publicationList}
+          loading={loading}
           columns={ColumnsPublicationUser(availablePost, handleOpenModal)}
+          header={header}
+          linkRow="/profile/publications/details/"
         />
       </BodyContainer>
 
@@ -192,12 +104,21 @@ const Publications: FC = () => {
           title={confirmMessage.titleDelete('publicación')}
           description={confirmMessage.descriptionDelete('publicación')}
           closeModal={handleCloseModal}
-          // eslint-disable-next-line no-console
-          action={() => deletePost(postId)}
+          action={() => dispatch(deletePublication(postId))}
         />
       )}
     </>
   );
+};
+
+Publications.getInitialProps = async ({
+  reduxStore,
+}: NextPageContext & { reduxStore: TStore }) => {
+  await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+    getAllPublication(),
+  );
+
+  return {};
 };
 
 export default Publications;

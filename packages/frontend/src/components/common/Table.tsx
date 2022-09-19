@@ -1,4 +1,5 @@
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 import DataTable from 'react-data-table-component';
 import xw from 'xwind';
@@ -8,11 +9,22 @@ import Input from './Input';
 import Spinner from './Spinner';
 import Title from './Title';
 
+type THeaderTable = {
+  values: {
+    title: string;
+    search: boolean;
+    link: string;
+    textLink: string;
+    onChange: ({ target }: any) => void;
+  };
+};
+
 type TTable = {
   data: Array<any>;
   loading: boolean;
   columns: Array<any>;
   header: any;
+  linkRow: string;
 };
 
 const customStyles = {
@@ -36,7 +48,7 @@ const paginationOptions = {
   rowsPerPageText: 'Filas por página',
 };
 
-const HeaderTable = ({ values }) => (
+const HeaderTable: FC<THeaderTable> = ({ values }) => (
   <section css={xw`py-10 flex flex-col w-full sm:flex-row sm:justify-between`}>
     <Title css={xw`my-0`}>{values.title}</Title>
 
@@ -63,23 +75,33 @@ const HeaderTable = ({ values }) => (
   </section>
 );
 
-const Table: FC<TTable> = ({ data, loading, columns, header }) => (
-  <>
-    <HeaderTable values={header} />
-    <DataTable
-      noHeader
-      pagination
-      data={data}
-      fixedHeader
-      highlightOnHover
-      columns={columns}
-      customStyles={customStyles}
-      fixedHeaderScrollHeight="600px"
-      progressPending={loading}
-      progressComponent={<Spinner />}
-      paginationComponentOptions={paginationOptions}
-    />
-  </>
-);
+const Table: FC<TTable> = ({ data, loading, columns, header, linkRow }) => {
+  const router = useRouter();
+
+  const handleRowClicked = (row) => {
+    router.push(`${linkRow}${row.id}`);
+  };
+
+  return (
+    <>
+      <HeaderTable values={header} />
+      <DataTable
+        noHeader
+        pagination
+        data={data}
+        fixedHeader
+        highlightOnHover
+        columns={columns}
+        onRowClicked={handleRowClicked}
+        customStyles={customStyles}
+        fixedHeaderScrollHeight="600px"
+        progressPending={loading}
+        progressComponent={<Spinner />}
+        paginationComponentOptions={paginationOptions}
+        noDataComponent="No hay registros para mostrar"
+      />
+    </>
+  );
+};
 
 export default Table;

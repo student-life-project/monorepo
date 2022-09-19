@@ -28,7 +28,7 @@ const Card = styled.div`
 
 const ItemFile: FC<TItemFile> = ({ files, handleRemoveFile }) => (
   <aside css={xw`flex flex-wrap gap-4 mt-10 justify-center`}>
-    {files.map((file) => (
+    {files?.map((file) => (
       <Card key={file.name}>
         <img
           alt={file.name}
