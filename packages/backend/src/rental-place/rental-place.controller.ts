@@ -52,6 +52,7 @@ import { CreateRentalPlaceDto } from './dto/create-rental-place.dto';
 import { UpdateRentalPlaceDto } from './dto/update-rental-place.dto';
 import { RentalPlace } from './rental-place.schema';
 import { RentalPlaceService } from './rental-place.service';
+// import { PaginationMoogooseService } from '../pagination/Pagination.service';
 
 /* eslint no-underscore-dangle: 0 */
 @ApiTags('Rental Place')
@@ -64,7 +65,7 @@ export class RentalPlaceController {
     private readonly imageService: ImageService,
     private readonly userService: UserService,
     private readonly likeService: LikeService,
-    private readonly commentService: CommentService,
+    private readonly commentService: CommentService, // private readonly paginationService: PaginationMoogooseService<RentalPlace>,
   ) {}
 
   @ApiCreatedResponse({

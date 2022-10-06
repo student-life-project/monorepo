@@ -10,6 +10,7 @@ import { ImageModule } from '../image/image.module';
 import { ImageService } from '../image/image.service';
 import { LikeModule } from '../like/like.module';
 import { LikeService } from '../like/like.service';
+import { PaginationModule } from '../pagination/pagination.module';
 import { UserModule } from '../user/user.module';
 import { UserService } from '../user/user.service';
 // import { RentalPlaceController } from './rental-place.controller';
@@ -27,6 +28,7 @@ import { RentalPlaceService } from './rental-place.service';
     CommentModule,
     UserModule,
     HttpModule,
+    PaginationModule,
   ],
   exports: [
     MongooseModule.forFeature([

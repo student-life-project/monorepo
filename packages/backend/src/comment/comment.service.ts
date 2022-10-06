@@ -19,7 +19,7 @@ export class CommentService {
     private CommentModel: Model<CommentDocument>,
     @InjectModel(RentalPlace.name)
     private RentalPlaceModel: Model<RentalPlaceDocument>,
-    @Inject()
+    @Inject(PaginationMoogooseService)
     private paginationService: PaginationMoogooseService<CommentDocument>,
   ) {}
 

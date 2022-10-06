@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
+import { PaginationModule } from '../pagination/pagination.module';
 import {
   RentalPlace,
   RentalPlaceSchema,
@@ -14,6 +15,7 @@ import { CommentService } from './comment.service';
       { name: Comment.name, schema: CommentSchema },
       { name: RentalPlace.name, schema: RentalPlaceSchema },
     ]),
+    PaginationModule,
   ],
   exports: [
     MongooseModule.forFeature([{ name: Comment.name, schema: CommentSchema }]),
