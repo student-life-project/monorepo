@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { IPagination, IPaginationParams } from '@student_life/common/dist';
+import { FilterQuery, Model } from 'mongoose';
 
+import { PaginationMoogooseService } from '../pagination/Pagination.service';
 import {
   RentalPlace,
   RentalPlaceDocument,
@@ -17,7 +19,14 @@ export class CommentService {
     private CommentModel: Model<CommentDocument>,
     @InjectModel(RentalPlace.name)
     private RentalPlaceModel: Model<RentalPlaceDocument>,
+    @Inject()
+    private paginationService: PaginationMoogooseService<CommentDocument>,
   ) {}
+
+  async createComment(commentData: CreateCommentDto): Promise<Comment> {
+    const createdComment = await this.CommentModel.create(commentData);
+    return createdComment;
+  }
 
   async createMany(createImageDto: CreateCommentDto[]): Promise<Comment[]> {
     const createdComment = await this.CommentModel.insertMany(createImageDto);
@@ -33,5 +42,20 @@ export class CommentService {
       (await this.RentalPlaceModel.findById(id)) || undefined;
 
     return this.CommentModel.deleteMany({ placeId: rentalPlacefinded });
+  }
+
+  async getByRentalPlaceId(
+    placeId: string,
+    paginatioParams: IPaginationParams = {},
+  ): Promise<IPagination<Comment>> {
+    const commentsFinded = await this.paginationService.paginate(
+      this.CommentModel,
+      paginatioParams,
+      {
+        placeId,
+      } as FilterQuery<CommentDocument>,
+    );
+
+    return commentsFinded;
   }
 }

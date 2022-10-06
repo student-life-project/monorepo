@@ -5,6 +5,7 @@ export * from './types/Characteristic.type';
 export * from './types/Image.type';
 export * from './types/Message.type';
 export * from './types/Owner.type';
+export * from './types/Pagination.type';
 export * from './types/Rate.type';
 export * from './types/RentalPlace.type';
 export * from './types/Report.type';
