@@ -8,6 +8,7 @@ import profileReducer from './profile';
 import publicationsReducer from './publications';
 import rentalPlacesReducer from './rentalPlaces';
 import reportsReducer from './reports';
+import sessionReducer from './session';
 import userReducer from './users';
 
 export const rootReducer = combineReducers({
@@ -20,6 +21,7 @@ export const rootReducer = combineReducers({
   rentalPlaces: rentalPlacesReducer,
   reports: reportsReducer,
   user: userReducer,
+  session: sessionReducer,
 });
 
 export type TRootState = ReturnType<typeof rootReducer>;
