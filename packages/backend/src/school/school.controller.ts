@@ -43,6 +43,7 @@ export class SchoolController {
   @Auth('create:school')
   @Post()
   async create(@Body() createSchoolDto: CreateSchoolDto, @Req() req: any) {
+    console.log(createSchoolDto, this.userService.isAdmin(req.user));
     if (!this.userService.isAdmin(req.user)) {
       throw new UnauthorizedException();
     }

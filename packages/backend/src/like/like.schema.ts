@@ -4,7 +4,7 @@ import { ERateType } from '@student_life/common';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 
 // eslint-disable-next-line import/no-cycle
-import { RentalPlace } from '../rental-place/rental-place.schema';
+// import { RentalPlace } from '../rental-place/rental-place.schema';
 
 @Schema()
 export class Like {
@@ -22,7 +22,7 @@ export class Like {
     ref: 'RentalPlace',
     required: true,
   })
-  placeId: RentalPlace;
+  placeId: string;
 
   @ApiProperty()
   @Prop({ default: null })

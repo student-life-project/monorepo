@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 
 // eslint-disable-next-line import/no-cycle
-import { RentalPlace } from '../rental-place/rental-place.schema';
+// import { RentalPlace } from '../rental-place/rental-place.schema';
 
 @Schema()
 export class Comment {
@@ -17,7 +17,7 @@ export class Comment {
     ref: 'RentalPlace',
     required: true,
   })
-  placeId: RentalPlace;
+  placeId: string;
 
   @ApiProperty()
   @Prop({ default: null })

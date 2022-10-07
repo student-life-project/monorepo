@@ -8,16 +8,20 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
   app.useStaticAssets(join(__dirname, '..', 'public'), {
     prefix: '/public/',
   });
+
   app.setGlobalPrefix('/v1/api');
+
   app.enableCors();
+
   app.useGlobalPipes(
-    new ValidationPipe(),
-    // new ValidationPipe({
-    // disableErrorMessages: true,
-    // }),
+    // new ValidationPipe(),
+    new ValidationPipe({
+      disableErrorMessages: true,
+    }),
   );
 
   const config = new DocumentBuilder()
@@ -26,7 +30,9 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth()
     .build();
+
   const document = SwaggerModule.createDocument(app, config);
+
   SwaggerModule.setup('docs', app, document, {
     explorer: true,
     swaggerOptions: {
@@ -37,4 +43,5 @@ async function bootstrap() {
 
   await app.listen(3010);
 }
+
 bootstrap();

@@ -41,7 +41,16 @@ export class CommentService {
     const rentalPlacefinded =
       (await this.RentalPlaceModel.findById(id)) || undefined;
 
-    return this.CommentModel.deleteMany({ placeId: rentalPlacefinded });
+    if (!rentalPlacefinded)
+      return {
+        deletedCount: 0,
+      };
+
+    const deletedOnes = await this.CommentModel.deleteMany({
+      placeId: rentalPlacefinded?.id,
+    });
+
+    return deletedOnes;
   }
 
   async getByRentalPlaceId(

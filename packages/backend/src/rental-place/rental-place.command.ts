@@ -75,7 +75,9 @@ export class RentalPlaceCommand {
         const likes: CreateLikeDto[] = [];
         Array.from({ length: Math.floor(Math.random() * 15) }).forEach(() => {
           comments.push(
-            this.createRandomComments(rental as CreateRentalPlaceDto),
+            this.createRandomComments(
+              rental as unknown as CreateRentalPlaceDto,
+            ),
           );
         });
         Array.from({ length: Math.floor(Math.random() * 15) }).forEach(() => {
@@ -100,8 +102,8 @@ export class RentalPlaceCommand {
     await this.likeService.createMany(likes);
 
     const updateCommentPromises = createdComments.map(async (e) => {
-      if (e.placeId.id) {
-        const place = await this.rentalPlaceService.findById(e.placeId.id);
+      if (e.placeId) {
+        const place = await this.rentalPlaceService.findById(e.placeId);
         place?.comments?.push(e);
         place?.save();
       }
@@ -132,7 +134,7 @@ export class RentalPlaceCommand {
   createRandomLikes(rental: RentalPlace): CreateLikeDto {
     return {
       type: ERateType.PLACE,
-      placeId: rental as CreateRentalPlaceDto,
+      placeId: rental,
       ownerId: faker.random.numeric()
         ? 'auth0|621ae78a2fda510070202476'
         : faker.datatype.uuid(),

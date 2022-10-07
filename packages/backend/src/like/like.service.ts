@@ -28,7 +28,16 @@ export class LikeService {
     const rentalPlacefinded =
       (await this.RentalPlaceModel.findById(id)) || undefined;
 
-    return this.LikeModel.deleteMany({ placeId: rentalPlacefinded });
+    if (!rentalPlacefinded)
+      return {
+        deletedCount: 0,
+      };
+
+    const deletedOnes = await this.LikeModel.deleteMany({
+      placeId: rentalPlacefinded.id,
+    });
+
+    return deletedOnes;
   }
 
   async deleteByOwnerId(id: string) {

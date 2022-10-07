@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, UpdateQuery } from 'mongoose';
 
 import { removeFile } from '../config/multer.config';
 import { Image } from '../image/image.schema';
@@ -26,9 +26,13 @@ export class RentalPlaceService {
   }
 
   async update(id: string, updateRentalPlaceDto: UpdateRentalPlaceDto) {
-    return this.RentalPlaceModel.findByIdAndUpdate(id, updateRentalPlaceDto, {
-      upsert: true,
-    });
+    return this.RentalPlaceModel.findByIdAndUpdate(
+      id,
+      updateRentalPlaceDto as unknown as UpdateQuery<RentalPlaceDocument>,
+      {
+        upsert: true,
+      },
+    );
   }
 
   async pushComment(id: string, comment: any) {

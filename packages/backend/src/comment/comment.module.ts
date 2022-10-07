@@ -6,6 +6,7 @@ import {
   RentalPlace,
   RentalPlaceSchema,
 } from '../rental-place/rental-place.schema';
+import { CommentController } from './comment.controller';
 import { Comment, CommentSchema } from './comment.schema';
 import { CommentService } from './comment.service';
 
@@ -21,5 +22,6 @@ import { CommentService } from './comment.service';
     MongooseModule.forFeature([{ name: Comment.name, schema: CommentSchema }]),
   ],
   providers: [CommentService],
+  controllers: [CommentController],
 })
 export class CommentModule {}

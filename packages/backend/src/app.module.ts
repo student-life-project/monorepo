@@ -3,6 +3,8 @@ import { CommandModule } from 'nestjs-command';
 
 import { AddressModule } from './address/address.module';
 // import { AddressService } from './address/address.service';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { AuthzModule } from './authz/authz.module';
 import { CommentModule } from './comment/comment.module';
 import { ImageModule } from './image/image.module';
@@ -37,7 +39,7 @@ if (process.env.NODE_ENV !== 'PROD') {
     CommentModule,
     CommandModule,
   ],
-  // controllers: [AppController],
-  // providers: [RentalPlaceCommand, RentalPlaceService, AddressService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

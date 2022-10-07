@@ -54,7 +54,6 @@ import { RentalPlace } from './rental-place.schema';
 import { RentalPlaceService } from './rental-place.service';
 // import { PaginationMoogooseService } from '../pagination/Pagination.service';
 
-/* eslint no-underscore-dangle: 0 */
 @ApiTags('Rental Place')
 @Controller('rental-place')
 export class RentalPlaceController {
@@ -339,7 +338,7 @@ export class RentalPlaceController {
     this.rentalPlaceService.update(id, {
       ...placeToUpdate,
       images: filesCreated,
-    } as UpdateRentalPlaceDto);
+    } as unknown as UpdateRentalPlaceDto);
 
     if (unsafeFiles.length) {
       return {
