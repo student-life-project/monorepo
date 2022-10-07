@@ -11,13 +11,11 @@ interface IClearSessionTokenAction {
 
 export type TSessionAction = ISetSessionTokenActon | IClearSessionTokenAction;
 
-export const setSessionTokenAction = (
-  token: string,
-): ISetSessionTokenActon => ({
+export const setSessionToken = (token: string): ISetSessionTokenActon => ({
   type: SET_SESSION_TOKEN,
   token,
 });
 
-export const clearSessionTokenAction = (): IClearSessionTokenAction => ({
+export const clearSessionToken = (): IClearSessionTokenAction => ({
   type: CLEAR_SESSION_TOKEN,
 });
