@@ -9,7 +9,7 @@ export class PaginationMoogooseService<T> {
     params: IPaginationParams,
     filter: FilterQuery<T> = {},
   ): Promise<IPagination<T & Document>> {
-    const count = await model.find(filter).count();
+    const count = await model.find(filter).countDocuments();
     const currentQuery = model.find(filter);
     let currentPage = 0;
     let nextPage: number | null = 0;
@@ -22,9 +22,19 @@ export class PaginationMoogooseService<T> {
     }
 
     if (params.from && params.limit) {
-      currentQuery.skip(params.from).limit(params.limit);
-      currentPage = Math.round(params.from / params.limit);
-      nextPage = params.from < count ? currentPage + 1 : null;
+      const from =
+        typeof params.from === 'string'
+          ? parseInt(params.from, 10)
+          : params.from;
+
+      const limit =
+        typeof params.limit === 'string'
+          ? parseInt(params.limit, 10)
+          : params.limit;
+
+      currentQuery.skip(from).limit(limit);
+      currentPage = Math.round(from / limit);
+      nextPage = from < count ? currentPage + 1 : null;
       prevPage = currentPage > 0 ? currentPage - 1 : 0;
     }
 

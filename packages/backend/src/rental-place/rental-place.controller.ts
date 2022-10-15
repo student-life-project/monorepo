@@ -28,6 +28,7 @@ import {
   ApiUnsupportedMediaTypeResponse,
   getSchemaPath,
 } from '@nestjs/swagger';
+import { EOrder, IPaginationParams } from '@student_life/common/dist';
 // import { ValidationError } from 'class-validator';
 import { Response } from 'express';
 import { createReadStream } from 'fs';
@@ -103,32 +104,20 @@ export class RentalPlaceController {
     },
   })
   @Get()
-  findAll(@Query() queries: any) {
+  findAll(@Query() queries: IPaginationParams & { price: string }) {
     // TODO make sure retrive all need info rentals GET check if made TOP RATE AND MOST COMMENTED limit to 5 ¡¡DISPONIBLES!! (si todos igual random entre los top on different request
     // console.log(queries);
-    const PAGINATOR_PAGE = 1;
-    const PAGINATOR_LIMIT = 10;
-    const DEFAULT_SORT = 'desc';
 
     let query = {};
     if (queries.price) {
       query = this.rentalPlaceService.priceFilter(query, queries.price);
     }
-    // console.log('query', query);
 
-    // if(queries.)
-
-    const paginate = {
-      page: queries.page ?? PAGINATOR_PAGE,
-      limit: queries.limit ?? PAGINATOR_LIMIT,
-    };
-
-    const sort = queries.sort
-      ? this.rentalPlaceService.sort(queries.sort)
-      : DEFAULT_SORT;
+    queries.sortBy = 'price';
+    queries.order = queries.order || EOrder.desc;
 
     // return this.rentalPlaceService.findAll();
-    return this.rentalPlaceService.find(query, sort, paginate);
+    return this.rentalPlaceService.find(query, queries);
   }
 
   @ApiNotFoundResponse({

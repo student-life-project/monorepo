@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, UpdateQuery } from 'mongoose';
+import { IPagination, IPaginationParams } from '@student_life/common/dist';
+import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 
 import { removeFile } from '../config/multer.config';
 import { Image } from '../image/image.schema';
+import { PaginationMoogooseService } from '../pagination/Pagination.service';
 import { CreateRentalPlaceDto } from './dto/create-rental-place.dto';
 import { UpdateRentalPlaceDto } from './dto/update-rental-place.dto';
 import { RentalPlace, RentalPlaceDocument } from './rental-place.schema';
@@ -14,6 +16,8 @@ export class RentalPlaceService {
   constructor(
     @InjectModel(RentalPlace.name)
     private RentalPlaceModel: Model<RentalPlaceDocument>,
+    @Inject(PaginationMoogooseService)
+    private paginationService: PaginationMoogooseService<RentalPlace>,
   ) {}
 
   private readonly populateQuery = ['likes', 'images', 'address'];
@@ -96,21 +100,17 @@ export class RentalPlaceService {
     return this.RentalPlaceModel.find({}).where('approved').equals(true);
   }
 
-  async find(query: any, sort: any, paginate: any): Promise<RentalPlace[]> {
-    const INIT_PAGE = 1;
-    const q = this.RentalPlaceModel.find(query);
+  async find(
+    query: FilterQuery<RentalPlaceDocument>,
+    paginationParams: IPaginationParams = {},
+  ): Promise<IPagination<RentalPlace>> {
+    const rentalsFinded = await this.paginationService.paginate(
+      this.RentalPlaceModel,
+      paginationParams,
+      query,
+    );
 
-    if (sort) {
-      q.sort(sort);
-    }
-
-    if (paginate) {
-      q.skip((paginate.page - INIT_PAGE) * paginate.limit).limit(
-        paginate.limit,
-      );
-    }
-
-    return q.populate(this.populateQuery).exec();
+    return rentalsFinded;
   }
 
   async count(query: any) {
