@@ -171,7 +171,7 @@ const reducer = (
     case SET_RENTAL_PLACES:
       return {
         ...state,
-        rentalPlaces: (payload as TRentalPlacesAction).data,
+        rentalPlaces: (payload as any).data, // TRentalPlacesAction
         isFetching: false,
         error: null,
       };

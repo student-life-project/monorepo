@@ -14,7 +14,7 @@ export type TPaginationHookParams<T> = {
   dataSetter: (data: T[]) => void;
 } & IPaginationParams;
 
-export const usePaginaion = <T>({
+export const usePagination = <T>({
   dataSetter,
   route,
   ...paginationParams
