@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 
 import {
+  CLEAR_RENTAL_PLACES,
   FILTER_RENTAL_PLACE_ERROR,
   FILTER_RENTAL_PLACE_PENDING,
   FILTER_RENTAL_PLACE_SUCCESS,
@@ -19,7 +20,10 @@ import {
   SEARCH_RENTAL_PLACE_ERROR,
   SEARCH_RENTAL_PLACE_PENDING,
   SEARCH_RENTAL_PLACE_SUCCESS,
+  SET_RENTAL_PLACES,
 } from '@/store/types/rentalPlaces';
+
+import type { TRentalPlacesAction } from '../actions/rentalPlaces';
 
 export interface IState {
   rentalPlaces: any;
@@ -33,9 +37,15 @@ const initialState: IState = {
   error: null,
 };
 
+interface ITempPayload {
+  type: any;
+  data: any;
+  error: any;
+}
+
 const reducer = (
   state: IState = initialState,
-  payload: { type: any; data: any; error: any },
+  payload: TRentalPlacesAction | ITempPayload,
 ): IState => {
   switch (payload.type) {
     case GET_RENTAL_PLACE_PENDING:
@@ -48,7 +58,7 @@ const reducer = (
     case GET_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlaces: payload.data,
+        rentalPlaces: (payload as ITempPayload).data,
         isFetching: false,
         error: null,
       };
@@ -56,7 +66,7 @@ const reducer = (
       return {
         ...state,
         isFetching: false,
-        error: payload.error,
+        error: (payload as ITempPayload).error,
       };
     case SEARCH_RENTAL_PLACE_PENDING:
       return {
@@ -68,7 +78,7 @@ const reducer = (
     case SEARCH_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlaces: payload.data,
+        rentalPlaces: (payload as ITempPayload).data,
         isFetching: false,
         error: null,
       };
@@ -76,7 +86,7 @@ const reducer = (
       return {
         ...state,
         isFetching: false,
-        error: payload.error,
+        error: (payload as ITempPayload).error,
       };
     case ORDER_RENTAL_PLACE_PENDING:
       return {
@@ -88,7 +98,7 @@ const reducer = (
     case ORDER_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlaces: payload.data,
+        rentalPlaces: (payload as ITempPayload).data,
         isFetching: false,
         error: null,
       };
@@ -96,7 +106,7 @@ const reducer = (
       return {
         ...state,
         isFetching: false,
-        error: payload.error,
+        error: (payload as ITempPayload).error,
       };
     case FILTER_RENTAL_PLACE_PENDING:
       return {
@@ -108,7 +118,7 @@ const reducer = (
     case FILTER_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlaces: payload.data,
+        rentalPlaces: (payload as ITempPayload).data,
         isFetching: false,
         error: null,
       };
@@ -116,7 +126,7 @@ const reducer = (
       return {
         ...state,
         isFetching: false,
-        error: payload.error,
+        error: (payload as ITempPayload).error,
       };
     case LIKE_RENTAL_PLACE_PENDING:
       return {
@@ -128,7 +138,7 @@ const reducer = (
     case LIKE_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlaces: payload.data,
+        rentalPlaces: (payload as ITempPayload).data,
         isFetching: false,
         error: null,
       };
@@ -136,7 +146,7 @@ const reducer = (
       return {
         ...state,
         isFetching: false,
-        error: payload.error,
+        error: (payload as ITempPayload).error,
       };
     case GET_ALL_RENTAL_PLACES_PENDING:
       return {
@@ -148,7 +158,7 @@ const reducer = (
     case GET_ALL_RENTAL_PLACES_SUCCESS:
       return {
         ...state,
-        rentalPlaces: payload.data,
+        rentalPlaces: (payload as ITempPayload).data,
         isFetching: false,
         error: null,
       };
@@ -156,7 +166,18 @@ const reducer = (
       return {
         ...state,
         isFetching: false,
-        error: payload.error,
+        error: (payload as ITempPayload).error,
+      };
+    case SET_RENTAL_PLACES:
+      return {
+        ...state,
+        rentalPlaces: (payload as TRentalPlacesAction).data,
+        isFetching: false,
+        error: null,
+      };
+    case CLEAR_RENTAL_PLACES:
+      return {
+        ...initialState,
       };
     default:
       return state;

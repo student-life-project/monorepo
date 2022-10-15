@@ -3,8 +3,10 @@ import { toast } from 'react-toastify';
 import { ThunkAction } from 'redux-thunk';
 
 import { AlertMessage } from '@/constants/alertMessage';
+import { api } from '@/services/api';
 import { TRootState } from '@/store/reducers';
 import {
+  CLEAR_RENTAL_PLACES,
   FILTER_RENTAL_PLACE_ERROR,
   FILTER_RENTAL_PLACE_PENDING,
   FILTER_RENTAL_PLACE_SUCCESS,
@@ -23,11 +25,34 @@ import {
   SEARCH_RENTAL_PLACE_ERROR,
   SEARCH_RENTAL_PLACE_PENDING,
   SEARCH_RENTAL_PLACE_SUCCESS,
+  SET_RENTAL_PLACES,
 } from '@/store/types/rentalPlaces';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
 // TODO: ELIMINAR
 import { dataRentalPlaces } from '../dataFakeTemp';
+
+interface ISetRentalPlacesAction {
+  type: typeof SET_RENTAL_PLACES;
+  data: any[];
+}
+
+interface IClearRentalPlaces {
+  type: typeof CLEAR_RENTAL_PLACES;
+}
+
+export type TRentalPlacesAction = ISetRentalPlacesAction | IClearRentalPlaces;
+
+export const setRentalPlaces = (
+  rentalPlaces: any[],
+): ISetRentalPlacesAction => ({
+  type: SET_RENTAL_PLACES,
+  data: rentalPlaces,
+});
+
+export const clearRentalPlaces = (): IClearRentalPlaces => ({
+  type: CLEAR_RENTAL_PLACES,
+});
 
 // =============================================================================
 
@@ -50,12 +75,10 @@ export const getRentalPlace =
   async (dispatch) => {
     try {
       dispatch(getRentalPlacePendingAction());
-      // const { data } = await api.get(`/rental/${id}`);
+      const { data } = await api.get<any>(`/rental-place/${id}`);
 
-      // TODO: Eliminar
-      const data = {};
       // eslint-disable-next-line no-console
-      console.log(id);
+      console.log(id, data);
 
       dispatch(getRentalPlaceSuccessAction(data));
     } catch (error) {

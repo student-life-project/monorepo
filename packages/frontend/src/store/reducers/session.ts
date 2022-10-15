@@ -16,7 +16,7 @@ const reducer = (
   switch (payload.type) {
     case SET_SESSION_TOKEN:
       return {
-        token: payload.token,
+        token: payload.data,
       };
     case CLEAR_SESSION_TOKEN:
       return {
