@@ -21,6 +21,8 @@ import { TStore } from '@/store';
 import { getAllRentalPlaces } from '@/store/actions/rentalPlaces';
 import { TRootState } from '@/store/reducers';
 import { rentalPlacesSelector } from '@/store/selectors/rentalPlaces';
+import { getAccessToken } from '@auth0/nextjs-auth0';
+import { setSessionToken } from '@/store/actions/session';
 
 const PlaceContent = styled.div`
   ${xw`
@@ -154,10 +156,19 @@ export const Home: NextPage = () => {
 
 Home.getInitialProps = async ({
   reduxStore,
+  req,
+  res,
 }: NextPageContext & { reduxStore: TStore }) => {
   await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
     getAllRentalPlaces({ limit: 4 }),
   );
+
+  if (req && res) {
+    const { accessToken, ...restParams } = await getAccessToken(req, res); // request the token
+    // eslint-disable-next-line no-console
+    console.log(accessToken, restParams);
+    reduxStore.dispatch(setSessionToken(accessToken || ''));
+  }
 
   return {};
 };

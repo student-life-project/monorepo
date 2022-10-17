@@ -1,3 +1,3 @@
 import type { TRootState } from '../reducers';
 
-export const tokenSessionSelecor = (state: TRootState) => state.session.token;
+export const tokenSessionSelector = (state: TRootState) => state.session.token;

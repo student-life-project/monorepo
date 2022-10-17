@@ -1,5 +1,5 @@
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
-import type { IUser } from '@student_life/common';
+import type { EUserType, IUser } from '@student_life/common';
 
 export interface ILoginResponse {
   token: string;
@@ -89,3 +89,18 @@ export type TFile = File & {
 };
 
 export type TReportType = 'Usuario' | 'Publicación';
+
+export interface IUserAuth0 {
+  'https://student-life-auth-api/roles': [EUserType];
+  given_name: string;
+  family_name: string;
+  nickname: string;
+  name: string;
+  picture: string;
+  locale: string;
+  updated_at: string;
+  email: string;
+  email_verified: boolean;
+  sub: string;
+  sid: string;
+}

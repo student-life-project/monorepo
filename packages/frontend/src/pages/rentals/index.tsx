@@ -2,6 +2,7 @@
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import {
+  EOrder,
   Gender,
   orderRentals,
   Reason,
@@ -53,6 +54,10 @@ const Rentals: NextPage = () => {
   const rentalPlaces = useSelector(rentalPlacesSelector);
 
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [sortByState, setSortByState] = useState('title');
+  const [order, setOrder] = useState(EOrder.desc);
+  const [, setFiltersState] = useState<Record<string, string>[]>([]);
+  const changedFilters = useRef(false);
   const isFirstTimeRendered = useRef(false);
 
   const paginationDataSetter = useCallback(
@@ -66,6 +71,8 @@ const Rentals: NextPage = () => {
     route: RENTAL_PLACE_URL,
     dataSetter: paginationDataSetter,
     limit: itemsPerPage,
+    sortBy: sortByState,
+    order,
   });
 
   useEffect(() => {
@@ -75,9 +82,28 @@ const Rentals: NextPage = () => {
     }
   }, [goToPage, isFirstTimeRendered]);
 
+  useEffect(() => {
+    if (changedFilters.current) {
+      goToPage(0);
+      changedFilters.current = false;
+    }
+  }, [changedFilters, goToPage]);
+
   const handlePageClick = (event: { selected: number }) => {
     goToPage(event.selected);
     ScrollToAnimation();
+  };
+
+  const handleChangeSort = (sortBy: string, newOrder = EOrder.desc) => {
+    setSortByState(sortBy);
+    setOrder(newOrder);
+    changedFilters.current = true;
+    ScrollToAnimation();
+  };
+
+  const handleChangeFilters = (filtersData: Record<string, string>[]) => {
+    setFiltersState(filtersData);
+    changedFilters.current = false;
   };
 
   return (
@@ -88,6 +114,8 @@ const Rentals: NextPage = () => {
         sorts={orderRentals}
         totalPlaces={count}
         setItemsPerPage={setItemsPerPage}
+        onChangeSort={handleChangeSort}
+        onChangeFilters={handleChangeFilters}
       />
 
       <BodyContainer css={xw`pt-0`}>
