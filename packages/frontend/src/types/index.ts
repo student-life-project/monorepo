@@ -104,3 +104,55 @@ export interface IUserAuth0 {
   sub: string;
   sid: string;
 }
+
+export interface IImage {
+  _id: string;
+  name: string;
+  location: string;
+  url: string;
+  __v: number;
+}
+
+export type TCoordinate = [number, number];
+
+export interface ILocationType {
+  coordinates: TCoordinate;
+}
+export interface ILocation {
+  type: ILocationType;
+}
+
+export interface IAddress {
+  location: ILocation;
+  ownerId: any | null;
+  placeId: any | null;
+  country: string;
+  countryCode: string;
+  state: string;
+  _id: string;
+  street: string;
+  city: string;
+  postalCode: string;
+  __v: number;
+}
+
+export interface IRentalPlace {
+  reports: any[];
+  comments: any[];
+  approved: boolean;
+  likes: any[];
+  images: IImage[];
+  security: any[];
+  rules: string[];
+  services: any[];
+  availability: boolean;
+  _id: string;
+  availabe: boolean;
+  scores: any[];
+  title: string;
+  address: IAddress;
+  price: string;
+  __v: number;
+  characteristics: string[];
+  service: string[];
+}

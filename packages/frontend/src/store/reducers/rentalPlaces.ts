@@ -22,30 +22,27 @@ import {
   SEARCH_RENTAL_PLACE_SUCCESS,
   SET_RENTAL_PLACES,
 } from '@/store/types/rentalPlaces';
+import { IRentalPlace } from '@/types';
 
 import type { TRentalPlacesAction } from '../actions/rentalPlaces';
 
 export interface IState {
-  rentalPlaces: any;
+  rentalPlace: IRentalPlace | null;
+  rentalPlaces: IRentalPlace[];
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
+  rentalPlace: null,
   rentalPlaces: [],
   isFetching: false,
   error: null,
 };
 
-interface ITempPayload {
-  type: any;
-  data: any;
-  error: any;
-}
-
 const reducer = (
   state: IState = initialState,
-  payload: TRentalPlacesAction | ITempPayload,
+  payload: TRentalPlacesAction,
 ): IState => {
   switch (payload.type) {
     case GET_RENTAL_PLACE_PENDING:
@@ -54,19 +51,21 @@ const reducer = (
         rentalPlaces: [],
         isFetching: true,
         error: null,
+        rentalPlace: null,
       };
     case GET_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlaces: (payload as ITempPayload).data,
+        rentalPlace: payload.data,
         isFetching: false,
         error: null,
+        rentalPlaces: [],
       };
     case GET_RENTAL_PLACE_ERROR:
       return {
         ...state,
         isFetching: false,
-        error: (payload as ITempPayload).error,
+        error: payload.error,
       };
     case SEARCH_RENTAL_PLACE_PENDING:
       return {
@@ -78,7 +77,7 @@ const reducer = (
     case SEARCH_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlaces: (payload as ITempPayload).data,
+        rentalPlaces: payload.data,
         isFetching: false,
         error: null,
       };
@@ -86,7 +85,7 @@ const reducer = (
       return {
         ...state,
         isFetching: false,
-        error: (payload as ITempPayload).error,
+        error: payload.error,
       };
     case ORDER_RENTAL_PLACE_PENDING:
       return {
@@ -98,7 +97,7 @@ const reducer = (
     case ORDER_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlaces: (payload as ITempPayload).data,
+        rentalPlaces: payload.data,
         isFetching: false,
         error: null,
       };
@@ -106,7 +105,7 @@ const reducer = (
       return {
         ...state,
         isFetching: false,
-        error: (payload as ITempPayload).error,
+        error: payload.error,
       };
     case FILTER_RENTAL_PLACE_PENDING:
       return {
@@ -118,7 +117,7 @@ const reducer = (
     case FILTER_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlaces: (payload as ITempPayload).data,
+        rentalPlaces: payload.data,
         isFetching: false,
         error: null,
       };
@@ -126,7 +125,7 @@ const reducer = (
       return {
         ...state,
         isFetching: false,
-        error: (payload as ITempPayload).error,
+        error: payload.error,
       };
     case LIKE_RENTAL_PLACE_PENDING:
       return {
@@ -138,7 +137,7 @@ const reducer = (
     case LIKE_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlaces: (payload as ITempPayload).data,
+        rentalPlace: payload.data,
         isFetching: false,
         error: null,
       };
@@ -146,11 +145,12 @@ const reducer = (
       return {
         ...state,
         isFetching: false,
-        error: (payload as ITempPayload).error,
+        error: payload.error,
       };
     case GET_ALL_RENTAL_PLACES_PENDING:
       return {
         ...state,
+        rentalPlace: null,
         rentalPlaces: [],
         isFetching: true,
         error: null,
@@ -158,20 +158,23 @@ const reducer = (
     case GET_ALL_RENTAL_PLACES_SUCCESS:
       return {
         ...state,
-        rentalPlaces: (payload as ITempPayload).data,
+        rentalPlace: null,
+        rentalPlaces: payload.data,
         isFetching: false,
         error: null,
       };
     case GET_ALL_RENTAL_PLACES_ERROR:
       return {
         ...state,
+        rentalPlace: null,
+        rentalPlaces: [],
         isFetching: false,
-        error: (payload as ITempPayload).error,
+        error: payload.error,
       };
     case SET_RENTAL_PLACES:
       return {
         ...state,
-        rentalPlaces: (payload as any).data, // TRentalPlacesAction
+        rentalPlaces: payload.data,
         isFetching: false,
         error: null,
       };

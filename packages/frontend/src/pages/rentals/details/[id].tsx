@@ -30,6 +30,9 @@ import { TStore } from '@/store';
 import { getAllComments } from '@/store/actions/comments';
 import { TRootState } from '@/store/reducers';
 import { commentsSelector } from '@/store/selectors/comment';
+import { getRentalPlace } from '@/store/actions/rentalPlaces';
+import { rentalPlaceDetailsSelector } from '@/store/selectors/rentalPlaces';
+import { IRentalPlace } from '@/types';
 
 type TContentGallery = {
   length: number;
@@ -156,6 +159,11 @@ const user = {
 const isLogedIn = true;
 
 const Details: NextPage = () => {
+  const rentalPlace =
+    useSelector(rentalPlaceDetailsSelector) || ({} as IRentalPlace);
+
+  const rentalPlaceImages = rentalPlace.images || [];
+
   const [userReport, setUserReport] = useState(false);
   const [rentalReport, setRentalReport] = useState(false);
   const [showCarousel, setShowCarousel] = useState(false);
@@ -186,8 +194,8 @@ const Details: NextPage = () => {
       <Alert />
 
       <BodyContainer css={xw`text-secondary-1`}>
-        <ContentGallery length={data.images.length}>
-          {data.images.map((img, index) => (
+        <ContentGallery length={rentalPlaceImages.length}>
+          {rentalPlaceImages.map((img, index) => (
             <>
               {index < 5 && (
                 <Img
@@ -195,14 +203,14 @@ const Details: NextPage = () => {
                   src={img.url}
                   alt={img.name}
                   index={index}
-                  length={data.images.length}
+                  length={rentalPlaceImages.length}
                 />
               )}
             </>
           ))}
         </ContentGallery>
 
-        {data.images.length > 1 && (
+        {rentalPlaceImages.length > 1 && (
           <div css={xw`relative`}>
             <Button
               FSecondary
@@ -231,7 +239,7 @@ const Details: NextPage = () => {
           )}
 
           <Title css={xw`my-5`}>
-            ${data.price} / mes, en {data.title}
+            ${rentalPlace.price} / mes, en {rentalPlace.title}
           </Title>
         </div>
 
@@ -245,7 +253,7 @@ const Details: NextPage = () => {
 
               <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faConciergeBell} height="1.2rem" />
-                <p css={xw`ml-2`}>{data.available}</p>
+                <p css={xw`ml-2`}>{rentalPlace.availabe}</p>
               </div>
 
               <div css={xw`flex`}>
@@ -356,10 +364,17 @@ const Details: NextPage = () => {
 };
 
 Details.getInitialProps = async ({
+  query,
   reduxStore,
 }: NextPageContext & { reduxStore: TStore }) => {
+  const rentalPlaceId = query.id;
+
   await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
     getAllComments(),
+  );
+
+  await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+    getRentalPlace(rentalPlaceId as string),
   );
 
   return {};

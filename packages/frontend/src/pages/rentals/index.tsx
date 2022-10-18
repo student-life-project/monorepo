@@ -104,6 +104,13 @@ const Rentals: NextPage = () => {
   const handleChangeFilters = (filtersData: Record<string, string>[]) => {
     setFiltersState(filtersData);
     changedFilters.current = false;
+    ScrollToAnimation();
+  };
+
+  const onSetItemsPerPage = (total: number) => {
+    setItemsPerPage(total);
+    changedFilters.current = true;
+    ScrollToAnimation();
   };
 
   return (
@@ -113,7 +120,7 @@ const Rentals: NextPage = () => {
         filters={filters}
         sorts={orderRentals}
         totalPlaces={count}
-        setItemsPerPage={setItemsPerPage}
+        setItemsPerPage={onSetItemsPerPage}
         onChangeSort={handleChangeSort}
         onChangeFilters={handleChangeFilters}
       />
@@ -121,9 +128,9 @@ const Rentals: NextPage = () => {
       <BodyContainer css={xw`pt-0`}>
         <ContentRentals>
           {rentalPlaces?.map((rentalPlace) => (
-            <div key={`rental_place${rentalPlace.id}`}>
+            <div key={`rental_place${rentalPlace._id}`}>
               <VerticalCard
-                id={rentalPlace.id}
+                id={rentalPlace._id}
                 likes={rentalPlace.likes}
                 title={rentalPlace.title}
                 pricePerMonth={rentalPlace.price}

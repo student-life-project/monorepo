@@ -23,6 +23,7 @@ import { TRootState } from '@/store/reducers';
 import { rentalPlacesSelector } from '@/store/selectors/rentalPlaces';
 import { getAccessToken } from '@auth0/nextjs-auth0';
 import { setSessionToken } from '@/store/actions/session';
+import { EOrder } from '@student_life/common';
 
 const PlaceContent = styled.div`
   ${xw`
@@ -75,9 +76,9 @@ export const Home: NextPage = () => {
 
         <PlaceContent>
           {rentalPlaces.map((rentalPlace) => (
-            <div key={`rental_place${rentalPlace.id}`}>
+            <div key={`rental_place${rentalPlace._id}`}>
               <VerticalCard
-                id={rentalPlace.id}
+                id={rentalPlace._id}
                 likes={rentalPlace.likes}
                 title={rentalPlace.title}
                 pricePerMonth={rentalPlace.price}
@@ -160,14 +161,18 @@ Home.getInitialProps = async ({
   res,
 }: NextPageContext & { reduxStore: TStore }) => {
   await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
-    getAllRentalPlaces({ limit: 4 }),
+    getAllRentalPlaces({ limit: 4, sortBy: 'score', order: EOrder.desc }),
   );
 
   if (req && res) {
-    const { accessToken, ...restParams } = await getAccessToken(req, res); // request the token
-    // eslint-disable-next-line no-console
-    console.log(accessToken, restParams);
-    reduxStore.dispatch(setSessionToken(accessToken || ''));
+    try {
+      const { accessToken, ...restParams } = await getAccessToken(req, res); // request the token
+      // eslint-disable-next-line no-console
+      console.log(accessToken, restParams);
+      reduxStore.dispatch(setSessionToken(accessToken || ''));
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return {};
