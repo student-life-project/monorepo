@@ -130,10 +130,15 @@ export class RentalPlaceController {
   async findOne(@Param('id') id: string) {
     // TODO make sure retrive all need info rentals/:id GET
     const rentalPlace = await this.rentalPlaceService.findById(id);
-    if (!rentalPlace)
+
+    if (!rentalPlace) {
       throw new NotFoundException('Rental place does not exists');
+    }
+
     const likesCount = await this.likeService.count(id);
-    return { ...rentalPlace, likesCount };
+    const rentalPlaceObj = rentalPlace.toObject();
+
+    return { ...rentalPlaceObj, likesCount };
   }
 
   @ApiNotFoundResponse({

@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { EOrder, IPagination, IPaginationParams } from '@student_life/common';
-import { Document, FilterQuery, Model } from 'mongoose';
+import { Document, EnforceDocument, FilterQuery, Model, Query } from 'mongoose';
+
+type TPaginationMongooseQuery<T> = Omit<IPagination<T>, 'data'> & {
+  dataQuery: Query<EnforceDocument<T, any>[], EnforceDocument<T, any>, any>;
+};
 
 @Injectable()
 export class PaginationMoogooseService<T> {
@@ -8,7 +12,7 @@ export class PaginationMoogooseService<T> {
     model: Model<T>,
     params: IPaginationParams,
     filter: FilterQuery<T> = {},
-  ): Promise<IPagination<T & Document>> {
+  ): Promise<TPaginationMongooseQuery<T & Document>> {
     const count = await model.find(filter).countDocuments();
     const currentQuery = model.find(filter);
     let currentPage = 0;
@@ -38,15 +42,13 @@ export class PaginationMoogooseService<T> {
       prevPage = currentPage > 0 ? currentPage - 1 : 0;
     }
 
-    const curentData = await currentQuery;
-
     return {
       count,
-      data: curentData,
+      dataQuery: currentQuery,
       current: currentPage,
       limit: params?.limit,
       next: nextPage,
       prev: prevPage,
-    } as IPagination<T & Document>;
+    } as TPaginationMongooseQuery<T & Document>;
   }
 }

@@ -104,13 +104,23 @@ export class RentalPlaceService {
     query: FilterQuery<RentalPlaceDocument>,
     paginationParams: IPaginationParams = {},
   ): Promise<IPagination<RentalPlace>> {
-    const rentalsFinded = await this.paginationService.paginate(
-      this.RentalPlaceModel,
-      paginationParams,
-      query,
-    );
+    const { dataQuery: rentalsFindedQuery, ...paginationData } =
+      await this.paginationService.paginate(
+        this.RentalPlaceModel,
+        paginationParams,
+        query,
+      );
 
-    return rentalsFinded;
+    const rentalsFinded = await rentalsFindedQuery.populate(this.populateQuery);
+    // .populate('characteristics')
+    // .populate('rules')
+    // .populate('security')
+    // .populate('service');
+
+    return {
+      data: rentalsFinded,
+      ...paginationData,
+    };
   }
 
   async count(query: any) {

@@ -57,14 +57,17 @@ export class CommentService {
     placeId: string,
     paginatioParams: IPaginationParams = {},
   ): Promise<IPagination<Comment>> {
-    const commentsFinded = await this.paginationService.paginate(
-      this.CommentModel,
-      paginatioParams,
-      {
-        placeId,
-      } as FilterQuery<CommentDocument>,
-    );
+    const { dataQuery: commentsFindedQuery, ...paginationData } =
+      await this.paginationService.paginate(
+        this.CommentModel,
+        paginatioParams,
+        {
+          placeId,
+        } as FilterQuery<CommentDocument>,
+      );
 
-    return commentsFinded;
+    const commentsFinded = await commentsFindedQuery;
+
+    return { data: commentsFinded, ...paginationData };
   }
 }
