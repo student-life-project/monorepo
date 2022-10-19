@@ -169,7 +169,9 @@ Home.getInitialProps = async ({
       const { accessToken, ...restParams } = await getAccessToken(req, res); // request the token
       // eslint-disable-next-line no-console
       console.log(accessToken, restParams);
-      reduxStore.dispatch(setSessionToken(accessToken || ''));
+      (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+        setSessionToken(accessToken || ''),
+      );
     } catch (err) {
       console.error(err);
     }
