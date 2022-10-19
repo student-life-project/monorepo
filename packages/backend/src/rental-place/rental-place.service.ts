@@ -20,7 +20,7 @@ export class RentalPlaceService {
     private paginationService: PaginationMoogooseService<RentalPlace>,
   ) {}
 
-  private readonly populateQuery = ['likes', 'images', 'address'];
+  private readonly populateQuery = ['likes', 'images', 'address', 'reports'];
 
   async create(
     createRentalPlaceDto: CreateRentalPlaceDto,
@@ -72,7 +72,9 @@ export class RentalPlaceService {
   }
 
   async findById(id: string): Promise<RentalPlaceDocument | null> {
-    return this.RentalPlaceModel.findById(id).exec();
+    return this.RentalPlaceModel.findById(id)
+      .populate(this.populateQuery)
+      .exec();
   }
 
   async findAll(): Promise<RentalPlace[]> {
@@ -124,7 +126,7 @@ export class RentalPlaceService {
   }
 
   async count(query: any) {
-    return this.RentalPlaceModel.count(query).exec();
+    return this.RentalPlaceModel.countDocuments(query).exec();
   }
 
   // TODO filters and sort

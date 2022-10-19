@@ -136,18 +136,26 @@ export interface IAddress {
   __v: number;
 }
 
+export interface IService {
+  _id: string;
+  name: string;
+  description: string;
+  type: string;
+  __v: number;
+}
+
 export interface IRentalPlace {
   reports: any[];
   comments: any[];
   approved: boolean;
   likes: any[];
   images: IImage[];
-  security: any[];
-  rules: string[];
-  services: any[];
+  security: IService[];
+  rules: IService[];
+  services: IService[];
   availability: boolean;
   _id: string;
-  availabe: boolean;
+  // availabe: boolean;
   scores: any[];
   title: string;
   address: IAddress;
@@ -155,4 +163,10 @@ export interface IRentalPlace {
   __v: number;
   characteristics: string[];
   service: string[];
+  likesCount?: number;
+  typeSpace?: string;
+  reason?: string;
+  gender?: string;
+  userId?: string;
+  description?: string;
 }

@@ -131,9 +131,9 @@ const Rentals: NextPage = () => {
             <div key={`rental_place${rentalPlace._id}`}>
               <VerticalCard
                 id={rentalPlace._id}
-                likes={rentalPlace.likes}
+                likes={rentalPlace.likesCount}
                 title={rentalPlace.title}
-                pricePerMonth={rentalPlace.price}
+                pricePerMonth={parseFloat(rentalPlace.price || '0')}
                 imageUrl={rentalPlace.images?.[0]?.url}
               />
             </div>

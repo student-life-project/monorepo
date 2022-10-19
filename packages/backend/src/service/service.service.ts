@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
@@ -18,8 +18,8 @@ export class ServiceService {
     return createdService.save();
   }
 
-  async findAll(): Promise<Service[]> {
-    return this.ServiceModel.find().exec();
+  async findAll(query: FilterQuery<ServiceDocument> = {}): Promise<Service[]> {
+    return this.ServiceModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<Service | null> {

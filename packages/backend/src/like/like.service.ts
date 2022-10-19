@@ -50,6 +50,6 @@ export class LikeService {
   }
 
   async count(id: any) {
-    return this.LikeModel.find({ placeId: id }).count().exec();
+    return this.LikeModel.find({ placeId: id }).countDocuments().exec();
   }
 }
