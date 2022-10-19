@@ -65,4 +65,4 @@ const NavBarContainer: FC<INavBarContainer> = ({
 
 export default withAuth(
   NavBarContainer as unknown as ComponentType<WithPageAuthRequiredProps>,
-);
+) as unknown as FC<Omit<INavBarContainer, 'user'>>;
