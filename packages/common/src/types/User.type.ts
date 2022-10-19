@@ -4,7 +4,7 @@ import { IReport } from './Report.type';
 
 export enum EUserType {
   ADMIN = 'ADMIN',
-  STUDENT = 'STUDET',
+  STUDENT = 'STUDENT',
   OWNER = 'OWNER',
 }
 
