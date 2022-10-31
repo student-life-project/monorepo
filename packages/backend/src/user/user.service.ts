@@ -1,13 +1,17 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { AxiosResponse } from 'axios';
+import { Model } from 'mongoose';
 import { Observable } from 'rxjs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { map } from 'rxjs/operators';
 
 import { ResponseTokenDto } from '../authz/dto/response-token.dto';
+import { ImageService } from '../image/image.service';
 import { ResponseRoleDto } from './dto/responseRole.dto';
 import { UserMetadataDto } from './dto/userMetadata.dto';
+import { User, UserDocument } from './user.schema';
 
 @Injectable()
 export class UserService {
@@ -16,7 +20,13 @@ export class UserService {
   apiURL = `${this.baseURL}/api/v2`;
 
   // eslint-disable-next-line no-useless-constructor
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    @InjectModel(User.name)
+    private readonly UserModel: Model<UserDocument>,
+    @Inject(ImageService.name)
+    private readonly imageService: ImageService,
+  ) {}
 
   isAdmin(user: any): boolean {
     return user['https://student-life-auth-api/roles']?.includes('ADMIN');
@@ -101,5 +111,76 @@ export class UserService {
         },
       )
       .pipe(map((res) => res.data));
+  }
+
+  async getUserByEmail(email: string): Promise<UserDocument | null> {
+    const userData = await this.UserModel.findOne({ email })
+      .populate('photo')
+      .populate('reports')
+      .populate('studentInfo')
+      .populate('ownerInfo');
+
+    return userData;
+  }
+
+  async isEmailRegistered(email: string): Promise<boolean> {
+    const userData = await this.UserModel.findOne({ email });
+
+    return userData !== null;
+  }
+
+  async registerUser(userData: any): Promise<UserDocument> {
+    const registeredUser = await this.UserModel.create({
+      email: userData.email,
+      type: userData.type,
+      birthDate: userData.birthDate,
+      firstName: userData.firstName,
+      password: '1',
+      phoneNumber: userData.phoneNumber,
+    });
+
+    if (userData.photo && registeredUser) {
+      const createdImage = await this.imageService.createImage({
+        filename: 'profile_photo',
+        fullpath: userData.image,
+        location: '/',
+        mimetype: 'picture',
+        size: 100,
+        owner: registeredUser._id,
+      });
+
+      await createdImage.save();
+
+      registeredUser.photo = createdImage.toObject();
+    }
+
+    return registeredUser;
+  }
+
+  async getOrCreateUserByEmail(userDto: any): Promise<UserDocument | null> {
+    const isUserRegistered = await this.isEmailRegistered(userDto.email);
+
+    let userData = null;
+
+    if (!isUserRegistered) {
+      userData = await this.registerUser({
+        email: userDto.email,
+        firstName: userDto.toLowerCase(),
+        image: userDto.picture,
+        type: userDto.type,
+        birthDate: userDto.updated_at,
+        phoneNumber: '0',
+      });
+    } else {
+      userData = await this.getUserByEmail(userDto.email);
+
+      const imageData = await this.imageService.findByOwner(userData?._id);
+
+      if (userData && imageData) {
+        userData.photo = imageData.toObject();
+      }
+    }
+
+    return userData;
   }
 }

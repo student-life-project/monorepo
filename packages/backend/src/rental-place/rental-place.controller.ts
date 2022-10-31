@@ -28,9 +28,14 @@ import {
   ApiUnsupportedMediaTypeResponse,
   getSchemaPath,
 } from '@nestjs/swagger';
-import { EOrder, IPaginationParams } from '@student_life/common/dist';
+import {
+  EOrder,
+  EUserType,
+  IAuth0User,
+  IPaginationParams,
+} from '@student_life/common/dist';
 // import { ValidationError } from 'class-validator';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { createReadStream } from 'fs';
 
 import { AddressService } from '../address/address.service';
@@ -174,14 +179,35 @@ export class RentalPlaceController {
   @Get(':id/from-user')
   @Auth('read:rental-place')
   // TODO fix
-  async findByOwner(@Req() req: any) {
+  async findByOwner(
+    @Param('id') id: string,
+    @Req() req: Request & { user: IAuth0User },
+  ) {
     console.log('====================================');
-    console.log('HIIIIIIIIIII', req.user.sub);
+    console.log('HIIIIIIIIIII', req.user);
     console.log('====================================');
+
+    const userData = await this.userService.getOrCreateUserByEmail({
+      email: req.user.email,
+      firstName: req.user.name.toLowerCase(),
+      image: req.user.picture,
+      type: EUserType.OWNER,
+      birthDate: req.user.updated_at,
+      phoneNumber: '0',
+    });
+
     // TODO make sure retrive all need info rentals/:id GET
-    const rentalPlace = await this.rentalPlaceService.findById(req.user.sub);
+    const rentalPlace = await this.rentalPlaceService.findById(id);
     if (!rentalPlace)
       throw new NotFoundException('Rental place does not exists');
+
+    const rentalPlaceObj = rentalPlace.toObject();
+    (rentalPlaceObj as any).owner = userData;
+
+    console.log('====================================');
+    console.log({ rentalPlaceObj });
+    console.log('====================================');
+
     return rentalPlace;
   }
 

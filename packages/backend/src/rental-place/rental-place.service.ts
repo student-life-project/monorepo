@@ -16,7 +16,7 @@ export class RentalPlaceService {
   constructor(
     @InjectModel(RentalPlace.name)
     private RentalPlaceModel: Model<RentalPlaceDocument>,
-    @Inject(PaginationMoogooseService)
+    @Inject(PaginationMoogooseService.name)
     private paginationService: PaginationMoogooseService<RentalPlace>,
   ) {}
 
