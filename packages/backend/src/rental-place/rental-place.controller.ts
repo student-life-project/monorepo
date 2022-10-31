@@ -171,10 +171,13 @@ export class RentalPlaceController {
     type: RentalPlace,
   })
   @ApiOkResponse({ description: 'Get a rental place by id' })
-  @Get(':id')
-  // @Auth('read:rental-place')
+  @Get(':id/from-user')
+  @Auth('read:rental-place')
   // TODO fix
   async findByOwner(@Req() req: any) {
+    console.log('====================================');
+    console.log('HIIIIIIIIIII', req.user.sub);
+    console.log('====================================');
     // TODO make sure retrive all need info rentals/:id GET
     const rentalPlace = await this.rentalPlaceService.findById(req.user.sub);
     if (!rentalPlace)
