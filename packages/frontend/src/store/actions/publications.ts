@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { ThunkAction } from 'redux-thunk';
 
 import { AlertMessage } from '@/constants/alertMessage';
+import { api } from '@/services/api';
 import { TRootState } from '@/store/reducers';
 import {
   CHANGE_PUBLICATION_AVAILABILITY_ERROR,
@@ -27,11 +28,11 @@ import {
   UPDATE_PUBLICATION_PENDING,
   UPDATE_PUBLICATION_SUCCESS,
 } from '@/store/types/publications';
-import { IQueryCommonFilters, TElementId } from '@/types';
+import { IQueryCommonFilters, IRentalPlace, TElementId } from '@/types';
 
 // TODO: ELIMINAR
 import {
-  dataMyPublication,
+  // dataMyPublication,
   dataMyPublicationChangeAvailability,
   dataMyPublications,
   dataMyPublicationSearch,
@@ -57,16 +58,30 @@ export const getPublication =
   (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {
+      /* eslint-disable */
+      console.log('====================================');
+      console.log('HIIIIIIII_NEXTJS');
+      console.log('====================================');
       dispatch(getPublicationPendingAction());
       // const { data } = await api.get(`/publication/${id}`);
 
       // TODO: Eliminar
-      const data = dataMyPublication(id);
+      // const data = dataMyPublication(id);
+      console.log('====================================');
+      console.log('LETS_START');
+      console.log('====================================');
+      const { data } = await api.get<IRentalPlace>(
+        `/rental-place/${id as string}/from-owner`,
+      );
+      console.log('====================================');
+      console.log('LETS_CONTINUE');
+      console.log('====================================');
       // eslint-disable-next-line no-console
-      console.log(id);
+      console.log('GET_PUBLICATION', { id, data });
 
       dispatch(getPublicationSuccessAction(data));
     } catch (error) {
+      console.error(error.message);
       dispatch(getPublicationErrorAction(error));
       toast.error(AlertMessage.error);
     }
