@@ -1,10 +1,16 @@
-export const statePublicationsSelector = (state: any) => state.publications;
+import { TRootState } from '../reducers';
 
-export const publicationsSelector = (state: any) =>
+export const statePublicationsSelector = (state: TRootState) =>
+  state.publications;
+
+export const publicationsSelector = (state: TRootState) =>
   state.publications.publications;
 
-export const isFetchingPublicationsSelector = (state: any) =>
+export const isFetchingPublicationsSelector = (state: TRootState) =>
   state.publications.isFetching;
 
-export const errorPublicationsSelector = (state: any) =>
+export const errorPublicationsSelector = (state: TRootState) =>
   state.publications.error;
+
+export const publicationSelector = (state: TRootState) =>
+  state.publications.publication;

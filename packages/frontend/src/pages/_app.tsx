@@ -6,12 +6,8 @@ import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
 
 import { configServerSideCredentials } from '@/services/api';
-import { fetchUserData, IUserAction } from '@/store/actions/users';
-import { TRootState } from '@/store/reducers';
-import { parseCookies } from '@/utils/cookie';
 import withReduxStore, { Props } from '@/utils/with-redux';
 
 function App({
@@ -70,15 +66,7 @@ App.getInitialProps = async ({
   Component,
   ctx,
 }: AppContext & { ctx: Props }) => {
-  configServerSideCredentials(ctx.req);
-
-  const cookieData = parseCookies(ctx.req);
-
-  if (cookieData.token) {
-    await (
-      ctx.reduxStore.dispatch as ThunkDispatch<TRootState, unknown, IUserAction>
-    )(fetchUserData(cookieData.userId));
-  }
+  configServerSideCredentials(ctx);
 
   const componentProps = Component.getInitialProps
     ? await Component.getInitialProps(ctx)
