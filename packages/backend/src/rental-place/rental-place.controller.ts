@@ -178,7 +178,6 @@ export class RentalPlaceController {
   @ApiOkResponse({ description: 'Get a rental place by id' })
   @Get(':id/from-user')
   @Auth('read:rental-place')
-  // TODO fix
   async findByOwner(
     @Param('id') id: string,
     @Req() req: Request & { user: IAuth0User },
@@ -196,17 +195,23 @@ export class RentalPlaceController {
       phoneNumber: '0',
     });
 
-    // TODO make sure retrive all need info rentals/:id GET
     const rentalPlace = await this.rentalPlaceService.findById(id);
+
     if (!rentalPlace)
       throw new NotFoundException('Rental place does not exists');
 
     const rentalPlaceObj = rentalPlace.toObject();
-    (rentalPlaceObj as any).owner = userData;
 
-    console.log('====================================');
-    console.log({ rentalPlaceObj });
-    console.log('====================================');
+    // TODO: uncomment once the update endpoint is finished
+    /*
+    if (rentalPlaceObj.owner !== userData?.id) {
+      throw new UnauthorizedException(
+        'The Rental place does not belong to the user',
+      );
+    }
+    */
+
+    (rentalPlaceObj as any).owner = userData;
 
     return rentalPlace;
   }
