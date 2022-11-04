@@ -11,6 +11,7 @@ import {
   Query,
   Req,
   Res,
+  UnprocessableEntityException,
   UnsupportedMediaTypeException,
   UploadedFiles,
   UseInterceptors,
@@ -39,6 +40,7 @@ import { Request, Response } from 'express';
 import { createReadStream } from 'fs';
 
 import { AddressService } from '../address/address.service';
+import { CreateAddressDto } from '../address/dto/create-address.dto';
 import { UpdateAddressDto } from '../address/dto/update-address.dto';
 import { Auth } from '../authz/auth.decorator';
 import { CharacteristicService } from '../characteristic/characteristic.service';
@@ -51,6 +53,7 @@ import {
 } from '../config/multer.config';
 import { FilesUploadDto } from '../helper/dto/file-upload.dto';
 import { UserNotAllowOrOwnerException } from '../helper/exceptions/user-not-allowed-to-update-data';
+import { Gender, Reason, TypeSpace } from '../helper/types';
 import { ImageService } from '../image/image.service';
 import { CreateLikeDto } from '../like/dto/create-like.dto';
 import { LikeService } from '../like/like.service';
@@ -62,6 +65,26 @@ import { UpdateRentalPlaceDto } from './dto/update-rental-place.dto';
 import { RentalPlace } from './rental-place.schema';
 import { RentalPlaceService } from './rental-place.service';
 // import { PaginationMoogooseService } from '../pagination/Pagination.service';
+
+interface ICreatePublication {
+  title: string;
+  reason: string;
+  typeSpace: string;
+  gender: string;
+  price: string;
+  availability: boolean;
+  street: string;
+  state: string;
+  city: string;
+  neighborhood: string;
+  stateCode: string;
+  reference: string;
+  zone: string;
+  rentalPlace: string;
+  services: string[];
+  rules: string[];
+  security: string[];
+}
 
 @ApiTags('Rental Place')
 @Controller('rental-place')
@@ -87,20 +110,61 @@ export class RentalPlaceController {
   @Post()
   @Auth('create:rental-place')
   async create(
-    @Body() createRentalPlaceDto: CreateRentalPlaceDto,
+    @Body() createRentalPlaceDto: ICreatePublication,
     @Req() req: any,
   ) {
-    // // create address
-    const addressId = await this.addressService.create(
-      createRentalPlaceDto.address,
+    const userInformation = await this.userService.getOrCreateUserByEmail({
+      email: req.user.email,
+      firstName: req.user.name.toLowerCase(),
+      image: req.user.picture,
+      type: EUserType.OWNER,
+      birthDate: req.user.updated_at,
+      phoneNumber: '0',
+    });
+
+    const addressInformation: CreateAddressDto = {
+      street: createRentalPlaceDto.street,
+      state: createRentalPlaceDto.state,
+      city: createRentalPlaceDto.city,
+      cologne: createRentalPlaceDto.neighborhood,
+      stateCode: createRentalPlaceDto.stateCode,
+      reference: createRentalPlaceDto.reference,
+      // zone: createRentalPlaceDto.zone,
+      countryCode: 'MX',
+      crossStreet: '',
+      extNumber: '123',
+      intNumber: '',
+    };
+
+    const addressId = await this.addressService
+      .create(addressInformation)
+      .catch((error) => {
+        console.error(error);
+
+        throw new UnprocessableEntityException(
+          'unable to create an address for the rental place',
+        );
+      });
+
+    const rentalPlaceInformation: CreateRentalPlaceDto = {
+      title: createRentalPlaceDto.title,
+      reason: Reason[createRentalPlaceDto.reason as keyof typeof Reason],
+      typeSpace:
+        TypeSpace[createRentalPlaceDto.typeSpace as keyof typeof TypeSpace],
+      gender: Gender[createRentalPlaceDto.gender as keyof typeof Gender],
+      price: createRentalPlaceDto.price,
+      availability: createRentalPlaceDto.availability,
+      description: createRentalPlaceDto.rentalPlace,
+      address: addressId as CreateAddressDto,
+      owner: userInformation?._id,
+      approved: false,
+    } as unknown as CreateRentalPlaceDto;
+
+    const createdPublication = await this.rentalPlaceService.create(
+      rentalPlaceInformation,
     );
 
-    // // create rentalPlace
-    return this.rentalPlaceService.create({
-      ...createRentalPlaceDto,
-      owner: req.user.sub,
-      address: addressId,
-    });
+    return createdPublication;
   }
 
   @ApiOkResponse({

@@ -81,7 +81,7 @@ const Post: NextPage = () => {
     register,
     getValues,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({
     mode: 'all',
   });
@@ -106,6 +106,12 @@ const Post: NextPage = () => {
       pathname: '/profile/publications',
       query: {},
     };
+
+    if (!isDirty) {
+      redirectData.query.updatedPost = true;
+      router.push(redirectData);
+      return;
+    }
 
     if (post && post._id) {
       await dispatch(
@@ -174,7 +180,36 @@ const Post: NextPage = () => {
         gender: post.gender || 'Sin preferencia',
         price: post.price,
         availability: post.availability,
+        street: post.address.street,
+        state: post.address.state,
+        city: post.address.city,
+        // neighborhood: post.address.location,
+        stateCode: post.address.postalCode,
+        // reference: post.address.location,
+        // zone: post.address.location,
+        rentalPlace: 'aaaaaaa',
       });
+
+      /*
+      console.log('====================================');
+      console.log({
+        title: post.title,
+        reason: post.reason,
+        typeSpace: post.typeSpace,
+        gender: post.gender || 'Sin preferencia',
+        price: post.price,
+        availability: post.availability,
+        street: post.address.street,
+        state: post.address.state,
+        city: post.address.city,
+        neighborhood: post.address.location,
+        stateCode: post.address.postalCode,
+        reference: post.address.location,
+        zone: post.address.location,
+        address: post.address,
+      });
+      console.log('====================================');
+      */
 
       setFiles(post.images);
     } else {

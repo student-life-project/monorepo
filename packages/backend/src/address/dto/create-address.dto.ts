@@ -18,7 +18,7 @@ export class CreateAddressDto {
   extNumber: string;
 
   @ApiPropertyOptional()
-  intNumber: string;
+  intNumber?: string;
 
   @ApiPropertyOptional()
   crossStreet: string;
@@ -70,7 +70,7 @@ export class CreateAddressDto {
   country?: string;
 
   @ApiProperty({ example: [-103.3254497, 20.6548611] })
-  location: {
+  location?: {
     type: string;
     coordinates: number[];
   };
