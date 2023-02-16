@@ -30,14 +30,6 @@ import {
 } from '@/store/types/publications';
 import { IQueryCommonFilters, IRentalPlace, TElementId } from '@/types';
 
-// TODO: ELIMINAR
-import {
-  // dataMyPublication,
-  dataMyPublicationChangeAvailability,
-  dataMyPublications,
-  dataMyPublicationSearch,
-} from '../dataFakeTemp';
-
 interface IGetPublicationPendingAction {
   type: typeof GET_PUBLICATION_PENDING;
 }
@@ -225,11 +217,13 @@ export const createPublication =
   ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
+      // eslint-disable-next-line no-console
+      console.log('PUBLICATION_TO_BE_CREATED', publication);
       dispatch(createPublicationPendingAction());
-      // const { data } = await api.post('/publication', { publication });
+      const { data } = await api.post<IRentalPlace>('/rental-place', {
+        publication,
+      });
 
-      // TODO: Eliminar
-      const data = {} as IRentalPlace;
       // eslint-disable-next-line no-console
       console.log(publication);
 
@@ -270,10 +264,10 @@ export const updatePublication =
   async (dispatch) => {
     try {
       dispatch(updatePublicationPendingAction());
-      // const { data } = await api.put(`/publication/${id}`, { publication });
+      const { data } = await api.put<IRentalPlace>(`/publication/${id}`, {
+        publication,
+      });
 
-      // TODO: Eliminar
-      const data = {} as IRentalPlace;
       // eslint-disable-next-line no-console
       console.log(id, publication);
 
@@ -313,10 +307,8 @@ export const deletePublication =
   async (dispatch) => {
     try {
       dispatch(deletePublicationPendingAction());
-      // const { data } = await api.delete(`/publication/${id}`);
+      const { data } = await api.delete<IRentalPlace>(`/publication/${id}`);
 
-      // TODO: Eliminar
-      const data = {} as IRentalPlace;
       // eslint-disable-next-line no-console
       console.log(id);
 
@@ -359,11 +351,11 @@ export const getAllPublication =
   async (dispatch) => {
     try {
       dispatch(getAllPublicationPendingAction());
-      // const limitQuery = limit ? `?limit=${limit}` : '';
-      // const { data } = await api.get(`/publication${limitQuery}`);
+      const limitQuery = limit ? `?limit=${limit}` : '';
+      const { data } = await api.get<IRentalPlace[]>(
+        `/publication${limitQuery}`,
+      );
 
-      // TODO: Eliminar
-      const data = dataMyPublications;
       // eslint-disable-next-line no-console
       console.log(limit);
 
@@ -400,17 +392,13 @@ export const searchPublication =
   async (dispatch) => {
     try {
       dispatch(searchPublicationPendingAction());
-      // const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
-      // const { data } = await api.get(`/publication${filter}`);
+      const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
+      const { data } = await api.get<IRentalPlace[]>(`/publication${filter}`);
 
-      // TODO: Eliminar
-      const data = dataMyPublicationSearch(text);
       // eslint-disable-next-line no-console
       console.log(text);
 
-      dispatch(
-        searchPublicationSuccessAction(data as unknown as IRentalPlace[]),
-      );
+      dispatch(searchPublicationSuccessAction(data));
     } catch (error) {
       dispatch(searchPublicationErrorAction(error));
       toast.error(AlertMessage.error);
@@ -445,10 +433,8 @@ export const changePublicationAvailability =
   async (dispatch) => {
     try {
       dispatch(changePublicationAvailabilityPendingAction());
-      // const { data } = await api.put(`/publication/${id}`);
+      const { data } = await api.put<IRentalPlace>(`/publication/${id}`);
 
-      // TODO: Eliminar
-      const data = dataMyPublicationChangeAvailability(id);
       // eslint-disable-next-line no-console
       console.log(id);
 
