@@ -21,6 +21,7 @@ import { TStore } from '@/store';
 import { getAllRentalPlaces } from '@/store/actions/rentalPlaces';
 import { TRootState } from '@/store/reducers';
 import { rentalPlacesSelector } from '@/store/selectors/rentalPlaces';
+import { EOrder } from '@student_life/common';
 
 const PlaceContent = styled.div`
   ${xw`
@@ -73,12 +74,12 @@ export const Home: NextPage = () => {
 
         <PlaceContent>
           {rentalPlaces.map((rentalPlace) => (
-            <div key={`rental_place${rentalPlace.id}`}>
+            <div key={`rental_place${rentalPlace._id}`}>
               <VerticalCard
-                id={rentalPlace.id}
-                likes={rentalPlace.likes}
+                id={rentalPlace._id}
+                likes={rentalPlace.likesCount || 0}
                 title={rentalPlace.title}
-                pricePerMonth={rentalPlace.price}
+                pricePerMonth={parseFloat(rentalPlace.price || '0')}
                 imageUrl={rentalPlace.images?.[0]?.url}
               />
             </div>
@@ -156,7 +157,7 @@ Home.getInitialProps = async ({
   reduxStore,
 }: NextPageContext & { reduxStore: TStore }) => {
   await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
-    getAllRentalPlaces({ limit: 4 }),
+    getAllRentalPlaces({ limit: 4, sortBy: 'score', order: EOrder.desc }),
   );
 
   return {};

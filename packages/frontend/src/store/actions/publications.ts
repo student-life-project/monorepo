@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { ThunkAction } from 'redux-thunk';
 
 import { AlertMessage } from '@/constants/alertMessage';
+import { api } from '@/services/api';
 import { TRootState } from '@/store/reducers';
 import {
   CHANGE_PUBLICATION_AVAILABILITY_ERROR,
@@ -27,46 +28,163 @@ import {
   UPDATE_PUBLICATION_PENDING,
   UPDATE_PUBLICATION_SUCCESS,
 } from '@/store/types/publications';
-import { IQueryCommonFilters, TElementId } from '@/types';
+import { IQueryCommonFilters, IRentalPlace, TElementId } from '@/types';
 
-// TODO: ELIMINAR
-import {
-  dataMyPublication,
-  dataMyPublicationChangeAvailability,
-  dataMyPublications,
-  dataMyPublicationSearch,
-} from '../dataFakeTemp';
+interface IGetPublicationPendingAction {
+  type: typeof GET_PUBLICATION_PENDING;
+}
+
+interface IGetPublicationSuccessAction {
+  type: typeof GET_PUBLICATION_SUCCESS;
+  data: IRentalPlace;
+}
+
+interface IGetPublicationErrorAction {
+  type: typeof GET_PUBLICATION_ERROR;
+  error: AxiosError;
+}
+
+interface ICreatePublicationPendingAction {
+  type: typeof CREATE_PUBLICATION_PENDING;
+}
+
+interface ICreatePublicationSuccessAction {
+  type: typeof CREATE_PUBLICATION_SUCCESS;
+  data: IRentalPlace;
+}
+
+interface ICreatePublicationErrorAction {
+  type: typeof CREATE_PUBLICATION_ERROR;
+  error: AxiosError;
+}
+
+interface IUpdatePublicationPendingAction {
+  type: typeof UPDATE_PUBLICATION_PENDING;
+}
+
+interface IUpdatePublicationSuccessAction {
+  type: typeof UPDATE_PUBLICATION_SUCCESS;
+  data: IRentalPlace;
+}
+
+interface IUpdatePublicationErrorAction {
+  type: typeof UPDATE_PUBLICATION_ERROR;
+  error: AxiosError;
+}
+
+interface IDeletePublicationPendingAction {
+  type: typeof DELETE_PUBLICATION_PENDING;
+}
+
+interface IDeletePublicationSuccessAction {
+  type: typeof DELETE_PUBLICATION_SUCCESS;
+  data: IRentalPlace;
+}
+
+interface IDeletePublicationErrorAction {
+  type: typeof DELETE_PUBLICATION_ERROR;
+  error: AxiosError;
+}
+
+interface IGetAllPublicationPendingAction {
+  type: typeof GET_ALL_PUBLICATIONS_PENDING;
+}
+
+interface IGetAllPublicationSuccessAction {
+  type: typeof GET_ALL_PUBLICATIONS_SUCCESS;
+  data: IRentalPlace[];
+}
+
+interface IGetAllPublicationErrorAction {
+  type: typeof GET_ALL_PUBLICATIONS_ERROR;
+  error: AxiosError;
+}
+
+interface ISearchPublicationPendingAction {
+  type: typeof SEARCH_PUBLICATION_PENDING;
+}
+
+interface ISearchPublicationSuccessAction {
+  type: typeof SEARCH_PUBLICATION_SUCCESS;
+  data: IRentalPlace[];
+}
+
+interface ISearchPublicationErrorAction {
+  type: typeof SEARCH_PUBLICATION_ERROR;
+  error: AxiosError;
+}
+
+interface IChangePublicationAvailabilityPendingAction {
+  type: typeof CHANGE_PUBLICATION_AVAILABILITY_PENDING;
+}
+
+interface IChangePublicationAvailabilitySuccessAction {
+  type: typeof CHANGE_PUBLICATION_AVAILABILITY_SUCCESS;
+  data: IRentalPlace;
+}
+
+interface IChangePublicationAvailabilityErrorAction {
+  type: typeof CHANGE_PUBLICATION_AVAILABILITY_ERROR;
+  error: AxiosError;
+}
+
+export type TPublicationsAction =
+  | IGetPublicationPendingAction
+  | IGetPublicationSuccessAction
+  | IGetPublicationErrorAction
+  | ICreatePublicationPendingAction
+  | ICreatePublicationSuccessAction
+  | ICreatePublicationErrorAction
+  | IUpdatePublicationPendingAction
+  | IUpdatePublicationSuccessAction
+  | IUpdatePublicationErrorAction
+  | IDeletePublicationPendingAction
+  | IDeletePublicationSuccessAction
+  | IDeletePublicationErrorAction
+  | IGetAllPublicationPendingAction
+  | IGetAllPublicationSuccessAction
+  | IGetAllPublicationErrorAction
+  | ISearchPublicationPendingAction
+  | ISearchPublicationSuccessAction
+  | ISearchPublicationErrorAction
+  | IChangePublicationAvailabilityPendingAction
+  | IChangePublicationAvailabilitySuccessAction
+  | IChangePublicationAvailabilityErrorAction;
 
 // =============================================================================
 
-export const getPublicationPendingAction = (): any => ({
-  type: GET_PUBLICATION_PENDING,
-});
+export const getPublicationPendingAction =
+  (): IGetPublicationPendingAction => ({
+    type: GET_PUBLICATION_PENDING,
+  });
 
-export const getPublicationSuccessAction = (data: unknown): any => ({
+export const getPublicationSuccessAction = (
+  data: IRentalPlace,
+): IGetPublicationSuccessAction => ({
   type: GET_PUBLICATION_SUCCESS,
   data,
 });
 
-export const getPublicationErrorAction = (error: AxiosError): any => ({
+export const getPublicationErrorAction = (
+  error: AxiosError,
+): IGetPublicationErrorAction => ({
   type: GET_PUBLICATION_ERROR,
   error,
 });
 
 export const getPublication =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    id: TElementId,
+  ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
-      dispatch(getPublicationPendingAction());
-      // const { data } = await api.get(`/publication/${id}`);
-
-      // TODO: Eliminar
-      const data = dataMyPublication(id);
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.get<IRentalPlace>(
+        `/rental-place/${id as string}/from-user`,
+      );
 
       dispatch(getPublicationSuccessAction(data));
     } catch (error) {
+      console.error(error.message);
       dispatch(getPublicationErrorAction(error));
       toast.error(AlertMessage.error);
     }
@@ -74,29 +192,38 @@ export const getPublication =
 
 // =============================================================================
 
-export const createPublicationPendingAction = (): any => ({
-  type: CREATE_PUBLICATION_PENDING,
-});
+export const createPublicationPendingAction =
+  (): ICreatePublicationPendingAction => ({
+    type: CREATE_PUBLICATION_PENDING,
+  });
 
-export const createPublicationSuccessAction = (data: unknown): any => ({
+export const createPublicationSuccessAction = (
+  data: IRentalPlace,
+): ICreatePublicationSuccessAction => ({
   type: CREATE_PUBLICATION_SUCCESS,
   data,
 });
 
-export const createPublicationErrorAction = (error: AxiosError): any => ({
+export const createPublicationErrorAction = (
+  error: AxiosError,
+): ICreatePublicationErrorAction => ({
   type: CREATE_PUBLICATION_ERROR,
   error,
 });
 
 export const createPublication =
-  (publication: unknown): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    publication: Omit<IRentalPlace, '_id'>,
+  ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
+      // eslint-disable-next-line no-console
+      console.log('PUBLICATION_TO_BE_CREATED', publication);
       dispatch(createPublicationPendingAction());
-      // const { data } = await api.post('/publication', { publication });
+      const { data } = await api.post<IRentalPlace>('/rental-place', {
+        publication,
+      });
 
-      // TODO: Eliminar
-      const data = {};
       // eslint-disable-next-line no-console
       console.log(publication);
 
@@ -110,16 +237,21 @@ export const createPublication =
 
 // =============================================================================
 
-export const updatePublicationPendingAction = (): any => ({
-  type: UPDATE_PUBLICATION_PENDING,
-});
+export const updatePublicationPendingAction =
+  (): IUpdatePublicationPendingAction => ({
+    type: UPDATE_PUBLICATION_PENDING,
+  });
 
-export const updatePublicationSuccessAction = (data: unknown): any => ({
+export const updatePublicationSuccessAction = (
+  data: IRentalPlace,
+): IUpdatePublicationSuccessAction => ({
   type: UPDATE_PUBLICATION_SUCCESS,
   data,
 });
 
-export const updatePublicationErrorAction = (error: AxiosError): any => ({
+export const updatePublicationErrorAction = (
+  error: AxiosError,
+): IUpdatePublicationErrorAction => ({
   type: UPDATE_PUBLICATION_ERROR,
   error,
 });
@@ -127,15 +259,15 @@ export const updatePublicationErrorAction = (error: AxiosError): any => ({
 export const updatePublication =
   (
     id: TElementId,
-    publication: unknown,
-  ): ThunkAction<void, TRootState, unknown, any> =>
+    publication: IRentalPlace,
+  ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
       dispatch(updatePublicationPendingAction());
-      // const { data } = await api.put(`/publication/${id}`, { publication });
+      const { data } = await api.put<IRentalPlace>(`/publication/${id}`, {
+        publication,
+      });
 
-      // TODO: Eliminar
-      const data = {};
       // eslint-disable-next-line no-console
       console.log(id, publication);
 
@@ -149,29 +281,34 @@ export const updatePublication =
 
 // =============================================================================
 
-export const deletePublicationPendingAction = (): any => ({
-  type: DELETE_PUBLICATION_PENDING,
-});
+export const deletePublicationPendingAction =
+  (): IDeletePublicationPendingAction => ({
+    type: DELETE_PUBLICATION_PENDING,
+  });
 
-export const deletePublicationSuccessAction = (data: unknown): any => ({
+export const deletePublicationSuccessAction = (
+  data: IRentalPlace,
+): IDeletePublicationSuccessAction => ({
   type: DELETE_PUBLICATION_SUCCESS,
   data,
 });
 
-export const deletePublicationErrorAction = (error: AxiosError): any => ({
+export const deletePublicationErrorAction = (
+  error: AxiosError,
+): IDeletePublicationErrorAction => ({
   type: DELETE_PUBLICATION_ERROR,
   error,
 });
 
 export const deletePublication =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    id: TElementId,
+  ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
       dispatch(deletePublicationPendingAction());
-      // const { data } = await api.delete(`/publication/${id}`);
+      const { data } = await api.delete<IRentalPlace>(`/publication/${id}`);
 
-      // TODO: Eliminar
-      const data = {};
       // eslint-disable-next-line no-console
       console.log(id);
 
@@ -185,16 +322,21 @@ export const deletePublication =
 
 // =============================================================================
 
-export const getAllPublicationPendingAction = (): any => ({
-  type: GET_ALL_PUBLICATIONS_PENDING,
-});
+export const getAllPublicationPendingAction =
+  (): IGetAllPublicationPendingAction => ({
+    type: GET_ALL_PUBLICATIONS_PENDING,
+  });
 
-export const getAllPublicationSuccessAction = (data: unknown): any => ({
+export const getAllPublicationSuccessAction = (
+  data: IRentalPlace[],
+): IGetAllPublicationSuccessAction => ({
   type: GET_ALL_PUBLICATIONS_SUCCESS,
   data,
 });
 
-export const getAllPublicationErrorAction = (error: AxiosError): any => ({
+export const getAllPublicationErrorAction = (
+  error: AxiosError,
+): IGetAllPublicationErrorAction => ({
   type: GET_ALL_PUBLICATIONS_ERROR,
   error,
 });
@@ -204,16 +346,16 @@ export const getAllPublication =
     void,
     TRootState,
     unknown,
-    any
+    TPublicationsAction
   > =>
   async (dispatch) => {
     try {
       dispatch(getAllPublicationPendingAction());
-      // const limitQuery = limit ? `?limit=${limit}` : '';
-      // const { data } = await api.get(`/publication${limitQuery}`);
+      const limitQuery = limit ? `?limit=${limit}` : '';
+      const { data } = await api.get<IRentalPlace[]>(
+        `/publication${limitQuery}`,
+      );
 
-      // TODO: Eliminar
-      const data = dataMyPublications;
       // eslint-disable-next-line no-console
       console.log(limit);
 
@@ -226,30 +368,33 @@ export const getAllPublication =
 
 // =============================================================================
 
-export const searchPublicationPendingAction = (): any => ({
-  type: SEARCH_PUBLICATION_PENDING,
-});
+export const searchPublicationPendingAction =
+  (): ISearchPublicationPendingAction => ({
+    type: SEARCH_PUBLICATION_PENDING,
+  });
 
-export const searchPublicationSuccessAction = (data: unknown): any => ({
+export const searchPublicationSuccessAction = (
+  data: IRentalPlace[],
+): ISearchPublicationSuccessAction => ({
   type: SEARCH_PUBLICATION_SUCCESS,
   data,
 });
 
-export const searchPublicationErrorAction = (error: AxiosError): any => ({
+export const searchPublicationErrorAction = (
+  error: AxiosError,
+): ISearchPublicationErrorAction => ({
   type: SEARCH_PUBLICATION_ERROR,
   error,
 });
 
 export const searchPublication =
-  (text = ''): ThunkAction<void, TRootState, unknown, any> =>
+  (text = ''): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
       dispatch(searchPublicationPendingAction());
-      // const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
-      // const { data } = await api.get(`/publication${filter}`);
+      const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
+      const { data } = await api.get<IRentalPlace[]>(`/publication${filter}`);
 
-      // TODO: Eliminar
-      const data = dataMyPublicationSearch(text);
       // eslint-disable-next-line no-console
       console.log(text);
 
@@ -262,37 +407,42 @@ export const searchPublication =
 
 // =============================================================================
 
-export const changePublicationAvailabilityPendingAction = (): any => ({
-  type: CHANGE_PUBLICATION_AVAILABILITY_PENDING,
-});
+export const changePublicationAvailabilityPendingAction =
+  (): IChangePublicationAvailabilityPendingAction => ({
+    type: CHANGE_PUBLICATION_AVAILABILITY_PENDING,
+  });
 
 export const changePublicationAvailabilitySuccessAction = (
-  data: unknown,
-): any => ({
+  data: IRentalPlace,
+): IChangePublicationAvailabilitySuccessAction => ({
   type: CHANGE_PUBLICATION_AVAILABILITY_SUCCESS,
   data,
 });
 
 export const changePublicationAvailabilityErrorAction = (
   error: AxiosError,
-): any => ({
+): IChangePublicationAvailabilityErrorAction => ({
   type: CHANGE_PUBLICATION_AVAILABILITY_ERROR,
   error,
 });
 
 export const changePublicationAvailability =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    id: TElementId,
+  ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
       dispatch(changePublicationAvailabilityPendingAction());
-      // const { data } = await api.put(`/publication/${id}`);
+      const { data } = await api.put<IRentalPlace>(`/publication/${id}`);
 
-      // TODO: Eliminar
-      const data = dataMyPublicationChangeAvailability(id);
       // eslint-disable-next-line no-console
       console.log(id);
 
-      dispatch(changePublicationAvailabilitySuccessAction(data));
+      dispatch(
+        changePublicationAvailabilitySuccessAction(
+          data as unknown as IRentalPlace,
+        ),
+      );
       toast.success(AlertMessage.updated('disponibilidad'));
     } catch (error) {
       dispatch(changePublicationAvailabilityErrorAction(error));

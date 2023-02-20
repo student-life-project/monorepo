@@ -103,7 +103,7 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
             control={control}
             rules={{ required: true }}
             render={({ field: { onChange, value } }) => {
-              const role = parseInt(value, 10);
+              const role = value as EUserType;
 
               return (
                 <>

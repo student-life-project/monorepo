@@ -14,6 +14,14 @@ export class ImageService {
     private ImageModel: Model<ImageDocument>,
   ) {}
 
+  async createImage(
+    imageData: CreateImageDto & { owner: string },
+  ): Promise<ImageDocument> {
+    const createdImage = await this.ImageModel.create(imageData);
+
+    return createdImage;
+  }
+
   async createMany(createImageDto: CreateImageDto[]): Promise<Image[]> {
     const createImages = await this.ImageModel.insertMany(createImageDto);
     return createImages;
@@ -21,5 +29,13 @@ export class ImageService {
 
   async findAll(): Promise<Image[]> {
     return this.ImageModel.find().exec();
+  }
+
+  async deleteByPlaceId(id: string) {
+    return this.ImageModel.deleteMany({ placeId: id });
+  }
+
+  async findByOwner(ownerId: string): Promise<ImageDocument | null> {
+    return this.ImageModel.findOne({ owner: ownerId });
   }
 }

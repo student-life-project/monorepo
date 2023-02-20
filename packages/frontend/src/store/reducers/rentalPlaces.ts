@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 
 import {
+  CLEAR_RENTAL_PLACES,
   FILTER_RENTAL_PLACE_ERROR,
   FILTER_RENTAL_PLACE_PENDING,
   FILTER_RENTAL_PLACE_SUCCESS,
@@ -19,15 +20,21 @@ import {
   SEARCH_RENTAL_PLACE_ERROR,
   SEARCH_RENTAL_PLACE_PENDING,
   SEARCH_RENTAL_PLACE_SUCCESS,
+  SET_RENTAL_PLACES,
 } from '@/store/types/rentalPlaces';
+import { IRentalPlace } from '@/types';
+
+import type { TRentalPlacesAction } from '../actions/rentalPlaces';
 
 export interface IState {
-  rentalPlaces: any;
+  rentalPlace: IRentalPlace | null;
+  rentalPlaces: IRentalPlace[];
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
+  rentalPlace: null,
   rentalPlaces: [],
   isFetching: false,
   error: null,
@@ -35,7 +42,7 @@ const initialState: IState = {
 
 const reducer = (
   state: IState = initialState,
-  payload: { type: any; data: any; error: any },
+  payload: TRentalPlacesAction,
 ): IState => {
   switch (payload.type) {
     case GET_RENTAL_PLACE_PENDING:
@@ -44,13 +51,15 @@ const reducer = (
         rentalPlaces: [],
         isFetching: true,
         error: null,
+        rentalPlace: null,
       };
     case GET_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlaces: payload.data,
+        rentalPlace: payload.data,
         isFetching: false,
         error: null,
+        rentalPlaces: [],
       };
     case GET_RENTAL_PLACE_ERROR:
       return {
@@ -128,7 +137,7 @@ const reducer = (
     case LIKE_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlaces: payload.data,
+        rentalPlace: payload.data,
         isFetching: false,
         error: null,
       };
@@ -141,6 +150,7 @@ const reducer = (
     case GET_ALL_RENTAL_PLACES_PENDING:
       return {
         ...state,
+        rentalPlace: null,
         rentalPlaces: [],
         isFetching: true,
         error: null,
@@ -148,6 +158,7 @@ const reducer = (
     case GET_ALL_RENTAL_PLACES_SUCCESS:
       return {
         ...state,
+        rentalPlace: null,
         rentalPlaces: payload.data,
         isFetching: false,
         error: null,
@@ -155,8 +166,21 @@ const reducer = (
     case GET_ALL_RENTAL_PLACES_ERROR:
       return {
         ...state,
+        rentalPlace: null,
+        rentalPlaces: [],
         isFetching: false,
         error: payload.error,
+      };
+    case SET_RENTAL_PLACES:
+      return {
+        ...state,
+        rentalPlaces: payload.data,
+        isFetching: false,
+        error: null,
+      };
+    case CLEAR_RENTAL_PLACES:
+      return {
+        ...initialState,
       };
     default:
       return state;

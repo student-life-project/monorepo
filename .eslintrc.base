@@ -25,6 +25,9 @@
         "@typescript-eslint/no-shadow": "error",
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
-        no-useless-constructor: "warn"
+        "import/no-cycle": [2, { maxDepth: 1 }],
+        "no-useless-constructor": "warn",
+        "no-underscore-dangle": "warn",
+        "camelcase": "warn"
     }
 }

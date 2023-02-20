@@ -2,8 +2,8 @@
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import {
+  EOrder,
   Gender,
-  IRentalPlace,
   orderRentals,
   Reason,
   Rules,
@@ -11,9 +11,9 @@ import {
   Services,
   TypeSpace,
 } from '@student_life/common';
-import { NextPage, NextPageContext } from 'next';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { NextPage } from 'next';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 
 import BodyContainer from '@/components/common/BodyContainer';
@@ -21,12 +21,12 @@ import VerticalCard from '@/components/common/Card/VerticalCard';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Pagination from '@/components/common/Pagination';
 import FilterAndSort from '@/components/rentals/FilterAndSort';
-import { TStore } from '@/store';
-import { getAllRentalPlaces } from '@/store/actions/rentalPlaces';
+import { setRentalPlaces } from '@/store/actions/rentalPlaces';
 import { TRootState } from '@/store/reducers';
 import { rentalPlacesSelector } from '@/store/selectors/rentalPlaces';
 import { IFilters } from '@/types';
 import { ScrollToAnimation } from '@/utils/scrollTo';
+import { usePagination } from '@/hooks/usePagination';
 
 const ContentRentals = styled.div`
   ${xw`
@@ -47,25 +47,69 @@ const filters: IFilters = {
   security: Security,
 };
 
+const RENTAL_PLACE_URL = '/rental-place';
+
 const Rentals: NextPage = () => {
+  const dispatch = useDispatch() as ThunkDispatch<TRootState, unknown, any>;
   const rentalPlaces = useSelector(rentalPlacesSelector);
 
-  const totalPlaces = rentalPlaces.length;
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [currentItems, setCurrentItems] = useState<IRentalPlace[]>([]);
+  const [sortByState, setSortByState] = useState('title');
+  const [order, setOrder] = useState(EOrder.desc);
+  const [, setFiltersState] = useState<Record<string, string>[]>([]);
+  const changedFilters = useRef(false);
+  const isFirstTimeRendered = useRef(false);
+
+  const paginationDataSetter = useCallback(
+    (data: any[]) => {
+      dispatch(setRentalPlaces(data));
+    },
+    [dispatch],
+  );
+
+  const { count, goToPage } = usePagination<any>({
+    route: RENTAL_PLACE_URL,
+    dataSetter: paginationDataSetter,
+    limit: itemsPerPage,
+    sortBy: sortByState,
+    order,
+  });
 
   useEffect(() => {
-    const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(rentalPlaces.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(totalPlaces / itemsPerPage));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itemOffset, itemsPerPage]);
+    if (!isFirstTimeRendered.current && goToPage) {
+      isFirstTimeRendered.current = true;
+      goToPage(0);
+    }
+  }, [goToPage, isFirstTimeRendered]);
+
+  useEffect(() => {
+    if (changedFilters.current) {
+      goToPage(0);
+      changedFilters.current = false;
+    }
+  }, [changedFilters, goToPage]);
 
   const handlePageClick = (event: { selected: number }) => {
-    const newOffset = (event.selected * itemsPerPage) % totalPlaces;
-    setItemOffset(newOffset);
+    goToPage(event.selected);
+    ScrollToAnimation();
+  };
+
+  const handleChangeSort = (sortBy: string, newOrder = EOrder.desc) => {
+    setSortByState(sortBy);
+    setOrder(newOrder);
+    changedFilters.current = true;
+    ScrollToAnimation();
+  };
+
+  const handleChangeFilters = (filtersData: Record<string, string>[]) => {
+    setFiltersState(filtersData);
+    changedFilters.current = false;
+    ScrollToAnimation();
+  };
+
+  const onSetItemsPerPage = (total: number) => {
+    setItemsPerPage(total);
+    changedFilters.current = true;
     ScrollToAnimation();
   };
 
@@ -75,39 +119,34 @@ const Rentals: NextPage = () => {
       <FilterAndSort
         filters={filters}
         sorts={orderRentals}
-        totalPlaces={totalPlaces}
-        setItemsPerPage={setItemsPerPage}
+        totalPlaces={count}
+        setItemsPerPage={onSetItemsPerPage}
+        onChangeSort={handleChangeSort}
+        onChangeFilters={handleChangeFilters}
       />
 
       <BodyContainer css={xw`pt-0`}>
         <ContentRentals>
-          {currentItems?.map((rentalPlace) => (
-            <div key={`rental_place${rentalPlace.id}`}>
+          {rentalPlaces?.map((rentalPlace) => (
+            <div key={`rental_place${rentalPlace._id}`}>
               <VerticalCard
-                id={rentalPlace.id}
-                likes={rentalPlace.likes}
+                id={rentalPlace._id}
+                likes={rentalPlace.likesCount}
                 title={rentalPlace.title}
-                pricePerMonth={rentalPlace.price}
+                pricePerMonth={parseFloat(rentalPlace.price || '0')}
                 imageUrl={rentalPlace.images?.[0]?.url}
               />
             </div>
           ))}
         </ContentRentals>
 
-        <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
+        <Pagination
+          pageCount={Math.ceil(count / itemsPerPage)}
+          handlePageClick={handlePageClick}
+        />
       </BodyContainer>
     </>
   );
-};
-
-Rentals.getInitialProps = async ({
-  reduxStore,
-}: NextPageContext & { reduxStore: TStore }) => {
-  await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
-    getAllRentalPlaces(),
-  );
-
-  return {};
 };
 
 export default Rentals;

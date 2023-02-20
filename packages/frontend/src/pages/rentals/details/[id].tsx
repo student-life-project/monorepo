@@ -30,6 +30,9 @@ import { TStore } from '@/store';
 import { getAllComments } from '@/store/actions/comments';
 import { TRootState } from '@/store/reducers';
 import { commentsSelector } from '@/store/selectors/comment';
+import { getRentalPlace } from '@/store/actions/rentalPlaces';
+import { rentalPlaceDetailsSelector } from '@/store/selectors/rentalPlaces';
+import { IRentalPlace } from '@/types';
 
 type TContentGallery = {
   length: number;
@@ -156,6 +159,11 @@ const user = {
 const isLogedIn = true;
 
 const Details: NextPage = () => {
+  const rentalPlace =
+    useSelector(rentalPlaceDetailsSelector) || ({} as IRentalPlace);
+
+  const rentalPlaceImages = rentalPlace.images || [];
+
   const [userReport, setUserReport] = useState(false);
   const [rentalReport, setRentalReport] = useState(false);
   const [showCarousel, setShowCarousel] = useState(false);
@@ -178,7 +186,7 @@ const Details: NextPage = () => {
   const like = true;
 
   // TODO: Las opciones de editar y eliminar solo son para el owner.
-  const userId = 11;
+  const userId = '11';
 
   return (
     <>
@@ -186,8 +194,8 @@ const Details: NextPage = () => {
       <Alert />
 
       <BodyContainer css={xw`text-secondary-1`}>
-        <ContentGallery length={data.images.length}>
-          {data.images.map((img, index) => (
+        <ContentGallery length={rentalPlaceImages.length}>
+          {rentalPlaceImages.map((img, index) => (
             <>
               {index < 5 && (
                 <Img
@@ -195,14 +203,14 @@ const Details: NextPage = () => {
                   src={img.url}
                   alt={img.name}
                   index={index}
-                  length={data.images.length}
+                  length={rentalPlaceImages.length}
                 />
               )}
             </>
           ))}
         </ContentGallery>
 
-        {data.images.length > 1 && (
+        {rentalPlaceImages.length > 1 && (
           <div css={xw`relative`}>
             <Button
               FSecondary
@@ -221,17 +229,17 @@ const Details: NextPage = () => {
           {isLogedIn ? (
             <Button BPrimary round active={like} css={xw`h-10`}>
               <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
-              <span css={xw`ml-2`}>157 Me gusta</span>
+              <span css={xw`ml-2`}>{rentalPlace.likesCount || 0} Me gusta</span>
             </Button>
           ) : (
             <div css={xw`flex`}>
               <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
-              <p css={xw`ml-2`}>157 Me gusta</p>
+              <p css={xw`ml-2`}>{rentalPlace.likesCount || 0} Me gusta</p>
             </div>
           )}
 
           <Title css={xw`my-5`}>
-            ${data.price} / mes, en {data.title}
+            ${rentalPlace.price} / mes, en {rentalPlace.title}
           </Title>
         </div>
 
@@ -240,27 +248,29 @@ const Details: NextPage = () => {
             <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
               <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faHome} height="1.2rem" />
-                <p css={xw`ml-2`}>{data.typeSpace}</p>
+                <p css={xw`ml-2`}>{rentalPlace.typeSpace}</p>
               </div>
 
               <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faConciergeBell} height="1.2rem" />
-                <p css={xw`ml-2`}>{data.available}</p>
+                <p css={xw`ml-2`}>
+                  {rentalPlace.availability ? 'Disponible' : 'No Disponible'}
+                </p>
               </div>
 
               <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faSearch} height="1.2rem" />
-                <p css={xw`ml-2`}>{data.reason}</p>
+                <p css={xw`ml-2`}>{rentalPlace.reason}</p>
               </div>
             </div>
 
             <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
               <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faUsers} height="1.2rem" />
-                <p css={xw`ml-2`}>{data.gender}</p>
+                <p css={xw`ml-2`}>{rentalPlace.gender}</p>
               </div>
 
-              {isLogedIn && data.userId !== userId && (
+              {isLogedIn && rentalPlace.userId !== userId && (
                 <div css={xw`flex`}>
                   <ButtonLink
                     type="button"
@@ -278,22 +288,28 @@ const Details: NextPage = () => {
               <h2 css={xw`w-full py-7 text-xl font-bold`}>
                 Información de la vivienda
               </h2>
-              <p css={xw`text-justify`}>{data.description}</p>
+              <p css={xw`text-justify`}>{rentalPlace.description}</p>
 
               <h2 css={xw`w-full py-7 text-xl font-bold`}>Servicios</h2>
-              <ul css={xw`list-disc flex flex-wrap`}>
-                {data.services.map((item) => (
-                  <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}>
-                    {item}
+              <ul css={xw`w-full list-disc flex flex-wrap`}>
+                {rentalPlace.services.map((item) => (
+                  <li
+                    key={item._id}
+                    css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}
+                  >
+                    {item.name}
                   </li>
                 ))}
               </ul>
 
               <h2 css={xw`w-full py-7 text-xl font-bold`}>Reglas</h2>
-              <ul css={xw`list-disc flex flex-wrap`}>
-                {data.rules.map((item) => (
-                  <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}>
-                    {item}
+              <ul css={xw`w-full list-disc flex flex-wrap`}>
+                {rentalPlace.rules.map((item) => (
+                  <li
+                    key={item._id}
+                    css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}
+                  >
+                    {item.name}
                   </li>
                 ))}
               </ul>
@@ -356,10 +372,19 @@ const Details: NextPage = () => {
 };
 
 Details.getInitialProps = async ({
+  query,
   reduxStore,
 }: NextPageContext & { reduxStore: TStore }) => {
+  const rentalPlaceId = query.id;
+
+  if (rentalPlaceId === 'ni idea') return {}; // TODO: totally strange this error
+
   await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
     getAllComments(),
+  );
+
+  await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+    getRentalPlace(rentalPlaceId as string),
   );
 
   return {};

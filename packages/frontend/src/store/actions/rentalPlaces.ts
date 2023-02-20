@@ -1,10 +1,13 @@
+import { IPagination, IPaginationParams } from '@student_life/common';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { ThunkAction } from 'redux-thunk';
 
 import { AlertMessage } from '@/constants/alertMessage';
+import { api } from '@/services/api';
 import { TRootState } from '@/store/reducers';
 import {
+  CLEAR_RENTAL_PLACES,
   FILTER_RENTAL_PLACE_ERROR,
   FILTER_RENTAL_PLACE_PENDING,
   FILTER_RENTAL_PLACE_SUCCESS,
@@ -23,39 +26,163 @@ import {
   SEARCH_RENTAL_PLACE_ERROR,
   SEARCH_RENTAL_PLACE_PENDING,
   SEARCH_RENTAL_PLACE_SUCCESS,
+  SET_RENTAL_PLACES,
 } from '@/store/types/rentalPlaces';
-import { IQueryCommonFilters, TElementId } from '@/types';
+import { IRentalPlace } from '@/types';
 
-// TODO: ELIMINAR
-import { dataRentalPlaces } from '../dataFakeTemp';
+interface ISetRentalPlacesAction {
+  type: typeof SET_RENTAL_PLACES;
+  data: IRentalPlace[];
+}
+
+interface IClearRentalPlaces {
+  type: typeof CLEAR_RENTAL_PLACES;
+}
+
+interface IGetRentalPlacePendingAction {
+  type: typeof GET_RENTAL_PLACE_PENDING;
+}
+
+interface IGetRentalPlaceSuccessAction {
+  type: typeof GET_RENTAL_PLACE_SUCCESS;
+  data: IRentalPlace;
+}
+
+interface IGetRentalPlaceErrorAction {
+  type: typeof GET_RENTAL_PLACE_ERROR;
+  error: AxiosError;
+}
+
+interface ISearchRentalPlacePendingAction {
+  type: typeof SEARCH_RENTAL_PLACE_PENDING;
+}
+
+interface ISearchRentalPlaceSuccessAction {
+  type: typeof SEARCH_RENTAL_PLACE_SUCCESS;
+  data: IRentalPlace[];
+}
+
+interface ISearchRentalPlaceErrorAction {
+  type: typeof SEARCH_RENTAL_PLACE_ERROR;
+  error: AxiosError;
+}
+
+interface IOrderRentalPlacePendingAction {
+  type: typeof ORDER_RENTAL_PLACE_PENDING;
+}
+
+interface IOrderRentalPlaceSuccessAction {
+  type: typeof ORDER_RENTAL_PLACE_SUCCESS;
+  data: IRentalPlace[];
+}
+
+interface IOrderRentalPlaceErrorAction {
+  type: typeof ORDER_RENTAL_PLACE_ERROR;
+  error: AxiosError;
+}
+
+interface IFilterRentalPlacePendingAction {
+  type: typeof FILTER_RENTAL_PLACE_PENDING;
+}
+
+interface IFilterRentalPlaceSuccessAction {
+  type: typeof FILTER_RENTAL_PLACE_SUCCESS;
+  data: IRentalPlace[];
+}
+
+interface IFilterRentalPlaceErrorAction {
+  type: typeof FILTER_RENTAL_PLACE_ERROR;
+  error: AxiosError;
+}
+
+interface ILikeRentalPlacePendingAction {
+  type: typeof LIKE_RENTAL_PLACE_PENDING;
+}
+
+interface ILikeRentalPlaceSuccessAction {
+  type: typeof LIKE_RENTAL_PLACE_SUCCESS;
+  data: IRentalPlace;
+}
+
+interface ILikeRentalPlaceErrorAction {
+  type: typeof LIKE_RENTAL_PLACE_ERROR;
+  error: AxiosError;
+}
+
+interface IGetAllRentalPlacesPendingAction {
+  type: typeof GET_ALL_RENTAL_PLACES_PENDING;
+}
+
+interface IGetAllRentalPlacesSuccessAction {
+  type: typeof GET_ALL_RENTAL_PLACES_SUCCESS;
+  data: IRentalPlace[];
+}
+
+interface IGetAllRentalPlacesErrorAction {
+  type: typeof GET_ALL_RENTAL_PLACES_ERROR;
+  error: AxiosError;
+}
+
+export type TRentalPlacesAction =
+  | ISetRentalPlacesAction
+  | IClearRentalPlaces
+  | IGetRentalPlacePendingAction
+  | IGetRentalPlaceSuccessAction
+  | IGetRentalPlaceErrorAction
+  | ISearchRentalPlacePendingAction
+  | ISearchRentalPlaceSuccessAction
+  | ISearchRentalPlaceErrorAction
+  | IOrderRentalPlacePendingAction
+  | IOrderRentalPlaceSuccessAction
+  | IOrderRentalPlaceErrorAction
+  | IFilterRentalPlacePendingAction
+  | IFilterRentalPlaceSuccessAction
+  | IFilterRentalPlaceErrorAction
+  | ILikeRentalPlacePendingAction
+  | ILikeRentalPlaceSuccessAction
+  | ILikeRentalPlaceErrorAction
+  | IGetAllRentalPlacesPendingAction
+  | IGetAllRentalPlacesSuccessAction
+  | IGetAllRentalPlacesErrorAction;
+
+export const setRentalPlaces = (
+  rentalPlaces: IRentalPlace[],
+): ISetRentalPlacesAction => ({
+  type: SET_RENTAL_PLACES,
+  data: rentalPlaces,
+});
+
+export const clearRentalPlaces = (): IClearRentalPlaces => ({
+  type: CLEAR_RENTAL_PLACES,
+});
 
 // =============================================================================
 
-export const getRentalPlacePendingAction = (): any => ({
-  type: GET_RENTAL_PLACE_PENDING,
-});
+export const getRentalPlacePendingAction =
+  (): IGetRentalPlacePendingAction => ({
+    type: GET_RENTAL_PLACE_PENDING,
+  });
 
-export const getRentalPlaceSuccessAction = (data: unknown): any => ({
+export const getRentalPlaceSuccessAction = (
+  data: IRentalPlace,
+): IGetRentalPlaceSuccessAction => ({
   type: GET_RENTAL_PLACE_SUCCESS,
   data,
 });
 
-export const getRentalPlaceErrorAction = (error: AxiosError): any => ({
+export const getRentalPlaceErrorAction = (
+  error: AxiosError,
+): IGetRentalPlaceErrorAction => ({
   type: GET_RENTAL_PLACE_ERROR,
   error,
 });
 
 export const getRentalPlace =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (id: string): ThunkAction<void, TRootState, unknown, TRentalPlacesAction> =>
   async (dispatch) => {
     try {
       dispatch(getRentalPlacePendingAction());
-      // const { data } = await api.get(`/rental/${id}`);
-
-      // TODO: Eliminar
-      const data = {};
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.get<IRentalPlace>(`/rental-place/${id}`);
 
       dispatch(getRentalPlaceSuccessAction(data));
     } catch (error) {
@@ -66,22 +193,27 @@ export const getRentalPlace =
 
 // =============================================================================
 
-export const searchRentalPlacePendingAction = (): any => ({
-  type: SEARCH_RENTAL_PLACE_PENDING,
-});
+export const searchRentalPlacePendingAction =
+  (): ISearchRentalPlacePendingAction => ({
+    type: SEARCH_RENTAL_PLACE_PENDING,
+  });
 
-export const searchRentalPlaceSuccessAction = (data: unknown): any => ({
+export const searchRentalPlaceSuccessAction = (
+  data: IRentalPlace[],
+): ISearchRentalPlaceSuccessAction => ({
   type: SEARCH_RENTAL_PLACE_SUCCESS,
   data,
 });
 
-export const searchRentalPlaceErrorAction = (error: AxiosError): any => ({
+export const searchRentalPlaceErrorAction = (
+  error: AxiosError,
+): ISearchRentalPlaceErrorAction => ({
   type: SEARCH_RENTAL_PLACE_ERROR,
   error,
 });
 
 export const searchRentalPlace =
-  (text = ''): ThunkAction<void, TRootState, unknown, any> =>
+  (text = ''): ThunkAction<void, TRootState, unknown, TRentalPlacesAction> =>
   async (dispatch) => {
     try {
       dispatch(searchRentalPlacePendingAction());
@@ -89,7 +221,7 @@ export const searchRentalPlace =
       // const { data } = await api.get(`/rental${filter}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = [];
       // eslint-disable-next-line no-console
       console.log(text);
 
@@ -102,22 +234,27 @@ export const searchRentalPlace =
 
 // =============================================================================
 
-export const orderRentalPlacePendingAction = (): any => ({
-  type: ORDER_RENTAL_PLACE_PENDING,
-});
+export const orderRentalPlacePendingAction =
+  (): IOrderRentalPlacePendingAction => ({
+    type: ORDER_RENTAL_PLACE_PENDING,
+  });
 
-export const orderRentalPlaceSuccessAction = (data: unknown): any => ({
+export const orderRentalPlaceSuccessAction = (
+  data: IRentalPlace[],
+): IOrderRentalPlaceSuccessAction => ({
   type: ORDER_RENTAL_PLACE_SUCCESS,
   data,
 });
 
-export const orderRentalPlaceErrorAction = (error: AxiosError): any => ({
+export const orderRentalPlaceErrorAction = (
+  error: AxiosError,
+): IOrderRentalPlaceErrorAction => ({
   type: ORDER_RENTAL_PLACE_ERROR,
   error,
 });
 
 export const orderRentalPlace =
-  (text = ''): ThunkAction<void, TRootState, unknown, any> =>
+  (text = ''): ThunkAction<void, TRootState, unknown, TRentalPlacesAction> =>
   async (dispatch) => {
     try {
       dispatch(orderRentalPlacePendingAction());
@@ -125,7 +262,7 @@ export const orderRentalPlace =
       // const { data } = await api.get(`/rental${filter}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = [];
       // eslint-disable-next-line no-console
       console.log(text);
 
@@ -138,22 +275,27 @@ export const orderRentalPlace =
 
 // =============================================================================
 
-export const filterRentalPlacePendingAction = (): any => ({
-  type: FILTER_RENTAL_PLACE_PENDING,
-});
+export const filterRentalPlacePendingAction =
+  (): IFilterRentalPlacePendingAction => ({
+    type: FILTER_RENTAL_PLACE_PENDING,
+  });
 
-export const filterRentalPlaceSuccessAction = (data: unknown): any => ({
+export const filterRentalPlaceSuccessAction = (
+  data: IRentalPlace[],
+): IFilterRentalPlaceSuccessAction => ({
   type: FILTER_RENTAL_PLACE_SUCCESS,
   data,
 });
 
-export const filterRentalPlaceErrorAction = (error: AxiosError): any => ({
+export const filterRentalPlaceErrorAction = (
+  error: AxiosError,
+): IFilterRentalPlaceErrorAction => ({
   type: FILTER_RENTAL_PLACE_ERROR,
   error,
 });
 
 export const filterRentalPlace =
-  (filter = []): ThunkAction<void, TRootState, unknown, any> =>
+  (filter = []): ThunkAction<void, TRootState, unknown, TRentalPlacesAction> =>
   async (dispatch) => {
     try {
       dispatch(filterRentalPlacePendingAction());
@@ -163,7 +305,7 @@ export const filterRentalPlace =
       // const { data } = await api.get(`/rental${newFilter}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = [];
       // eslint-disable-next-line no-console
       console.log(filter);
 
@@ -176,29 +318,34 @@ export const filterRentalPlace =
 
 // =============================================================================
 
-export const likeRentalPlacePendingAction = (): any => ({
-  type: LIKE_RENTAL_PLACE_PENDING,
-});
+export const likeRentalPlacePendingAction =
+  (): ILikeRentalPlacePendingAction => ({
+    type: LIKE_RENTAL_PLACE_PENDING,
+  });
 
-export const likeRentalPlaceSuccessAction = (data: unknown): any => ({
+export const likeRentalPlaceSuccessAction = (
+  data: IRentalPlace,
+): ILikeRentalPlaceSuccessAction => ({
   type: LIKE_RENTAL_PLACE_SUCCESS,
   data,
 });
 
-export const likeRentalPlaceErrorAction = (error: AxiosError): any => ({
+export const likeRentalPlaceErrorAction = (
+  error: AxiosError,
+): ILikeRentalPlaceErrorAction => ({
   type: LIKE_RENTAL_PLACE_ERROR,
   error,
 });
 
 export const likeRentalPlace =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (id: string): ThunkAction<void, TRootState, unknown, TRentalPlacesAction> =>
   async (dispatch) => {
     try {
       dispatch(likeRentalPlacePendingAction());
       // const { data } = await api.post(`/rental/${id}`);
 
       // TODO: Eliminar
-      const data = {};
+      const data = {} as IRentalPlace;
       // eslint-disable-next-line no-console
       console.log(id);
 
@@ -211,37 +358,51 @@ export const likeRentalPlace =
 
 // =============================================================================
 
-export const getAllRentalPlacesPendingAction = (): any => ({
-  type: GET_ALL_RENTAL_PLACES_PENDING,
-});
+export const getAllRentalPlacesPendingAction =
+  (): IGetAllRentalPlacesPendingAction => ({
+    type: GET_ALL_RENTAL_PLACES_PENDING,
+  });
 
-export const getAllRentalPlacesSuccessAction = (data: unknown): any => ({
+export const getAllRentalPlacesSuccessAction = (
+  data: IRentalPlace[],
+): IGetAllRentalPlacesSuccessAction => ({
   type: GET_ALL_RENTAL_PLACES_SUCCESS,
   data,
 });
 
-export const getAllRentalPlacesErrorAction = (error: AxiosError): any => ({
+export const getAllRentalPlacesErrorAction = (
+  error: AxiosError,
+): IGetAllRentalPlacesErrorAction => ({
   type: GET_ALL_RENTAL_PLACES_ERROR,
   error,
 });
 
 export const getAllRentalPlaces =
-  ({ limit }: IQueryCommonFilters = {}): ThunkAction<
+  ({ limit, from, order, sortBy }: IPaginationParams = {}): ThunkAction<
     void,
     TRootState,
     unknown,
-    any
+    TRentalPlacesAction
   > =>
   async (dispatch) => {
     try {
       dispatch(getAllRentalPlacesPendingAction());
-      // const limitQuery = limit ? `?limit=${limit}` : '';
-      // const { data } = await api.get(`/rental${limitQuery}`);
 
-      // TODO: Eliminar
-      const data = dataRentalPlaces(limit);
-      // eslint-disable-next-line no-console
-      console.log(limit);
+      const response = await api.get<IPagination<IRentalPlace>>(
+        '/rental-place',
+        {
+          params: {
+            limit: limit || null,
+            from: from || null,
+            order: order || null,
+            sortBy: sortBy || null,
+          },
+        },
+      );
+
+      const {
+        data: { data },
+      } = response;
 
       dispatch(getAllRentalPlacesSuccessAction(data));
     } catch (error) {

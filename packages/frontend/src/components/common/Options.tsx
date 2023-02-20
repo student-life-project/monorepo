@@ -58,7 +58,7 @@ const renderItem = (child, index) => {
 };
 
 const Options: FC<TOptions> = ({ children }) => {
-  const showRef = useRef<HTMLHeadingElement>();
+  const showRef = useRef<HTMLButtonElement>(null);
   const [show, setShow] = useState(false);
 
   const handleCloseOptions = ({ target }) => {
@@ -80,7 +80,7 @@ const Options: FC<TOptions> = ({ children }) => {
     <div>
       <button
         type="button"
-        ref={showRef as any}
+        ref={showRef}
         css={xw`py-3 px-4 text-gray-400`}
         onClick={handleShowOptions}
       >

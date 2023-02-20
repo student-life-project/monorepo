@@ -1,11 +1,13 @@
-export const stateRentalPlacesSelector = (state: any) =>
+import { TRootState } from '../reducers';
+
+export const rentalPlacesSelector = (state: TRootState) =>
   state.rentalPlaces.rentalPlaces;
 
-export const rentalPlacesSelector = (state: any) =>
-  state.rentalPlaces.rentalPlaces;
-
-export const isFetchingRentalPlacesSelector = (state: any) =>
+export const isFetchingRentalPlacesSelector = (state: TRootState) =>
   state.rentalPlaces.isFetching;
 
-export const errorRentalPlacesSelector = (state: any) =>
+export const errorRentalPlacesSelector = (state: TRootState) =>
   state.rentalPlaces.error;
+
+export const rentalPlaceDetailsSelector = (state: TRootState) =>
+  state.rentalPlaces.rentalPlace;

@@ -7,6 +7,7 @@ import { FC, useState } from 'react';
 
 import { IFilters, IOption } from '@/types';
 
+import { EOrder } from '@student_life/common';
 import Button from '../common/Button';
 import Select from '../common/Select';
 import Filters from './Filters';
@@ -16,9 +17,9 @@ interface IFilterAndSort {
   filters: IFilters;
   totalPlaces: number;
   setItemsPerPage: (total: number) => void;
+  onChangeSort: (sortBy: string, order: EOrder) => void;
+  onChangeFilters: (filters: Record<string, string>[]) => void;
 }
-
-type TItems = { [key: string]: number };
 
 const ITEMS = [10, 20, 30, 40, 50];
 
@@ -41,8 +42,9 @@ const FilterAndSort: FC<IFilterAndSort> = ({
   filters,
   totalPlaces,
   setItemsPerPage,
+  onChangeSort,
 }) => {
-  let items: TItems[] = [];
+  let items: Record<string, number>[] = [];
   const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => {
@@ -52,6 +54,22 @@ const FilterAndSort: FC<IFilterAndSort> = ({
   const handleItemsPerPage = ({ target }) => {
     const total = parseInt(target.value, 10);
     setItemsPerPage(total);
+  };
+
+  const handleOnChangeSort = ({ target }) => {
+    const selectedSortGroup = target.value;
+
+    if (selectedSortGroup === 'Mejor calificación') {
+      onChangeSort('score', EOrder.asc);
+    }
+
+    if (selectedSortGroup === 'Menor precio') {
+      onChangeSort('price', EOrder.desc);
+    }
+
+    if (selectedSortGroup === 'Mayor precio') {
+      onChangeSort('price', EOrder.asc);
+    }
   };
 
   // eslint-disable-next-line no-plusplus
@@ -66,7 +84,7 @@ const FilterAndSort: FC<IFilterAndSort> = ({
   }
 
   if (items.length === 0) {
-    items = [{ '10': 10 }];
+    items = [{ '10': 10 }, { '20': 20 }, { '30': 30 }];
   }
 
   return (
@@ -77,6 +95,7 @@ const FilterAndSort: FC<IFilterAndSort> = ({
           name="order"
           options={sorts}
           optionName="Ordenar por"
+          onChange={handleOnChangeSort}
         />
       </div>
 

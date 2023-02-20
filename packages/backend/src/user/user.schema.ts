@@ -1,9 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { EUserType } from '@student_life/common';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 
+import { UserType } from '../helper/types';
 import { Image } from '../image/image.schema';
-import { Message } from '../message/message.schema';
 import { Owner } from '../owner/owner.schema';
 import { Report } from '../report/report.schema';
 import { Student } from '../student/student.schema';
@@ -25,14 +24,11 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Message' }])
-  messages?: Message[];
-
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Image' })
   photo?: Image;
 
-  @Prop({ required: true, enum: EUserType, default: EUserType.STUDENT })
-  type: EUserType;
+  @Prop({ required: true, enum: UserType, default: UserType.STUDENT })
+  type: UserType;
 
   @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Report' }])
   reports: Report[];

@@ -1,5 +1,5 @@
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
-import type { IUser } from '@student_life/common';
+import type { EUserType, IUser } from '@student_life/common';
 
 export interface ILoginResponse {
   token: string;
@@ -89,3 +89,84 @@ export type TFile = File & {
 };
 
 export type TReportType = 'Usuario' | 'Publicación';
+
+export interface IUserAuth0 {
+  'https://student-life-auth-api/roles': [EUserType];
+  given_name: string;
+  family_name: string;
+  nickname: string;
+  name: string;
+  picture: string;
+  locale: string;
+  updated_at: string;
+  email: string;
+  email_verified: boolean;
+  sub: string;
+  sid: string;
+}
+
+export interface IImage {
+  _id: string;
+  name: string;
+  location: string;
+  url: string;
+  __v: number;
+}
+
+export type TCoordinate = [number, number];
+
+export interface ILocationType {
+  coordinates: TCoordinate;
+}
+export interface ILocation {
+  type: ILocationType;
+}
+
+export interface IAddress {
+  location: ILocation;
+  ownerId: any | null;
+  placeId: any | null;
+  country: string;
+  countryCode: string;
+  state: string;
+  _id: string;
+  street: string;
+  city: string;
+  postalCode: string;
+  __v: number;
+}
+
+export interface IService {
+  _id: string;
+  name: string;
+  description: string;
+  type: string;
+  __v: number;
+}
+
+export interface IRentalPlace {
+  reports: any[];
+  comments: any[];
+  approved: boolean;
+  likes: any[];
+  images: IImage[];
+  security: IService[];
+  rules: IService[];
+  services: IService[];
+  availability: boolean;
+  _id: string;
+  // availabe: boolean;
+  scores: any[];
+  title: string;
+  address: IAddress;
+  price: string;
+  __v: number;
+  characteristics: string[];
+  service: string[];
+  likesCount?: number;
+  typeSpace?: string;
+  reason?: string;
+  gender?: string;
+  userId?: string;
+  description?: string;
+}

@@ -37,3 +37,6 @@ export const GET_ALL_RENTAL_PLACES_SUCCESS =
 export const GET_ALL_RENTAL_PLACES_ERROR = 'USER/GET_RENTAL_ALL_PLACE_ERROR';
 
 // =============================================================================
+
+export const SET_RENTAL_PLACES = 'RENTAL_PLACE/SET_RENTAL_PLACE';
+export const CLEAR_RENTAL_PLACES = 'RENTAL_PLACE/CLEAR_RENTAL_PLACE';

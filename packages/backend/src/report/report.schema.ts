@@ -15,6 +15,9 @@ export class Report {
   @Prop({ required: true })
   type: string;
 
+  @Prop({ default: false })
+  approved: boolean;
+
   @Prop({ default: () => new Date() })
   createdAt: Date;
 }

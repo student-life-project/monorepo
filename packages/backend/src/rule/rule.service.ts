@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 
 import { CreateRuleDto } from './dto/create-rule.dto';
 // import { UpdateRuleDto } from './dto/update-rule.dto';
 import { Rule, RuleDocument } from './rule.schema';
+
 @Injectable()
 export class RuleService {
   // eslint-disable-next-line no-useless-constructor
@@ -18,7 +19,7 @@ export class RuleService {
     return createRules;
   }
 
-  async findAll(): Promise<Rule[]> {
-    return this.RuleModel.find().exec();
+  async findAll(query: FilterQuery<RuleDocument> = {}): Promise<Rule[]> {
+    return this.RuleModel.find(query).exec();
   }
 }

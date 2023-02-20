@@ -3,9 +3,9 @@ import { IMessage } from './Message.type';
 import { IReport } from './Report.type';
 
 export enum EUserType {
-  ADMIN,
-  STUDENT,
-  OWNER,
+  ADMIN = 'ADMIN',
+  STUDENT = 'STUDENT',
+  OWNER = 'OWNER',
 }
 
 export interface IUser {

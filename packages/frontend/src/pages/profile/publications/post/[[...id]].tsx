@@ -16,6 +16,7 @@ import RentalPlaceStep3 from '@/components/publications/RentalPlaceStep3';
 import Steps from '@/components/publications/Steps';
 import UbicationStep2 from '@/components/publications/UbicationStep2';
 import { EPublicationStep, PublicationSteps } from '@/constants';
+import { configServerSideCredentials } from '@/services/api';
 import { TStore } from '@/store';
 import {
   createPublication,
@@ -23,8 +24,9 @@ import {
   updatePublication,
 } from '@/store/actions/publications';
 import { TRootState } from '@/store/reducers';
-import { publicationsSelector } from '@/store/selectors/publications';
-import { TFile } from '@/types';
+import { publicationSelector } from '@/store/selectors/publications';
+import { tokenSessionSelector } from '@/store/selectors/session';
+import { IImage, IRentalPlace } from '@/types';
 import { scrollTo } from '@/utils/scrollTo';
 
 export interface IPublicationData {
@@ -59,11 +61,18 @@ const Post: NextPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const post = useSelector((state) => publicationsSelector(state));
+  const post = useSelector(publicationSelector);
+  const token = useSelector(tokenSessionSelector);
 
   const [step, setStep] = useState(0);
-  const [files, setFiles] = useState<TFile[]>([]); // TODO: mantender el estado con los archivos agregados.
+  const [files, setFiles] = useState<IImage[]>([]); // TODO: mantender el estado con los archivos agregados.
   const [steps, setSteps] = useState(PublicationSteps);
+
+  useEffect(() => {
+    if (token) {
+      configServerSideCredentials({ token });
+    }
+  }, [token]);
 
   const {
     reset,
@@ -72,7 +81,7 @@ const Post: NextPage = () => {
     register,
     getValues,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({
     mode: 'all',
   });
@@ -98,11 +107,28 @@ const Post: NextPage = () => {
       query: {},
     };
 
-    if (post.id) {
-      dispatch(updatePublication(post.id, { ...data, images: files }));
+    if (!isDirty) {
+      redirectData.query.updatedPost = true;
+      router.push(redirectData);
+      return;
+    }
+
+    if (post && post._id) {
+      await dispatch(
+        updatePublication(post._id, {
+          ...(data as unknown as IRentalPlace),
+          images: files,
+        }),
+      );
+
       redirectData.query.updatedPost = true;
     } else {
-      dispatch(createPublication({ ...data, images: files }));
+      await dispatch(
+        createPublication({
+          ...(data as unknown as IRentalPlace),
+          images: files,
+        }),
+      );
       redirectData.query.createdPost = true;
     }
 
@@ -146,8 +172,45 @@ const Post: NextPage = () => {
   }, [basicInfo, location, rentalPlace, step]);
 
   useEffect(() => {
-    if (post.id) {
-      reset({ ...post });
+    if (post && post._id) {
+      reset({
+        title: post.title,
+        reason: post.reason,
+        typeSpace: post.typeSpace,
+        gender: post.gender || 'Sin preferencia',
+        price: post.price,
+        availability: post.availability,
+        street: post.address.street,
+        state: post.address.state,
+        city: post.address.city,
+        // neighborhood: post.address.location,
+        stateCode: post.address.postalCode,
+        // reference: post.address.location,
+        // zone: post.address.location,
+        rentalPlace: 'aaaaaaa',
+      });
+
+      /*
+      console.log('====================================');
+      console.log({
+        title: post.title,
+        reason: post.reason,
+        typeSpace: post.typeSpace,
+        gender: post.gender || 'Sin preferencia',
+        price: post.price,
+        availability: post.availability,
+        street: post.address.street,
+        state: post.address.state,
+        city: post.address.city,
+        neighborhood: post.address.location,
+        stateCode: post.address.postalCode,
+        reference: post.address.location,
+        zone: post.address.location,
+        address: post.address,
+      });
+      console.log('====================================');
+      */
+
       setFiles(post.images);
     } else {
       reset({ gender: 'Sin preferencia', availability: true, security: [] });
@@ -187,13 +250,16 @@ const Post: NextPage = () => {
               register={register}
               errors={errors}
               rentalPlace={rentalPlace[0]?.length}
-              files={files}
-              setFiles={setFiles}
+              files={files as unknown as File[]}
+              setFiles={setFiles as unknown as any}
             />
           )}
 
           {step === EPublicationStep.DRAFT && (
-            <PreviewStep4 files={files} getValues={getValues} />
+            <PreviewStep4
+              files={files as unknown as File[]}
+              getValues={getValues}
+            />
           )}
 
           <div css={xw`flex justify-center mb-10`}>
@@ -245,7 +311,7 @@ Post.getInitialProps = async ({
   query,
   reduxStore,
 }: NextPageContext & { query: any; reduxStore: TStore }) => {
-  if (query.id) {
+  if (query && query.id) {
     await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
       getPublication(query.id[0]),
     );

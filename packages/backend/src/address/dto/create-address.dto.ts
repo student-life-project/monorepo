@@ -1,18 +1,83 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { States } from '@student_life/common';
+import { IsISO31661Alpha2, Validate } from 'class-validator';
+
+import { IsPostalCodeByCountryCode } from '../../helper/custom-validation';
+
+const defaultState = States.find((state) => Boolean(state.Jalisco))?.Jalisco;
 
 export class CreateAddressDto {
-  @ApiProperty()
+  @ApiProperty({
+    title: 'Full Street',
+    description: 'Principal street',
+    example: 'Blvd. Gral. Marcelino García Barragán',
+  })
   street: string;
 
-  @ApiProperty()
-  city: string;
+  @ApiProperty({ example: '142' })
+  extNumber: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  intNumber?: string;
+
+  @ApiPropertyOptional()
+  crossStreet: string;
+
+  @ApiProperty({
+    description: 'State (now only in México)',
+    example: defaultState,
+    enum: States,
+  })
   state: string;
 
-  @ApiProperty()
-  postalCode: string;
+  @ApiProperty({
+    description: 'City',
+    example: 'Guadalajara',
+  })
+  city: string;
 
-  @ApiProperty()
-  country: string;
+  @Validate(IsPostalCodeByCountryCode)
+  @ApiProperty({
+    title: 'Postal Code',
+    description: 'Postal Code/Zip Code (Zone Improvement Plan)',
+    example: '44430',
+  })
+  stateCode: string;
+
+  @IsISO31661Alpha2()
+  @ApiProperty({
+    title: 'Country Code',
+    description:
+      'Country Code ISO 3166-1 alpha-2 officially assigned country code',
+    example: 'MX',
+    default: 'MX',
+  })
+  countryCode = 'MX';
+
+  @ApiProperty({ example: 'Entre Calz. olimipica y C. Corregidora' })
+  reference: string;
+
+  @ApiProperty({
+    description: 'Name of the zone',
+    example: 'Olimpica',
+  })
+  cologne: string;
+
+  // @ApiProperty({ example: 'Cerca de plaza forum, cfe' })
+  // zone: string;
+
+  @ApiPropertyOptional({ example: 'México' })
+  country?: string;
+
+  @ApiProperty({ example: [-103.3254497, 20.6548611] })
+  location?: {
+    type: string;
+    coordinates: number[];
+  };
+
+  @ApiPropertyOptional({})
+  placeId?: string;
+
+  @ApiPropertyOptional({})
+  ownerId?: string;
 }

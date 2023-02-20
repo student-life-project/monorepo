@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 
 import {
   Characteristic,
@@ -26,8 +26,10 @@ export class CharacteristicService {
     return createdCharacteristic.save();
   }
 
-  async findAll(): Promise<Characteristic[]> {
-    return this.CharacteristicModel.find().exec();
+  async findAll(
+    query: FilterQuery<CharacteristicDocument> = {},
+  ): Promise<Characteristic[]> {
+    return this.CharacteristicModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<Characteristic | null> {
