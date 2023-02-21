@@ -6,19 +6,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EUserType } from '@student_life/common';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-// import { toast } from 'react-toastify';
 
+// import { toast } from 'react-toastify';
 import Button from '@/components/common/Button';
+import WebcamImage from '@/components/common/Camara';
 import DoubleFormSpace from '@/components/common/DoubleFormSpace';
 import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
+import Modal from '@/components/common/Modal';
 import Radio from '@/components/common/Radio';
 import Tooltip from '@/components/common/Tooltip';
 import { ErrorMessageInput, NameInput } from '@/constants';
 // import { AlertMessage } from '@/constants/alertMessage';
 import { calculateAge } from '@/utils/managerDate';
-
-import Modal from '../common/Modal';
 
 interface IRegisterData {
   userType: EUserType;
@@ -75,7 +75,9 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
     mode: 'all',
   });
 
-  const [facialRecognition, setFacialRecognition] = useState(false);
+  const [faceImage, setFaceImage] = useState(null);
+  const [idCardImage, setIdCardImage] = useState(null);
+  const [facialRecognition, setFacialRecognition] = useState(true);
 
   const onSubmit: SubmitHandler<IRegisterData> = async (data) => {
     // eslint-disable-next-line no-console
@@ -236,6 +238,11 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
               Para validar tu identidad toma una foto de tu identificación
               oficial, de forma frontal y horizontal y una foto de tu rostro.
             </Text>
+
+            <div css={xw`flex justify-center flex-wrap gap-10 my-10`}>
+              <WebcamImage img={faceImage} setImg={setFaceImage} />
+              <WebcamImage img={idCardImage} setImg={setIdCardImage} />
+            </div>
           </>
         )}
 
