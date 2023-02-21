@@ -118,7 +118,7 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
   // TODO: es necesario obtener un valor de backend para validar el form.
   // TODO: es necesario que se mantenga abierto hasta que el usuario actualice su información.
   // TODO: cuando se actualice la info de usuario se modifique el valor.
-  const valorBackend = true; // TODO: valor false y se pasa a true cuando el se actualiza.
+  const valorBackend = false; // TODO: valor false y se pasa a true cuando el se actualiza.
   const [updateUser, setUpdateUser] = useState(valorBackend);
 
   const handleUpdateUser = () => {
