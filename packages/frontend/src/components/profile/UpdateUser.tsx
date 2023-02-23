@@ -1,7 +1,11 @@
 /* eslint-disable simple-import-sort/imports */
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronRight,
+  faIdCard,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EUserType } from '@student_life/common';
 import { useEffect, useState } from 'react';
@@ -76,8 +80,20 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
   });
 
   const [faceImage, setFaceImage] = useState(null);
+  const [showFaceImage, setShowFaceImage] = useState(false);
+
   const [idCardImage, setIdCardImage] = useState(null);
-  const [facialRecognition, setFacialRecognition] = useState(true);
+  const [showIdCardImage, setShowIdCardImage] = useState(false);
+
+  const [facialRecognition, setFacialRecognition] = useState(false);
+
+  const handleShowFaceImage = () => {
+    setShowFaceImage(!showFaceImage);
+  };
+
+  const handleShowIdCardImage = () => {
+    setShowIdCardImage(!showIdCardImage);
+  };
 
   const onSubmit: SubmitHandler<IRegisterData> = async (data) => {
     // eslint-disable-next-line no-console
@@ -236,12 +252,32 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
           <>
             <Text>
               Para validar tu identidad toma una foto de tu identificación
-              oficial, de forma frontal y horizontal y una foto de tu rostro.
+              oficial y una foto de tu rostro.
             </Text>
 
+            <p css={xw`text-center`}>
+              <span css={xw`font-bold text-primary`}> Recomendación:</span> toma
+              tus fotos con buena iluminación
+            </p>
+
             <div css={xw`flex justify-center flex-wrap gap-10 my-10`}>
-              <WebcamImage img={faceImage} setImg={setFaceImage} />
-              <WebcamImage img={idCardImage} setImg={setIdCardImage} />
+              <WebcamImage
+                icon={faIdCard}
+                img={idCardImage}
+                setImg={setIdCardImage}
+                showCam={showIdCardImage}
+                onShowCam={handleShowIdCardImage}
+                description="Foto de frente y de forma horizontal tu identificación oficial"
+              />
+
+              <WebcamImage
+                icon={faUser}
+                img={faceImage}
+                setImg={setFaceImage}
+                showCam={showFaceImage}
+                onShowCam={handleShowFaceImage}
+                description="Foto de tu rostro sin accesorios (lentes, gorras, cubrebocas, etc.)"
+              />
             </div>
           </>
         )}
