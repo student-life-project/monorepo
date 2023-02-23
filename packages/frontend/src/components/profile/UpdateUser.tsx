@@ -267,7 +267,7 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
                 setImg={setIdCardImage}
                 showCam={showIdCardImage}
                 onShowCam={handleShowIdCardImage}
-                description="Foto de frente y de forma horizontal tu identificación oficial"
+                description="Foto de frente y de forma horizontal de tu identificación oficial"
               />
 
               <WebcamImage
