@@ -243,6 +243,7 @@ export class RentalPlaceCommand {
         'Infonavit Rio Nilo',
       ]),
       country: faker.random.numeric() ? 'México' : faker.address.country(),
+      /*
       location: {
         type: 'Point',
         coordinates: [
@@ -250,6 +251,7 @@ export class RentalPlaceCommand {
           parseFloat(faker.address.latitude()),
         ],
       },
+      */
       ownerId: faker.random.numeric()
         ? 'auth0|621ae78a2fda510070202476'
         : faker.datatype.uuid(),

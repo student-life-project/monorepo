@@ -110,9 +110,52 @@ export class RentalPlaceController {
   @Post()
   @Auth('create:rental-place')
   async create(
-    @Body() createRentalPlaceDto: ICreatePublication,
+    @Body() createRentalPlaceDto: { publication: ICreatePublication }, // it comes as a string by default
     @Req() req: any,
   ) {
+    /*
+    {
+    "gender": "Sin preferencia",
+    "availability": true,
+    "security": [
+        "Alarma de incendios"
+    ],
+    "title": "casa ejemplo",
+    "reason": "Quiero rentar",
+    "typeSpace": "Lugar completo",
+    "price": "50001",
+    "street": "calle ejemplo",
+    "state": "Jalisco",
+    "city": "Guadalajara",
+    "neighborhood": "colonia ejemplo",
+    "reference": "referencias",
+    "zone": "zona",
+    "stateCode": "12345",
+    "rentalPlace": "descripcion de vivienda",
+    "services": [
+        "Baño"
+    ],
+    "rules": [
+        "No fumar"
+    ],
+    "images": [
+        {
+            "path": "1067687.jpg",
+            "id": "1677564918840",
+            "url": "blob:http://localhost:4000/7c9584d6-6dc2-4e81-89a2-16af7a196e2d"
+        }
+    ]
+  }
+    */
+    /*
+    {
+      '{"publication":{"gender":"Sin preferencia","availability":true,"security":': { '"Alarma de incendios"': { '"Baño"': [Object] } } 
+    }
+   */
+    const parsedCreateRentalPlaceDto = createRentalPlaceDto.publication;
+    console.log('====================================');
+    console.log('CREATE', req, parsedCreateRentalPlaceDto);
+    console.log('====================================');
     const userInformation = await this.userService.getOrCreateUserByEmail({
       email: req.user.email,
       firstName: req.user.name.toLowerCase(),
@@ -121,20 +164,27 @@ export class RentalPlaceController {
       birthDate: req.user.updated_at,
       phoneNumber: '0',
     });
+    console.log('====================================');
+    console.log('USER_INFORMATION', userInformation);
+    console.log('====================================');
 
     const addressInformation: CreateAddressDto = {
-      street: createRentalPlaceDto.street,
-      state: createRentalPlaceDto.state,
-      city: createRentalPlaceDto.city,
-      cologne: createRentalPlaceDto.neighborhood,
-      stateCode: createRentalPlaceDto.stateCode,
-      reference: createRentalPlaceDto.reference,
-      // zone: createRentalPlaceDto.zone,
+      street: parsedCreateRentalPlaceDto.street,
+      state: parsedCreateRentalPlaceDto.state,
+      city: parsedCreateRentalPlaceDto.city,
+      cologne: parsedCreateRentalPlaceDto.neighborhood,
+      stateCode: parsedCreateRentalPlaceDto.stateCode,
+      reference: parsedCreateRentalPlaceDto.reference,
+      // zone: parsedCreateRentalPlaceDto.zone,
       countryCode: 'MX',
       crossStreet: '',
       extNumber: '123',
       intNumber: '',
     };
+
+    console.log('====================================');
+    console.log('ADDRESS_INFORMATION', addressInformation);
+    console.log('====================================');
 
     const addressId = await this.addressService
       .create(addressInformation)
@@ -145,24 +195,34 @@ export class RentalPlaceController {
           'unable to create an address for the rental place',
         );
       });
-
+    console.log('====================================');
+    console.log('ADDRESS_ID', addressId);
+    console.log('====================================');
     const rentalPlaceInformation: CreateRentalPlaceDto = {
-      title: createRentalPlaceDto.title,
-      reason: Reason[createRentalPlaceDto.reason as keyof typeof Reason],
+      title: parsedCreateRentalPlaceDto.title,
+      reason: Reason[parsedCreateRentalPlaceDto.reason as keyof typeof Reason],
       typeSpace:
-        TypeSpace[createRentalPlaceDto.typeSpace as keyof typeof TypeSpace],
-      gender: Gender[createRentalPlaceDto.gender as keyof typeof Gender],
-      price: createRentalPlaceDto.price,
-      availability: createRentalPlaceDto.availability,
-      description: createRentalPlaceDto.rentalPlace,
+        TypeSpace[
+          parsedCreateRentalPlaceDto.typeSpace as keyof typeof TypeSpace
+        ],
+      gender: Gender[parsedCreateRentalPlaceDto.gender as keyof typeof Gender],
+      price: parsedCreateRentalPlaceDto.price,
+      availability: parsedCreateRentalPlaceDto.availability,
+      description: parsedCreateRentalPlaceDto.rentalPlace,
       address: addressId as CreateAddressDto,
       owner: userInformation?._id,
       approved: false,
     } as unknown as CreateRentalPlaceDto;
+    console.log('====================================');
+    console.log('RENTAL_PLACE_INFORMATION', rentalPlaceInformation);
+    console.log('====================================');
 
     const createdPublication = await this.rentalPlaceService.create(
       rentalPlaceInformation,
     );
+    console.log('====================================');
+    console.log('created_publication', createdPublication);
+    console.log('====================================');
 
     return createdPublication;
   }
@@ -179,9 +239,9 @@ export class RentalPlaceController {
     },
   })
   @Get()
-  findAll(@Query() queries: IPaginationParams & { price: string }) {
+  async findAll(@Query() queries: IPaginationParams & { price: string }) {
     // TODO make sure retrive all need info rentals GET check if made TOP RATE AND MOST COMMENTED limit to 5 ¡¡DISPONIBLES!! (si todos igual random entre los top on different request
-    // console.log(queries);
+    console.log(queries);
 
     let query = {};
     if (queries.price) {
@@ -192,7 +252,12 @@ export class RentalPlaceController {
     queries.order = queries.order || EOrder.desc;
 
     // return this.rentalPlaceService.findAll();
-    return this.rentalPlaceService.find(query, queries);
+    const a = await this.rentalPlaceService.find(query, queries);
+
+    console.log('====================================');
+    console.log('FIND_ALL', a);
+    console.log('====================================');
+    return a;
   }
 
   @ApiNotFoundResponse({
@@ -289,13 +354,24 @@ export class RentalPlaceController {
   })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @Put(':id')
-  @Auth('update:rental-place')
+  @Patch(':id')
+  // @Auth('update:rental-place')
   async update(
     @Param('id') id: string,
     @Body() updateRentalPlaceDto: UpdateRentalPlaceDto,
     @Req() req: any,
   ) {
+    console.log('====================================');
+    console.log('JJJJJJJJJJJJJJJJJJJJ');
+    console.log('====================================');
     const rentalPlace = await this.rentalPlaceService.findById(id);
+    console.log('====================================');
+    console.log(
+      'UPDATE_PUBLICATION',
+      JSON.stringify(updateRentalPlaceDto),
+      JSON.stringify(rentalPlace?.toJSON),
+    );
+    console.log('====================================');
     if (!rentalPlace) {
       throw new NotFoundException(
         'Rental Place does not exists, not able to Update',
@@ -329,7 +405,7 @@ export class RentalPlaceController {
   })
   @ApiNotFoundResponse({ description: 'Rental place does not exists' })
   @Delete(':id')
-  @Auth('delete:rental-place')
+  // @Auth('delete:rental-place')
   async remove(@Param('id') id: string, @Req() req: any) {
     const rentalPlace = await this.rentalPlaceService.findById(id);
     if (!rentalPlace)
@@ -397,7 +473,7 @@ export class RentalPlaceController {
   @ApiOkResponse({ description: 'files succesfully' })
   @UseInterceptors(FilesInterceptor('files', 32, saveImageToStorage))
   @Patch(':id/upload')
-  @Auth('upload-image:rental-place')
+  // @Auth('upload-image:rental-place')
   async uploadFile(
     @Param('id') id: string,
     @UploadedFiles() files: Array<Express.Multer.File>,

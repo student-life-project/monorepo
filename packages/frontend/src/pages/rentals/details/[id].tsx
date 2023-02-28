@@ -377,8 +377,6 @@ Details.getInitialProps = async ({
 }: NextPageContext & { reduxStore: TStore }) => {
   const rentalPlaceId = query.id;
 
-  if (rentalPlaceId === 'ni idea') return {}; // TODO: totally strange this error
-
   await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
     getAllComments(),
   );

@@ -7,15 +7,27 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: {
+      /*
+      allowedHeaders: '*',
+      exposedHeaders: '*',
+      methods: '*',
+      optionsSuccessStatus: 200,
+      preflightContinue: true,
+      */
+      origin: 'http://localhost:4000',
+      credentials: true,
+    },
+  });
+
+  // app.enableCors();
 
   app.useStaticAssets(join(__dirname, '..', 'public'), {
     prefix: '/public/',
   });
 
   app.setGlobalPrefix('/v1/api');
-
-  app.enableCors();
 
   app.useGlobalPipes(
     // new ValidationPipe(),

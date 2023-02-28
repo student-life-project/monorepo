@@ -69,11 +69,11 @@ export class CreateAddressDto {
   @ApiPropertyOptional({ example: 'México' })
   country?: string;
 
-  @ApiProperty({ example: [-103.3254497, 20.6548611] })
-  location?: {
-    type: string;
-    coordinates: number[];
-  };
+  // @ApiProperty({ example: [-103.3254497, 20.6548611] })
+  // location?: {
+  //  type: string;
+  //  coordinates: number[];
+  // };
 
   @ApiPropertyOptional({})
   placeId?: string;

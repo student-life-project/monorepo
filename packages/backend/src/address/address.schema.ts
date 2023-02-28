@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Document } from 'mongoose';
 
-import { Point } from './point.schema';
+// import { Point } from './point.schema';
 
 @Schema()
 export class Address {
@@ -54,9 +54,9 @@ export class Address {
   @Prop({ default: 'México' })
   country?: string;
 
-  @ApiProperty()
-  @Prop({})
-  location: Point;
+  // @ApiProperty()
+  // @Prop({ required: false })
+  // location?: Point;
 
   @ApiProperty()
   @Prop({ default: null })

@@ -264,7 +264,10 @@ export const updatePublication =
   async (dispatch) => {
     try {
       dispatch(updatePublicationPendingAction());
-      const { data } = await api.put<IRentalPlace>(`/publication/${id}`, {
+      // console.log('====================================');
+      // console.log('UPDATE_PUBLICATION', id, publication);
+      // console.log('====================================');
+      const { data } = await api.put<IRentalPlace>(`/rental-place/${id}`, {
         publication,
       });
 
@@ -353,7 +356,7 @@ export const getAllPublication =
       dispatch(getAllPublicationPendingAction());
       const limitQuery = limit ? `?limit=${limit}` : '';
       const { data } = await api.get<IRentalPlace[]>(
-        `/publication${limitQuery}`,
+        `/rental-place${limitQuery}`,
       );
 
       // eslint-disable-next-line no-console
