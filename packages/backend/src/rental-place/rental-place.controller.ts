@@ -152,10 +152,7 @@ export class RentalPlaceController {
       '{"publication":{"gender":"Sin preferencia","availability":true,"security":': { '"Alarma de incendios"': { '"Baño"': [Object] } } 
     }
    */
-    const parsedCreateRentalPlaceDto = createRentalPlaceDto.publication;
-    console.log('====================================');
-    console.log('CREATE', req, parsedCreateRentalPlaceDto);
-    console.log('====================================');
+    const newRentalPlaceData = createRentalPlaceDto.publication;
     const userInformation = await this.userService.getOrCreateUserByEmail({
       email: req.user.email,
       firstName: req.user.name.toLowerCase(),
@@ -164,27 +161,20 @@ export class RentalPlaceController {
       birthDate: req.user.updated_at,
       phoneNumber: '0',
     });
-    console.log('====================================');
-    console.log('USER_INFORMATION', userInformation);
-    console.log('====================================');
 
     const addressInformation: CreateAddressDto = {
-      street: parsedCreateRentalPlaceDto.street,
-      state: parsedCreateRentalPlaceDto.state,
-      city: parsedCreateRentalPlaceDto.city,
-      cologne: parsedCreateRentalPlaceDto.neighborhood,
-      stateCode: parsedCreateRentalPlaceDto.stateCode,
-      reference: parsedCreateRentalPlaceDto.reference,
-      // zone: parsedCreateRentalPlaceDto.zone,
+      street: newRentalPlaceData.street,
+      state: newRentalPlaceData.state,
+      city: newRentalPlaceData.city,
+      cologne: newRentalPlaceData.neighborhood,
+      stateCode: newRentalPlaceData.stateCode,
+      reference: newRentalPlaceData.reference,
+      zone: newRentalPlaceData.zone,
       countryCode: 'MX',
       crossStreet: '',
       extNumber: '123',
       intNumber: '',
     };
-
-    console.log('====================================');
-    console.log('ADDRESS_INFORMATION', addressInformation);
-    console.log('====================================');
 
     const addressId = await this.addressService
       .create(addressInformation)
@@ -195,31 +185,28 @@ export class RentalPlaceController {
           'unable to create an address for the rental place',
         );
       });
-    console.log('====================================');
-    console.log('ADDRESS_ID', addressId);
-    console.log('====================================');
+
     const rentalPlaceInformation: CreateRentalPlaceDto = {
-      title: parsedCreateRentalPlaceDto.title,
-      reason: Reason[parsedCreateRentalPlaceDto.reason as keyof typeof Reason],
+      title: newRentalPlaceData.title,
+      reason: Reason[newRentalPlaceData.reason as keyof typeof Reason],
       typeSpace:
-        TypeSpace[
-          parsedCreateRentalPlaceDto.typeSpace as keyof typeof TypeSpace
-        ],
-      gender: Gender[parsedCreateRentalPlaceDto.gender as keyof typeof Gender],
-      price: parsedCreateRentalPlaceDto.price,
-      availability: parsedCreateRentalPlaceDto.availability,
-      description: parsedCreateRentalPlaceDto.rentalPlace,
+        TypeSpace[newRentalPlaceData.typeSpace as keyof typeof TypeSpace],
+      gender: Gender[newRentalPlaceData.gender as keyof typeof Gender],
+      price: newRentalPlaceData.price,
+      availability: newRentalPlaceData.availability,
+      description: newRentalPlaceData.rentalPlace,
       address: addressId as CreateAddressDto,
       owner: userInformation?._id,
+      services: newRentalPlaceData.services,
+      security: newRentalPlaceData.security,
+      rules: newRentalPlaceData.rules,
       approved: false,
     } as unknown as CreateRentalPlaceDto;
-    console.log('====================================');
-    console.log('RENTAL_PLACE_INFORMATION', rentalPlaceInformation);
-    console.log('====================================');
 
     const createdPublication = await this.rentalPlaceService.create(
       rentalPlaceInformation,
     );
+
     console.log('====================================');
     console.log('created_publication', createdPublication);
     console.log('====================================');
@@ -266,7 +253,7 @@ export class RentalPlaceController {
   })
   @ApiOkResponse({ description: 'Get a rental place by id' })
   @Get(':id')
-  // @Auth('read:rental-place')
+  @Auth('read:rental-place')
   async findOne(@Param('id') id: string) {
     // TODO make sure retrive all need info rentals/:id GET
     const rentalPlace = await this.rentalPlaceService.findById(id);
@@ -355,20 +342,21 @@ export class RentalPlaceController {
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @Put(':id')
   @Patch(':id')
-  // @Auth('update:rental-place')
+  @Auth('update:rental-place')
   async update(
     @Param('id') id: string,
-    @Body() updateRentalPlaceDto: UpdateRentalPlaceDto,
+    @Body() updateRentalPlaceDto: { publication: UpdateRentalPlaceDto },
     @Req() req: any,
   ) {
     console.log('====================================');
     console.log('JJJJJJJJJJJJJJJJJJJJ');
     console.log('====================================');
     const rentalPlace = await this.rentalPlaceService.findById(id);
+    const newRentalPlaceData = updateRentalPlaceDto.publication;
     console.log('====================================');
     console.log(
       'UPDATE_PUBLICATION',
-      JSON.stringify(updateRentalPlaceDto),
+      JSON.stringify(newRentalPlaceData),
       JSON.stringify(rentalPlace?.toJSON),
     );
     console.log('====================================');
@@ -381,21 +369,35 @@ export class RentalPlaceController {
       throw new UserNotAllowOrOwnerException();
     }
     // delete pass address and rates
-    if (updateRentalPlaceDto.address) {
+    if (newRentalPlaceData.address) {
+      const addressInformation: UpdateAddressDto = {
+        street: newRentalPlaceData.address.street,
+        state: newRentalPlaceData.address.state,
+        city: newRentalPlaceData.address.city,
+        cologne: newRentalPlaceData.address.cologne,
+        stateCode: newRentalPlaceData.address.stateCode,
+        reference: newRentalPlaceData.address.reference,
+        zone: newRentalPlaceData.address.zone,
+        countryCode: 'MX',
+        crossStreet: '',
+        extNumber: '123',
+        intNumber: '',
+        _id: (newRentalPlaceData.address as UpdateAddressDto)._id,
+      };
       await this.addressService.update(
-        (updateRentalPlaceDto.address as UpdateAddressDto)._id || '',
-        updateRentalPlaceDto.address as UpdateAddressDto,
+        (newRentalPlaceData.address as UpdateAddressDto)._id || '',
+        addressInformation,
       );
     }
     await this.likeService.deleteByPlaceId(id);
-    if (updateRentalPlaceDto.likes) {
+    if (newRentalPlaceData.likes) {
       const likesAdded = await this.likeService.createMany(
-        updateRentalPlaceDto.likes,
+        newRentalPlaceData.likes,
       );
 
-      updateRentalPlaceDto.likes.push(likesAdded as unknown as CreateLikeDto);
+      newRentalPlaceData.likes.push(likesAdded as unknown as CreateLikeDto);
     }
-    await this.rentalPlaceService.update(id, updateRentalPlaceDto);
+    await this.rentalPlaceService.update(id, newRentalPlaceData);
     return rentalPlace;
   }
 

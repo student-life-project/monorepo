@@ -91,7 +91,7 @@ export class CreateRentalPlaceDto {
   @ArrayUnique()
   @IsEnum(Security, { each: true })
   @ApiPropertyOptional({
-    example: [],
+    example: [Security['Alarma antirrobo'], Security['Alarma de incendios']],
     enum: Security,
   })
   security: Security[];

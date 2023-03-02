@@ -59,10 +59,10 @@ export class UpdateAddressDto {
   @ApiProperty({ example: 'Olimpica' })
   cologne: string;
 
-  // @ApiProperty({
-  //   example: 'Cerca de plaza forum, cfe, little cesar, linea 3 del tren ligero',
-  // })
-  // zone: string;
+  @ApiProperty({
+    example: 'Cerca de plaza forum, cfe, little cesar, linea 3 del tren ligero',
+  })
+  zone?: string;
 
   @ApiPropertyOptional({ example: 'México' })
   country?: string;

@@ -59,6 +59,10 @@ export class Address {
   // location?: Point;
 
   @ApiProperty()
+  @Prop({ default: '' })
+  zone?: string; // zone description
+
+  @ApiProperty()
   @Prop({ default: null })
   placeId?: string;
 

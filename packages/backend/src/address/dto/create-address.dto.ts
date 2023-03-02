@@ -63,8 +63,8 @@ export class CreateAddressDto {
   })
   cologne: string;
 
-  // @ApiProperty({ example: 'Cerca de plaza forum, cfe' })
-  // zone: string;
+  @ApiProperty({ example: 'Cerca de plaza forum, cfe' })
+  zone?: string;
 
   @ApiPropertyOptional({ example: 'México' })
   country?: string;

@@ -123,6 +123,9 @@ export interface ILocation {
 }
 
 export interface IAddress {
+  reference?: string;
+  zone?: string;
+  cologne: string; // neigborhood
   location: ILocation;
   ownerId: any | null;
   placeId: any | null;
@@ -132,7 +135,7 @@ export interface IAddress {
   _id: string;
   street: string;
   city: string;
-  postalCode: string;
+  stateCode: string;
   __v: number;
 }
 
