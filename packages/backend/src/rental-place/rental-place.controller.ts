@@ -11,6 +11,7 @@ import {
   Query,
   Req,
   Res,
+  UnauthorizedException,
   UnprocessableEntityException,
   UnsupportedMediaTypeException,
   UploadedFiles,
@@ -318,15 +319,11 @@ export class RentalPlaceController {
 
     const rentalPlaceObj = rentalPlace.toObject();
 
-    // TODO: uncomment once the update endpoint is finished
-    /*
     if (rentalPlaceObj.owner !== userData?.id) {
       throw new UnauthorizedException(
         'The Rental place does not belong to the user',
       );
     }
-    */
-
     (rentalPlaceObj as any).owner = userData;
 
     return rentalPlace;
@@ -348,18 +345,14 @@ export class RentalPlaceController {
     @Body() updateRentalPlaceDto: { publication: UpdateRentalPlaceDto },
     @Req() req: any,
   ) {
-    console.log('====================================');
-    console.log('JJJJJJJJJJJJJJJJJJJJ');
-    console.log('====================================');
+    /**
+     * rentalPlace from DB
+     * {"reports":[],"comments":[],"approved":false,"likes":[],"images":[],"security":["Salidas de emergencia","Extintores"],"rules":["No beber","No invitados"],"services":["Cocina","Amueblado"],"availability":false,"_id":"64004873b2441f0b4f5a5a18","title":"casa ejemplo 3","reason":"Quiero rentar","typeSpace":"Cuarto privado","gender":"Non-binary","price":"5000200","description":"casa de barro","address":{"ownerId":null,"placeId":null,"zone":"el cerro","country":"México","countryCode":"MX","state":"Jalisco","_id":"64004873b2441f0b4f5a5a17","street":"calle privada","city":"Guadalajara","cologne":"cologne","stateCode":"56789","reference":"camino enterrado","crossStreet":"","extNumber":"123","intNumber":"","__v":0},"owner":"635f804ae74dda1973fa307d","__v":0}
+     * from request body
+     *  {"title":"casa ejemplo 3","reason":"Quiero rentar","typeSpace":"Cuarto privado","gender":"Non-binary","price":"5200","availability":false,"street":"calle privada","state":"Jalisco","city":"Guadalajara","neighborhood":"cologne","stateCode":"56789","reference":"camino enterrado","zone":"el cerro","rentalPlace":"casa de barro","services":["Cocina","Amueblado"],"rules":["No beber","No invitados"],"security":["Salidas de emergencia","Extintores"],"images":[{"path":"1067687.jpg","id":"1677742855144","url":"blob:http://localhost:4000/6cdc5b20-2832-44d0-97d9-7e500cbef340"}]}
+     */
     const rentalPlace = await this.rentalPlaceService.findById(id);
     const newRentalPlaceData = updateRentalPlaceDto.publication;
-    console.log('====================================');
-    console.log(
-      'UPDATE_PUBLICATION',
-      JSON.stringify(newRentalPlaceData),
-      JSON.stringify(rentalPlace?.toJSON),
-    );
-    console.log('====================================');
     if (!rentalPlace) {
       throw new NotFoundException(
         'Rental Place does not exists, not able to Update',
@@ -369,26 +362,28 @@ export class RentalPlaceController {
       throw new UserNotAllowOrOwnerException();
     }
     // delete pass address and rates
-    if (newRentalPlaceData.address) {
+    if (rentalPlace.address) {
+      const addressData = newRentalPlaceData as unknown as ICreatePublication;
       const addressInformation: UpdateAddressDto = {
-        street: newRentalPlaceData.address.street,
-        state: newRentalPlaceData.address.state,
-        city: newRentalPlaceData.address.city,
-        cologne: newRentalPlaceData.address.cologne,
-        stateCode: newRentalPlaceData.address.stateCode,
-        reference: newRentalPlaceData.address.reference,
-        zone: newRentalPlaceData.address.zone,
+        _id: (rentalPlace.address as UpdateAddressDto)._id as string,
+        street: addressData.street,
+        state: addressData.state,
+        city: addressData.city,
+        cologne: addressData.neighborhood,
+        stateCode: addressData.stateCode,
+        reference: addressData.reference,
+        zone: addressData.zone,
         countryCode: 'MX',
         crossStreet: '',
         extNumber: '123',
         intNumber: '',
-        _id: (newRentalPlaceData.address as UpdateAddressDto)._id,
       };
       await this.addressService.update(
-        (newRentalPlaceData.address as UpdateAddressDto)._id || '',
+        addressInformation._id,
         addressInformation,
       );
     }
+
     await this.likeService.deleteByPlaceId(id);
     if (newRentalPlaceData.likes) {
       const likesAdded = await this.likeService.createMany(
@@ -397,7 +392,12 @@ export class RentalPlaceController {
 
       newRentalPlaceData.likes.push(likesAdded as unknown as CreateLikeDto);
     }
-    await this.rentalPlaceService.update(id, newRentalPlaceData);
+
+    const { images: _, ...placeNoImages } = newRentalPlaceData;
+    await this.rentalPlaceService.update(
+      id,
+      placeNoImages as UpdateRentalPlaceDto,
+    );
     return rentalPlace;
   }
 
@@ -420,7 +420,9 @@ export class RentalPlaceController {
     this.rentalPlaceService.removeFiles(rentalPlace.images || []);
     // remove on mongo
     this.imageService.deleteByPlaceId(id);
-    this.addressService.deleteByPlaceId(rentalPlace.address.id ?? '');
+    this.addressService.deleteByPlaceId(
+      (rentalPlace.address as UpdateAddressDto)._id ?? '',
+    );
     this.likeService.deleteByPlaceId(id);
     this.commentService.deleteByPlaceId(id);
     const rentalPlaceDeleted = await this.rentalPlaceService.remove(id);
