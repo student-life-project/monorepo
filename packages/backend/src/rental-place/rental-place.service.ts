@@ -20,7 +20,14 @@ export class RentalPlaceService {
     private paginationService: PaginationMoogooseService<RentalPlace>,
   ) {}
 
-  private readonly populateQuery = ['likes', 'images', 'address', 'reports'];
+  private readonly populateQuery = [
+    'likes',
+    'images',
+    'address',
+    'reports',
+    // 'reason',
+    // 'rules',
+  ];
 
   async create(
     createRentalPlaceDto: CreateRentalPlaceDto,

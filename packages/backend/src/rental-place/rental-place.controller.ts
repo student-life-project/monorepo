@@ -11,6 +11,7 @@ import {
   Query,
   Req,
   Res,
+  UnauthorizedException,
   UnprocessableEntityException,
   UnsupportedMediaTypeException,
   UploadedFiles,
@@ -110,9 +111,49 @@ export class RentalPlaceController {
   @Post()
   @Auth('create:rental-place')
   async create(
-    @Body() createRentalPlaceDto: ICreatePublication,
+    @Body() createRentalPlaceDto: { publication: ICreatePublication }, // it comes as a string by default
     @Req() req: any,
   ) {
+    /*
+    {
+    "gender": "Sin preferencia",
+    "availability": true,
+    "security": [
+        "Alarma de incendios"
+    ],
+    "title": "casa ejemplo",
+    "reason": "Quiero rentar",
+    "typeSpace": "Lugar completo",
+    "price": "50001",
+    "street": "calle ejemplo",
+    "state": "Jalisco",
+    "city": "Guadalajara",
+    "neighborhood": "colonia ejemplo",
+    "reference": "referencias",
+    "zone": "zona",
+    "stateCode": "12345",
+    "rentalPlace": "descripcion de vivienda",
+    "services": [
+        "Baño"
+    ],
+    "rules": [
+        "No fumar"
+    ],
+    "images": [
+        {
+            "path": "1067687.jpg",
+            "id": "1677564918840",
+            "url": "blob:http://localhost:4000/7c9584d6-6dc2-4e81-89a2-16af7a196e2d"
+        }
+    ]
+  }
+    */
+    /*
+    {
+      '{"publication":{"gender":"Sin preferencia","availability":true,"security":': { '"Alarma de incendios"': { '"Baño"': [Object] } } 
+    }
+   */
+    const newRentalPlaceData = createRentalPlaceDto.publication;
     const userInformation = await this.userService.getOrCreateUserByEmail({
       email: req.user.email,
       firstName: req.user.name.toLowerCase(),
@@ -123,13 +164,13 @@ export class RentalPlaceController {
     });
 
     const addressInformation: CreateAddressDto = {
-      street: createRentalPlaceDto.street,
-      state: createRentalPlaceDto.state,
-      city: createRentalPlaceDto.city,
-      cologne: createRentalPlaceDto.neighborhood,
-      stateCode: createRentalPlaceDto.stateCode,
-      reference: createRentalPlaceDto.reference,
-      // zone: createRentalPlaceDto.zone,
+      street: newRentalPlaceData.street,
+      state: newRentalPlaceData.state,
+      city: newRentalPlaceData.city,
+      cologne: newRentalPlaceData.neighborhood,
+      stateCode: newRentalPlaceData.stateCode,
+      reference: newRentalPlaceData.reference,
+      zone: newRentalPlaceData.zone,
       countryCode: 'MX',
       crossStreet: '',
       extNumber: '123',
@@ -147,22 +188,29 @@ export class RentalPlaceController {
       });
 
     const rentalPlaceInformation: CreateRentalPlaceDto = {
-      title: createRentalPlaceDto.title,
-      reason: Reason[createRentalPlaceDto.reason as keyof typeof Reason],
+      title: newRentalPlaceData.title,
+      reason: Reason[newRentalPlaceData.reason as keyof typeof Reason],
       typeSpace:
-        TypeSpace[createRentalPlaceDto.typeSpace as keyof typeof TypeSpace],
-      gender: Gender[createRentalPlaceDto.gender as keyof typeof Gender],
-      price: createRentalPlaceDto.price,
-      availability: createRentalPlaceDto.availability,
-      description: createRentalPlaceDto.rentalPlace,
+        TypeSpace[newRentalPlaceData.typeSpace as keyof typeof TypeSpace],
+      gender: Gender[newRentalPlaceData.gender as keyof typeof Gender],
+      price: newRentalPlaceData.price,
+      availability: newRentalPlaceData.availability,
+      description: newRentalPlaceData.rentalPlace,
       address: addressId as CreateAddressDto,
       owner: userInformation?._id,
+      services: newRentalPlaceData.services,
+      security: newRentalPlaceData.security,
+      rules: newRentalPlaceData.rules,
       approved: false,
     } as unknown as CreateRentalPlaceDto;
 
     const createdPublication = await this.rentalPlaceService.create(
       rentalPlaceInformation,
     );
+
+    console.log('====================================');
+    console.log('created_publication', createdPublication);
+    console.log('====================================');
 
     return createdPublication;
   }
@@ -179,9 +227,9 @@ export class RentalPlaceController {
     },
   })
   @Get()
-  findAll(@Query() queries: IPaginationParams & { price: string }) {
+  async findAll(@Query() queries: IPaginationParams & { price: string }) {
     // TODO make sure retrive all need info rentals GET check if made TOP RATE AND MOST COMMENTED limit to 5 ¡¡DISPONIBLES!! (si todos igual random entre los top on different request
-    // console.log(queries);
+    console.log(queries);
 
     let query = {};
     if (queries.price) {
@@ -192,7 +240,12 @@ export class RentalPlaceController {
     queries.order = queries.order || EOrder.desc;
 
     // return this.rentalPlaceService.findAll();
-    return this.rentalPlaceService.find(query, queries);
+    const a = await this.rentalPlaceService.find(query, queries);
+
+    console.log('====================================');
+    console.log('FIND_ALL', a);
+    console.log('====================================');
+    return a;
   }
 
   @ApiNotFoundResponse({
@@ -201,7 +254,7 @@ export class RentalPlaceController {
   })
   @ApiOkResponse({ description: 'Get a rental place by id' })
   @Get(':id')
-  // @Auth('read:rental-place')
+  @Auth('read:rental-place')
   async findOne(@Param('id') id: string) {
     // TODO make sure retrive all need info rentals/:id GET
     const rentalPlace = await this.rentalPlaceService.findById(id);
@@ -266,15 +319,11 @@ export class RentalPlaceController {
 
     const rentalPlaceObj = rentalPlace.toObject();
 
-    // TODO: uncomment once the update endpoint is finished
-    /*
     if (rentalPlaceObj.owner !== userData?.id) {
       throw new UnauthorizedException(
         'The Rental place does not belong to the user',
       );
     }
-    */
-
     (rentalPlaceObj as any).owner = userData;
 
     return rentalPlace;
@@ -289,13 +338,21 @@ export class RentalPlaceController {
   })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @Put(':id')
+  @Patch(':id')
   @Auth('update:rental-place')
   async update(
     @Param('id') id: string,
-    @Body() updateRentalPlaceDto: UpdateRentalPlaceDto,
+    @Body() updateRentalPlaceDto: { publication: UpdateRentalPlaceDto },
     @Req() req: any,
   ) {
+    /**
+     * rentalPlace from DB
+     * {"reports":[],"comments":[],"approved":false,"likes":[],"images":[],"security":["Salidas de emergencia","Extintores"],"rules":["No beber","No invitados"],"services":["Cocina","Amueblado"],"availability":false,"_id":"64004873b2441f0b4f5a5a18","title":"casa ejemplo 3","reason":"Quiero rentar","typeSpace":"Cuarto privado","gender":"Non-binary","price":"5000200","description":"casa de barro","address":{"ownerId":null,"placeId":null,"zone":"el cerro","country":"México","countryCode":"MX","state":"Jalisco","_id":"64004873b2441f0b4f5a5a17","street":"calle privada","city":"Guadalajara","cologne":"cologne","stateCode":"56789","reference":"camino enterrado","crossStreet":"","extNumber":"123","intNumber":"","__v":0},"owner":"635f804ae74dda1973fa307d","__v":0}
+     * from request body
+     *  {"title":"casa ejemplo 3","reason":"Quiero rentar","typeSpace":"Cuarto privado","gender":"Non-binary","price":"5200","availability":false,"street":"calle privada","state":"Jalisco","city":"Guadalajara","neighborhood":"cologne","stateCode":"56789","reference":"camino enterrado","zone":"el cerro","rentalPlace":"casa de barro","services":["Cocina","Amueblado"],"rules":["No beber","No invitados"],"security":["Salidas de emergencia","Extintores"],"images":[{"path":"1067687.jpg","id":"1677742855144","url":"blob:http://localhost:4000/6cdc5b20-2832-44d0-97d9-7e500cbef340"}]}
+     */
     const rentalPlace = await this.rentalPlaceService.findById(id);
+    const newRentalPlaceData = updateRentalPlaceDto.publication;
     if (!rentalPlace) {
       throw new NotFoundException(
         'Rental Place does not exists, not able to Update',
@@ -305,21 +362,42 @@ export class RentalPlaceController {
       throw new UserNotAllowOrOwnerException();
     }
     // delete pass address and rates
-    if (updateRentalPlaceDto.address) {
+    if (rentalPlace.address) {
+      const addressData = newRentalPlaceData as unknown as ICreatePublication;
+      const addressInformation: UpdateAddressDto = {
+        _id: (rentalPlace.address as UpdateAddressDto)._id as string,
+        street: addressData.street,
+        state: addressData.state,
+        city: addressData.city,
+        cologne: addressData.neighborhood,
+        stateCode: addressData.stateCode,
+        reference: addressData.reference,
+        zone: addressData.zone,
+        countryCode: 'MX',
+        crossStreet: '',
+        extNumber: '123',
+        intNumber: '',
+      };
       await this.addressService.update(
-        (updateRentalPlaceDto.address as UpdateAddressDto)._id || '',
-        updateRentalPlaceDto.address as UpdateAddressDto,
+        addressInformation._id,
+        addressInformation,
       );
     }
+
     await this.likeService.deleteByPlaceId(id);
-    if (updateRentalPlaceDto.likes) {
+    if (newRentalPlaceData.likes) {
       const likesAdded = await this.likeService.createMany(
-        updateRentalPlaceDto.likes,
+        newRentalPlaceData.likes,
       );
 
-      updateRentalPlaceDto.likes.push(likesAdded as unknown as CreateLikeDto);
+      newRentalPlaceData.likes.push(likesAdded as unknown as CreateLikeDto);
     }
-    await this.rentalPlaceService.update(id, updateRentalPlaceDto);
+
+    const { images: _, ...placeNoImages } = newRentalPlaceData;
+    await this.rentalPlaceService.update(
+      id,
+      placeNoImages as UpdateRentalPlaceDto,
+    );
     return rentalPlace;
   }
 
@@ -329,7 +407,7 @@ export class RentalPlaceController {
   })
   @ApiNotFoundResponse({ description: 'Rental place does not exists' })
   @Delete(':id')
-  @Auth('delete:rental-place')
+  // @Auth('delete:rental-place')
   async remove(@Param('id') id: string, @Req() req: any) {
     const rentalPlace = await this.rentalPlaceService.findById(id);
     if (!rentalPlace)
@@ -342,7 +420,9 @@ export class RentalPlaceController {
     this.rentalPlaceService.removeFiles(rentalPlace.images || []);
     // remove on mongo
     this.imageService.deleteByPlaceId(id);
-    this.addressService.deleteByPlaceId(rentalPlace.address.id ?? '');
+    this.addressService.deleteByPlaceId(
+      (rentalPlace.address as UpdateAddressDto)._id ?? '',
+    );
     this.likeService.deleteByPlaceId(id);
     this.commentService.deleteByPlaceId(id);
     const rentalPlaceDeleted = await this.rentalPlaceService.remove(id);
@@ -397,7 +477,7 @@ export class RentalPlaceController {
   @ApiOkResponse({ description: 'files succesfully' })
   @UseInterceptors(FilesInterceptor('files', 32, saveImageToStorage))
   @Patch(':id/upload')
-  @Auth('upload-image:rental-place')
+  // @Auth('upload-image:rental-place')
   async uploadFile(
     @Param('id') id: string,
     @UploadedFiles() files: Array<Express.Multer.File>,

@@ -69,9 +69,11 @@ const Post: NextPage = () => {
   const [steps, setSteps] = useState(PublicationSteps);
 
   useEffect(() => {
-    if (token) {
-      configServerSideCredentials({ token });
-    }
+    (async () => {
+      if (token) {
+        await configServerSideCredentials({ token });
+      }
+    })();
   }, [token]);
 
   const {
@@ -183,33 +185,15 @@ const Post: NextPage = () => {
         street: post.address.street,
         state: post.address.state,
         city: post.address.city,
-        // neighborhood: post.address.location,
-        stateCode: post.address.postalCode,
-        // reference: post.address.location,
-        // zone: post.address.location,
-        rentalPlace: 'aaaaaaa',
+        neighborhood: post.address.cologne,
+        stateCode: post.address.stateCode,
+        reference: post.address.reference,
+        zone: post.address.zone,
+        rentalPlace: post.description, // rental place description
+        services: post.services,
+        rules: post.rules,
+        security: post.security,
       });
-
-      /*
-      console.log('====================================');
-      console.log({
-        title: post.title,
-        reason: post.reason,
-        typeSpace: post.typeSpace,
-        gender: post.gender || 'Sin preferencia',
-        price: post.price,
-        availability: post.availability,
-        street: post.address.street,
-        state: post.address.state,
-        city: post.address.city,
-        neighborhood: post.address.location,
-        stateCode: post.address.postalCode,
-        reference: post.address.location,
-        zone: post.address.location,
-        address: post.address,
-      });
-      console.log('====================================');
-      */
 
       setFiles(post.images);
     } else {

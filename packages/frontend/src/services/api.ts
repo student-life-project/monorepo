@@ -18,43 +18,42 @@ type TClientSideConfig = {
 
 type TApiConfigParams = TServerSideContext | TClientSideConfig;
 
-export const configServerSideCredentials = (
+export const configServerSideCredentials = async (
   configParams: TApiConfigParams,
-): void => {
+): Promise<void> => {
+  let tokenSession = '';
+
+  if ('token' in configParams) {
+    tokenSession = configParams.token;
+  } else {
+    const { req, res, reduxStore } = configParams;
+
+    if (req && res) {
+      try {
+        const { accessToken, ...restParams } = await getAccessToken(req, res); // request the token
+
+        // eslint-disable-next-line no-console
+        console.log(accessToken, restParams);
+
+        (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+          setSessionToken(accessToken || ''),
+        );
+
+        tokenSession = accessToken || '';
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+
   api.interceptors.request.use(
     async (config) => {
+      /*
       config.headers = {
         Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-
-      let tokenSession = '';
-
-      if ('token' in configParams) {
-        tokenSession = configParams.token;
-      } else {
-        const { req, res, reduxStore } = configParams;
-
-        if (req && res) {
-          try {
-            const { accessToken, ...restParams } = await getAccessToken(
-              req,
-              res,
-            ); // request the token
-
-            // eslint-disable-next-line no-console
-            console.log(accessToken, restParams);
-
-            (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
-              setSessionToken(accessToken || ''),
-            );
-
-            tokenSession = accessToken || '';
-          } catch (err) {
-            console.error(err);
-          }
-        }
-      }
+      */
 
       if (tokenSession) {
         config.headers.Authorization = `Bearer ${tokenSession}`;

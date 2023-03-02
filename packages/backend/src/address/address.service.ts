@@ -19,7 +19,7 @@ export class AddressService {
   }
 
   async update(id: string, updateSchoolDto: UpdateAddressDto) {
-    return this.AddressModel.findByIdAndUpdate(id, updateSchoolDto, {
+    return this.AddressModel.findOneAndUpdate({ _id: id }, updateSchoolDto, {
       new: true,
     });
   }

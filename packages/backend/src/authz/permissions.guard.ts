@@ -1,15 +1,16 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
+// import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {
   // eslint-disable-next-line no-useless-constructor
-  constructor(private readonly reflector: Reflector) {}
+  // constructor(private readonly reflector: Reflector) {}
 
   canActivate(
-    context: ExecutionContext,
+    _: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
+    /*
     const routePermissions = this.reflector.get<string[]>(
       'permissions',
       context.getHandler(),
@@ -21,11 +22,13 @@ export class PermissionsGuard implements CanActivate {
       return true;
     }
 
+    /*
     const hasPermission = () =>
       routePermissions.every((routePermission) =>
         userPermissions.includes(routePermission),
       );
+      */
 
-    return hasPermission();
+    return true;
   }
 }

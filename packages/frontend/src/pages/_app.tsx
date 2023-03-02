@@ -66,7 +66,7 @@ App.getInitialProps = async ({
   Component,
   ctx,
 }: AppContext & { ctx: Props }) => {
-  configServerSideCredentials(ctx);
+  await configServerSideCredentials(ctx);
 
   const componentProps = Component.getInitialProps
     ? await Component.getInitialProps(ctx)
