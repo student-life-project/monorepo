@@ -165,10 +165,10 @@ export class UserService {
     if (!isUserRegistered) {
       userData = await this.registerUser({
         email: userDto.email,
-        firstName: userDto.toLowerCase(),
+        firstName: userDto.firstName.toLowerCase(),
         image: userDto.picture,
         type: userDto.type,
-        birthDate: userDto.updated_at,
+        birthDate: userDto.birthDate,
         phoneNumber: '0',
       });
     } else {
