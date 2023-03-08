@@ -216,6 +216,53 @@ export class RentalPlaceController {
   }
 
   @ApiOkResponse({
+    description: 'Find all the rental places that belongs to the user',
+    schema: {
+      allOf: [
+        {
+          type: 'array',
+          items: { $ref: getSchemaPath(RentalPlace) },
+        },
+      ],
+    },
+  })
+  @Get('/from-user')
+  @Auth('create:rental-place')
+  async findAllFromUser(
+    @Query() queries: IPaginationParams & { price: string },
+    @Req() req: Request & { user: IAuth0User },
+  ) {
+    // TODO make sure retrive all need info rentals GET check if made TOP RATE AND MOST COMMENTED limit to 5 ¡¡DISPONIBLES!! (si todos igual random entre los top on different request
+    console.log(queries, req.user);
+
+    const userData = await this.userService.getOrCreateUserByEmail({
+      email: req.user.email,
+      firstName: req.user.name.toLowerCase(),
+      image: req.user.picture,
+      type: EUserType.OWNER,
+      birthDate: req.user.updated_at,
+      phoneNumber: '0',
+    });
+
+    let query = { ...queries };
+    if (queries.price) {
+      query = this.rentalPlaceService.priceFilter(query, queries.price);
+    }
+
+    if (!userData) {
+      throw new NotFoundException('User does not exists');
+    }
+
+    (query as any).owner = userData._id;
+
+    queries.sortBy = 'price';
+    queries.order = queries.order || EOrder.desc;
+
+    // return this.rentalPlaceService.findAll();
+    return this.rentalPlaceService.find(query, queries);
+  }
+
+  @ApiOkResponse({
     description: 'Find all the rental places',
     schema: {
       allOf: [
@@ -227,7 +274,7 @@ export class RentalPlaceController {
     },
   })
   @Get()
-  async findAll(@Query() queries: IPaginationParams & { price: string }) {
+  findAll(@Query() queries: IPaginationParams & { price: string }) {
     // TODO make sure retrive all need info rentals GET check if made TOP RATE AND MOST COMMENTED limit to 5 ¡¡DISPONIBLES!! (si todos igual random entre los top on different request
     console.log(queries);
 
@@ -240,12 +287,7 @@ export class RentalPlaceController {
     queries.order = queries.order || EOrder.desc;
 
     // return this.rentalPlaceService.findAll();
-    const a = await this.rentalPlaceService.find(query, queries);
-
-    console.log('====================================');
-    console.log('FIND_ALL', a);
-    console.log('====================================');
-    return a;
+    return this.rentalPlaceService.find(query, queries);
   }
 
   @ApiNotFoundResponse({
@@ -407,7 +449,7 @@ export class RentalPlaceController {
   })
   @ApiNotFoundResponse({ description: 'Rental place does not exists' })
   @Delete(':id')
-  // @Auth('delete:rental-place')
+  @Auth('delete:rental-place')
   async remove(@Param('id') id: string, @Req() req: any) {
     const rentalPlace = await this.rentalPlaceService.findById(id);
     if (!rentalPlace)
@@ -438,7 +480,7 @@ export class RentalPlaceController {
     description: 'Rental place does not exists, not able to Update',
   })
   @Patch(':id')
-  // @Auth('comment:rental-place')
+  @Auth('comment:rental-place')
   async comment(
     @Param('id') id: string,
     // @Body() comment: AddCommentPlaceDto,
@@ -477,7 +519,7 @@ export class RentalPlaceController {
   @ApiOkResponse({ description: 'files succesfully' })
   @UseInterceptors(FilesInterceptor('files', 32, saveImageToStorage))
   @Patch(':id/upload')
-  // @Auth('upload-image:rental-place')
+  @Auth('upload-image:rental-place')
   async uploadFile(
     @Param('id') id: string,
     @UploadedFiles() files: Array<Express.Multer.File>,

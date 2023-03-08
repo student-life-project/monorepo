@@ -10,6 +10,7 @@ import xw from 'xwind';
 
 import Button from '@/components/common/Button';
 import { AlertMessage } from '@/constants/alertMessage';
+import useFileReader from '@/hooks/useFileReader';
 import { TFile } from '@/types';
 import { createId } from '@/utils/createId';
 
@@ -20,18 +21,23 @@ type TDropzone = {
   setFiles: (files: TFile[]) => void;
 };
 
-// TODO: Agregar un loader si es necesario.
+// TODO: Agregar un loader si es necesario
 const Dropzone: FC<TDropzone> = ({ files, setFiles }) => {
   const [filesRejected, setFilesRejected] = useState<FileError[]>([]);
+  const { readFile } = useFileReader();
 
   const onDrop = useCallback(
-    (acceptedFiles: File[], fileRejections: FileRejection[]) => {
-      const accepted = acceptedFiles.map((file) =>
-        Object.assign(file, {
-          id: createId(),
-          url: URL.createObjectURL(file),
-        }),
-      );
+    async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+      const acceptedPromise = acceptedFiles.map(readFile);
+
+      const accepted = await Promise.all(acceptedPromise).then((buffered) => {
+        return buffered.map((fileBuffer, idx) =>
+          Object.assign(acceptedFiles[idx], {
+            id: createId(),
+            url: fileBuffer,
+          }),
+        );
+      });
 
       const rejected = fileRejections.map(({ errors }) => errors).flat();
 
@@ -44,7 +50,7 @@ const Dropzone: FC<TDropzone> = ({ files, setFiles }) => {
       setFilesRejected(rejected);
       setFiles(accepted);
     },
-    [setFiles, setFilesRejected],
+    [setFiles, setFilesRejected, readFile],
   );
 
   const handleRemoveFile = useCallback(
