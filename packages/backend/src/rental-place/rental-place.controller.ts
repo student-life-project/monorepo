@@ -227,7 +227,7 @@ export class RentalPlaceController {
     },
   })
   @Get('/from-user')
-  @Auth('create:rental-place')
+  @Auth('read:rental-place')
   async findAllFromUser(
     @Query() queries: IPaginationParams & { price: string },
     @Req() req: Request & { user: IAuth0User },
@@ -244,7 +244,7 @@ export class RentalPlaceController {
       phoneNumber: '0',
     });
 
-    let query = { ...queries };
+    let query = {};
     if (queries.price) {
       query = this.rentalPlaceService.priceFilter(query, queries.price);
     }

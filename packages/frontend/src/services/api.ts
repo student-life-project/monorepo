@@ -33,7 +33,7 @@ export const configServerSideCredentials = async (
         const { accessToken, ...restParams } = await getAccessToken(req, res); // request the token
 
         // eslint-disable-next-line no-console
-        console.log(accessToken, restParams);
+        console.log(accessToken, restParams, 'SET_ACCESS_TOKEN');
 
         (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
           setSessionToken(accessToken || ''),
