@@ -356,11 +356,11 @@ export const getAllPublication =
       dispatch(getAllPublicationPendingAction());
       const limitQuery = limit ? `?limit=${limit}` : '';
       const { data } = await api.get<IRentalPlace[]>(
-        `/rental-place${limitQuery}`,
+        `/rental-place/from-user${limitQuery}`,
       );
 
       // eslint-disable-next-line no-console
-      console.log(limit);
+      console.log('LIMIT', limit);
 
       dispatch(getAllPublicationSuccessAction(data));
     } catch (error) {
