@@ -16,7 +16,6 @@ import RentalPlaceStep3 from '@/components/publications/RentalPlaceStep3';
 import Steps from '@/components/publications/Steps';
 import UbicationStep2 from '@/components/publications/UbicationStep2';
 import { EPublicationStep, PublicationSteps } from '@/constants';
-import { configServerSideCredentials } from '@/services/api';
 import { TStore } from '@/store';
 import {
   createPublication,
@@ -25,7 +24,6 @@ import {
 } from '@/store/actions/publications';
 import { TRootState } from '@/store/reducers';
 import { publicationSelector } from '@/store/selectors/publications';
-import { tokenSessionSelector } from '@/store/selectors/session';
 import { IImage, IRentalPlace } from '@/types';
 import { scrollTo } from '@/utils/scrollTo';
 
@@ -62,19 +60,10 @@ const Post: NextPage = () => {
   const dispatch = useDispatch();
 
   const post = useSelector(publicationSelector);
-  const token = useSelector(tokenSessionSelector);
 
   const [step, setStep] = useState(0);
-  const [files, setFiles] = useState<IImage[]>([]); // TODO: mantender el estado con los archivos agregados.
+  const [files, setFiles] = useState<IImage[]>([]);
   const [steps, setSteps] = useState(PublicationSteps);
-
-  useEffect(() => {
-    (async () => {
-      if (token) {
-        await configServerSideCredentials({ token });
-      }
-    })();
-  }, [token]);
 
   const {
     reset,
