@@ -20,7 +20,7 @@ type TApiConfigParams = TServerSideContext | TClientSideConfig;
 
 export const configServerSideCredentials = async (
   configParams: TApiConfigParams,
-): Promise<void> => {
+): Promise<string> => {
   let tokenSession = '';
 
   if ('token' in configParams) {
@@ -65,6 +65,8 @@ export const configServerSideCredentials = async (
     },
     (error) => Promise.reject(error),
   );
+
+  return tokenSession;
 };
 
 /*

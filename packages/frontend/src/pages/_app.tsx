@@ -4,7 +4,7 @@ import { css, Global } from '@emotion/react';
 import { UserProvider } from '@auth0/nextjs-auth0';
 import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 
 import { configServerSideCredentials } from '@/services/api';
@@ -14,7 +14,16 @@ function App({
   Component,
   pageProps,
   reduxStore,
-}: AppProps & Props): JSX.Element {
+  token,
+}: AppProps & Props & { token: string }): JSX.Element {
+  useEffect(() => {
+    (async () => {
+      if (token) {
+        await configServerSideCredentials({ token });
+      }
+    })();
+  }, [token]);
+
   return (
     <>
       <Head>
@@ -66,13 +75,14 @@ App.getInitialProps = async ({
   Component,
   ctx,
 }: AppContext & { ctx: Props }) => {
-  await configServerSideCredentials(ctx);
+  const token = await configServerSideCredentials(ctx);
 
   const componentProps = Component.getInitialProps
     ? await Component.getInitialProps(ctx)
     : {};
 
   return {
+    token,
     pageProps: {
       ...componentProps,
     },
