@@ -42,7 +42,13 @@ type TRedirectData = {
 
 const PostDetails: FC<TPostDetails> = ({ admin, values }) => {
   const dispatch = useDispatch();
-  const getValues = () => values;
+
+  const getValues = () => ({
+    ...values,
+    ...values.address,
+    rentalPlace: values.description,
+    neighborhood: values.address.cologne,
+  });
 
   const pathname = admin ? '/profile/admin' : '/profile/publications';
   const initialStatus = admin ? values.approved : values.availability;
@@ -60,18 +66,18 @@ const PostDetails: FC<TPostDetails> = ({ admin, values }) => {
 
     if (admin) {
       // * Admin puede aprobar o no aprobar la publicación. Se dejaría de mostrar en la página, pero no se elimina.
-      dispatch(changePublicationApproval(values.id));
+      dispatch(changePublicationApproval(values._id));
     } else {
       // * Arrendatario puede poner como disponible o no disponible la vivienda, pero se seguirá viendo en la página.
-      dispatch(changePublicationAvailability(values.id));
+      dispatch(changePublicationAvailability(values._id));
     }
   };
 
   const handleDeletePublication = () => {
     if (admin) {
-      dispatch(deleteAdminPublication(values.id));
+      dispatch(deleteAdminPublication(values._id));
     } else {
-      dispatch(deletePublication(values.id));
+      dispatch(deletePublication(values._id));
     }
 
     const redirectData: TRedirectData = {
@@ -91,7 +97,7 @@ const PostDetails: FC<TPostDetails> = ({ admin, values }) => {
       <div css={xw`flex justify-center mb-10`}>
         <div css={xw`w-full lg:w-8/12`}>
           <h2 css={xw`py-5 text-lg font-bold`}>
-            Publicación {admin && `# ${values.id}`}
+            Publicación {admin && `# ${values._id}`}
           </h2>
 
           <div css={xw`grid grid-cols-1 sm:grid-cols-3`}>
@@ -104,17 +110,21 @@ const PostDetails: FC<TPostDetails> = ({ admin, values }) => {
               />
             </div>
 
-            <div>
-              <SubTitle>{NameInput.ownerPost}</SubTitle>
-              <p css={xw`font-bold mt-2`}>{values.owner}</p>
-            </div>
+            {admin && (
+              <>
+                <div>
+                  <SubTitle>{NameInput.ownerPost}</SubTitle>
+                  <p css={xw`font-bold mt-2`}>{values.owner}</p>
+                </div>
 
-            <div>
-              <SubTitle>{NameInput.date}</SubTitle>
-              <p css={xw`font-bold mt-2`}>
-                {values.date && formatDate(values.date)}
-              </p>
-            </div>
+                <div>
+                  <SubTitle>{NameInput.date}</SubTitle>
+                  <p css={xw`font-bold mt-2`}>
+                    {values.date && formatDate(values.date)}
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -136,7 +146,7 @@ const PostDetails: FC<TPostDetails> = ({ admin, values }) => {
             </Button>
 
             {!admin && (
-              <Link href={`/profile/publications/post/${values.id}`}>
+              <Link href={`/profile/publications/post/${values._id}`}>
                 <Button FPrimary type="button" css={xw`mb-5 sm:mb-0`}>
                   Editar publicación
                 </Button>
