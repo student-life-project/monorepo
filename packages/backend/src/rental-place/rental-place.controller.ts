@@ -202,6 +202,7 @@ export class RentalPlaceController {
       security: newRentalPlaceData.security,
       rules: newRentalPlaceData.rules,
       approved: false,
+      creationDate: new Date(),
     } as unknown as CreateRentalPlaceDto;
 
     const createdPublication = await this.rentalPlaceService.create(
@@ -366,9 +367,10 @@ export class RentalPlaceController {
         'The Rental place does not belong to the user',
       );
     }
+
     (rentalPlaceObj as any).owner = userData;
 
-    return rentalPlace;
+    return rentalPlaceObj;
   }
 
   @ApiOkResponse({
@@ -387,6 +389,9 @@ export class RentalPlaceController {
     @Body() updateRentalPlaceDto: { publication: UpdateRentalPlaceDto },
     @Req() req: any,
   ) {
+    console.log('====================================');
+    console.log('UODATE CRA');
+    console.log('====================================');
     /**
      * rentalPlace from DB
      * {"reports":[],"comments":[],"approved":false,"likes":[],"images":[],"security":["Salidas de emergencia","Extintores"],"rules":["No beber","No invitados"],"services":["Cocina","Amueblado"],"availability":false,"_id":"64004873b2441f0b4f5a5a18","title":"casa ejemplo 3","reason":"Quiero rentar","typeSpace":"Cuarto privado","gender":"Non-binary","price":"5000200","description":"casa de barro","address":{"ownerId":null,"placeId":null,"zone":"el cerro","country":"México","countryCode":"MX","state":"Jalisco","_id":"64004873b2441f0b4f5a5a17","street":"calle privada","city":"Guadalajara","cologne":"cologne","stateCode":"56789","reference":"camino enterrado","crossStreet":"","extNumber":"123","intNumber":"","__v":0},"owner":"635f804ae74dda1973fa307d","__v":0}
@@ -436,10 +441,10 @@ export class RentalPlaceController {
     }
 
     const { images: _, ...placeNoImages } = newRentalPlaceData;
-    await this.rentalPlaceService.update(
-      id,
-      placeNoImages as UpdateRentalPlaceDto,
-    );
+    await this.rentalPlaceService.update(id, {
+      ...placeNoImages,
+      creationDate: placeNoImages?.creationDate || new Date(),
+    } as UpdateRentalPlaceDto);
     return rentalPlace;
   }
 
@@ -544,7 +549,12 @@ export class RentalPlaceController {
     }
 
     this.rentalPlaceService.removeFiles(rentalPlace.images || []);
-    this.imageService.deleteByPlaceId(id);
+    const imagesIds = rentalPlace?.images?.map(
+      (imgOld) => (imgOld as unknown as { _id: string })?._id as string,
+    );
+    if (imagesIds?.length) {
+      await this.imageService.deleteById(imagesIds);
+    }
 
     // separate safe and unsafe files to prevent change extension vulnerability
     const safeFiles = await asyncFilter(
@@ -567,17 +577,28 @@ export class RentalPlaceController {
         mimetype: file.mimetype,
         fullpath: file.path,
         size: file.size,
+        rentalPlace: id,
+        placeId: id,
         owner: id,
       };
     });
     // save files in mongo
     const filesCreated = await this.imageService.createMany(filesToSave);
     const placeToUpdate = await this.rentalPlaceService.findById(id);
+    console.log('====================================');
+    console.log('RENTAL PLACE TO UPDATE', id, {
+      ...placeToUpdate,
+      images: filesCreated,
+    });
+    console.log('====================================');
     // attach them to the rental place
-    this.rentalPlaceService.update(id, {
+    await this.rentalPlaceService.update(id, {
       ...placeToUpdate,
       images: filesCreated,
     } as unknown as UpdateRentalPlaceDto);
+
+    // updatedRentalPlace?.images?.push(...filesCreated);
+    // updatedRentalPlace?.save();
 
     if (unsafeFiles.length) {
       return {

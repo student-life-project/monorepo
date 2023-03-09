@@ -111,4 +111,7 @@ export class CreateRentalPlaceDto {
 
   @ApiProperty()
   images: CreateImageDto[];
+
+  @ApiProperty()
+  creationDate?: Date;
 }

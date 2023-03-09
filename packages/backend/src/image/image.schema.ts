@@ -29,8 +29,12 @@ export class Image {
   size: number;
 
   @ApiProperty()
-  @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
+  @Prop({ type: MongooseSchema.Types.ObjectId })
   owner?: string;
+
+  @ApiProperty()
+  @Prop({ type: MongooseSchema.Types.ObjectId })
+  rentalPlace?: string;
 }
 
 export type ImageDocument = Image & Document;

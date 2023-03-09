@@ -212,9 +212,15 @@ export const createPublicationErrorAction = (
 });
 
 export const createPublication =
-  (
-    publication: Omit<IRentalPlace, '_id'>,
-  ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
+  ({
+    images,
+    ...publication
+  }: Omit<IRentalPlace, '_id'>): ThunkAction<
+    void,
+    TRootState,
+    unknown,
+    TPublicationsAction
+  > =>
   async (dispatch) => {
     try {
       // eslint-disable-next-line no-console
@@ -226,6 +232,13 @@ export const createPublication =
 
       // eslint-disable-next-line no-console
       console.log(publication);
+
+      const imagesData = new FormData();
+      images.forEach((img) => {
+        imagesData.append('files', img as unknown as File, img.name);
+      });
+
+      await api.patch<string>(`/rental-place/${data._id}/upload`, imagesData);
 
       dispatch(createPublicationSuccessAction(data));
       toast.success(AlertMessage.created('publicación'));
@@ -259,7 +272,7 @@ export const updatePublicationErrorAction = (
 export const updatePublication =
   (
     id: TElementId,
-    publication: IRentalPlace,
+    { images, ...publication }: IRentalPlace,
   ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
@@ -273,6 +286,13 @@ export const updatePublication =
 
       // eslint-disable-next-line no-console
       console.log(id, publication);
+
+      const imagesData = new FormData();
+      images.forEach((img) => {
+        imagesData.append('files', img as unknown as File, img.name);
+      });
+
+      await api.patch<string>(`/rental-place/${id}/upload`, imagesData);
 
       dispatch(updatePublicationSuccessAction(data));
       toast.success(AlertMessage.updated('publicación'));
