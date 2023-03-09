@@ -40,8 +40,8 @@ const Publications: NextPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [postId, setPostId] = useState<TElementId>(null);
 
-  const publicationList = useSelector((state) => publicationsSelector(state));
-  const loading = useSelector((state) => isFetchingPublicationsSelector(state));
+  const publicationList = useSelector(publicationsSelector);
+  const loading = useSelector(isFetchingPublicationsSelector);
 
   const handleChange = ({ target }) => {
     dispatch(searchPublication(target.value));

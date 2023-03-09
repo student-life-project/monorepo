@@ -178,7 +178,7 @@ const Post: NextPage = () => {
         stateCode: post.address.stateCode,
         reference: post.address.reference,
         zone: post.address.zone,
-        rentalPlace: post.description, // rental place description
+        rentalPlace: post.description,
         services: post.services,
         rules: post.rules,
         security: post.security,
