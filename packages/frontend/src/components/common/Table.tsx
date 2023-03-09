@@ -79,7 +79,7 @@ const Table: FC<TTable> = ({ data, loading, columns, header, linkRow }) => {
   const router = useRouter();
 
   const handleRowClicked = (row) => {
-    router.push(`${linkRow}${row.id}`);
+    router.push(`${linkRow}${row._id}`);
   };
 
   return (

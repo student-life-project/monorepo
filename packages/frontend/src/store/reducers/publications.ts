@@ -23,19 +23,25 @@ import {
   UPDATE_PUBLICATION_PENDING,
   UPDATE_PUBLICATION_SUCCESS,
 } from '@/store/types/publications';
-import { IRentalPlace } from '@/types';
+import { IPublications, IRentalPlace } from '@/types';
 
 import { TPublicationsAction } from '../actions/publications';
 
 export interface IState {
-  publications: IRentalPlace[];
+  publications: IPublications;
   publication: IRentalPlace | null;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
-  publications: [],
+  publications: {
+    count: 0,
+    current: 0,
+    data: [],
+    next: 0,
+    prev: 0,
+  },
   publication: null,
   isFetching: false,
   error: null,
@@ -129,7 +135,7 @@ const reducer = (
     case GET_ALL_PUBLICATIONS_PENDING:
       return {
         ...state,
-        publications: [],
+        publications: initialState.publications,
         isFetching: true,
         error: null,
       };
@@ -149,7 +155,7 @@ const reducer = (
     case SEARCH_PUBLICATION_PENDING:
       return {
         ...state,
-        publications: [],
+        publications: initialState.publications,
         isFetching: true,
         error: null,
       };

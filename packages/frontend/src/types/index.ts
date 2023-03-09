@@ -173,3 +173,11 @@ export interface IRentalPlace {
   userId?: string;
   description?: string;
 }
+
+export interface IPublications {
+  count: number;
+  current: number;
+  data: IRentalPlace[];
+  next: number;
+  prev: number;
+}

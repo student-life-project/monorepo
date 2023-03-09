@@ -177,7 +177,7 @@ const PreviewStep4: FC<TPreviewStep4> = ({ files, getValues }) => {
           </div>
         </div>
 
-        <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Subir imagenes</h2>
+        <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Imagenes</h2>
         <ItemFile files={values.images || files} />
       </div>
     </div>

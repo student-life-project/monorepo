@@ -31,8 +31,8 @@ export const HeaderPublicationUser = {
 };
 
 export const ColumnsPublicationUser = (
-  availablePost: (id: number) => any,
-  handleOpenModal: (id: number) => any,
+  availablePost: (_id: number) => any,
+  handleOpenModal: (_id: number) => any,
 ): TColumns => [
   { name: 'Titulo', selector: 'title', sortable: true },
   {
@@ -57,23 +57,23 @@ export const ColumnsPublicationUser = (
   },
   {
     name: 'Acciones',
-    cell: (row: { id: any; availability: any }) => {
-      const { id, availability } = row;
+    cell: (row: { _id: any; availability: any }) => {
+      const { _id, availability } = row;
 
       return (
         <Options>
-          <button type="button" onClick={() => availablePost(id)}>
+          <button type="button" onClick={() => availablePost(_id)}>
             <span css={xw`ml-2`}>
               {availability ? 'No disponible' : 'Disponible'}
             </span>
           </button>
 
-          <a href={`/profile/publications/post/${id}`}>
+          <a href={`/profile/publications/post/${_id}`}>
             <FontAwesomeIcon icon={faPen} height="1.2rem" />
             <span css={xw`ml-2`}>Editar</span>
           </a>
 
-          <button type="button" onClick={() => handleOpenModal(id)}>
+          <button type="button" onClick={() => handleOpenModal(_id)}>
             <FontAwesomeIcon icon={faTrash} height="1.2rem" />
             <span css={xw`ml-2`}>Eliminar</span>
           </button>
@@ -111,10 +111,10 @@ export const HeaderReport = {
 };
 
 export const ColumnsUser = (
-  statusUser: (id: number) => any,
-  handleOpenModalUser: (id: number) => any,
+  statusUser: (_id: number) => any,
+  handleOpenModalUser: (_id: number) => any,
 ): TColumns => [
-  { name: 'ID', selector: 'id', sortable: true },
+  { name: 'ID', selector: '_id', sortable: true },
   { name: 'Nombre', selector: 'fullName', sortable: true },
   { name: 'Correo', selector: 'email', sortable: true },
   {
@@ -139,16 +139,16 @@ export const ColumnsUser = (
   },
   {
     name: 'Acciones',
-    cell: (row: { id: any; status: any }) => {
-      const { id, status } = row;
+    cell: (row: { _id: any; status: any }) => {
+      const { _id, status } = row;
 
       return (
         <Options>
-          <button type="button" onClick={() => statusUser(id)}>
+          <button type="button" onClick={() => statusUser(_id)}>
             <span css={xw`ml-2`}>{status ? 'Desactivar' : 'Activar'}</span>
           </button>
 
-          <button type="button" onClick={() => handleOpenModalUser(id)}>
+          <button type="button" onClick={() => handleOpenModalUser(_id)}>
             <FontAwesomeIcon icon={faTrash} height="1.2rem" />
             <span css={xw`ml-2`}>Eliminar</span>
           </button>
@@ -162,10 +162,10 @@ export const ColumnsUser = (
 ];
 
 export const ColumnsPublication = (
-  approvePost: (id: number) => any,
-  handleOpenModalPost: (id: number) => any,
+  approvePost: (_id: number) => any,
+  handleOpenModalPost: (_id: number) => any,
 ): TColumns => [
-  { name: 'ID', selector: 'id', sortable: true },
+  { name: 'ID', selector: '_id', sortable: true },
   { name: 'Titulo', selector: 'title', sortable: true },
   {
     name: 'Precio',
@@ -196,16 +196,16 @@ export const ColumnsPublication = (
   },
   {
     name: 'Acciones',
-    cell: (row: { id: any; approved: any }) => {
-      const { id, approved } = row;
+    cell: (row: { _id: any; approved: any }) => {
+      const { _id, approved } = row;
 
       return (
         <Options>
-          <button type="button" onClick={() => approvePost(id)}>
+          <button type="button" onClick={() => approvePost(_id)}>
             <span css={xw`ml-2`}>{approved ? 'No aprobar' : 'Aprobar'}</span>
           </button>
 
-          <button type="button" onClick={() => handleOpenModalPost(id)}>
+          <button type="button" onClick={() => handleOpenModalPost(_id)}>
             <FontAwesomeIcon icon={faTrash} height="1.2rem" />
             <span css={xw`ml-2`}>Eliminar</span>
           </button>
@@ -219,10 +219,10 @@ export const ColumnsPublication = (
 ];
 
 export const ColumnsReport = (
-  solveReport: (id: number) => any,
-  handleOpenModalReport: (id: number) => any,
+  solveReport: (_id: number) => any,
+  handleOpenModalReport: (_id: number) => any,
 ): TColumns => [
-  { name: 'ID', selector: 'id', sortable: true },
+  { name: 'ID', selector: '_id', sortable: true },
   { name: 'Tipo', selector: 'type', sortable: true },
   { name: 'Descripción', selector: 'description', sortable: true },
   {
@@ -245,16 +245,16 @@ export const ColumnsReport = (
   },
   {
     name: 'Acciones',
-    cell: (row: { id: any; status: any }) => {
-      const { id, status } = row;
+    cell: (row: { _id: any; status: any }) => {
+      const { _id, status } = row;
 
       return (
         <Options>
-          <button type="button" onClick={() => solveReport(id)}>
+          <button type="button" onClick={() => solveReport(_id)}>
             <span css={xw`ml-2`}>{status ? 'No resuelto' : 'Resuelto'}</span>
           </button>
 
-          <button type="button" onClick={() => handleOpenModalReport(id)}>
+          <button type="button" onClick={() => handleOpenModalReport(_id)}>
             <FontAwesomeIcon icon={faTrash} height="1.2rem" />
             <span css={xw`ml-2`}>Eliminar</span>
           </button>

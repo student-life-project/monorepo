@@ -28,7 +28,12 @@ import {
   UPDATE_PUBLICATION_PENDING,
   UPDATE_PUBLICATION_SUCCESS,
 } from '@/store/types/publications';
-import { IQueryCommonFilters, IRentalPlace, TElementId } from '@/types';
+import {
+  IPublications,
+  IQueryCommonFilters,
+  IRentalPlace,
+  TElementId,
+} from '@/types';
 
 interface IGetPublicationPendingAction {
   type: typeof GET_PUBLICATION_PENDING;
@@ -92,7 +97,7 @@ interface IGetAllPublicationPendingAction {
 
 interface IGetAllPublicationSuccessAction {
   type: typeof GET_ALL_PUBLICATIONS_SUCCESS;
-  data: IRentalPlace[];
+  data: IPublications;
 }
 
 interface IGetAllPublicationErrorAction {
@@ -106,7 +111,7 @@ interface ISearchPublicationPendingAction {
 
 interface ISearchPublicationSuccessAction {
   type: typeof SEARCH_PUBLICATION_SUCCESS;
-  data: IRentalPlace[];
+  data: IPublications;
 }
 
 interface ISearchPublicationErrorAction {
@@ -178,13 +183,14 @@ export const getPublication =
   ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
+      dispatch(getPublicationPendingAction());
+
       const { data } = await api.get<IRentalPlace>(
         `/rental-place/${id as string}/from-user`,
       );
 
       dispatch(getPublicationSuccessAction(data));
     } catch (error) {
-      console.error(error.message);
       dispatch(getPublicationErrorAction(error));
       toast.error(AlertMessage.error);
     }
@@ -223,9 +229,8 @@ export const createPublication =
   > =>
   async (dispatch) => {
     try {
-      // eslint-disable-next-line no-console
-      console.log('PUBLICATION_TO_BE_CREATED', publication);
       dispatch(createPublicationPendingAction());
+
       const { data } = await api.post<IRentalPlace>('/rental-place', {
         publication,
       });
@@ -241,7 +246,6 @@ export const createPublication =
       await api.patch<string>(`/rental-place/${data._id}/upload`, imagesData);
 
       dispatch(createPublicationSuccessAction(data));
-      toast.success(AlertMessage.created('publicación'));
     } catch (error) {
       dispatch(createPublicationErrorAction(error));
       toast.error(AlertMessage.error);
@@ -277,9 +281,7 @@ export const updatePublication =
   async (dispatch) => {
     try {
       dispatch(updatePublicationPendingAction());
-      // console.log('====================================');
-      // console.log('UPDATE_PUBLICATION', id, publication);
-      // console.log('====================================');
+
       const { data } = await api.put<IRentalPlace>(`/rental-place/${id}`, {
         publication,
       });
@@ -295,7 +297,6 @@ export const updatePublication =
       await api.patch<string>(`/rental-place/${id}/upload`, imagesData);
 
       dispatch(updatePublicationSuccessAction(data));
-      toast.success(AlertMessage.updated('publicación'));
     } catch (error) {
       dispatch(updatePublicationErrorAction(error));
       toast.error(AlertMessage.error);
@@ -330,10 +331,8 @@ export const deletePublication =
   async (dispatch) => {
     try {
       dispatch(deletePublicationPendingAction());
-      const { data } = await api.delete<IRentalPlace>(`/publication/${id}`);
 
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.delete<IRentalPlace>(`/publication/${id}`);
 
       dispatch(deletePublicationSuccessAction(data));
       toast.success(AlertMessage.deleted('publicación'));
@@ -351,7 +350,7 @@ export const getAllPublicationPendingAction =
   });
 
 export const getAllPublicationSuccessAction = (
-  data: IRentalPlace[],
+  data: IPublications,
 ): IGetAllPublicationSuccessAction => ({
   type: GET_ALL_PUBLICATIONS_SUCCESS,
   data,
@@ -374,13 +373,11 @@ export const getAllPublication =
   async (dispatch) => {
     try {
       dispatch(getAllPublicationPendingAction());
+
       const limitQuery = limit ? `?limit=${limit}` : '';
-      const { data } = await api.get<IRentalPlace[]>(
+      const { data } = await api.get<IPublications>(
         `/rental-place/from-user${limitQuery}`,
       );
-
-      // eslint-disable-next-line no-console
-      console.log('LIMIT', limit);
 
       dispatch(getAllPublicationSuccessAction(data));
     } catch (error) {
@@ -397,7 +394,7 @@ export const searchPublicationPendingAction =
   });
 
 export const searchPublicationSuccessAction = (
-  data: IRentalPlace[],
+  data: IPublications,
 ): ISearchPublicationSuccessAction => ({
   type: SEARCH_PUBLICATION_SUCCESS,
   data,
@@ -415,11 +412,9 @@ export const searchPublication =
   async (dispatch) => {
     try {
       dispatch(searchPublicationPendingAction());
-      const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
-      const { data } = await api.get<IRentalPlace[]>(`/publication${filter}`);
 
-      // eslint-disable-next-line no-console
-      console.log(text);
+      const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
+      const { data } = await api.get<IPublications>(`/publication${filter}`);
 
       dispatch(searchPublicationSuccessAction(data));
     } catch (error) {
@@ -456,10 +451,8 @@ export const changePublicationAvailability =
   async (dispatch) => {
     try {
       dispatch(changePublicationAvailabilityPendingAction());
-      const { data } = await api.put<IRentalPlace>(`/publication/${id}`);
 
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.put<IRentalPlace>(`/publication/${id}`);
 
       dispatch(
         changePublicationAvailabilitySuccessAction(

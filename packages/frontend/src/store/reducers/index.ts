@@ -24,4 +24,4 @@ export const rootReducer = combineReducers({
   session: sessionReducer,
 });
 
-export type TRootState = ReturnType<typeof rootReducer>;
+export type TRootState = ReturnType<typeof rootReducer> & any;

@@ -4,7 +4,7 @@ export const statePublicationsSelector = (state: TRootState) =>
   state.publications;
 
 export const publicationsSelector = (state: TRootState) =>
-  state.publications.publications;
+  state.publications.publications.data;
 
 export const isFetchingPublicationsSelector = (state: TRootState) =>
   state.publications.isFetching;

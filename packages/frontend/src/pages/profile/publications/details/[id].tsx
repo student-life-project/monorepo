@@ -11,18 +11,18 @@ import { ItemsPublicationDetails } from '@/constants';
 import { TStore } from '@/store';
 import { getPublication } from '@/store/actions/publications';
 import { TRootState } from '@/store/reducers';
-import { publicationsSelector } from '@/store/selectors/publications';
+import { publicationSelector } from '@/store/selectors/publications';
 
 const Details: NextPage = () => {
-  const publication = useSelector((state) => publicationsSelector(state));
+  const post = useSelector(publicationSelector);
 
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-      <BreadCrumbs items={ItemsPublicationDetails(publication.id)} />
+      <BreadCrumbs items={ItemsPublicationDetails(post._id)} />
 
       <BodyContainer css={xw`pt-16 sm:pt-8`}>
-        <PostDetails values={publication} />
+        <PostDetails values={post} />
       </BodyContainer>
     </>
   );
