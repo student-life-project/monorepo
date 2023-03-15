@@ -28,6 +28,10 @@ module.exports = withPlugins(plugins, {
       process.env.NODE_ENV === 'development'
         ? `http://localhost:3010${URL_POST_FIX}`
         : `here remot url${URL_POST_FIX}`,
+    PUBLIC_IMAGES:
+      process.env.NODE_ENV === 'development'
+        ? `http://localhost:3010`
+        : `here remot url`,
   },
 });
 

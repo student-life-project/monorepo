@@ -22,7 +22,7 @@ export class RentalPlaceService {
 
   private readonly populateQuery = [
     'likes',
-    'images',
+    // 'images',
     'address',
     'reports',
     // 'reason',

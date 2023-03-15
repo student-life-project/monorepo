@@ -184,7 +184,7 @@ const Post: NextPage = () => {
         security: post.security,
       });
 
-      setFiles(post.images);
+      setFiles(post.images.map((image) => ({ ...image, id: image?._id })));
     } else {
       reset({ gender: 'Sin preferencia', availability: true, security: [] });
     }

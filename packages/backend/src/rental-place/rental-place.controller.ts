@@ -442,6 +442,7 @@ export class RentalPlaceController {
 
     const { images: _, ...placeNoImages } = newRentalPlaceData;
     await this.rentalPlaceService.update(id, {
+      ...rentalPlace,
       ...placeNoImages,
       creationDate: placeNoImages?.creationDate || new Date(),
     } as UpdateRentalPlaceDto);
@@ -531,6 +532,9 @@ export class RentalPlaceController {
     @Req() req: any,
   ) {
     const fileNames = files?.map((file) => file.filename);
+    console.log('====================================');
+    console.log('FILE_NAMES');
+    console.log('====================================');
 
     if (!fileNames)
       throw new UnsupportedMediaTypeException('File must be a png, jpg/jpeg');
@@ -586,16 +590,19 @@ export class RentalPlaceController {
     const filesCreated = await this.imageService.createMany(filesToSave);
     const placeToUpdate = await this.rentalPlaceService.findById(id);
     console.log('====================================');
-    console.log('RENTAL PLACE TO UPDATE', id, {
-      ...placeToUpdate,
-      images: filesCreated,
-    });
+    console.log('PLACE)TO_UPDATE');
     console.log('====================================');
+    if (filesCreated.length && placeToUpdate?.images) {
+      console.log('====================================');
+      console.log('uploading several images');
+      console.log('====================================');
+      placeToUpdate.images = filesCreated;
+    }
     // attach them to the rental place
-    await this.rentalPlaceService.update(id, {
-      ...placeToUpdate,
-      images: filesCreated,
-    } as unknown as UpdateRentalPlaceDto);
+    await this.rentalPlaceService.update(
+      id,
+      placeToUpdate as unknown as UpdateRentalPlaceDto,
+    );
 
     // updatedRentalPlace?.images?.push(...filesCreated);
     // updatedRentalPlace?.save();

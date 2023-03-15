@@ -94,8 +94,8 @@ export class RentalPlace {
   security: Security[];
 
   @ApiProperty({ type: [Image] })
-  @Prop([{ type: MongooseSchema.Types.Array, required: false }])
-  images?: Image[];
+  @Prop({ type: MongooseSchema.Types.Array, ref: 'Image', required: false })
+  images: Image[];
 
   @ApiProperty({ type: [Like] })
   @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Like', required: false }])
