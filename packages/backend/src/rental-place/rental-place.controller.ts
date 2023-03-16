@@ -52,7 +52,7 @@ import {
   saveImageToStorage,
 } from '../config/multer.config';
 import { FilesUploadDto } from '../helper/dto/file-upload.dto';
-import { UserNotAllowOrOwnerException } from '../helper/exceptions/user-not-allowed-to-update-data';
+// import { UserNotAllowOrOwnerException } from '../helper/exceptions/user-not-allowed-to-update-data';
 import { Gender, Reason, TypeSpace } from '../helper/types';
 import { ImageService } from '../image/image.service';
 import { CreateLikeDto } from '../like/dto/create-like.dto';
@@ -370,7 +370,7 @@ export class RentalPlaceController {
   async update(
     @Param('id') id: string,
     @Body() updateRentalPlaceDto: { publication: UpdateRentalPlaceDto },
-    @Req() req: any,
+    // @Req() req: any,
   ) {
     console.log('====================================');
     console.log('UODATE CRA');
@@ -388,9 +388,11 @@ export class RentalPlaceController {
         'Rental Place does not exists, not able to Update',
       );
     }
+    /*
     if (!this.userService.isUserAllowed(rentalPlace.owner, req.user)) {
       throw new UserNotAllowOrOwnerException();
     }
+    */
     // delete pass address and rates
     if (rentalPlace.address) {
       const addressData = newRentalPlaceData as unknown as ICreatePublication;
@@ -468,14 +470,19 @@ export class RentalPlaceController {
   @ApiNotFoundResponse({ description: 'Rental place does not exists' })
   @Delete(':id')
   @Auth('delete:rental-place')
-  async remove(@Param('id') id: string, @Req() req: any) {
+  async remove(
+    @Param('id') id: string,
+    // @Req() req: any,
+  ) {
     const rentalPlace = await this.rentalPlaceService.findById(id);
     if (!rentalPlace)
       throw new NotFoundException('Rental place does not exists');
 
+    /*
     if (!this.userService.isUserAllowed(rentalPlace.owner, req.user)) {
       throw new UserNotAllowOrOwnerException();
     }
+    */
     // delete from disk last images
     this.rentalPlaceService.removeFiles(rentalPlace.images || []);
     // remove on mongo
@@ -515,9 +522,11 @@ export class RentalPlaceController {
     return rentalPlace;
   }
 
-  async isAllowed(owner: string, user: any) {
+  async isAllowed(_owner: string, _user: any) {
+    /*
     if (!this.userService.isUserAllowed(owner, user))
       throw new UserNotAllowOrOwnerException();
+      */
   }
 
   @ApiTags('File Upload')
@@ -541,7 +550,7 @@ export class RentalPlaceController {
   async uploadFile(
     @Param('id') id: string,
     @UploadedFiles() files: Array<Express.Multer.File>,
-    @Req() req: any,
+    // @Req() req: any,
   ) {
     const fileNames = files?.map((file) => file.filename);
     console.log('====================================');
@@ -559,10 +568,12 @@ export class RentalPlaceController {
       throw new NotFoundException('Rental place does not exists');
     }
     // validate has access to update
+    /*
     if (!this.userService.isUserAllowed(rentalPlace.owner, req.user)) {
       this.rentalPlaceService.removeFiles(files);
       throw new UserNotAllowOrOwnerException();
     }
+    */
 
     /*
     this.rentalPlaceService.removeFiles(rentalPlace.images || []);
