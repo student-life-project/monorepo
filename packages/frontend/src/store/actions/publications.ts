@@ -29,6 +29,7 @@ import {
   UPDATE_PUBLICATION_SUCCESS,
 } from '@/store/types/publications';
 import {
+  IImage,
   IPublications,
   IQueryCommonFilters,
   IRentalPlace,
@@ -218,9 +219,15 @@ export const createPublicationErrorAction = (
 });
 
 export const createPublication =
-  (
-    publication: Omit<IRentalPlace, '_id'>,
-  ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
+  ({
+    images,
+    ...publication
+  }: Omit<IRentalPlace, '_id'>): ThunkAction<
+    void,
+    TRootState,
+    unknown,
+    TPublicationsAction
+  > =>
   async (dispatch) => {
     try {
       dispatch(createPublicationPendingAction());
@@ -228,6 +235,16 @@ export const createPublication =
       const { data } = await api.post<IRentalPlace>('/rental-place', {
         publication,
       });
+
+      // eslint-disable-next-line no-console
+      console.log(publication);
+
+      const imagesData = new FormData();
+      images.forEach((img) => {
+        imagesData.append('files', img as unknown as File, img.name);
+      });
+
+      await api.patch<string>(`/rental-place/${data._id}/upload`, imagesData);
 
       dispatch(createPublicationSuccessAction(data));
     } catch (error) {
@@ -260,18 +277,53 @@ export const updatePublicationErrorAction = (
 export const updatePublication =
   (
     id: TElementId,
-    publication: IRentalPlace,
+    { images, ...publication }: IRentalPlace,
   ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
       dispatch(updatePublicationPendingAction());
 
+      const imagesAlreadySaved = images.filter(
+        (im) => (im as unknown as { fullpath: string }).fullpath,
+      );
+      const newImages = images.filter(
+        (im) => !(im as unknown as { fullpath: string }).fullpath,
+      );
+
+      (publication as IRentalPlace).images = imagesAlreadySaved as IImage[];
       const { data } = await api.put<IRentalPlace>(`/rental-place/${id}`, {
         publication,
       });
 
+      // eslint-disable-next-line no-console
+      console.log('SUPER UPDATE DONE', id, publication);
+
+      const imagesData = new FormData();
+      newImages.forEach((img) => {
+        imagesData.append('files', img as unknown as File, img.name);
+      });
+
+      // eslint-disable-next-line no-console
+      console.log('====================================');
+      // eslint-disable-next-line no-console
+      console.log('IMAGES_READY_TO_UPDATE', imagesData.getAll('files'));
+      // eslint-disable-next-line no-console
+      console.log('====================================');
+      await api.patch<string>(`/rental-place/${id}/upload`, imagesData);
+      // eslint-disable-next-line no-console
+      console.log('====================================');
+      // eslint-disable-next-line no-console
+      console.log('UPDATE_IMAGES DONE DONE DONE');
+      // eslint-disable-next-line no-console
+      console.log('====================================');
       dispatch(updatePublicationSuccessAction(data));
     } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('====================================');
+      // eslint-disable-next-line no-console
+      console.log('ERROR_UPDATING_PUBLICATION', error);
+      // eslint-disable-next-line no-console
+      console.log('====================================');
       dispatch(updatePublicationErrorAction(error));
       toast.error(AlertMessage.error);
     }

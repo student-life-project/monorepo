@@ -34,3 +34,4 @@ dist/*
 .devcontainer/scripts/mongo/init/.mongodb/*
 
 packages/backend/uploads/*
+packages/backend/public/*

@@ -19,17 +19,16 @@ import { Like } from '../like/like.schema';
 import { Report } from '../report/report.schema';
 
 const setPrice = (price: string) => {
-  const findDigitsAndDotRegex = /\d*\.\d{1,2}/;
-
   price = price.replace(',', '');
 
-  const findDot = price.split(findDigitsAndDotRegex);
+  const findDot = price.split('.');
 
-  if (!findDot[2]) {
-    price = `${price}.0`; // HACK Adds .0 so it works with whole numbers
+  if (!findDot[1]) {
+    price = `${price}.00`; // HACK Adds .0 so it works with whole numbers
   }
 
-  return parseInt((parseFloat(price) * 100).toFixed(0), 10);
+  // return parseInt((parseFloat(price) * 100).toFixed(0), 10);
+  return parseFloat(price).toFixed(2);
 };
 
 const getPrice = (price: number) => {
@@ -41,6 +40,10 @@ export class RentalPlace {
   @ApiProperty()
   @Prop({ _id: true })
   id?: string;
+
+  @ApiProperty()
+  @Prop({ default: Date.now })
+  creationDate?: Date;
 
   @ApiProperty()
   @Prop({ required: true })
@@ -91,10 +94,8 @@ export class RentalPlace {
   security: Security[];
 
   @ApiProperty({ type: [Image] })
-  @Prop([
-    { type: MongooseSchema.Types.ObjectId, ref: 'Image', required: false },
-  ])
-  images?: Image[];
+  @Prop({ type: MongooseSchema.Types.Array, ref: 'Image', required: false })
+  images: Image[];
 
   @ApiProperty({ type: [Like] })
   @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Like', required: false }])

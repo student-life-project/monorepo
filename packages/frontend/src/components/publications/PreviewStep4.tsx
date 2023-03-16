@@ -178,7 +178,17 @@ const PreviewStep4: FC<TPreviewStep4> = ({ files, getValues }) => {
         </div>
 
         <h2 css={xw`pt-10 pb-3 text-lg font-bold`}>Imagenes</h2>
-        <ItemFile files={values.images || files} />
+        <ItemFile
+          files={[...(values.images || []), ...(files || [])].map(
+            (imageToMap) => ({
+              ...imageToMap,
+              id: imageToMap?._id || imageToMap?.id,
+              url: imageToMap?.fullpath
+                ? `${process.env.PUBLIC_IMAGES}/${imageToMap?.fullpath}`
+                : imageToMap?.url,
+            }),
+          )}
+        />
       </div>
     </div>
   );

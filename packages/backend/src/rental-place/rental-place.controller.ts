@@ -202,6 +202,7 @@ export class RentalPlaceController {
       security: newRentalPlaceData.security,
       rules: newRentalPlaceData.rules,
       approved: false,
+      creationDate: new Date(),
     } as unknown as CreateRentalPlaceDto;
 
     const createdPublication = await this.rentalPlaceService.create(
@@ -366,9 +367,10 @@ export class RentalPlaceController {
         'The Rental place does not belong to the user',
       );
     }
+
     (rentalPlaceObj as any).owner = userData;
 
-    return rentalPlace;
+    return rentalPlaceObj;
   }
 
   @ApiOkResponse({
@@ -387,6 +389,9 @@ export class RentalPlaceController {
     @Body() updateRentalPlaceDto: { publication: UpdateRentalPlaceDto },
     @Req() req: any,
   ) {
+    console.log('====================================');
+    console.log('UODATE CRA');
+    console.log('====================================');
     /**
      * rentalPlace from DB
      * {"reports":[],"comments":[],"approved":false,"likes":[],"images":[],"security":["Salidas de emergencia","Extintores"],"rules":["No beber","No invitados"],"services":["Cocina","Amueblado"],"availability":false,"_id":"64004873b2441f0b4f5a5a18","title":"casa ejemplo 3","reason":"Quiero rentar","typeSpace":"Cuarto privado","gender":"Non-binary","price":"5000200","description":"casa de barro","address":{"ownerId":null,"placeId":null,"zone":"el cerro","country":"México","countryCode":"MX","state":"Jalisco","_id":"64004873b2441f0b4f5a5a17","street":"calle privada","city":"Guadalajara","cologne":"cologne","stateCode":"56789","reference":"camino enterrado","crossStreet":"","extNumber":"123","intNumber":"","__v":0},"owner":"635f804ae74dda1973fa307d","__v":0}
@@ -435,11 +440,41 @@ export class RentalPlaceController {
       newRentalPlaceData.likes.push(likesAdded as unknown as CreateLikeDto);
     }
 
-    const { images: _, ...placeNoImages } = newRentalPlaceData;
-    await this.rentalPlaceService.update(
-      id,
-      placeNoImages as UpdateRentalPlaceDto,
+    const { images, ...placeNoImages } = newRentalPlaceData;
+    const oldImages = rentalPlace?.images;
+    if (rentalPlace?.images && images) {
+      rentalPlace.images = images;
+    }
+    console.log('====================================');
+    console.log(images, oldImages, rentalPlace?.images, 'IMAGES_TO_REMOVE');
+    console.log('====================================');
+    await this.rentalPlaceService.update(id, {
+      ...rentalPlace.toObject(),
+      ...placeNoImages,
+      creationDate: placeNoImages?.creationDate || new Date(),
+    } as UpdateRentalPlaceDto);
+
+    const imagesToRemove = rentalPlace?.images?.filter(
+      (img) =>
+        !images.find(
+          (saved) =>
+            (saved as unknown as { _id: string })?._id ===
+            (img as unknown as { _id: string })?._id,
+        ),
     );
+    try {
+      this.rentalPlaceService.removeFiles(imagesToRemove || []);
+    } catch (err) {
+      console.error(err, 'ERROR_DELETING_IMAGES');
+    }
+    const imagesIds = (imagesToRemove || []).map(
+      (imgOld) =>
+        ((imgOld as unknown as { _id: string })?._id as string) || imgOld.id,
+    );
+    if (imagesIds?.length) {
+      await this.imageService.deleteById(imagesIds as string[]);
+    }
+
     return rentalPlace;
   }
 
@@ -526,6 +561,9 @@ export class RentalPlaceController {
     @Req() req: any,
   ) {
     const fileNames = files?.map((file) => file.filename);
+    console.log('====================================');
+    console.log('FILE_NAMES');
+    console.log('====================================');
 
     if (!fileNames)
       throw new UnsupportedMediaTypeException('File must be a png, jpg/jpeg');
@@ -543,8 +581,15 @@ export class RentalPlaceController {
       throw new UserNotAllowOrOwnerException();
     }
 
+    /*
     this.rentalPlaceService.removeFiles(rentalPlace.images || []);
-    this.imageService.deleteByPlaceId(id);
+    const imagesIds = rentalPlace?.images?.map(
+      (imgOld) => (imgOld as unknown as { _id: string })?._id as string,
+    );
+    if (imagesIds?.length) {
+      await this.imageService.deleteById(imagesIds);
+    }
+    */
 
     // separate safe and unsafe files to prevent change extension vulnerability
     const safeFiles = await asyncFilter(
@@ -567,17 +612,31 @@ export class RentalPlaceController {
         mimetype: file.mimetype,
         fullpath: file.path,
         size: file.size,
+        rentalPlace: id,
+        placeId: id,
         owner: id,
       };
     });
     // save files in mongo
     const filesCreated = await this.imageService.createMany(filesToSave);
     const placeToUpdate = await this.rentalPlaceService.findById(id);
+    console.log('====================================');
+    console.log('PLACE)TO_UPDATE');
+    console.log('====================================');
+    if (filesCreated.length && placeToUpdate?.images) {
+      console.log('====================================');
+      console.log('uploading several images');
+      console.log('====================================');
+      placeToUpdate.images = [...placeToUpdate.images, ...filesCreated];
+    }
     // attach them to the rental place
-    this.rentalPlaceService.update(id, {
-      ...placeToUpdate,
-      images: filesCreated,
-    } as unknown as UpdateRentalPlaceDto);
+    await this.rentalPlaceService.update(
+      id,
+      placeToUpdate as unknown as UpdateRentalPlaceDto,
+    );
+
+    // updatedRentalPlace?.images?.push(...filesCreated);
+    // updatedRentalPlace?.save();
 
     if (unsafeFiles.length) {
       return {

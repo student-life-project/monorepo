@@ -48,9 +48,9 @@ const Dropzone: FC<TDropzone> = ({ files, setFiles }) => {
       }
 
       setFilesRejected(rejected);
-      setFiles(accepted);
+      setFiles([...files, ...accepted]);
     },
-    [setFiles, setFilesRejected, readFile],
+    [setFiles, setFilesRejected, readFile, files],
   );
 
   const handleRemoveFile = useCallback(

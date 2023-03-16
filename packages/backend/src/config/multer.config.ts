@@ -9,10 +9,10 @@ const MEGABYTE = 1024 * 1024;
 const MAX_FILE_SIZE = 20;
 
 export const multerConfig = {
-  base_path: process.env.UPLOAD_LOCATION_BASE_PATH ?? 'public',
+  base_path: process.env.UPLOAD_LOCATION_BASE_PATH ?? './public',
   dest:
     process.env.UPLOAD_LOCATION ??
-    join(process.env.UPLOAD_LOCATION_BASE_PATH ?? 'public', 'rental-places'),
+    join(process.env.UPLOAD_LOCATION_BASE_PATH ?? './public', 'rental-places'),
 };
 
 const allowedFileExtensions: FileExtension[] = ['png', 'jpg'];
@@ -35,6 +35,9 @@ export const saveImageToStorage = {
       if (!existsSync(uploadPath)) {
         mkdirSync(uploadPath, { recursive: true });
       }
+      console.log('====================================');
+      console.log('destination');
+      console.log('====================================');
       cb(null, uploadPath);
     },
     filename: (
@@ -42,6 +45,9 @@ export const saveImageToStorage = {
       file: { originalname: any },
       cb: (arg0: null, arg1: string) => void,
     ) => {
+      console.log('====================================');
+      console.log('FILE_NAME', `${uuid()}${extname(file.originalname)}`);
+      console.log('====================================');
       cb(null, `${uuid()}${extname(file.originalname)}`);
     },
   }),

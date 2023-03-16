@@ -31,8 +31,17 @@ export class ImageService {
     return this.ImageModel.find().exec();
   }
 
+  async deleteById(id: string | string[]) {
+    const idList = Array.isArray(id) ? id : [id];
+    return this.ImageModel.deleteMany({ _id: { $in: idList } });
+  }
+
   async deleteByPlaceId(id: string) {
-    return this.ImageModel.deleteMany({ placeId: id });
+    return this.ImageModel.deleteMany({ placeId: id, rentalPlace: id });
+  }
+
+  async findByPlaceId(placeId: string): Promise<Image[]> {
+    return this.ImageModel.find({ placeId, rentalPlace: placeId });
   }
 
   async findByOwner(ownerId: string): Promise<ImageDocument | null> {

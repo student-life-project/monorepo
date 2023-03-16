@@ -72,7 +72,7 @@ const Post: NextPage = () => {
     register,
     getValues,
     handleSubmit,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useForm({
     mode: 'all',
   });
@@ -97,12 +97,6 @@ const Post: NextPage = () => {
       pathname: '/profile/publications',
       query: {},
     };
-
-    if (!isDirty) {
-      redirectData.query.updatedPost = true;
-      router.push(redirectData);
-      return;
-    }
 
     if (post && post._id) {
       await dispatch(
@@ -184,7 +178,13 @@ const Post: NextPage = () => {
         security: post.security,
       });
 
-      setFiles(post.images);
+      setFiles(
+        post.images.map((image) => ({
+          ...image,
+          id: image?._id,
+          url: `${process.env.PUBLIC_IMAGES}/${image?.fullpath}`,
+        })),
+      );
     } else {
       reset({ gender: 'Sin preferencia', availability: true, security: [] });
     }
