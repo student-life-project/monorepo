@@ -440,12 +440,41 @@ export class RentalPlaceController {
       newRentalPlaceData.likes.push(likesAdded as unknown as CreateLikeDto);
     }
 
-    const { images: _, ...placeNoImages } = newRentalPlaceData;
+    const { images, ...placeNoImages } = newRentalPlaceData;
+    const oldImages = rentalPlace?.images;
+    if (rentalPlace?.images && images) {
+      rentalPlace.images = images;
+    }
+    console.log('====================================');
+    console.log(images, oldImages, rentalPlace?.images, 'IMAGES_TO_REMOVE');
+    console.log('====================================');
     await this.rentalPlaceService.update(id, {
-      ...rentalPlace,
+      ...rentalPlace.toObject(),
       ...placeNoImages,
       creationDate: placeNoImages?.creationDate || new Date(),
     } as UpdateRentalPlaceDto);
+
+    const imagesToRemove = rentalPlace?.images?.filter(
+      (img) =>
+        !images.find(
+          (saved) =>
+            (saved as unknown as { _id: string })?._id ===
+            (img as unknown as { _id: string })?._id,
+        ),
+    );
+    try {
+      this.rentalPlaceService.removeFiles(imagesToRemove || []);
+    } catch (err) {
+      console.error(err, 'ERROR_DELETING_IMAGES');
+    }
+    const imagesIds = (imagesToRemove || []).map(
+      (imgOld) =>
+        ((imgOld as unknown as { _id: string })?._id as string) || imgOld.id,
+    );
+    if (imagesIds?.length) {
+      await this.imageService.deleteById(imagesIds as string[]);
+    }
+
     return rentalPlace;
   }
 
@@ -552,6 +581,7 @@ export class RentalPlaceController {
       throw new UserNotAllowOrOwnerException();
     }
 
+    /*
     this.rentalPlaceService.removeFiles(rentalPlace.images || []);
     const imagesIds = rentalPlace?.images?.map(
       (imgOld) => (imgOld as unknown as { _id: string })?._id as string,
@@ -559,6 +589,7 @@ export class RentalPlaceController {
     if (imagesIds?.length) {
       await this.imageService.deleteById(imagesIds);
     }
+    */
 
     // separate safe and unsafe files to prevent change extension vulnerability
     const safeFiles = await asyncFilter(
@@ -596,7 +627,7 @@ export class RentalPlaceController {
       console.log('====================================');
       console.log('uploading several images');
       console.log('====================================');
-      placeToUpdate.images = filesCreated;
+      placeToUpdate.images = [...placeToUpdate.images, ...filesCreated];
     }
     // attach them to the rental place
     await this.rentalPlaceService.update(
