@@ -44,7 +44,6 @@ import { AddressService } from '../address/address.service';
 import { CreateAddressDto } from '../address/dto/create-address.dto';
 import { UpdateAddressDto } from '../address/dto/update-address.dto';
 import { Auth } from '../authz/auth.decorator';
-import { CharacteristicService } from '../characteristic/characteristic.service';
 import { CommentService } from '../comment/comment.service';
 import {
   asyncFilter,
@@ -58,8 +57,6 @@ import { Gender, Reason, TypeSpace } from '../helper/types';
 import { ImageService } from '../image/image.service';
 import { CreateLikeDto } from '../like/dto/create-like.dto';
 import { LikeService } from '../like/like.service';
-import { RuleService } from '../rule/rule.service';
-import { ServiceService } from '../service/service.service';
 import { UserService } from '../user/user.service';
 import { CreateRentalPlaceDto } from './dto/create-rental-place.dto';
 import { UpdateRentalPlaceDto } from './dto/update-rental-place.dto';
@@ -98,9 +95,6 @@ export class RentalPlaceController {
     private readonly userService: UserService,
     private readonly likeService: LikeService,
     private readonly commentService: CommentService, // private readonly paginationService: PaginationMoogooseService<RentalPlace>,
-    private readonly characteristicService: CharacteristicService,
-    private readonly ruleService: RuleService,
-    private readonly serviceService: ServiceService,
   ) {}
 
   @ApiCreatedResponse({
@@ -308,26 +302,15 @@ export class RentalPlaceController {
 
     const rentalPlaceObj = rentalPlace.toObject();
 
-    const [likesCount, commentsFinded, characteristics, rules, services] =
-      await Promise.all([
-        this.likeService.count(id),
-        this.commentService.getByRentalPlaceId(id),
-        this.characteristicService.findAll({
-          _id: { $in: (rentalPlace as any).characteristics },
-        }),
-        this.ruleService.findAll({
-          _id: { $in: (rentalPlace as any).rules },
-        }),
-        this.serviceService.findAll(),
-      ]);
+    const [likesCount, commentsFinded] = await Promise.all([
+      this.likeService.count(id),
+      this.commentService.getByRentalPlaceId(id),
+    ]);
 
     return {
       ...rentalPlaceObj,
       likesCount,
       comments: commentsFinded.data,
-      characteristics,
-      rules,
-      services,
     };
   }
 

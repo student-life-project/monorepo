@@ -199,8 +199,8 @@ const Details: NextPage = () => {
             <>
               {index < 5 && (
                 <Img
+                  src={`${process.env.PUBLIC_IMAGES}/${img?.fullpath}`}
                   key={img.name}
-                  src={img.url}
                   alt={img.name}
                   index={index}
                   length={rentalPlaceImages.length}
@@ -292,24 +292,27 @@ const Details: NextPage = () => {
 
               <h2 css={xw`w-full py-7 text-xl font-bold`}>Servicios</h2>
               <ul css={xw`w-full list-disc flex flex-wrap`}>
-                {rentalPlace.services.map((item) => (
-                  <li
-                    key={item._id}
-                    css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}
-                  >
-                    {item.name}
+                {rentalPlace.services?.map((item) => (
+                  <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <h2 css={xw`w-full py-7 text-xl font-bold`}>Seguridad</h2>
+              <ul css={xw`w-full list-disc flex flex-wrap`}>
+                {rentalPlace.security?.map((item) => (
+                  <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}>
+                    {item}
                   </li>
                 ))}
               </ul>
 
               <h2 css={xw`w-full py-7 text-xl font-bold`}>Reglas</h2>
               <ul css={xw`w-full list-disc flex flex-wrap`}>
-                {rentalPlace.rules.map((item) => (
-                  <li
-                    key={item._id}
-                    css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}
-                  >
-                    {item.name}
+                {rentalPlace.rules?.map((item) => (
+                  <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/4`}>
+                    {item}
                   </li>
                 ))}
               </ul>
