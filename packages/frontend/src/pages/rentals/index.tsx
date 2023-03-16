@@ -134,7 +134,7 @@ const Rentals: NextPage = () => {
                 likes={rentalPlace.likesCount}
                 title={rentalPlace.title}
                 pricePerMonth={parseFloat(rentalPlace.price || '0')}
-                imageUrl={rentalPlace.images?.[0]?.url}
+                imageUrl={`${process.env.PUBLIC_IMAGES}/${rentalPlace.images?.[0]?.fullpath}`}
               />
             </div>
           ))}
