@@ -15,6 +15,7 @@ type TSelect = {
   optionName?: string;
   disabled?: boolean;
   messageError?: string;
+  notAnObject?: boolean;
 } & React.SelectHTMLAttributes<HTMLSelectElement>;
 
 const SelectStyle = styled.select<TSelect>`
@@ -53,6 +54,7 @@ const Select: FC<TSelect> = ({
   options,
   optionName,
   messageError,
+  notAnObject,
   ...props
 }) => (
   <>
@@ -64,10 +66,11 @@ const Select: FC<TSelect> = ({
       {options &&
         options.map((item) => {
           const values = Object.values(item);
+          const option = notAnObject ? item : values[0];
 
           return (
-            <option value={values[0]} key={values[0]}>
-              {values[0]}
+            <option value={option} key={option}>
+              {option}
             </option>
           );
         })}

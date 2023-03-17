@@ -215,6 +215,7 @@ const Post: NextPage = () => {
               control={control}
               reference={location[5]?.length}
               zone={location[6]?.length}
+              state={location[1]}
             />
           )}
 

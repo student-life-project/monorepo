@@ -1,4 +1,4 @@
-import { States } from '@student_life/common';
+import { Cities, States } from '@student_life/common';
 import { FC } from 'react';
 import { Control, FieldValues, UseFormRegister } from 'react-hook-form';
 import xw from 'xwind';
@@ -19,6 +19,7 @@ type TUbicationStep2 = {
   control: Control<FieldValues>;
   reference: number;
   zone: number;
+  state: string;
 };
 
 const UbicationStep2: FC<TUbicationStep2> = ({
@@ -28,6 +29,7 @@ const UbicationStep2: FC<TUbicationStep2> = ({
   control,
   reference,
   zone,
+  state,
 }) => (
   <div css={xw`flex justify-center mb-10`}>
     <div css={xw`w-full lg:w-8/12`}>
@@ -78,17 +80,14 @@ const UbicationStep2: FC<TUbicationStep2> = ({
           <Label id="label-city" htmlFor="city">
             {NameInput.city}
           </Label>
-          <Input
+          <Select
             id="city"
-            type="text"
-            placeholder="Nombre del municipio"
+            notAnObject
+            label={NameInput.city}
+            options={state ? Cities[state] : []}
             register={{
               ...register('city', {
                 required: ErrorMessageInput.inputRequire(NameInput.city),
-                maxLength: {
-                  value: 50,
-                  message: ErrorMessageInput.max(50),
-                },
               }),
             }}
             error={errors.city}
