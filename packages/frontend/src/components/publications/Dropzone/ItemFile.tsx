@@ -29,13 +29,13 @@ const Card = styled.div`
 const ItemFile: FC<TItemFile> = ({ files, handleRemoveFile }) => (
   <aside css={xw`flex flex-wrap gap-4 mt-10 justify-center`}>
     {files?.map((file) => (
-      <Card key={file.name}>
+      <Card key={file.id}>
         <img
           alt={file.name}
           src={file.url}
           css={xw`block w-auto h-full`}
           onLoad={() => {
-            URL.revokeObjectURL(file.url || ''); // TODO: temporal solo para maquetar.
+            URL.revokeObjectURL(file.url || '');
           }}
         />
 
