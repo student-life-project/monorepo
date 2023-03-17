@@ -6,6 +6,7 @@ import xw from 'xwind';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
+import PageLoader from '@/components/common/PageLoader';
 import PostDetails from '@/components/profile/PostDetails';
 import { ItemsPublicationDetails } from '@/constants';
 import { TStore } from '@/store';
@@ -15,6 +16,10 @@ import { publicationSelector } from '@/store/selectors/publications';
 
 const Details: NextPage = () => {
   const post = useSelector(publicationSelector);
+
+  if (!post) {
+    return <PageLoader />;
+  }
 
   return (
     <>
@@ -32,9 +37,11 @@ Details.getInitialProps = async ({
   query,
   reduxStore,
 }: NextPageContext & { query: any; reduxStore: TStore }) => {
-  await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
-    getPublication(query.id),
-  );
+  if (query && query.id) {
+    await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+      getPublication(query.id),
+    );
+  }
 
   return {};
 };

@@ -21,7 +21,6 @@ type TDropzone = {
   setFiles: (files: TFile[]) => void;
 };
 
-// TODO: Agregar un loader si es necesario
 const Dropzone: FC<TDropzone> = ({ files, setFiles }) => {
   const [filesRejected, setFilesRejected] = useState<FileError[]>([]);
   const { readFile } = useFileReader();
@@ -69,7 +68,6 @@ const Dropzone: FC<TDropzone> = ({ files, setFiles }) => {
     onDrop,
   });
 
-  // TODO: Eliminar cuando ya no sea necesario.
   useEffect(() => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.url));
     // eslint-disable-next-line react-hooks/exhaustive-deps
