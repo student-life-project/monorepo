@@ -20,6 +20,7 @@ import { TStore } from '@/store';
 import {
   createPublication,
   getPublication,
+  initialStatePublication,
   updatePublication,
 } from '@/store/actions/publications';
 import { TRootState } from '@/store/reducers';
@@ -288,6 +289,10 @@ Post.getInitialProps = async ({
   if (query && query.id) {
     await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
       getPublication(query.id[0]),
+    );
+  } else {
+    await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+      initialStatePublication(),
     );
   }
 
