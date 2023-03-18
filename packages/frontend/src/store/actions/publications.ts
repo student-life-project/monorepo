@@ -21,6 +21,7 @@ import {
   GET_PUBLICATION_ERROR,
   GET_PUBLICATION_PENDING,
   GET_PUBLICATION_SUCCESS,
+  INITIAL_STATE_PUBLICATION,
   SEARCH_PUBLICATION_ERROR,
   SEARCH_PUBLICATION_PENDING,
   SEARCH_PUBLICATION_SUCCESS,
@@ -35,6 +36,10 @@ import {
   IRentalPlace,
   TElementId,
 } from '@/types';
+
+interface IInitialStatePublication {
+  type: typeof INITIAL_STATE_PUBLICATION;
+}
 
 interface IGetPublicationPendingAction {
   type: typeof GET_PUBLICATION_PENDING;
@@ -135,6 +140,7 @@ interface IChangePublicationAvailabilityErrorAction {
 }
 
 export type TPublicationsAction =
+  | IInitialStatePublication
   | IGetPublicationPendingAction
   | IGetPublicationSuccessAction
   | IGetPublicationErrorAction
@@ -156,6 +162,18 @@ export type TPublicationsAction =
   | IChangePublicationAvailabilityPendingAction
   | IChangePublicationAvailabilitySuccessAction
   | IChangePublicationAvailabilityErrorAction;
+
+// =============================================================================
+
+export const initialStatePublicationAction = (): IInitialStatePublication => ({
+  type: INITIAL_STATE_PUBLICATION,
+});
+
+export const initialStatePublication =
+  (): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
+  (dispatch) => {
+    dispatch(initialStatePublicationAction());
+  };
 
 // =============================================================================
 

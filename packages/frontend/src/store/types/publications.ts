@@ -1,5 +1,9 @@
 // =============================================================================
 
+export const INITIAL_STATE_PUBLICATION = 'OWNER/INITIAL_STATE_PUBLICATION';
+
+// =============================================================================
+
 export const GET_PUBLICATION_PENDING = 'OWNER/GET_PUBLICATION_PENDING';
 export const GET_PUBLICATION_SUCCESS = 'OWNER/GET_PUBLICATION_SUCCESS';
 export const GET_PUBLICATION_ERROR = 'OWNER/GET_PUBLICATION_ERROR';
