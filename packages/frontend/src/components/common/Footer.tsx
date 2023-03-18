@@ -149,6 +149,7 @@ const Footer: FC = () => (
       <Info>
         <Column>
           <TitleSection>Student Life</TitleSection>
+          {/* TODO: Mostrar perfil o nada si tiene iniciada la sesión */}
           <Nav>
             <li>
               <Link href="/api/auth/login">Iniciar Sesión | Registrarse</Link>

@@ -92,6 +92,22 @@ const UserMenu: FC<IUserMenu> = ({ user, onLogoutClick }) => {
             </Link>
           </MenuItem>
 
+          {user.type === EUserType.ADMIN && (
+            <MenuItem>
+              <Link href="/profile/admin">
+                <Anchor css={xw`text-secondary-1`}>
+                  Gestionar Student Life
+                </Anchor>
+              </Link>
+            </MenuItem>
+          )}
+
+          <MenuItem>
+            <Link href="/rentals">
+              <Anchor css={xw`text-secondary-1`}>Ver alojamientos</Anchor>
+            </Link>
+          </MenuItem>
+
           {user.type === EUserType.OWNER && (
             <MenuItem>
               <Link href="/profile/publications">
@@ -99,6 +115,12 @@ const UserMenu: FC<IUserMenu> = ({ user, onLogoutClick }) => {
               </Link>
             </MenuItem>
           )}
+
+          <MenuItem>
+            <Link href="/help">
+              <Anchor css={xw`text-secondary-1`}>Ayuda</Anchor>
+            </Link>
+          </MenuItem>
 
           <MenuItem>
             <ExitButton type="button" onClick={onLogoutClick}>

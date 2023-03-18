@@ -94,11 +94,23 @@ const MobileMenu: FC<INavBar> = ({
           />
 
           {isLogedIn && (
-            <MenuItem>
-              <Link href="/profile">
-                <UserButton>{user?.email}</UserButton>
-              </Link>
-            </MenuItem>
+            <>
+              <MenuItem>
+                <Link href="/profile">
+                  <UserButton>{user?.email}</UserButton>
+                </Link>
+              </MenuItem>
+
+              {user.type === EUserType.ADMIN && (
+                <MenuItem>
+                  <Link href="/profile/admin">
+                    <Anchor css={xw`text-secondary-1`}>
+                      Gestionar Student Life
+                    </Anchor>
+                  </Link>
+                </MenuItem>
+              )}
+            </>
           )}
 
           {allowRental && (
@@ -118,7 +130,7 @@ const MobileMenu: FC<INavBar> = ({
             </Anchor>
           )}
 
-          {user?.type === EUserType.OWNER && (
+          {isLogedIn && user.type === EUserType.OWNER && (
             <MenuItem>
               <Link href="/profile/publications">
                 <Anchor css={xw`text-secondary-1`}>Publicaciones</Anchor>
@@ -126,17 +138,21 @@ const MobileMenu: FC<INavBar> = ({
             </MenuItem>
           )}
 
-          {!isLogedIn ? (
-            <>
-              {allowLoginRegister && (
-                <MenuItem>
-                  <Anchor href="/api/auth/login" css={xw`text-secondary-1`}>
-                    Iniciar Sesión | Registrarse
-                  </Anchor>
-                </MenuItem>
-              )}
-            </>
-          ) : (
+          {!isLogedIn && allowLoginRegister && (
+            <MenuItem>
+              <Anchor href="/api/auth/login" css={xw`text-secondary-1`}>
+                Iniciar Sesión | Registrarse
+              </Anchor>
+            </MenuItem>
+          )}
+
+          <MenuItem>
+            <Link href="/help">
+              <Anchor css={xw`text-secondary-1`}>Ayuda</Anchor>
+            </Link>
+          </MenuItem>
+
+          {isLogedIn && (
             <MenuItem>
               <ExitButton type="button" onClick={onLogoutClick}>
                 Cerrar Sesión
