@@ -101,7 +101,7 @@ const MobileMenu: FC<INavBar> = ({
                 </Link>
               </MenuItem>
 
-              {user.type === EUserType.ADMIN && (
+              {user?.role === EUserType.ADMIN && (
                 <MenuItem>
                   <Link href="/profile/admin">
                     <Anchor css={xw`text-secondary-1`}>
@@ -130,7 +130,7 @@ const MobileMenu: FC<INavBar> = ({
             </Anchor>
           )}
 
-          {isLogedIn && user.type === EUserType.OWNER && (
+          {isLogedIn && user?.role === EUserType.OWNER && (
             <MenuItem>
               <Link href="/profile/publications">
                 <Anchor css={xw`text-secondary-1`}>Publicaciones</Anchor>
