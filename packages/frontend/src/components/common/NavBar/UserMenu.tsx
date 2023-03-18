@@ -92,7 +92,7 @@ const UserMenu: FC<IUserMenu> = ({ user, onLogoutClick }) => {
             </Link>
           </MenuItem>
 
-          {user.type === EUserType.ADMIN && (
+          {user.role === EUserType.ADMIN && (
             <MenuItem>
               <Link href="/profile/admin">
                 <Anchor css={xw`text-secondary-1`}>
@@ -108,7 +108,7 @@ const UserMenu: FC<IUserMenu> = ({ user, onLogoutClick }) => {
             </Link>
           </MenuItem>
 
-          {user.type === EUserType.OWNER && (
+          {user.role === EUserType.OWNER && (
             <MenuItem>
               <Link href="/profile/publications">
                 <Anchor css={xw`text-secondary-1`}>Publicaciones</Anchor>
