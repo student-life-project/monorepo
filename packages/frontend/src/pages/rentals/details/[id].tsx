@@ -365,7 +365,9 @@ const Details: NextPage = () => {
 
         {showCarousel && (
           <Carousel
-            images={data.images.map((item) => item.url)}
+            images={rentalPlaceImages.map(
+              (item) => `${process.env.PUBLIC_IMAGES}/${item?.fullpath}`,
+            )}
             close={handleShowCarousel}
           />
         )}
