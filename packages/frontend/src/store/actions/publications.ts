@@ -491,18 +491,27 @@ export const changePublicationAvailabilityErrorAction = (
 export const changePublicationAvailability =
   (
     id: TElementId,
+    publication: IRentalPlace,
   ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
       dispatch(changePublicationAvailabilityPendingAction());
 
-      const { data } = await api.put<IRentalPlace>(`/publication/${id}`);
+      const { data } = await api.put<IRentalPlace>(`/rental-place/${id}`, {
+        publication,
+      });
+
+      const newData = {
+        ...data,
+        availability: publication.availability,
+      };
 
       dispatch(
         changePublicationAvailabilitySuccessAction(
-          data as unknown as IRentalPlace,
+          newData as unknown as IRentalPlace,
         ),
       );
+
       toast.success(AlertMessage.updated('disponibilidad'));
     } catch (error) {
       dispatch(changePublicationAvailabilityErrorAction(error));

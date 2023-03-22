@@ -32,6 +32,7 @@ import {
   publicationsSelector,
 } from '@/store/selectors/publications';
 import { TElementId } from '@/types';
+import { availablePostFormat } from '@/utils/availablePostFormat';
 
 const Publications: NextPage = () => {
   const router = useRouter();
@@ -47,8 +48,14 @@ const Publications: NextPage = () => {
     dispatch(searchPublication(target.value));
   };
 
-  const availablePost = (id: TElementId) => {
-    dispatch(changePublicationAvailability(id));
+  const availablePost = async (id: TElementId) => {
+    const data = publicationList.find((item) => item._id === id);
+
+    await dispatch(
+      changePublicationAvailability(id, availablePostFormat(data)),
+    );
+
+    await dispatch(getAllPublication());
   };
 
   const handleOpenModal = (id: TElementId) => {

@@ -18,6 +18,7 @@ import {
   changePublicationAvailability,
   deletePublication,
 } from '@/store/actions/publications';
+import { availablePostFormat } from '@/utils/availablePostFormat';
 import { formatDate } from '@/utils/managerDate';
 
 import Alert from '../common/Alert';
@@ -61,15 +62,17 @@ const PostDetails: FC<TPostDetails> = ({ admin, values }) => {
     setShowModal(!showModal);
   };
 
-  const handleStatus = () => {
+  const handleStatus = async () => {
     setStatus(!status);
 
     if (admin) {
       // * Admin puede aprobar o no aprobar la publicación. Se dejaría de mostrar en la página, pero no se elimina.
-      dispatch(changePublicationApproval(values._id));
+      await dispatch(changePublicationApproval(values._id));
     } else {
       // * Arrendatario puede poner como disponible o no disponible la vivienda, pero se seguirá viendo en la página.
-      dispatch(changePublicationAvailability(values._id));
+      await dispatch(
+        changePublicationAvailability(values._id, availablePostFormat(values)),
+      );
     }
   };
 

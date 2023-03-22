@@ -132,7 +132,7 @@ export interface IAddress {
   country: string;
   countryCode: string;
   state: string;
-  _id: string;
+  _id?: string;
   street: string;
   city: string;
   stateCode: string;
@@ -151,13 +151,13 @@ export interface IRentalPlace {
   reports: any[];
   comments: any[];
   approved: boolean;
-  likes: any[];
+  likes?: any[];
   images: IImage[];
   security: IService[];
   rules: IService[];
   services: IService[];
   availability: boolean;
-  _id: string;
+  _id?: string;
   // availabe: boolean;
   scores: any[];
   title: string;
