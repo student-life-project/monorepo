@@ -48,13 +48,13 @@ const Admin: NextPage = () => {
     setTab(Number(intialState));
 
     if (router.query) {
-      const { deletedUser, deletedReport, deletedPublication } = router.query;
+      const { deletedUser, deletedReport, deletedPost } = router.query;
 
       if (deletedUser === 'true') {
         toast.success(AlertMessage.deleted('usuario'));
       } else if (deletedReport === 'true') {
         toast.success(AlertMessage.deleted('reporte'));
-      } else if (deletedPublication === 'true') {
+      } else if (deletedPost === 'true') {
         toast.success(AlertMessage.deleted('publicación'));
       }
 

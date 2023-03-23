@@ -37,7 +37,7 @@ type TPostDetails = {
 type TRedirectData = {
   pathname: string;
   query?: {
-    deletedPublication?: boolean;
+    deletedPost?: boolean;
   };
 } & any;
 
@@ -86,7 +86,7 @@ const PostDetails: FC<TPostDetails> = ({ admin, values }) => {
     const redirectData: TRedirectData = {
       pathname,
       query: {
-        deletedPublication: true,
+        deletedPost: true,
       },
     };
 

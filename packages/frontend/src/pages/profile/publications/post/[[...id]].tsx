@@ -100,9 +100,11 @@ const Post: NextPage = () => {
     };
 
     if (post && post._id) {
+      const newData = { ...data, description: data.rentalPlace };
+
       await dispatch(
         updatePublication(post._id, {
-          ...(data as unknown as IRentalPlace),
+          ...(newData as unknown as IRentalPlace),
           images: files,
         }),
       );
@@ -115,6 +117,7 @@ const Post: NextPage = () => {
           images: files,
         }),
       );
+
       redirectData.query.createdPost = true;
     }
 

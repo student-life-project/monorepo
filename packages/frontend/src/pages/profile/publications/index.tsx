@@ -69,13 +69,13 @@ const Publications: NextPage = () => {
 
   useEffect(() => {
     if (router.query) {
-      const { createdPost, updatedPost, deletedPublication } = router.query;
+      const { createdPost, updatedPost, deletedPost } = router.query;
 
       if (createdPost === 'true') {
         toast.success(AlertMessage.created('publicación'));
       } else if (updatedPost === 'true') {
         toast.success(AlertMessage.updated('publicación'));
-      } else if (deletedPublication === 'true') {
+      } else if (deletedPost === 'true') {
         toast.success(AlertMessage.deleted('publicación'));
       }
 
