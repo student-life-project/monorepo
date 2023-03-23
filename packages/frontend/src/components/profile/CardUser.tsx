@@ -1,6 +1,6 @@
 import {
   faBullhorn,
-  faComment,
+  faEnvelope,
   faInfo,
   faPhoneAlt,
 } from '@fortawesome/free-solid-svg-icons';
@@ -42,28 +42,35 @@ const CardUser: FC<TCardUser> = ({
           <h2 css={xw`py-3 text-xl text-center font-bold`}>
             {user.firstName} {user.lastName}
           </h2>
+
           <p css={xw`text-center font-semibold`}>
             {calculateAge(user.birthDate)} años
           </p>
 
-          <h2 css={xw`py-3 text-lg text-center font-bold`}>
-            Acerca de {user.firstName}
-          </h2>
-          <p css={xw`text-center mb-5`}>{user.aboutMe}</p>
+          {user.aboutMe && (
+            <>
+              <h2 css={xw`py-3 text-lg text-center font-bold`}>
+                Acerca de {user.firstName}
+              </h2>
+              <p css={xw`text-center`}>{user.aboutMe}</p>
+            </>
+          )}
 
-          <div css={xw`flex`}>
-            <FontAwesomeIcon icon={faPhoneAlt} height="1.2rem" />
-            <p css={xw`ml-2 mb-5`}>{user.phoneNumber}</p>
-          </div>
+          {user.phoneNumber && (
+            <div css={xw`flex mt-5`}>
+              <FontAwesomeIcon icon={faPhoneAlt} height="1.2rem" />
+              <p css={xw`ml-2`}>{user.phoneNumber}</p>
+            </div>
+          )}
 
           {user.id !== userId && (
             <>
               <a
-                target="_bank"
-                href={`https://wa.me/${user.phoneNumber}?text=Hola ${user.firstName}, me gustaría información sobre el anuncio: ${titlePublication}`}
+                css={xw`mt-5`}
+                href={`mailto:${user.email}?subject=Hola ${user.firstName}, me gustaría información sobre el anuncio: ${titlePublication}`}
               >
-                <Button type="button" FSuccess>
-                  <FontAwesomeIcon icon={faComment} height="1.2rem" />
+                <Button type="button" BPrimary>
+                  <FontAwesomeIcon icon={faEnvelope} height="1.2rem" />
                   <span css={xw`ml-2`}>Enviar mensaje</span>
                 </Button>
               </a>
