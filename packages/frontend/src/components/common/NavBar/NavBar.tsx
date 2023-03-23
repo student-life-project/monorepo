@@ -119,7 +119,7 @@ const NavBar: FC<INavBar> = ({
       {allowRequest && (
         <Anchor
           css={xw`mx-4`}
-          href="mailto:info@studentlife.com.mx?Subject=Necesito%20asistencia%20con%20una%20situación"
+          href="mailto:info@studentlife.com.mx?Subject=Necesito asistencia con una situación"
         >
           Enviar una solicitud
         </Anchor>
