@@ -6,6 +6,7 @@ import {
   faBullhorn,
   faConciergeBell,
   faHome,
+  faMapMarkerAlt,
   faSearch,
   faThumbsUp,
   faUsers,
@@ -18,6 +19,7 @@ import { ThunkDispatch } from 'redux-thunk';
 
 import Comments from '@/components/comments/Comments';
 import Alert from '@/components/common/Alert';
+import Anchor from '@/components/common/Anchor';
 import BodyContainer from '@/components/common/BodyContainer';
 import Button from '@/components/common/Button';
 import ButtonLink from '@/components/common/ButtonLink';
@@ -123,6 +125,9 @@ const Details: NextPage = () => {
   // TODO: Las opciones de editar y eliminar solo son para el owner.
   // TODO: Si el id del user es igual al que inicio sesión no puede reportar su post ni así mismo.
   const userId = '11';
+
+  const street = address?.street.replaceAll('#', '');
+  const googleMapsLink = `https://maps.google.com/?q=${street}, ${address?.cologne}, ${address?.city}, ${address?.state}`;
 
   return (
     <>
@@ -270,14 +275,17 @@ const Details: NextPage = () => {
                 {address?.country}.
               </p>
 
+              <Anchor
+                target="_black"
+                href={googleMapsLink}
+                css={xw`w-full flex gap-1 mt-2`}
+              >
+                <FontAwesomeIcon icon={faMapMarkerAlt} height="1.2rem" />
+                Ver Mapa
+              </Anchor>
+
               <h2 css={xw`w-full py-7 text-xl font-bold`}>Referencias</h2>
               <p>{address?.reference}</p>
-
-              <iframe
-                css={xw`w-full h-72 py-7`}
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14931.290203720673!2d-103.44059073022459!3d20.676797100000016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x527d674e41a8ff5f!2sBuckhouse!5e0!3m2!1ses-419!2smx!4v1622850401228!5m2!1ses-419!2smx"
-                loading="lazy"
-              />
 
               <Comments
                 userId={userId}
