@@ -138,7 +138,7 @@ const Link: FC<LinkProps & { children: JSX.Element | string }> = ({
 );
 
 const Footer: FC = () => {
-  const tokenSession = useSelector(tokenSessionSelector);
+  const isLogedIn = useSelector(tokenSessionSelector);
 
   return (
     <FooterStyle>
@@ -155,7 +155,7 @@ const Footer: FC = () => {
           <Column>
             <TitleSection>Student Life</TitleSection>
             <Nav>
-              {tokenSession ? (
+              {isLogedIn ? (
                 <li>
                   <Link href="/profile">Perfil</Link>
                 </li>
