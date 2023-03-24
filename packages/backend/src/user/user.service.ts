@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { IUser } from '@student_life/common';
 import { AxiosResponse } from 'axios';
 import { Model } from 'mongoose';
 import { Observable } from 'rxjs';
@@ -182,5 +183,22 @@ export class UserService {
     }
 
     return userData;
+  }
+
+  async getUserById(id: string): Promise<UserDocument | null> {
+    const userData = await this.UserModel.findById(id)
+      .populate('photo')
+      .populate('reports')
+      .populate('studentInfo')
+      .populate('ownerInfo');
+
+    return userData;
+  }
+
+  async updateUserProfile(id: string, data: IUser): Promise<IUser> {
+    return this.UserModel.findByIdAndUpdate(
+      id,
+      data as any,
+    ) as unknown as IUser;
   }
 }

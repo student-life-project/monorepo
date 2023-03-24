@@ -6,12 +6,13 @@ import {
   faIdCard,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
+import { useUser } from '@auth0/nextjs-auth0';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EUserType } from '@student_life/common';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Button from '@/components/common/Button';
 import WebcamImage from '@/components/common/Camara';
 import DoubleFormSpace from '@/components/common/DoubleFormSpace';
@@ -21,8 +22,14 @@ import Modal from '@/components/common/Modal';
 import Radio from '@/components/common/Radio';
 import Tooltip from '@/components/common/Tooltip';
 import { ErrorMessageInput, NameInput } from '@/constants';
-// import { AlertMessage } from '@/constants/alertMessage';
+import { AlertMessage } from '@/constants/alertMessage';
 import { calculateAge } from '@/utils/managerDate';
+import { useDispatch, useSelector } from 'react-redux';
+import { userSelector } from '@/store/selectors/user';
+import dayjs from 'dayjs';
+import { api } from '@/services/api';
+import { fetchUserData } from '@/store/actions/users';
+import { userRecognitionApi } from '@/services/faceRecognition';
 
 interface IRegisterData {
   userType: EUserType;
@@ -79,10 +86,15 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
     mode: 'all',
   });
 
-  const [faceImage, setFaceImage] = useState(null);
+  const { user: oauthUser } = useUser();
+  const dispatch = useDispatch();
+
+  const userFromStore = useSelector(userSelector);
+
+  const [faceImage, setFaceImage] = useState<string | null>(null);
   const [showFaceImage, setShowFaceImage] = useState(false);
 
-  const [idCardImage, setIdCardImage] = useState(null);
+  const [idCardImage, setIdCardImage] = useState<string | null>(null);
   const [showIdCardImage, setShowIdCardImage] = useState(false);
 
   const [facialRecognition, setFacialRecognition] = useState(false);
@@ -95,11 +107,47 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
     setShowIdCardImage(!showIdCardImage);
   };
 
-  const onSubmit: SubmitHandler<IRegisterData> = async (data) => {
+  const onSubmit: SubmitHandler<IRegisterData> = async (dataToSend) => {
     // eslint-disable-next-line no-console
-    console.log(data);
-    //! toast.success(AlertMessage.updated('usuario'));
-    closeModal(); // TODO: cerrar si el resultado es success
+    console.log(dataToSend);
+    if (!idCardImage && faceImage) {
+      toast.error('Por favor verifique su identidad');
+      return;
+    }
+    try {
+      const { data: dataIdValidated } = await userRecognitionApi.post<{
+        response: string;
+      }>('', {
+        faceImage: faceImage?.split?.(',')?.pop?.() || '',
+        idCardImage: idCardImage?.split?.(',')?.pop?.() || '',
+      });
+
+      if (dataIdValidated.response === 'false') {
+        toast.error('El rostro del usuario no coincide con la identificacion');
+        return;
+      }
+
+      if (dataIdValidated.response === 'true') {
+        const { data } = await api.put('/user/profile', {
+          user: { ...dataToSend, identityValidated: true },
+        });
+
+        // eslint-disable-next-line no-console
+        console.log('====================================');
+        // eslint-disable-next-line no-console
+        console.log({ data });
+        // eslint-disable-next-line no-console
+        console.log('====================================');
+
+        dispatch(fetchUserData());
+
+        toast.success(AlertMessage.updated('usuario'));
+        closeModal(); // TODO: cerrar si el resultado es success
+      }
+    } catch (error) {
+      console.error('error validating user face', error);
+      toast.error(error.message);
+    }
   };
 
   const previousStep = () => {
@@ -115,8 +163,21 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
   };
 
   useEffect(() => {
-    reset({ userType: EUserType.STUDENT });
-  }, [reset]);
+    if (Object.keys(userFromStore).length && oauthUser) {
+      const formatedDate = dayjs(userFromStore.birthDate).format('YYYY-MM-DD');
+
+      reset({
+        firstName: oauthUser.given_name,
+        lastName: oauthUser.family_name,
+        phone: userFromStore.phoneNumber,
+        birthDate: formatedDate,
+        aboutMe: userFromStore?.aboutMe || '',
+        email: oauthUser.email,
+        userImage: oauthUser.picture,
+        userType: userFromStore.type || EUserType.STUDENT,
+      });
+    }
+  }, [userFromStore, oauthUser, reset]);
 
   return (
     <Modal>
@@ -139,7 +200,7 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
                 control={control}
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => {
-                  const role = parseInt(value, 10);
+                  const role = value;
 
                   return (
                     <>

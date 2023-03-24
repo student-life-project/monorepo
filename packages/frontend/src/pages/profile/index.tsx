@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState, ComponentType } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
@@ -22,11 +22,16 @@ import Textarea from '@/components/common/Textarea';
 import Avatar from '@/components/profile/Avatar';
 import UpdateUser from '@/components/profile/UpdateUser';
 import { ErrorMessageInput, NameInput } from '@/constants';
-// import { AlertMessage } from '@/constants/alertMessage';
+import { AlertMessage } from '@/constants/alertMessage';
 import { TFile } from '@/types';
 import { calculateAge } from '@/utils/managerDate';
 import { rgxNumber } from '@/utils/validations';
 import withAuth from '@/utils/WithAuth';
+import { useDispatch, useSelector } from 'react-redux';
+import { userSelector } from '@/store/selectors/user';
+import dayjs from 'dayjs';
+import { api } from '@/services/api';
+import { fetchUserData } from '@/store/actions/users';
 
 const Content = styled.div`
   ${xw`
@@ -71,6 +76,9 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
   } = useForm({ mode: 'all' });
 
   const { isLoading, user: oauthUser, error: authError } = useUser();
+  const dispatch = useDispatch();
+
+  const userFromStore = useSelector(userSelector);
 
   useEffect(() => {
     if (isLoading || !oauthUser) {
@@ -105,25 +113,54 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
 
   const aboutMe = watch('aboutMe');
 
-  const onSubmit: SubmitHandler<IProfileData> = async (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
-    // TODO: Alerta success y error
-    //! toast.success(AlertMessage.updated('usuario'));
+  const onSubmit: SubmitHandler<IProfileData> = async (dataToSend) => {
+    try {
+      const { data } = await api.put('/user/profile', {
+        user: { ...dataToSend, phoneNumber: dataToSend.phone },
+      });
+
+      // eslint-disable-next-line no-console
+      console.log('====================================');
+      // eslint-disable-next-line no-console
+      console.log({ data });
+      // eslint-disable-next-line no-console
+      console.log('====================================');
+
+      dispatch(fetchUserData());
+
+      toast.success(AlertMessage.updated('usuario'));
+    } catch (error) {
+      console.error('error validating user face', error);
+      toast.error(error.message);
+    }
   };
 
   // TODO: mantender el estado con los archivos agregados. Subir de golpe.
   const [files, setFiles] = useState<TFile[]>([]);
 
-  // TODO: es necesario obtener un valor de backend para validar el form.
-  // TODO: es necesario que se mantenga abierto hasta que el usuario actualice su información.
-  // TODO: cuando se actualice la info de usuario se modifique el valor.
-  const valorBackend = false; // TODO: valor false y se pasa a true cuando el se actualiza.
-  const [updateUser, setUpdateUser] = useState(valorBackend);
+  const [updateUser, setUpdateUser] = useState(false);
 
   const handleUpdateUser = () => {
     setUpdateUser(!updateUser);
   };
+
+  useEffect(() => {
+    if (userFromStore && oauthUser) {
+      const formatedDate = dayjs(userFromStore.birthDate).format('YYYY-MM-DD');
+      reset({
+        firstName: oauthUser.given_name,
+        lastName: oauthUser.family_name,
+        phone: userFromStore.phoneNumber,
+        birthDate: formatedDate,
+        aboutMe: userFromStore?.aboutMe || '',
+        email: oauthUser.email,
+        password: accessToken,
+        userImage: oauthUser.picture,
+      });
+
+      setUpdateUser(!!userFromStore.identityValidated);
+    }
+  }, [userFromStore, oauthUser, accessToken, reset]);
 
   return (
     <>

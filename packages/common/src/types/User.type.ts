@@ -19,6 +19,7 @@ export interface IUser {
   photo?: IImage;
   role: EUserType;
   reports: IReport[];
+  aboutMe?: string;
 }
 
 export const ProfileReport = [

@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import Cookie from 'js-cookie';
 import { ThunkAction } from 'redux-thunk';
 
-// import { api } from '@/services/api';
+import { api } from '@/services/api';
 import { TRootState } from '@/store/reducers';
 import {
   FETCH_USER_FAILURE,
@@ -179,18 +179,11 @@ export const fetchUserDataFailureAction = (
 });
 
 export const fetchUserData =
-  (userId: string): ThunkAction<void, TRootState, unknown, IUserAction> =>
+  (): ThunkAction<void, TRootState, unknown, IUserAction> =>
   async (dispatch) => {
     try {
       dispatch(fetchUserDataPendingAction());
-
-      // const {data} = await api.get<IUser>(`/users/${userId}`);
-
-      const data: IUser = {
-        firstName: `fulanito ${userId}`,
-        email: `email_${userId}@email.com`,
-        type: EUserType.OWNER,
-      } as IUser;
+      const { data } = await api.get<IUser>(`/user/profile`);
 
       dispatch(fetchUserDataSuccessAction(data));
     } catch (error) {
