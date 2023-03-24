@@ -458,7 +458,10 @@ export const searchPublication =
       dispatch(searchPublicationPendingAction());
 
       const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
-      const { data } = await api.get<IPublications>(`/publication${filter}`);
+
+      const { data } = await api.get<IPublications>(
+        `/rental-place/from-user${filter}`,
+      );
 
       dispatch(searchPublicationSuccessAction(data));
     } catch (error) {
