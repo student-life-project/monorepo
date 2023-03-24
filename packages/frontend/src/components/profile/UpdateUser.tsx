@@ -1,18 +1,20 @@
 /* eslint-disable simple-import-sort/imports */
 import xw from 'xwind';
+import { useUser } from '@auth0/nextjs-auth0';
 import styled from '@emotion/styled';
 import {
   faChevronRight,
   faIdCard,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { useUser } from '@auth0/nextjs-auth0';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EUserType } from '@student_life/common';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+
 import Button from '@/components/common/Button';
 import WebcamImage from '@/components/common/Camara';
 import DoubleFormSpace from '@/components/common/DoubleFormSpace';
@@ -23,13 +25,11 @@ import Radio from '@/components/common/Radio';
 import Tooltip from '@/components/common/Tooltip';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { AlertMessage } from '@/constants/alertMessage';
-import { calculateAge } from '@/utils/managerDate';
-import { useDispatch, useSelector } from 'react-redux';
-import { userSelector } from '@/store/selectors/user';
-import dayjs from 'dayjs';
 import { api } from '@/services/api';
-import { fetchUserData } from '@/store/actions/users';
 import { userRecognitionApi } from '@/services/faceRecognition';
+import { fetchUserData } from '@/store/actions/users';
+import { userSelector } from '@/store/selectors/user';
+import { calculateAge } from '@/utils/managerDate';
 
 interface IRegisterData {
   userType: EUserType;

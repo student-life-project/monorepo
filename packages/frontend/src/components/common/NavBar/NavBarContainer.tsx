@@ -25,10 +25,10 @@ const NavBarContainer: FC<INavBarContainer> = ({
   allowRequest,
   user = null,
 }) => {
-  const dispatch = useDispatch();
   const router = useRouter();
-  const tokenSession = useSelector(tokenSessionSelector);
+  const dispatch = useDispatch();
   const userData = useSelector(userSelector);
+  const tokenSession = useSelector(tokenSessionSelector);
 
   useEffect(() => {
     if (tokenSession) {
@@ -57,7 +57,7 @@ const NavBarContainer: FC<INavBarContainer> = ({
           location: '',
           url: user?.picture || '',
         },
-        type: user?.type as unknown as EUserType,
+        type: userData?.type as unknown as EUserType,
         reports: [], // IReport
       }}
       allowLoginRegister={allowLoginRegister}

@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/iframe-has-title */
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
@@ -12,6 +11,7 @@ import {
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import dayjs from 'dayjs';
 import { NextPage, NextPageContext } from 'next';
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -35,8 +35,8 @@ import { TRootState } from '@/store/reducers';
 import { commentsSelector } from '@/store/selectors/comment';
 import { rentalPlaceDetailsSelector } from '@/store/selectors/rentalPlaces';
 import { tokenSessionSelector } from '@/store/selectors/session';
+import { userSelector } from '@/store/selectors/user';
 import { formatter } from '@/utils/numberFormat';
-import dayjs from 'dayjs';
 
 type TContentGallery = {
   length: number;
@@ -79,17 +79,17 @@ const Img = styled.img<TImg>`
 `;
 
 const Details: NextPage = () => {
+  const userData = useSelector(userSelector);
+  const commentList = useSelector(commentsSelector);
+  const isLogedIn = useSelector(tokenSessionSelector);
   const rentalPlace = useSelector(rentalPlaceDetailsSelector);
 
-  const { address } = rentalPlace;
-  const rentalPlaceImages = rentalPlace.images || [];
+  const { address } = rentalPlace || {};
+  const rentalPlaceImages = rentalPlace?.images || [];
 
   const [userReport, setUserReport] = useState(false);
   const [rentalReport, setRentalReport] = useState(false);
   const [showCarousel, setShowCarousel] = useState(false);
-
-  const commentList = useSelector(commentsSelector);
-  const isLogedIn = useSelector(tokenSessionSelector);
 
   const handleUserReport = () => {
     setUserReport(!userReport);
@@ -104,9 +104,10 @@ const Details: NextPage = () => {
   };
 
   const user = useMemo(() => {
-    if (rentalPlace.owner) {
+    if (rentalPlace?.owner) {
       return {
         id: rentalPlace.owner?._id,
+        // TODO: Enviar imagen.
         userImage: '/images/avatar.png',
         firstName: rentalPlace.owner?.firstName,
         lastName: rentalPlace.owner?.lastName,
@@ -126,10 +127,6 @@ const Details: NextPage = () => {
   // TODO: Ver apartados sólo si existe una sesión iniciada.
   // TODO: si el usuario califico se pone como activo el botón.
   const like = false;
-
-  // TODO: Las opciones de editar y eliminar solo son para el owner.
-  // TODO: Si el id del user es igual al que inicio sesión no puede reportar su post ni así mismo.
-  const userId = '11';
 
   const street = address?.street.replace('#', '');
   const googleMapsLink = `https://maps.google.com/?q=${street}, ${address?.cologne}, ${address?.city}, ${address?.state}`;
@@ -175,18 +172,20 @@ const Details: NextPage = () => {
           {isLogedIn ? (
             <Button BPrimary round active={like} css={xw`h-10`}>
               <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
-              <span css={xw`ml-2`}>{rentalPlace.likesCount || 0} Me gusta</span>
+              <span css={xw`ml-2`}>
+                {rentalPlace?.likesCount || 0} Me gusta
+              </span>
             </Button>
           ) : (
             <div css={xw`flex`}>
               <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
-              <p css={xw`ml-2`}>{rentalPlace.likesCount || 0} Me gusta</p>
+              <p css={xw`ml-2`}>{rentalPlace?.likesCount || 0} Me gusta</p>
             </div>
           )}
 
           <Title css={xw`my-5`}>
-            {formatter().format(rentalPlace.price)} / mes, en{' '}
-            {rentalPlace.title}
+            {formatter().format(rentalPlace?.price)} / mes, en{' '}
+            {rentalPlace?.title}
           </Title>
         </div>
 
@@ -195,29 +194,29 @@ const Details: NextPage = () => {
             <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
               <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faHome} height="1.2rem" />
-                <p css={xw`ml-2`}>{rentalPlace.typeSpace}</p>
+                <p css={xw`ml-2`}>{rentalPlace?.typeSpace}</p>
               </div>
 
               <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faConciergeBell} height="1.2rem" />
                 <p css={xw`ml-2`}>
-                  {rentalPlace.availability ? 'Disponible' : 'No Disponible'}
+                  {rentalPlace?.availability ? 'Disponible' : 'No Disponible'}
                 </p>
               </div>
 
               <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faSearch} height="1.2rem" />
-                <p css={xw`ml-2`}>{rentalPlace.reason}</p>
+                <p css={xw`ml-2`}>{rentalPlace?.reason}</p>
               </div>
             </div>
 
             <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
               <div css={xw`flex`}>
                 <FontAwesomeIcon icon={faUsers} height="1.2rem" />
-                <p css={xw`ml-2`}>{rentalPlace.gender}</p>
+                <p css={xw`ml-2`}>{rentalPlace?.gender}</p>
               </div>
 
-              {isLogedIn && rentalPlace.userId !== userId && (
+              {isLogedIn && user?.id !== userData?._id && (
                 <div css={xw`flex`}>
                   <ButtonLink
                     type="button"
@@ -236,12 +235,12 @@ const Details: NextPage = () => {
                 <h2 css={xw`w-full py-7 text-xl font-bold`}>
                   Información de la vivienda
                 </h2>
-                <p css={xw`text-justify`}>{rentalPlace.description}</p>
+                <p css={xw`text-justify`}>{rentalPlace?.description}</p>
               </div>
 
               <h2 css={xw`w-full py-7 text-xl font-bold`}>Servicios</h2>
               <ul css={xw`w-full list-disc flex flex-wrap`}>
-                {rentalPlace.services?.map((item) => (
+                {rentalPlace?.services?.map((item) => (
                   <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
                     {item}
                   </li>
@@ -250,7 +249,7 @@ const Details: NextPage = () => {
 
               <h2 css={xw`w-full py-7 text-xl font-bold`}>Reglas</h2>
               <ul css={xw`w-full list-disc flex flex-wrap`}>
-                {rentalPlace.rules?.map((item) => (
+                {rentalPlace?.rules?.map((item) => (
                   <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
                     {item}
                   </li>
@@ -259,7 +258,7 @@ const Details: NextPage = () => {
 
               <h2 css={xw`w-full py-7 text-xl font-bold`}>Seguridad</h2>
               <ul css={xw`w-full list-disc flex flex-wrap`}>
-                {rentalPlace.security?.map((item) => (
+                {rentalPlace?.security?.map((item) => (
                   <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
                     {item}
                   </li>
@@ -293,9 +292,9 @@ const Details: NextPage = () => {
               <p>{address?.reference}</p>
 
               <Comments
-                userId={userId}
                 isLogedIn={isLogedIn}
                 comments={commentList}
+                userId={userData?._id}
                 openUserReport={handleUserReport}
               />
             </div>
@@ -303,10 +302,10 @@ const Details: NextPage = () => {
 
           <CardUser
             user={user}
-            userId={userId}
             isLogedIn={isLogedIn}
+            userId={userData?._id}
             openUserReport={handleUserReport}
-            titlePublication={rentalPlace.title}
+            titlePublication={rentalPlace?.title}
           />
         </section>
 
