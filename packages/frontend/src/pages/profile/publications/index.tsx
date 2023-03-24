@@ -58,6 +58,11 @@ const Publications: NextPage = () => {
     await dispatch(getAllPublication());
   };
 
+  const handleDeletePublication = async () => {
+    await dispatch(deletePublication(postId));
+    await dispatch(getAllPublication());
+  };
+
   const handleOpenModal = (id: TElementId) => {
     setShowModal(true);
     setPostId(id);
@@ -111,7 +116,7 @@ const Publications: NextPage = () => {
           title={confirmMessage.titleDelete('publicación')}
           description={confirmMessage.descriptionDelete('publicación')}
           closeModal={handleCloseModal}
-          action={() => dispatch(deletePublication(postId))}
+          action={handleDeletePublication}
         />
       )}
     </>

@@ -376,7 +376,7 @@ export const deletePublication =
     try {
       dispatch(deletePublicationPendingAction());
 
-      const { data } = await api.delete<IRentalPlace>(`/publication/${id}`);
+      const { data } = await api.delete<IRentalPlace>(`/rental-place/${id}`);
 
       dispatch(deletePublicationSuccessAction(data));
       toast.success(AlertMessage.deleted('publicación'));
