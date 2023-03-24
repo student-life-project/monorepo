@@ -16,6 +16,7 @@ import {
   GET_PUBLICATION_ERROR,
   GET_PUBLICATION_PENDING,
   GET_PUBLICATION_SUCCESS,
+  INITIAL_STATE_PUBLICATION,
   SEARCH_PUBLICATION_ERROR,
   SEARCH_PUBLICATION_PENDING,
   SEARCH_PUBLICATION_SUCCESS,
@@ -52,6 +53,13 @@ const reducer = (
   payload: TPublicationsAction,
 ): IState => {
   switch (payload.type) {
+    case INITIAL_STATE_PUBLICATION:
+      return {
+        ...state,
+        publication: null,
+        isFetching: false,
+        error: null,
+      };
     case GET_PUBLICATION_PENDING:
       return {
         ...state,

@@ -32,6 +32,7 @@ import {
   publicationsSelector,
 } from '@/store/selectors/publications';
 import { TElementId } from '@/types';
+import { availablePostFormat } from '@/utils/availablePostFormat';
 
 const Publications: NextPage = () => {
   const router = useRouter();
@@ -47,8 +48,19 @@ const Publications: NextPage = () => {
     dispatch(searchPublication(target.value));
   };
 
-  const availablePost = (id: TElementId) => {
-    dispatch(changePublicationAvailability(id));
+  const availablePost = async (id: TElementId) => {
+    const data = publicationList.find((item) => item._id === id);
+
+    await dispatch(
+      changePublicationAvailability(id, availablePostFormat(data)),
+    );
+
+    await dispatch(getAllPublication());
+  };
+
+  const handleDeletePublication = async () => {
+    await dispatch(deletePublication(postId));
+    await dispatch(getAllPublication());
   };
 
   const handleOpenModal = (id: TElementId) => {
@@ -62,13 +74,13 @@ const Publications: NextPage = () => {
 
   useEffect(() => {
     if (router.query) {
-      const { createdPost, updatedPost, deletedPublication } = router.query;
+      const { createdPost, updatedPost, deletedPost } = router.query;
 
       if (createdPost === 'true') {
         toast.success(AlertMessage.created('publicación'));
       } else if (updatedPost === 'true') {
         toast.success(AlertMessage.updated('publicación'));
-      } else if (deletedPublication === 'true') {
+      } else if (deletedPost === 'true') {
         toast.success(AlertMessage.deleted('publicación'));
       }
 
@@ -104,7 +116,7 @@ const Publications: NextPage = () => {
           title={confirmMessage.titleDelete('publicación')}
           description={confirmMessage.descriptionDelete('publicación')}
           closeModal={handleCloseModal}
-          action={() => dispatch(deletePublication(postId))}
+          action={handleDeletePublication}
         />
       )}
     </>

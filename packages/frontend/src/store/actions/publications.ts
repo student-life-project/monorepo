@@ -21,6 +21,7 @@ import {
   GET_PUBLICATION_ERROR,
   GET_PUBLICATION_PENDING,
   GET_PUBLICATION_SUCCESS,
+  INITIAL_STATE_PUBLICATION,
   SEARCH_PUBLICATION_ERROR,
   SEARCH_PUBLICATION_PENDING,
   SEARCH_PUBLICATION_SUCCESS,
@@ -35,6 +36,10 @@ import {
   IRentalPlace,
   TElementId,
 } from '@/types';
+
+interface IInitialStatePublication {
+  type: typeof INITIAL_STATE_PUBLICATION;
+}
 
 interface IGetPublicationPendingAction {
   type: typeof GET_PUBLICATION_PENDING;
@@ -135,6 +140,7 @@ interface IChangePublicationAvailabilityErrorAction {
 }
 
 export type TPublicationsAction =
+  | IInitialStatePublication
   | IGetPublicationPendingAction
   | IGetPublicationSuccessAction
   | IGetPublicationErrorAction
@@ -156,6 +162,18 @@ export type TPublicationsAction =
   | IChangePublicationAvailabilityPendingAction
   | IChangePublicationAvailabilitySuccessAction
   | IChangePublicationAvailabilityErrorAction;
+
+// =============================================================================
+
+export const initialStatePublicationAction = (): IInitialStatePublication => ({
+  type: INITIAL_STATE_PUBLICATION,
+});
+
+export const initialStatePublication =
+  (): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
+  (dispatch) => {
+    dispatch(initialStatePublicationAction());
+  };
 
 // =============================================================================
 
@@ -358,7 +376,7 @@ export const deletePublication =
     try {
       dispatch(deletePublicationPendingAction());
 
-      const { data } = await api.delete<IRentalPlace>(`/publication/${id}`);
+      const { data } = await api.delete<IRentalPlace>(`/rental-place/${id}`);
 
       dispatch(deletePublicationSuccessAction(data));
       toast.success(AlertMessage.deleted('publicación'));
@@ -473,18 +491,27 @@ export const changePublicationAvailabilityErrorAction = (
 export const changePublicationAvailability =
   (
     id: TElementId,
+    publication: IRentalPlace,
   ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
       dispatch(changePublicationAvailabilityPendingAction());
 
-      const { data } = await api.put<IRentalPlace>(`/publication/${id}`);
+      const { data } = await api.put<IRentalPlace>(`/rental-place/${id}`, {
+        publication,
+      });
+
+      const newData = {
+        ...data,
+        availability: publication.availability,
+      };
 
       dispatch(
         changePublicationAvailabilitySuccessAction(
-          data as unknown as IRentalPlace,
+          newData as unknown as IRentalPlace,
         ),
       );
+
       toast.success(AlertMessage.updated('disponibilidad'));
     } catch (error) {
       dispatch(changePublicationAvailabilityErrorAction(error));

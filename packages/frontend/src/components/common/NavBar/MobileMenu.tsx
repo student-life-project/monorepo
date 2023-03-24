@@ -94,11 +94,23 @@ const MobileMenu: FC<INavBar> = ({
           />
 
           {isLogedIn && (
-            <MenuItem>
-              <Link href="/profile">
-                <UserButton>{user?.email}</UserButton>
-              </Link>
-            </MenuItem>
+            <>
+              <MenuItem>
+                <Link href="/profile">
+                  <UserButton>{user?.email}</UserButton>
+                </Link>
+              </MenuItem>
+
+              {user?.role === EUserType.ADMIN && (
+                <MenuItem>
+                  <Link href="/profile/admin">
+                    <Anchor css={xw`text-secondary-1`}>
+                      Gestionar Student Life
+                    </Anchor>
+                  </Link>
+                </MenuItem>
+              )}
+            </>
           )}
 
           {allowRental && (
@@ -112,13 +124,13 @@ const MobileMenu: FC<INavBar> = ({
           {allowRequest && (
             <Anchor
               css={xw`text-secondary-1`}
-              href="mailto:info@studentlife.com.mx?Subject=Necesito%20asistencia%20con%20una%20situación"
+              href="mailto:info@studentlife.com.mx?Subject=Necesito asistencia con una situación"
             >
               Enviar una solicitud
             </Anchor>
           )}
 
-          {user?.type === EUserType.OWNER && (
+          {isLogedIn && user?.role === EUserType.OWNER && (
             <MenuItem>
               <Link href="/profile/publications">
                 <Anchor css={xw`text-secondary-1`}>Publicaciones</Anchor>
@@ -126,17 +138,21 @@ const MobileMenu: FC<INavBar> = ({
             </MenuItem>
           )}
 
-          {!isLogedIn ? (
-            <>
-              {allowLoginRegister && (
-                <MenuItem>
-                  <Anchor href="/api/auth/login" css={xw`text-secondary-1`}>
-                    Iniciar Sesión | Registrarse
-                  </Anchor>
-                </MenuItem>
-              )}
-            </>
-          ) : (
+          {!isLogedIn && allowLoginRegister && (
+            <MenuItem>
+              <Anchor href="/api/auth/login" css={xw`text-secondary-1`}>
+                Iniciar Sesión | Registrarse
+              </Anchor>
+            </MenuItem>
+          )}
+
+          <MenuItem>
+            <Link href="/help">
+              <Anchor css={xw`text-secondary-1`}>Ayuda</Anchor>
+            </Link>
+          </MenuItem>
+
+          {isLogedIn && (
             <MenuItem>
               <ExitButton type="button" onClick={onLogoutClick}>
                 Cerrar Sesión

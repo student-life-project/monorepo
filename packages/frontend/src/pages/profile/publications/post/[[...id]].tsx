@@ -20,6 +20,7 @@ import { TStore } from '@/store';
 import {
   createPublication,
   getPublication,
+  initialStatePublication,
   updatePublication,
 } from '@/store/actions/publications';
 import { TRootState } from '@/store/reducers';
@@ -99,9 +100,11 @@ const Post: NextPage = () => {
     };
 
     if (post && post._id) {
+      const newData = { ...data, description: data.rentalPlace };
+
       await dispatch(
         updatePublication(post._id, {
-          ...(data as unknown as IRentalPlace),
+          ...(newData as unknown as IRentalPlace),
           images: files,
         }),
       );
@@ -114,6 +117,7 @@ const Post: NextPage = () => {
           images: files,
         }),
       );
+
       redirectData.query.createdPost = true;
     }
 
@@ -215,6 +219,7 @@ const Post: NextPage = () => {
               control={control}
               reference={location[5]?.length}
               zone={location[6]?.length}
+              state={location[1]}
             />
           )}
 
@@ -287,6 +292,10 @@ Post.getInitialProps = async ({
   if (query && query.id) {
     await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
       getPublication(query.id[0]),
+    );
+  } else {
+    await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+      initialStatePublication(),
     );
   }
 
