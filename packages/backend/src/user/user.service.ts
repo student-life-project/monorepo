@@ -183,4 +183,14 @@ export class UserService {
 
     return userData;
   }
+
+  async getUserById(id: string): Promise<UserDocument | null> {
+    const userData = await this.UserModel.findById(id)
+      .populate('photo')
+      .populate('reports')
+      .populate('studentInfo')
+      .populate('ownerInfo');
+
+    return userData;
+  }
 }

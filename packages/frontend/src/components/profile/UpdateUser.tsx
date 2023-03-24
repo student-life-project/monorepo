@@ -6,6 +6,7 @@ import {
   faIdCard,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
+import { useUser } from '@auth0/nextjs-auth0';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EUserType } from '@student_life/common';
 import { useEffect, useState } from 'react';
@@ -23,6 +24,10 @@ import Tooltip from '@/components/common/Tooltip';
 import { ErrorMessageInput, NameInput } from '@/constants';
 // import { AlertMessage } from '@/constants/alertMessage';
 import { calculateAge } from '@/utils/managerDate';
+import { useSelector } from 'react-redux';
+import { userSelector } from '@/store/selectors/user';
+import dayjs from 'dayjs';
+import { userRecognitionApi } from '@/services/faceRecognition';
 
 interface IRegisterData {
   userType: EUserType;
@@ -79,10 +84,14 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
     mode: 'all',
   });
 
-  const [faceImage, setFaceImage] = useState(null);
+  const { user: oauthUser } = useUser();
+
+  const userFromStore = useSelector(userSelector);
+
+  const [faceImage, setFaceImage] = useState<string | null>(null);
   const [showFaceImage, setShowFaceImage] = useState(false);
 
-  const [idCardImage, setIdCardImage] = useState(null);
+  const [idCardImage, setIdCardImage] = useState<string | null>(null);
   const [showIdCardImage, setShowIdCardImage] = useState(false);
 
   const [facialRecognition, setFacialRecognition] = useState(false);
@@ -95,9 +104,27 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
     setShowIdCardImage(!showIdCardImage);
   };
 
-  const onSubmit: SubmitHandler<IRegisterData> = async (data) => {
+  const onSubmit: SubmitHandler<IRegisterData> = async (dataToSend) => {
     // eslint-disable-next-line no-console
-    console.log(data);
+    console.log(dataToSend);
+    try {
+      const { data } = await userRecognitionApi.post<{ response: boolean }>(
+        '/',
+        {
+          faceImage: faceImage?.split?.(',')?.pop?.() || '',
+          idCardImage: idCardImage?.split?.(',')?.pop?.() || '',
+        },
+      );
+
+      // eslint-disable-next-line no-console
+      console.log('====================================');
+      // eslint-disable-next-line no-console
+      console.log({ data });
+      // eslint-disable-next-line no-console
+      console.log('====================================');
+    } catch (error) {
+      console.error('error validating user face', error);
+    }
     //! toast.success(AlertMessage.updated('usuario'));
     closeModal(); // TODO: cerrar si el resultado es success
   };
@@ -115,8 +142,21 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
   };
 
   useEffect(() => {
-    reset({ userType: EUserType.STUDENT });
-  }, [reset]);
+    if (Object.keys(userFromStore).length && oauthUser) {
+      const formatedDate = dayjs(userFromStore.birthDate).format('YYYY-MM-DD');
+
+      reset({
+        firstName: oauthUser.given_name,
+        lastName: oauthUser.family_name,
+        phone: userFromStore.phoneNumber,
+        birthDate: formatedDate,
+        aboutMe: userFromStore?.aboutMe || '',
+        email: oauthUser.email,
+        userImage: oauthUser.picture,
+        userType: userFromStore.type || EUserType.STUDENT,
+      });
+    }
+  }, [userFromStore, oauthUser, reset]);
 
   return (
     <Modal>
@@ -139,7 +179,7 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
                 control={control}
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => {
-                  const role = parseInt(value, 10);
+                  const role = value;
 
                   return (
                     <>

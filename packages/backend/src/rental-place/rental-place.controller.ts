@@ -302,15 +302,17 @@ export class RentalPlaceController {
 
     const rentalPlaceObj = rentalPlace.toObject();
 
-    const [likesCount, commentsFinded] = await Promise.all([
+    const [likesCount, commentsFinded, ownerData] = await Promise.all([
       this.likeService.count(id),
       this.commentService.getByRentalPlaceId(id),
+      this.userService.getUserById(rentalPlace.owner),
     ]);
 
     return {
       ...rentalPlaceObj,
       likesCount,
       comments: commentsFinded.data,
+      owner: ownerData,
     };
   }
 

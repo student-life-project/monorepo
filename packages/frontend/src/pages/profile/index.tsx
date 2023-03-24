@@ -27,6 +27,8 @@ import { TFile } from '@/types';
 import { calculateAge } from '@/utils/managerDate';
 import { rgxNumber } from '@/utils/validations';
 import withAuth from '@/utils/WithAuth';
+import { useSelector } from 'react-redux';
+import { userSelector } from '@/store/selectors/user';
 
 const Content = styled.div`
   ${xw`
@@ -72,6 +74,8 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
 
   const { isLoading, user: oauthUser, error: authError } = useUser();
 
+  const userFromStore = useSelector(userSelector);
+
   useEffect(() => {
     if (isLoading || !oauthUser) {
       return;
@@ -115,15 +119,28 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
   // TODO: mantender el estado con los archivos agregados. Subir de golpe.
   const [files, setFiles] = useState<TFile[]>([]);
 
-  // TODO: es necesario obtener un valor de backend para validar el form.
-  // TODO: es necesario que se mantenga abierto hasta que el usuario actualice su información.
-  // TODO: cuando se actualice la info de usuario se modifique el valor.
-  const valorBackend = false; // TODO: valor false y se pasa a true cuando el se actualiza.
-  const [updateUser, setUpdateUser] = useState(valorBackend);
+  const [updateUser, setUpdateUser] = useState(false);
 
   const handleUpdateUser = () => {
     setUpdateUser(!updateUser);
   };
+
+  useEffect(() => {
+    if (userFromStore && oauthUser) {
+      reset({
+        firstName: oauthUser.given_name,
+        lastName: oauthUser.family_name,
+        phone: userFromStore.phoneNumber,
+        birthDate: userFromStore.birthDate,
+        aboutMe: userFromStore?.aboutMe || '',
+        email: oauthUser.email,
+        password: accessToken,
+        userImage: oauthUser.picture,
+      });
+
+      setUpdateUser(userFromStore.phoneNumber !== '0');
+    }
+  }, [userFromStore, oauthUser, accessToken, reset]);
 
   return (
     <>

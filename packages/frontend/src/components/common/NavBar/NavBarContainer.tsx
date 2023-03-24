@@ -1,11 +1,12 @@
 import { WithPageAuthRequiredProps } from '@auth0/nextjs-auth0';
 import { EUserType } from '@student_life/common';
 import { useRouter } from 'next/router';
-import { ComponentType, FC } from 'react';
+import { ComponentType, FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { logoutAction } from '@/store/actions/users';
+import { fetchUserData, logoutAction } from '@/store/actions/users';
 import { tokenSessionSelector } from '@/store/selectors/session';
+import { userSelector } from '@/store/selectors/user';
 import { IUserAuth0 } from '@/types';
 import withAuth from '@/utils/WithAuth';
 
@@ -27,6 +28,13 @@ const NavBarContainer: FC<INavBarContainer> = ({
   const dispatch = useDispatch();
   const router = useRouter();
   const tokenSession = useSelector(tokenSessionSelector);
+  const userData = useSelector(userSelector);
+
+  useEffect(() => {
+    if (tokenSession) {
+      dispatch(fetchUserData());
+    }
+  }, [tokenSession, dispatch]);
 
   const onLogoutClick = () => {
     dispatch(logoutAction());
@@ -36,22 +44,20 @@ const NavBarContainer: FC<INavBarContainer> = ({
   return (
     <NavBar
       user={{
-        id: '',
+        id: userData?._id,
         firstName: user?.name || '',
-        phoneNumber: '1234567890',
+        phoneNumber: userData?.phoneNumber,
         email: user?.email || '',
-        birthDate: '01-07-1999',
-        password: '',
-        messages: [], // IMessage
+        birthDate: userData?.birthDate,
+        password: userData?.password,
+        messages: userData?.messages || [], // IMessage
         photo: {
           id: '',
           name: '',
           location: '',
           url: user?.picture || '',
         },
-        type: user?.[
-          'https://student-life-auth-api/roles'
-        ] as unknown as EUserType,
+        type: user?.type as unknown as EUserType,
         reports: [], // IReport
       }}
       allowLoginRegister={allowLoginRegister}
