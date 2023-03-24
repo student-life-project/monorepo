@@ -16,7 +16,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { EUserType } from '@student_life/common/dist';
+import { EUserType, IUser } from '@student_life/common/dist';
 
 import { UserType } from '../helper/types';
 import { RoleDto } from './dto/role.dto';
@@ -99,5 +99,39 @@ export class UserController {
       birthDate: req.user.updated_at,
       phoneNumber: '0',
     });
+  }
+
+  @ApiOkResponse({
+    description: 'update user information',
+  })
+  @ApiNotFoundResponse({
+    description: 'user profile does not exists, not able to fetch it',
+  })
+  @UseGuards(AuthGuard('jwt'))
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
+  @Put('/profile')
+  async updateUserProfile(
+    @Req() req: any,
+    @Body() profileData: { user: IUser },
+  ) {
+    const currentUserData = await this.userService.getOrCreateUserByEmail({
+      email: req.user.email,
+      firstName: req.user.name.toLowerCase(),
+      image: req.user.picture,
+      type: EUserType.OWNER,
+      birthDate: req.user.updated_at,
+      phoneNumber: '0',
+    });
+
+    const updatedUserProfile = await this.userService.updateUserProfile(
+      currentUserData?._id,
+      {
+        ...currentUserData?.toObject(),
+        ...profileData?.user,
+      } as IUser,
+    );
+
+    return updatedUserProfile;
   }
 }

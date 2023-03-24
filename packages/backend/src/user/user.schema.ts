@@ -27,6 +27,9 @@ export class User {
   @Prop({ required: false, default: '' })
   aboutMe?: string;
 
+  @Prop({ required: false, default: false })
+  identityValidated?: boolean;
+
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Image' })
   photo?: Image;
 

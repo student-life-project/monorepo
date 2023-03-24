@@ -12,7 +12,7 @@ import { EUserType } from '@student_life/common';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Button from '@/components/common/Button';
 import WebcamImage from '@/components/common/Camara';
 import DoubleFormSpace from '@/components/common/DoubleFormSpace';
@@ -22,11 +22,13 @@ import Modal from '@/components/common/Modal';
 import Radio from '@/components/common/Radio';
 import Tooltip from '@/components/common/Tooltip';
 import { ErrorMessageInput, NameInput } from '@/constants';
-// import { AlertMessage } from '@/constants/alertMessage';
+import { AlertMessage } from '@/constants/alertMessage';
 import { calculateAge } from '@/utils/managerDate';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userSelector } from '@/store/selectors/user';
 import dayjs from 'dayjs';
+import { api } from '@/services/api';
+import { fetchUserData } from '@/store/actions/users';
 import { userRecognitionApi } from '@/services/faceRecognition';
 
 interface IRegisterData {
@@ -85,6 +87,7 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
   });
 
   const { user: oauthUser } = useUser();
+  const dispatch = useDispatch();
 
   const userFromStore = useSelector(userSelector);
 
@@ -107,26 +110,44 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
   const onSubmit: SubmitHandler<IRegisterData> = async (dataToSend) => {
     // eslint-disable-next-line no-console
     console.log(dataToSend);
+    if (!idCardImage && faceImage) {
+      toast.error('Por favor verifique su identidad');
+      return;
+    }
     try {
-      const { data } = await userRecognitionApi.post<{ response: boolean }>(
-        '/',
-        {
-          faceImage: faceImage?.split?.(',')?.pop?.() || '',
-          idCardImage: idCardImage?.split?.(',')?.pop?.() || '',
-        },
-      );
+      const { data: dataIdValidated } = await userRecognitionApi.post<{
+        response: string;
+      }>('', {
+        faceImage: faceImage?.split?.(',')?.pop?.() || '',
+        idCardImage: idCardImage?.split?.(',')?.pop?.() || '',
+      });
 
-      // eslint-disable-next-line no-console
-      console.log('====================================');
-      // eslint-disable-next-line no-console
-      console.log({ data });
-      // eslint-disable-next-line no-console
-      console.log('====================================');
+      if (dataIdValidated.response === 'false') {
+        toast.error('El rostro del usuario no coincide con la identificacion');
+        return;
+      }
+
+      if (dataIdValidated.response === 'true') {
+        const { data } = await api.put('/user/profile', {
+          user: { ...dataToSend, identityValidated: true },
+        });
+
+        // eslint-disable-next-line no-console
+        console.log('====================================');
+        // eslint-disable-next-line no-console
+        console.log({ data });
+        // eslint-disable-next-line no-console
+        console.log('====================================');
+
+        dispatch(fetchUserData());
+
+        toast.success(AlertMessage.updated('usuario'));
+        closeModal(); // TODO: cerrar si el resultado es success
+      }
     } catch (error) {
       console.error('error validating user face', error);
+      toast.error(error.message);
     }
-    //! toast.success(AlertMessage.updated('usuario'));
-    closeModal(); // TODO: cerrar si el resultado es success
   };
 
   const previousStep = () => {
