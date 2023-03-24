@@ -13,7 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NextPage, NextPageContext } from 'next';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 
@@ -35,8 +35,8 @@ import { TRootState } from '@/store/reducers';
 import { commentsSelector } from '@/store/selectors/comment';
 import { rentalPlaceDetailsSelector } from '@/store/selectors/rentalPlaces';
 import { tokenSessionSelector } from '@/store/selectors/session';
-import { IRentalPlace } from '@/types';
 import { formatter } from '@/utils/numberFormat';
+import dayjs from 'dayjs';
 
 type TContentGallery = {
   length: number;
@@ -78,23 +78,8 @@ const Img = styled.img<TImg>`
   ${({ index }) => index !== 0 && xw`hidden sm:block`}
 `;
 
-// TODO: Obtener información del dueño del post
-const user = {
-  id: 1,
-  userImage: '/images/avatar.png',
-  firstName: 'User 1',
-  lastName: 'Test Test',
-  email: 'user@test.com',
-  password: 'testtesttest',
-  phoneNumber: '3315448430',
-  birthDate: '1997-02-11',
-  aboutMe:
-    'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam! asdas ssdasdas asda',
-};
-
 const Details: NextPage = () => {
-  const rentalPlace =
-    useSelector(rentalPlaceDetailsSelector) || ({} as IRentalPlace);
+  const rentalPlace = useSelector(rentalPlaceDetailsSelector);
 
   const { address } = rentalPlace;
   const rentalPlaceImages = rentalPlace.images || [];
@@ -118,6 +103,26 @@ const Details: NextPage = () => {
     setShowCarousel(!showCarousel);
   };
 
+  const user = useMemo(() => {
+    if (rentalPlace.owner) {
+      return {
+        id: rentalPlace.owner?._id,
+        userImage: '/images/avatar.png',
+        firstName: rentalPlace.owner?.firstName,
+        lastName: rentalPlace.owner?.lastName,
+        email: rentalPlace.owner?.email,
+        password: rentalPlace.owner?.password,
+        phoneNumber: rentalPlace.owner?.phoneNumber,
+        birthDate: dayjs(rentalPlace.owner?.birthDate, {
+          format: 'YYYY-MM-DD',
+        }).format('YYYY-MM-DD'),
+        aboutMe: rentalPlace.owner.aboutMe,
+      };
+    }
+
+    return {};
+  }, [rentalPlace]);
+
   // TODO: Ver apartados sólo si existe una sesión iniciada.
   // TODO: si el usuario califico se pone como activo el botón.
   const like = false;
@@ -126,7 +131,7 @@ const Details: NextPage = () => {
   // TODO: Si el id del user es igual al que inicio sesión no puede reportar su post ni así mismo.
   const userId = '11';
 
-  const street = address?.street.replaceAll('#', '');
+  const street = address?.street.replace('#', '');
   const googleMapsLink = `https://maps.google.com/?q=${street}, ${address?.cologne}, ${address?.city}, ${address?.state}`;
 
   return (
