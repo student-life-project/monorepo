@@ -76,11 +76,11 @@ const PostDetails: FC<TPostDetails> = ({ admin, values }) => {
     }
   };
 
-  const handleDeletePublication = () => {
+  const handleDeletePublication = async () => {
     if (admin) {
-      dispatch(deleteAdminPublication(values._id));
+      await dispatch(deleteAdminPublication(values._id));
     } else {
-      dispatch(deletePublication(values._id));
+      await dispatch(deletePublication(values._id));
     }
 
     const redirectData: TRedirectData = {
