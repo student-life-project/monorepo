@@ -136,6 +136,7 @@ export class UserService {
       type: userData.type,
       birthDate: userData.birthDate,
       firstName: userData.firstName,
+      lastName: userData.lastName,
       password: '1',
       phoneNumber: userData.phoneNumber,
     });
@@ -167,6 +168,7 @@ export class UserService {
       userData = await this.registerUser({
         email: userDto.email,
         firstName: userDto.firstName.toLowerCase(),
+        lastName: userDto.lastName.toLowerCase(),
         image: userDto.picture,
         type: userDto.type,
         birthDate: userDto.birthDate,

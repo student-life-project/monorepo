@@ -123,8 +123,8 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
       const formatedDate = dayjs(userFromStore.birthDate).format('YYYY-MM-DD');
 
       reset({
-        firstName: oauthUser.given_name,
-        lastName: oauthUser.family_name,
+        firstName: userFromStore.firstName,
+        lastName: userFromStore.lastName,
         phone: userFromStore.phoneNumber,
         birthDate: formatedDate,
         aboutMe: userFromStore?.aboutMe || '',

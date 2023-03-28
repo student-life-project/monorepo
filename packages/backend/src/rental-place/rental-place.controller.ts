@@ -151,6 +151,7 @@ export class RentalPlaceController {
     const userInformation = await this.userService.getOrCreateUserByEmail({
       email: req.user.email,
       firstName: req.user.name.toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
       image: req.user.picture,
       type: EUserType.OWNER,
       birthDate: req.user.updated_at,
@@ -233,6 +234,7 @@ export class RentalPlaceController {
     const userData = await this.userService.getOrCreateUserByEmail({
       email: req.user.email,
       firstName: req.user.name.toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
       image: req.user.picture,
       type: EUserType.OWNER,
       birthDate: req.user.updated_at,
@@ -334,6 +336,7 @@ export class RentalPlaceController {
     const userData = await this.userService.getOrCreateUserByEmail({
       email: req.user.email,
       firstName: req.user.name.toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
       image: req.user.picture,
       type: EUserType.OWNER,
       birthDate: req.user.updated_at,
