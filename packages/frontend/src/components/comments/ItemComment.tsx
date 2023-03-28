@@ -17,6 +17,8 @@ type TItemComment = {
   openModalEdit: (id: TElementId) => void;
 };
 
+// TODO: Las opciones de editar y eliminar solo son para el owner.
+// TODO: En caso contrario se le puede mostrar la opción de reportar usuario.
 const ItemComment: FC<TItemComment> = ({
   userId,
   comments,
