@@ -1,5 +1,5 @@
 // pages/api/auth/[...auth0].js
-import { handleAuth, handleLogin } from '@auth0/nextjs-auth0';
+import { handleAuth, handleLogin, handleLogout } from '@auth0/nextjs-auth0';
 
 // TODO: need to implement
 export default handleAuth({
@@ -16,6 +16,15 @@ export default handleAuth({
       });
     } catch (error) {
       res.status(error.status || 400).end(error.message);
+    }
+  },
+  logout: async (req, res) => {
+    try {
+      await handleLogout(req, res, {
+        returnTo: '/',
+      });
+    } catch (error) {
+      console.error(error);
     }
   },
 });

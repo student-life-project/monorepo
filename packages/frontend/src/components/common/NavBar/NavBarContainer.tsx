@@ -1,33 +1,35 @@
-import { WithPageAuthRequiredProps } from '@auth0/nextjs-auth0';
+// import { WithPageAuthRequiredProps } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0';
 import { EUserType } from '@student_life/common';
 import { useRouter } from 'next/router';
-import { ComponentType, FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchUserData, logoutAction } from '@/store/actions/users';
 import { tokenSessionSelector } from '@/store/selectors/session';
 import { userSelector } from '@/store/selectors/user';
-import { IUserAuth0 } from '@/types';
-import withAuth from '@/utils/WithAuth';
 
+// import { IUserAuth0 } from '@/types';
+// import withAuth from '@/utils/WithAuth';
 import NavBar from './NavBar';
 
 interface INavBarContainer {
   allowLoginRegister?: boolean;
   allowRental?: boolean;
   allowRequest?: boolean;
-  user: IUserAuth0;
+  // user: IUserAuth0;
 }
 
 const NavBarContainer: FC<INavBarContainer> = ({
   allowLoginRegister,
   allowRental,
   allowRequest,
-  user = null,
+  // user = null,
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const userData = useSelector(userSelector);
+  const { user } = useUser();
   const tokenSession = useSelector(tokenSessionSelector);
 
   useEffect(() => {
@@ -38,7 +40,7 @@ const NavBarContainer: FC<INavBarContainer> = ({
 
   const onLogoutClick = () => {
     dispatch(logoutAction());
-    router.push('/');
+    router.push('/api/auth/logout');
   };
 
   return (
@@ -69,6 +71,10 @@ const NavBarContainer: FC<INavBarContainer> = ({
   );
 };
 
+/*
 export default withAuth(
   NavBarContainer as unknown as ComponentType<WithPageAuthRequiredProps>,
 ) as unknown as FC<Omit<INavBarContainer, 'user'>>;
+*/
+
+export default NavBarContainer;
