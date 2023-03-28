@@ -52,19 +52,6 @@ interface IProfileData {
   aboutMe: string;
 }
 
-// TODO: Need to implement.
-const userData = {
-  firstName: 'Alfredo',
-  lastName: 'Carreón Urbano',
-  phone: '3315448430',
-  birthDate: '1997-02-11',
-  aboutMe:
-    'Soy Estudiante de Ing. en Computación y me gustaria encontrar un roomy',
-  email: 'alfredo11cu@gmail.com',
-  password: 'Password.123',
-  userImage: '/images/avatar.png',
-};
-
 const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
   const {
     handleSubmit,
@@ -75,43 +62,18 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
     formState: { errors },
   } = useForm({ mode: 'all' });
 
-  const { isLoading, user: oauthUser, error: authError } = useUser();
   const dispatch = useDispatch();
-
-  const userFromStore = useSelector(userSelector);
-
-  useEffect(() => {
-    if (isLoading || !oauthUser) {
-      return;
-    }
-
-    if (authError) {
-      // insert error handler here
-    }
-
-    reset({
-      firstName: oauthUser.given_name,
-      lastName: oauthUser.family_name,
-      phone: '',
-      birthDate: '',
-      aboutMe: '',
-      email: oauthUser.email,
-      password: accessToken,
-      userImage: oauthUser.picture,
-    });
-
-    /*
-    reset({
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      phone: userData.phone,
-      birthDate: userData.birthDate,
-      aboutMe: userData.aboutMe,
-    });
-  */
-  }, [reset, isLoading, oauthUser, authError, accessToken]);
-
   const aboutMe = watch('aboutMe');
+  const userFromStore = useSelector(userSelector);
+  const { isLoading, user: oauthUser, error: authError } = useUser();
+
+  // TODO: mantender el estado con los archivos agregados. Subir de golpe.
+  const [files, setFiles] = useState<TFile[]>([]);
+  const [updateUser, setUpdateUser] = useState(false);
+
+  const handleUpdateUser = () => {
+    setUpdateUser(!updateUser);
+  };
 
   const onSubmit: SubmitHandler<IProfileData> = async (dataToSend) => {
     try {
@@ -135,18 +97,31 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
     }
   };
 
-  // TODO: mantender el estado con los archivos agregados. Subir de golpe.
-  const [files, setFiles] = useState<TFile[]>([]);
+  useEffect(() => {
+    if (isLoading || !oauthUser) {
+      return;
+    }
 
-  const [updateUser, setUpdateUser] = useState(false);
+    if (authError) {
+      // insert error handler here
+    }
 
-  const handleUpdateUser = () => {
-    setUpdateUser(!updateUser);
-  };
+    reset({
+      firstName: oauthUser.given_name,
+      lastName: oauthUser.family_name,
+      phone: '',
+      birthDate: '',
+      aboutMe: '',
+      email: oauthUser.email,
+      password: accessToken,
+      userImage: oauthUser.picture,
+    });
+  }, [reset, isLoading, oauthUser, authError, accessToken]);
 
   useEffect(() => {
     if (userFromStore && oauthUser) {
       const formatedDate = dayjs(userFromStore.birthDate).format('YYYY-MM-DD');
+
       reset({
         firstName: oauthUser.given_name,
         lastName: oauthUser.family_name,
@@ -176,11 +151,10 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
                 showDropzone
                 files={files}
                 setFiles={setFiles}
+                // TODO: agregar imagen que pueda agregar el user.
+                url="/images/avatar.png"
+                // url={oauthUser?.picture || '/images/avatar.png'}
                 alt={oauthUser ? (oauthUser.nickname as string) : ''}
-                url={
-                  ((userData as unknown as any).picture as string) ||
-                  userData.userImage
-                }
               />
             </div>
 
@@ -294,7 +268,6 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
               placeholder="Describe quién eres"
               register={{
                 ...register('aboutMe', {
-                  required: ErrorMessageInput.inputRequire(NameInput.aboutMe),
                   maxLength: {
                     value: 255,
                     message: ErrorMessageInput.max(255),
@@ -315,7 +288,6 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
                   id="email"
                   type="email"
                   placeholder="Tu correo"
-                  defaultValue={userData.email}
                   register={{
                     ...register('email', {
                       required: ErrorMessageInput.inputRequire(NameInput.email),
@@ -333,7 +305,6 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
                   id="password"
                   type="password"
                   placeholder="Tu contraseña"
-                  defaultValue={userData.password}
                   register={{
                     ...register('password', {
                       required: ErrorMessageInput.inputRequire(

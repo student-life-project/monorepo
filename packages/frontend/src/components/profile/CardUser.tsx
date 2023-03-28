@@ -33,7 +33,7 @@ const CardUser: FC<TCardUser> = ({
 }) => (
   <div css={xw`w-full mt-10 sm:mt-0 lg:w-4/12`}>
     <div
-      css={xw`flex flex-col p-5 items-center mx-0 sm:mx-10 border border-secondary-2 rounded-md static sm:sticky top-20`}
+      css={xw`flex flex-col p-5 items-center mx-0 sm:mx-10 lg:mr-0 border border-secondary-2 rounded-md static sm:sticky top-20`}
     >
       {isLogedIn ? (
         <>
