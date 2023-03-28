@@ -12,6 +12,9 @@ export class User {
   @Prop({ required: true })
   firstName: string;
 
+  @Prop({ required: false, default: '' })
+  lastName?: string;
+
   @Prop({ required: true })
   phoneNumber: string;
 

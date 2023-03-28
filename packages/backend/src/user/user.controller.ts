@@ -16,7 +16,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { EUserType, IUser } from '@student_life/common/dist';
+import { EUserType, IAuth0User, IUser } from '@student_life/common';
 
 import { UserType } from '../helper/types';
 import { RoleDto } from './dto/role.dto';
@@ -90,10 +90,11 @@ export class UserController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiBearerAuth()
   @Get('/profile')
-  async getUserProfile(@Req() req: any) {
+  async getUserProfile(@Req() req: Request & { user: IAuth0User }) {
     return this.userService.getOrCreateUserByEmail({
       email: req.user.email,
-      firstName: req.user.name.toLowerCase(),
+      firstName: (req.user.name || '').toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
       image: req.user.picture,
       type: EUserType.OWNER,
       birthDate: req.user.updated_at,
@@ -112,12 +113,13 @@ export class UserController {
   @ApiBearerAuth()
   @Put('/profile')
   async updateUserProfile(
-    @Req() req: any,
+    @Req() req: Request & { user: IAuth0User },
     @Body() profileData: { user: IUser },
   ) {
     const currentUserData = await this.userService.getOrCreateUserByEmail({
       email: req.user.email,
-      firstName: req.user.name.toLowerCase(),
+      firstName: (req.user.name || '').toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
       image: req.user.picture,
       type: EUserType.OWNER,
       birthDate: req.user.updated_at,
