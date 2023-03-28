@@ -142,10 +142,12 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
         dispatch(fetchUserData());
 
         toast.success(AlertMessage.updated('usuario'));
-        closeModal(); // TODO: cerrar si el resultado es success
+        closeModal();
+      } else {
+        throw new Error('Error al procesar las imágenes');
       }
     } catch (error) {
-      console.error('error validating user face', error);
+      console.error('ERROR_VALIDATING_USER_FACE', error);
       toast.error(error.message);
     }
   };

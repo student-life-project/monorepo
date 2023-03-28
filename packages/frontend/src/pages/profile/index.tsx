@@ -152,7 +152,8 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
                 files={files}
                 setFiles={setFiles}
                 // TODO: agregar imagen que pueda agregar el user.
-                url={oauthUser?.picture || '/images/avatar.png'}
+                url="/images/avatar.png"
+                // url={oauthUser?.picture || '/images/avatar.png'}
                 alt={oauthUser ? (oauthUser.nickname as string) : ''}
               />
             </div>
@@ -267,7 +268,6 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
               placeholder="Describe quién eres"
               register={{
                 ...register('aboutMe', {
-                  required: ErrorMessageInput.inputRequire(NameInput.aboutMe),
                   maxLength: {
                     value: 255,
                     message: ErrorMessageInput.max(255),
