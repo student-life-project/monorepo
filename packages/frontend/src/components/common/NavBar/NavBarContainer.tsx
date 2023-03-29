@@ -28,8 +28,9 @@ const NavBarContainer: FC<INavBarContainer> = ({
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const userData = useSelector(userSelector);
+
   const { user } = useUser();
+  const userData = useSelector(userSelector);
   const tokenSession = useSelector(tokenSessionSelector);
 
   useEffect(() => {

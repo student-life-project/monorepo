@@ -1,14 +1,14 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
-import { FC } from 'react';
 import styled from '@emotion/styled';
+import { FC } from 'react';
 
 import Anchor from '@/components/common/Anchor';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
+import Footer from '@/components/common/Footer';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
-import Footer from '@/components/common/Footer';
 import { ItemsPrivacy } from '@/constants';
 
 const Content = styled.div`

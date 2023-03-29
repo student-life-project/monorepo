@@ -12,8 +12,8 @@ import {
   TypeSpace,
 } from '@student_life/common';
 import { NextPage } from 'next';
-import { useState, useCallback, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 
 import BodyContainer from '@/components/common/BodyContainer';
@@ -21,12 +21,12 @@ import VerticalCard from '@/components/common/Card/VerticalCard';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Pagination from '@/components/common/Pagination';
 import FilterAndSort from '@/components/rentals/FilterAndSort';
+import { usePagination } from '@/hooks/usePagination';
 import { setRentalPlaces } from '@/store/actions/rentalPlaces';
 import { TRootState } from '@/store/reducers';
 import { rentalPlacesSelector } from '@/store/selectors/rentalPlaces';
 import { IFilters } from '@/types';
 import { ScrollToAnimation } from '@/utils/scrollTo';
-import { usePagination } from '@/hooks/usePagination';
 
 const ContentRentals = styled.div`
   ${xw`

@@ -3,11 +3,11 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { EOrder } from '@student_life/common';
 import { FC, useState } from 'react';
 
 import { IFilters, IOption } from '@/types';
 
-import { EOrder } from '@student_life/common';
 import Button from '../common/Button';
 import Select from '../common/Select';
 import Filters from './Filters';

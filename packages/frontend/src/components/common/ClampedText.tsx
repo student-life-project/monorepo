@@ -6,6 +6,7 @@ import { FC } from 'react';
 interface IClampedText {
   lines: number;
   noClamp?: boolean;
+  classNames?: string;
   children: React.ReactNode;
 }
 
@@ -23,8 +24,13 @@ const ClampContainer = styled.p<IClampedText>`
   `}
 `;
 
-const ClampedText: FC<IClampedText> = ({ lines, noClamp, children }) => (
-  <ClampContainer lines={lines} noClamp={noClamp}>
+const ClampedText: FC<IClampedText> = ({
+  lines,
+  noClamp,
+  children,
+  classNames,
+}) => (
+  <ClampContainer lines={lines} noClamp={noClamp} css={classNames}>
     {children}
   </ClampContainer>
 );

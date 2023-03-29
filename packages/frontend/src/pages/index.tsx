@@ -6,6 +6,7 @@ import {
   faHome,
   faMapMarkerAlt,
 } from '@fortawesome/free-solid-svg-icons';
+import { EOrder } from '@student_life/common';
 import { NextPage, NextPageContext } from 'next';
 import { useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -21,7 +22,6 @@ import { TStore } from '@/store';
 import { getAllRentalPlaces } from '@/store/actions/rentalPlaces';
 import { TRootState } from '@/store/reducers';
 import { rentalPlacesSelector } from '@/store/selectors/rentalPlaces';
-import { EOrder } from '@student_life/common';
 
 const PlaceContent = styled.div`
   ${xw`

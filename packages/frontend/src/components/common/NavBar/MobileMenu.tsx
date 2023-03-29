@@ -1,6 +1,7 @@
 /* eslint-disable-next-line simple-import-sort/imports */
 import xw from 'xwind';
 import styled from '@emotion/styled';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EUserType } from '@student_life/common';
@@ -10,7 +11,6 @@ import { FC, useState } from 'react';
 import { Triangle } from '@/icons';
 import { INavBar } from '@/types';
 
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import Anchor from '../Anchor';
 import UserButton from './UserButton';
 
