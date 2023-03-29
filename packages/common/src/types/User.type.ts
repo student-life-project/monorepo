@@ -17,7 +17,7 @@ export interface IUser {
   password: string;
   messages?: IMessage[];
   photo?: IImage;
-  role: EUserType;
+  type: EUserType;
   reports: IReport[];
   aboutMe?: string;
 }
