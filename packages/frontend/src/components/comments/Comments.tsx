@@ -7,7 +7,6 @@ import { confirmMessage, ErrorMessageInput, NameInput } from '@/constants';
 import { createComment, deleteComment } from '@/store/actions/comments';
 import { TElementId } from '@/types';
 
-import Anchor from '../common/Anchor';
 import Button from '../common/Button';
 import DoubleSpace from '../common/DoubleSpace';
 import ModalConfirm from '../common/ModalConfirm';
@@ -18,7 +17,6 @@ import ItemComment from './ItemComment';
 type TComments = {
   comments: any;
   userId: TElementId;
-  isLogedIn: boolean;
   openUserReport: () => void;
 };
 
@@ -26,12 +24,7 @@ interface ICommentData {
   comment: string;
 }
 
-const Comments: FC<TComments> = ({
-  userId,
-  comments,
-  isLogedIn,
-  openUserReport,
-}) => {
+const Comments: FC<TComments> = ({ userId, comments, openUserReport }) => {
   const {
     handleSubmit,
     register,
@@ -75,55 +68,47 @@ const Comments: FC<TComments> = ({
 
   return (
     <>
-      {isLogedIn ? (
-        <div css={xw`w-full`}>
-          <h2 css={xw`w-full py-7 text-xl font-bold`}>Comentarios</h2>
+      <div css={xw`w-full`}>
+        <h2 css={xw`w-full py-7 text-xl font-bold`}>Comentarios</h2>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Textarea
-              id="comment"
-              maxLength={255}
-              counter={comment?.length}
-              placeholder="Escribe un comentario..."
-              register={{
-                ...register('comment', {
-                  required: ErrorMessageInput.inputRequire(NameInput.comment),
-                  maxLength: {
-                    value: 500,
-                    message: ErrorMessageInput.max(500),
-                  },
-                }),
-              }}
-              error={Boolean(errors.comment)}
-              messageError={errors.comment?.message as string}
-            />
-
-            <DoubleSpace classNames={xw`sm:justify-end sm:gap-4 sm:mt-2`}>
-              <Button type="button" BDanger onClick={() => reset()}>
-                Cancelar
-              </Button>
-              <Button type="submit" FPrimary css={xw`my-2 sm:my-0`}>
-                Enviar comentario
-              </Button>
-            </DoubleSpace>
-          </form>
-
-          <ItemComment
-            userId={userId}
-            comments={comments}
-            openUserReport={openUserReport}
-            openModalDelete={handleOpenModalDelete}
-            openModalEdit={handleOpenModalEdit}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Textarea
+            id="comment"
+            maxLength={255}
+            counter={comment?.length}
+            placeholder="Escribe un comentario..."
+            register={{
+              ...register('comment', {
+                required: ErrorMessageInput.inputRequire(NameInput.comment),
+                maxLength: {
+                  value: 500,
+                  message: ErrorMessageInput.max(500),
+                },
+              }),
+            }}
+            error={Boolean(errors.comment)}
+            messageError={errors.comment?.message as string}
           />
-        </div>
-      ) : (
-        <div>
-          <h2 css={xw`w-full text-lg font-bold py-5`}>
-            <Anchor href="/api/auth/login">Iniciar Sesión</Anchor> para ver más
-            información de la vivienda como comentarios, calificaciones, etc.
-          </h2>
-        </div>
-      )}
+
+          <DoubleSpace classNames={xw`sm:justify-end sm:gap-4 sm:mt-2`}>
+            <Button type="button" BDanger onClick={() => reset()}>
+              Cancelar
+            </Button>
+
+            <Button type="submit" FPrimary css={xw`my-2 sm:my-0`}>
+              Enviar comentario
+            </Button>
+          </DoubleSpace>
+        </form>
+
+        <ItemComment
+          userId={userId}
+          comments={comments}
+          openUserReport={openUserReport}
+          openModalDelete={handleOpenModalDelete}
+          openModalEdit={handleOpenModalEdit}
+        />
+      </div>
 
       {showModalEdit && (
         <EditComment commentId={commentId} closeModal={handleCloseModalEdit} />

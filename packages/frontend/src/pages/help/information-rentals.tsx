@@ -1,18 +1,18 @@
 // eslint-disable-next-line simple-import-sort/imports
+import xw from 'xwind';
 import {
-  faIdCard,
   faComments,
+  faIdCard,
   faLaptopHouse,
   faTruckLoading,
 } from '@fortawesome/free-solid-svg-icons';
-import xw from 'xwind';
 import { FC } from 'react';
 
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
+import Footer from '@/components/common/Footer';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
-import Footer from '@/components/common/Footer';
 import InfoSteps from '@/components/faqs/InfoSteps';
 import { ItemsInfoRentals } from '@/constants';
 

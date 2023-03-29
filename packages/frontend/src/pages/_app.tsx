@@ -1,7 +1,7 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
-import { css, Global } from '@emotion/react';
 import { UserProvider } from '@auth0/nextjs-auth0';
+import { css, Global } from '@emotion/react';
 import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import React, { useEffect } from 'react';

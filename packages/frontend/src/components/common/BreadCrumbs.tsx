@@ -1,12 +1,12 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IBreadCrumb } from '@/types';
 
 import Anchor from './Anchor';

@@ -1,8 +1,8 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
-import Link from 'next/link';
-import { NextPage } from 'next';
 import styled from '@emotion/styled';
+import { NextPage } from 'next';
+import Link from 'next/link';
 
 import Button from '@/components/common/Button';
 import { FixingBugs } from '@/icons';

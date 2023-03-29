@@ -34,7 +34,6 @@ import { getRentalPlace } from '@/store/actions/rentalPlaces';
 import { TRootState } from '@/store/reducers';
 import { commentsSelector } from '@/store/selectors/comment';
 import { rentalPlaceDetailsSelector } from '@/store/selectors/rentalPlaces';
-import { tokenSessionSelector } from '@/store/selectors/session';
 import { userSelector } from '@/store/selectors/user';
 import { formatter } from '@/utils/numberFormat';
 
@@ -81,7 +80,6 @@ const Img = styled.img<TImg>`
 const Details: NextPage = () => {
   const userData = useSelector(userSelector);
   const commentList = useSelector(commentsSelector);
-  const isLogedIn = useSelector(tokenSessionSelector);
   const rentalPlace = useSelector(rentalPlaceDetailsSelector);
 
   const { address } = rentalPlace || {};
@@ -169,19 +167,10 @@ const Details: NextPage = () => {
         <div
           css={xw`flex flex-col-reverse mb-10 sm:mb-0 sm:flex-row sm:gap-10 sm:items-center`}
         >
-          {isLogedIn ? (
-            <Button BPrimary round active={like} css={xw`h-10`}>
-              <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
-              <span css={xw`ml-2`}>
-                {rentalPlace?.likesCount || 0} Me gusta
-              </span>
-            </Button>
-          ) : (
-            <div css={xw`flex`}>
-              <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
-              <p css={xw`ml-2`}>{rentalPlace?.likesCount || 0} Me gusta</p>
-            </div>
-          )}
+          <Button BPrimary round active={like} css={xw`h-10`}>
+            <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
+            <span css={xw`ml-2`}>{rentalPlace?.likesCount || 0} Me gusta</span>
+          </Button>
 
           <Title css={xw`my-5`}>
             {formatter().format(rentalPlace?.price)} / mes, en{' '}
@@ -216,7 +205,7 @@ const Details: NextPage = () => {
                 <p css={xw`ml-2`}>{rentalPlace?.gender}</p>
               </div>
 
-              {isLogedIn && user?.id !== userData?._id && (
+              {user?.id !== userData?._id && (
                 <div css={xw`flex`}>
                   <ButtonLink
                     type="button"
@@ -292,7 +281,6 @@ const Details: NextPage = () => {
               <p>{address?.reference}</p>
 
               <Comments
-                isLogedIn={isLogedIn}
                 comments={commentList}
                 userId={userData?._id}
                 openUserReport={handleUserReport}
@@ -302,7 +290,6 @@ const Details: NextPage = () => {
 
           <CardUser
             user={user}
-            isLogedIn={isLogedIn}
             userId={userData?._id}
             openUserReport={handleUserReport}
             titlePublication={rentalPlace?.title}

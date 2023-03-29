@@ -1,10 +1,10 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
-import { FC } from 'react';
 import styled from '@emotion/styled';
-
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FC } from 'react';
+
 import { TFile } from '@/types';
 
 type TItemFile = {

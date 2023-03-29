@@ -5,8 +5,8 @@ import { FC } from 'react';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
-
 import { TFile } from '@/types';
+
 import Checkbox from '../common/Checkbox';
 import Label from '../common/Label';
 import SpanError from '../common/SpanError';

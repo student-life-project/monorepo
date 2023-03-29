@@ -6,9 +6,11 @@ import {
   WithPageAuthRequiredProps,
 } from '@auth0/nextjs-auth0';
 import styled from '@emotion/styled';
+import dayjs from 'dayjs';
 import { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useState, ComponentType } from 'react';
+import { ComponentType, useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import Alert from '@/components/common/Alert';
@@ -23,15 +25,13 @@ import Avatar from '@/components/profile/Avatar';
 import UpdateUser from '@/components/profile/UpdateUser';
 import { ErrorMessageInput, NameInput } from '@/constants';
 import { AlertMessage } from '@/constants/alertMessage';
+import { api } from '@/services/api';
+import { fetchUserData } from '@/store/actions/users';
+import { userSelector } from '@/store/selectors/user';
 import { TFile } from '@/types';
 import { calculateAge } from '@/utils/managerDate';
 import { rgxNumber } from '@/utils/validations';
 import withAuth from '@/utils/WithAuth';
-import { useDispatch, useSelector } from 'react-redux';
-import { userSelector } from '@/store/selectors/user';
-import dayjs from 'dayjs';
-import { api } from '@/services/api';
-import { fetchUserData } from '@/store/actions/users';
 
 const Content = styled.div`
   ${xw`

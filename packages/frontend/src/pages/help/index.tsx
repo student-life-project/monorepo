@@ -1,14 +1,14 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
-import { NextPage } from 'next';
 import styled from '@emotion/styled';
+import { NextPage } from 'next';
 
 import BodyContainer from '@/components/common/BodyContainer';
+import Footer from '@/components/common/Footer';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
 import Title from '@/components/common/Title';
 import InfoCard from '@/components/faqs/InfoCard';
 import ListQuestions from '@/components/faqs/ListQuestons';
-import Footer from '@/components/common/Footer';
 
 const Container = styled.div`
   ${xw`
