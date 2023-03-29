@@ -117,15 +117,15 @@ const UserMenu: FC<IUserMenu> = ({ user, onLogoutClick }) => {
           )}
 
           <MenuItem>
-            <Link href="/help">
-              <Anchor css={xw`text-secondary-1`}>Ayuda</Anchor>
-            </Link>
-          </MenuItem>
-
-          <MenuItem>
             <ExitButton type="button" onClick={onLogoutClick}>
               Cerrar Sesión
             </ExitButton>
+          </MenuItem>
+
+          <MenuItem>
+            <Link href="/help">
+              <Anchor css={xw`text-secondary-1`}>Ayuda</Anchor>
+            </Link>
           </MenuItem>
         </MenuList>
       )}

@@ -146,12 +146,6 @@ const MobileMenu: FC<INavBar> = ({
             </MenuItem>
           )}
 
-          <MenuItem>
-            <Link href="/help">
-              <Anchor css={xw`text-secondary-1`}>Ayuda</Anchor>
-            </Link>
-          </MenuItem>
-
           {isLogedIn && (
             <MenuItem>
               <ExitButton type="button" onClick={onLogoutClick}>
@@ -159,6 +153,12 @@ const MobileMenu: FC<INavBar> = ({
               </ExitButton>
             </MenuItem>
           )}
+
+          <MenuItem>
+            <Link href="/help">
+              <Anchor css={xw`text-secondary-1`}>Ayuda</Anchor>
+            </Link>
+          </MenuItem>
         </MenuList>
       )}
     </MenuContent>

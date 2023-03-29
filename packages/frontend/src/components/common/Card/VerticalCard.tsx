@@ -109,7 +109,10 @@ const Verticalcard: FC<IVerticalCard> = ({
               <NotRate>No hay evaluaciones</NotRate>
             )}
 
-            <ClampedText lines={1} classNames={xw`text-sm text-secondary-1`}>
+            <ClampedText
+              lines={1}
+              classNames={xw`text-sm text-secondary-1 text-left`}
+            >
               {title}
             </ClampedText>
 
