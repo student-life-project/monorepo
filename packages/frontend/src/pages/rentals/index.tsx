@@ -25,7 +25,7 @@ import { usePagination } from '@/hooks/usePagination';
 import { setRentalPlaces } from '@/store/actions/rentalPlaces';
 import { TRootState } from '@/store/reducers';
 import { rentalPlacesSelector } from '@/store/selectors/rentalPlaces';
-import { IFilters } from '@/types';
+import { IFilters, IRentalPlace } from '@/types';
 import { ScrollToAnimation } from '@/utils/scrollTo';
 
 const ContentRentals = styled.div`
@@ -67,7 +67,7 @@ const Rentals: NextPage = () => {
     [dispatch],
   );
 
-  const { count, goToPage } = usePagination<any>({
+  const { count, goToPage } = usePagination<IRentalPlace>({
     route: RENTAL_PLACE_URL,
     dataSetter: paginationDataSetter,
     limit: itemsPerPage,
