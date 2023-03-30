@@ -13,8 +13,9 @@ interface ISearchBar {
 }
 
 const SearchBar: FC<ISearchBar> = ({ value, onChange, onClick }) => (
-  <div css={xw`flex w-full`}>
+  <form css={xw`flex w-full`} onSubmit={onClick}>
     <Button
+      type="submit"
       BSecondary
       onClick={onClick}
       css={xw`bg-gray-100 rounded-tr-none rounded-br-none border-gray-200 z-10`}
@@ -35,7 +36,7 @@ const SearchBar: FC<ISearchBar> = ({ value, onChange, onClick }) => (
       css={xw`pl-20 -ml-16`}
       placeholder="Empieza tu búsqueda"
     />
-  </div>
+  </form>
 );
 
 export default SearchBar;

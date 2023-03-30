@@ -24,7 +24,7 @@ import FilterAndSort from '@/components/rentals/FilterAndSort';
 import { setRentalPlaces } from '@/store/actions/rentalPlaces';
 import { TRootState } from '@/store/reducers';
 import { rentalPlacesSelector } from '@/store/selectors/rentalPlaces';
-import { IFilters } from '@/types';
+import { IFilters, IRentalPlace } from '@/types';
 import { ScrollToAnimation } from '@/utils/scrollTo';
 import { usePagination } from '@/hooks/usePagination';
 
@@ -67,7 +67,7 @@ const Rentals: NextPage = () => {
     [dispatch],
   );
 
-  const { count, goToPage } = usePagination<any>({
+  const { count, goToPage } = usePagination<IRentalPlace>({
     route: RENTAL_PLACE_URL,
     dataSetter: paginationDataSetter,
     limit: itemsPerPage,

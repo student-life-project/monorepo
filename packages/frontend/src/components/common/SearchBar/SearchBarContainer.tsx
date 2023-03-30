@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import SearchBar from './SearchBar';
 
@@ -12,9 +12,18 @@ const SearchBarContainer = () => {
     setValue(ev.target.value);
   };
 
-  const onClick = () => {
-    router.push('/rentals');
+  const onClick = (ev: Event) => {
+    ev.preventDefault();
+    router.push({ pathname: '/rentals', query: { 'search-bar': value } });
   };
+
+  useEffect(() => {
+    const url = new URLSearchParams(window.location.search);
+    const proxy = new Proxy(url, {
+      get: (searchParams, prop: string) => searchParams.get(prop),
+    });
+    setValue(proxy['search-bar'] || '');
+  }, []);
 
   return <SearchBar value={value} onChange={onChange} onClick={onClick} />;
 };

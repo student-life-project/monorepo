@@ -152,8 +152,8 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
                 files={files}
                 setFiles={setFiles}
                 // TODO: agregar imagen que pueda agregar el user.
-                url="/images/avatar.png"
-                // url={oauthUser?.picture || '/images/avatar.png'}
+                // url="/images/avatar.png"
+                url={oauthUser?.picture || '/images/avatar.png'}
                 alt={oauthUser ? (oauthUser.nickname as string) : ''}
               />
             </div>
