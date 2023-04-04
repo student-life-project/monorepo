@@ -17,17 +17,13 @@ import { publicationSelector } from '@/store/selectors/publications';
 const Details: NextPage = () => {
   const post = useSelector(publicationSelector);
 
-  if (!post) {
-    return <PageLoader />;
-  }
-
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-      <BreadCrumbs items={ItemsPublicationDetails(post._id)} />
+      <BreadCrumbs items={ItemsPublicationDetails(post?._id)} />
 
       <BodyContainer css={xw`pt-16 sm:pt-8`}>
-        <PostDetails values={post} />
+        {!post ? <PageLoader contentHeight /> : <PostDetails values={post} />}
       </BodyContainer>
     </>
   );
