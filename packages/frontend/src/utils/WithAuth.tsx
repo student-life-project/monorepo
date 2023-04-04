@@ -11,7 +11,7 @@ const withAuth = (
   page: ComponentType<WithPageAuthRequiredProps>,
 ): ComponentType<WithPageAuthRequiredProps> => {
   return withPageAuthRequired(page, {
-    onRedirecting: () => <PageLoader />,
+    onRedirecting: () => <PageLoader large />,
     onError: ({ message }) => <Error statusCode={401} message={message} />,
   });
 };
