@@ -1,6 +1,5 @@
 export const NameInput = {
   email: 'Correo electrónico',
-  password: 'Contraseña',
   confirmPassword: 'Confirmar contraseña',
   currentPassword: 'Contraseña actual',
   newPassword: 'Contraseña nueva',
