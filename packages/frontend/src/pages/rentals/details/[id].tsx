@@ -11,7 +11,6 @@ import {
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import dayjs from 'dayjs';
 import { NextPage, NextPageContext } from 'next';
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -35,6 +34,7 @@ import { TRootState } from '@/store/reducers';
 import { commentsSelector } from '@/store/selectors/comment';
 import { rentalPlaceDetailsSelector } from '@/store/selectors/rentalPlaces';
 import { userSelector } from '@/store/selectors/user';
+import { formatDate } from '@/utils/managerDate';
 import { formatter } from '@/utils/numberFormat';
 
 type TContentGallery = {
@@ -103,6 +103,12 @@ const Details: NextPage = () => {
 
   const user = useMemo(() => {
     if (rentalPlace?.owner) {
+      let formatedDate = '';
+
+      if (rentalPlace.owner?.birthDate) {
+        formatedDate = formatDate(rentalPlace.owner?.birthDate, 'yyyy-MM-dd');
+      }
+
       return {
         id: rentalPlace.owner?._id,
         // TODO: Enviar imagen.
@@ -112,9 +118,7 @@ const Details: NextPage = () => {
         email: rentalPlace.owner?.email,
         password: rentalPlace.owner?.password,
         phoneNumber: rentalPlace.owner?.phoneNumber,
-        birthDate: dayjs(rentalPlace.owner?.birthDate, {
-          format: 'YYYY-MM-DD',
-        }).format('YYYY-MM-DD'),
+        birthDate: formatedDate,
         aboutMe: rentalPlace.owner.aboutMe,
       };
     }

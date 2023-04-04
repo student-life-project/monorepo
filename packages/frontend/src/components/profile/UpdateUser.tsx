@@ -9,7 +9,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EUserType } from '@student_life/common';
-import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,7 +28,7 @@ import { api } from '@/services/api';
 import { userRecognitionApi } from '@/services/faceRecognition';
 import { fetchUserData } from '@/store/actions/users';
 import { userSelector } from '@/store/selectors/user';
-import { calculateAge } from '@/utils/managerDate';
+import { calculateAge, formatDate } from '@/utils/managerDate';
 
 interface IRegisterData {
   userType: EUserType;
@@ -166,7 +165,11 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
 
   useEffect(() => {
     if (Object.keys(userFromStore).length && oauthUser) {
-      const formatedDate = dayjs(userFromStore.birthDate).format('YYYY-MM-DD');
+      let formatedDate = '';
+
+      if (userFromStore.birthDate) {
+        formatedDate = formatDate(userFromStore.birthDate, 'yyyy-MM-dd');
+      }
 
       reset({
         firstName: userFromStore.firstName,
