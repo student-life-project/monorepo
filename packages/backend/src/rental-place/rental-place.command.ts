@@ -143,7 +143,7 @@ export class RentalPlaceCommand {
 
   createRandomComments(rental: CreateRentalPlaceDto): CreateCommentDto {
     return {
-      placeId: rental,
+      placeId: (rental as unknown as { _id: string })?._id as string,
       ownerId: faker.random.numeric()
         ? 'auth0|621ae78a2fda510070202476'
         : faker.datatype.uuid(),

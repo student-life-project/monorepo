@@ -23,6 +23,8 @@ export class CommentService {
     private paginationService: PaginationMoogooseService<CommentDocument>,
   ) {}
 
+  private readonly populateQuery = ['ownerId', 'placeId'];
+
   async createComment(commentData: CreateCommentDto): Promise<Comment> {
     const createdComment = await this.CommentModel.create(commentData);
     return createdComment;
@@ -31,6 +33,20 @@ export class CommentService {
   async createMany(createImageDto: CreateCommentDto[]): Promise<Comment[]> {
     const createdComment = await this.CommentModel.insertMany(createImageDto);
     return createdComment;
+  }
+
+  async updateCommentById(
+    id: string,
+    commentData: CreateCommentDto,
+  ): Promise<Comment> {
+    const comment = await this.CommentModel.findById(id);
+    if (comment?.comment && comment?.ownerId && comment?.placeId) {
+      comment.comment = commentData.comment;
+      comment.ownerId = commentData.ownerId;
+      comment.placeId = commentData.placeId;
+    }
+    const updatedComment = await comment?.save();
+    return updatedComment as Comment;
   }
 
   async deleteById(id: string) {
@@ -66,8 +82,34 @@ export class CommentService {
         } as FilterQuery<CommentDocument>,
       );
 
-    const commentsFinded = await commentsFindedQuery;
+    const commentsFinded = await commentsFindedQuery.populate(
+      this.populateQuery,
+    );
 
     return { data: commentsFinded, ...paginationData };
+  }
+
+  async getByOwnerId(
+    ownerId: string,
+    paginatioParams: IPaginationParams = {},
+  ): Promise<IPagination<Comment>> {
+    const { dataQuery: commentsFindedQuery, ...paginationData } =
+      await this.paginationService.paginate(
+        this.CommentModel,
+        paginatioParams,
+        {
+          ownerId,
+        } as FilterQuery<CommentDocument>,
+      );
+
+    const commentsFinded = await commentsFindedQuery.populate(
+      this.populateQuery,
+    );
+
+    return { data: commentsFinded, ...paginationData };
+  }
+
+  async getByCommentId(id: string) {
+    return this.CommentModel.findById(id).populate(this.populateQuery);
   }
 }
