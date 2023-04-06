@@ -502,24 +502,6 @@ export class RentalPlaceController {
     return rentalPlaceDeleted;
   }
 
-  @ApiOkResponse({
-    description: 'Update a rental place',
-    type: RentalPlace,
-  })
-  @ApiNotFoundResponse({
-    description: 'Rental place does not exists, not able to Update',
-  })
-  @Patch(':id')
-  @Auth('comment:rental-place')
-  async comment(
-    @Param('id') id: string,
-    // @Body() comment: AddCommentPlaceDto,
-    @Req() req: any,
-  ) {
-    const rentalPlace = await this.findRental(id);
-    this.isAllowed(rentalPlace.owner, req.user);
-  }
-
   async findRental(id: string) {
     const rentalPlace = await this.rentalPlaceService.findById(id);
     if (!rentalPlace)
@@ -654,5 +636,114 @@ export class RentalPlaceController {
     // return file as application/octet-stream
     const file = createReadStream(getFullPath(imageName));
     file.pipe(res);
+  }
+
+  @ApiOkResponse({
+    description: 'adds a comment for the rental place',
+    type: RentalPlace,
+  })
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists, not able to Update',
+  })
+  @ApiTags('Add comments from the user for the publication')
+  @Post('/:id/comments')
+  @Auth('comment:rental-place')
+  async addCommentToPublication(
+    @Req() req: Request & { user: IAuth0User },
+    @Body() comment: { comment: string },
+    @Param('id') id: string,
+  ) {
+    const user = await this.userService.getOrCreateUserByEmail(req.user?.email);
+    const publication = await this.findRental(id);
+
+    if (!publication)
+      throw new NotFoundException('Rental place does not exists');
+
+    if (!user) throw new NotFoundException('User does not exists');
+
+    return this.commentService.createComment({
+      comment: comment.comment,
+      ownerId: user._id,
+      placeId: publication._id,
+    });
+  }
+
+  @ApiOkResponse({
+    description: 'updates a comment from a publication',
+    type: RentalPlace,
+  })
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists, not able to Update',
+  })
+  @ApiTags('updates a comment from the user for the publication')
+  @Put('/:id/comments/:commentId')
+  @Auth('comment:rental-place')
+  async updateCommentFromPublication(
+    @Req() req: Request & { user: IAuth0User },
+    @Body() comment: { comment: string },
+    @Param('id') id: string,
+    @Param('commentId') commentId: string,
+  ) {
+    const user = await this.userService.getOrCreateUserByEmail(req.user?.email);
+    const publication = await this.findRental(id);
+
+    if (!publication)
+      throw new NotFoundException('Rental place does not exists');
+
+    if (!user) throw new NotFoundException('User does not exists');
+
+    return this.commentService.updateCommentById(commentId, {
+      comment: comment.comment,
+      ownerId: user._id,
+      placeId: publication._id,
+    });
+  }
+
+  @ApiOkResponse({
+    description: 'deletes a comment from a publication',
+    type: RentalPlace,
+  })
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists, not able to Update',
+  })
+  @ApiTags('deletes a comment from the user for the publication')
+  @Delete('/:id/comments/:commentId')
+  @Auth('comment:rental-place')
+  async deleteCommentById(
+    @Param('id') id: string,
+    @Param('commentId') commentId: string,
+  ) {
+    const commentToDelete = await this.commentService.getByRentalPlaceId(id);
+    if (commentToDelete) {
+      await this.commentService.deleteById(commentId);
+    }
+
+    return commentToDelete;
+  }
+
+  @ApiOkResponse({
+    description: 'gets a comments list from a publication',
+    type: RentalPlace,
+  })
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists, not able to Update',
+  })
+  @ApiTags('gets a comments list from the publication')
+  @Get('/:id/comments')
+  async getCommentsFromPublication(@Param('id') id: string) {
+    return this.commentService.getByRentalPlaceId(id);
+  }
+
+  @ApiOkResponse({
+    description: 'deletes a comment from a publication',
+    type: RentalPlace,
+  })
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists, not able to Update',
+  })
+  @ApiTags('deletes a comment from the user for the publication')
+  @Get('/:id/comments/:commentId')
+  async getCommentByIdFromPublication(@Param('commentId') commentId: string) {
+    this.commentService.getByCommentId(commentId);
   }
 }

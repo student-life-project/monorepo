@@ -20,7 +20,11 @@ export class Comment {
   placeId: string;
 
   @ApiProperty()
-  @Prop({ default: null })
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  })
   ownerId: string;
 
   @ApiProperty()
