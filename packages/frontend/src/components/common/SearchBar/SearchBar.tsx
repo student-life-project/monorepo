@@ -1,6 +1,6 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ChangeEventHandler, FC, MouseEventHandler } from 'react';
+import { ChangeEventHandler, FC, FormEventHandler } from 'react';
 import xw from 'xwind';
 
 import Button from '../Button';
@@ -8,21 +8,20 @@ import Input from '../Input';
 
 interface ISearchBar {
   value: string;
+  onSubmit: FormEventHandler<HTMLFormElement>;
   onChange: ChangeEventHandler<HTMLInputElement>;
-  onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
-const SearchBar: FC<ISearchBar> = ({ value, onChange, onClick }) => (
-  <form css={xw`flex w-full`} onSubmit={onClick}>
+const SearchBar: FC<ISearchBar> = ({ value, onChange, onSubmit }) => (
+  <form css={xw`flex w-full`} onSubmit={onSubmit}>
     <Button
-      type="submit"
       BSecondary
-      onClick={onClick}
+      type="submit"
       css={xw`bg-gray-100 rounded-tr-none rounded-br-none border-gray-200 z-10`}
     >
       <FontAwesomeIcon
-        icon={faSearch}
         height="1.5em"
+        icon={faSearch}
         css={xw`text-secondary-1`}
       />
     </Button>

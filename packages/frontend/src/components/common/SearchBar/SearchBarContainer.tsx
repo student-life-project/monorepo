@@ -12,7 +12,7 @@ const SearchBarContainer = () => {
     setValue(ev.target.value);
   };
 
-  const onClick = (ev: Event) => {
+  const onSubmit = (ev) => {
     ev.preventDefault();
     router.push({ pathname: '/rentals', query: { 'search-bar': value } });
   };
@@ -25,7 +25,7 @@ const SearchBarContainer = () => {
     setValue(proxy['search-bar'] || '');
   }, []);
 
-  return <SearchBar value={value} onChange={onChange} onClick={onClick} />;
+  return <SearchBar value={value} onChange={onChange} onSubmit={onSubmit} />;
 };
 
 export default SearchBarContainer;
