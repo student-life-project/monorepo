@@ -647,13 +647,21 @@ export class RentalPlaceController {
   })
   @ApiTags('Add comments from the user for the publication')
   @Post('/:id/comments')
-  @Auth('comment:rental-place')
+  @Auth('create:rental-place')
   async addCommentToPublication(
     @Req() req: Request & { user: IAuth0User },
     @Body() comment: { comment: string },
     @Param('id') id: string,
   ) {
-    const user = await this.userService.getOrCreateUserByEmail(req.user?.email);
+    const user = await this.userService.getOrCreateUserByEmail({
+      email: req.user.email,
+      firstName: req.user.name.toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
+      image: req.user.picture,
+      type: EUserType.OWNER,
+      birthDate: req.user.updated_at,
+      phoneNumber: '0',
+    });
     const publication = await this.findRental(id);
 
     if (!publication)
@@ -677,14 +685,22 @@ export class RentalPlaceController {
   })
   @ApiTags('updates a comment from the user for the publication')
   @Put('/:id/comments/:commentId')
-  @Auth('comment:rental-place')
+  @Auth('update:rental-place')
   async updateCommentFromPublication(
     @Req() req: Request & { user: IAuth0User },
     @Body() comment: { comment: string },
     @Param('id') id: string,
     @Param('commentId') commentId: string,
   ) {
-    const user = await this.userService.getOrCreateUserByEmail(req.user?.email);
+    const user = await this.userService.getOrCreateUserByEmail({
+      email: req.user.email,
+      firstName: req.user.name.toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
+      image: req.user.picture,
+      type: EUserType.OWNER,
+      birthDate: req.user.updated_at,
+      phoneNumber: '0',
+    });
     const publication = await this.findRental(id);
 
     if (!publication)
@@ -708,7 +724,7 @@ export class RentalPlaceController {
   })
   @ApiTags('deletes a comment from the user for the publication')
   @Delete('/:id/comments/:commentId')
-  @Auth('comment:rental-place')
+  @Auth('delete:rental-place')
   async deleteCommentById(
     @Param('id') id: string,
     @Param('commentId') commentId: string,
