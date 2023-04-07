@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { ThunkAction } from 'redux-thunk';
 
 import { AlertMessage } from '@/constants/alertMessage';
+import { api } from '@/services/api';
 import { TRootState } from '@/store/reducers';
 import {
   CREATE_COMMENT_ERROR,
@@ -23,9 +24,6 @@ import {
 } from '@/store/types/comments';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
-// TODO: ELIMINAR
-import { dataComment, dataComments } from '../dataFakeTemp';
-
 // =============================================================================
 
 export const getCommentPendingAction = (): any => ({
@@ -43,16 +41,19 @@ export const getCommentErrorAction = (error: AxiosError): any => ({
 });
 
 export const getComment =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    id: TElementId,
+    commentId: TElementId,
+  ): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {
       dispatch(getCommentPendingAction());
-      // const { data } = await api.get(`/comment/${id}`);
+      const { data } = await api.get(
+        `/rental-place/${id}/comments/${commentId}`,
+      );
 
-      // TODO: Eliminar
-      const data = dataComment(id);
       // eslint-disable-next-line no-console
-      console.log(id);
+      console.log('data', data);
 
       dispatch(getCommentSuccessAction(data));
     } catch (error) {
@@ -78,16 +79,23 @@ export const createCommentErrorAction = (error: AxiosError): any => ({
 });
 
 export const createComment =
-  (comment: unknown): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    id: TElementId,
+    comment: unknown,
+  ): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {
       dispatch(createCommentPendingAction());
-      // const { data } = await api.post('/comment', { comment });
 
-      // TODO: Eliminar
-      const data = {};
+      const { data } = await api.post(
+        `/rental-place/${id as string}/comments`,
+        {
+          comment,
+        },
+      );
+
       // eslint-disable-next-line no-console
-      console.log(comment);
+      console.log(data);
 
       dispatch(createCommentSuccessAction(data));
       toast.success(AlertMessage.created('comentario'));
@@ -202,11 +210,11 @@ export const getAllComments =
       // const { data } = await api.get(`/comment${limitQuery}`);
 
       // TODO: Eliminar
-      const data = dataComments;
+      // const data = dataComments;
       // eslint-disable-next-line no-console
       console.log(limit);
 
-      dispatch(getAllCommentsSuccessAction(data));
+      dispatch(getAllCommentsSuccessAction({}));
     } catch (error) {
       dispatch(getAllCommentsErrorAction(error));
       toast.error(AlertMessage.error);

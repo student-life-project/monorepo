@@ -140,19 +140,23 @@ const Details: NextPage = () => {
 
       <BodyContainer css={xw`text-secondary-1`}>
         <ContentGallery length={rentalPlaceImages.length}>
-          {rentalPlaceImages.map((img, index) => (
-            <>
-              {index < 5 && (
-                <Img
-                  src={`${process.env.PUBLIC_IMAGES}/${img?.fullpath}`}
-                  key={img.name}
-                  alt={img.name}
-                  index={index}
-                  length={rentalPlaceImages.length}
-                />
-              )}
-            </>
-          ))}
+          {rentalPlaceImages.map((img, index) => {
+            const key = index;
+
+            return (
+              <>
+                {index < 5 && (
+                  <Img
+                    index={index}
+                    alt={img.name}
+                    key={`${img.name}-${key}`}
+                    length={rentalPlaceImages.length}
+                    src={`${process.env.PUBLIC_IMAGES}/${img?.fullpath}`}
+                  />
+                )}
+              </>
+            );
+          })}
         </ContentGallery>
 
         {rentalPlaceImages.length > 1 && (
@@ -287,6 +291,7 @@ const Details: NextPage = () => {
               <Comments
                 comments={commentList}
                 userId={userData?._id}
+                rentalPlaceId={rentalPlace?._id}
                 openUserReport={handleUserReport}
               />
             </div>

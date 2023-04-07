@@ -17,14 +17,16 @@ import ItemComment from './ItemComment';
 type TComments = {
   comments: any;
   userId: TElementId;
+  rentalPlaceId: TElementId;
   openUserReport: () => void;
 };
 
-interface ICommentData {
-  comment: string;
-}
-
-const Comments: FC<TComments> = ({ userId, comments, openUserReport }) => {
+const Comments: FC<TComments> = ({
+  userId,
+  comments,
+  rentalPlaceId,
+  openUserReport,
+}) => {
   const {
     handleSubmit,
     register,
@@ -42,9 +44,9 @@ const Comments: FC<TComments> = ({ userId, comments, openUserReport }) => {
   const comment = watch('comment');
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    // TODO: Despues de enviar el comentario. enviarle un id de user.
-    // TODO: Para obtener id, name, userImage, comment y date.
-    dispatch(createComment(data as ICommentData));
+    // eslint-disable-next-line no-console
+    console.log(data);
+    await dispatch(createComment(rentalPlaceId, data));
     reset();
   };
 
@@ -103,7 +105,8 @@ const Comments: FC<TComments> = ({ userId, comments, openUserReport }) => {
 
         <ItemComment
           userId={userId}
-          comments={comments}
+          // TODO: NEED TO IMPLEMENT
+          comments={[comments]}
           openUserReport={openUserReport}
           openModalDelete={handleOpenModalDelete}
           openModalEdit={handleOpenModalEdit}
