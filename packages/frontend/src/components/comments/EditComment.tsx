@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import xw from 'xwind';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
-import { getComment, updateComment } from '@/store/actions/comments';
+import {
+  getAllComments,
+  getComment,
+  updateComment,
+} from '@/store/actions/comments';
 import { commentSelector } from '@/store/selectors/comment';
 import { TElementId } from '@/types';
 
@@ -13,18 +17,17 @@ import DoubleSpace from '../common/DoubleSpace';
 import Modal from '../common/Modal';
 import Textarea from '../common/Textarea';
 
-/*
-interface TEditCommentData {
-  comment: string;
-}
-*/
-
 type TEditComment = {
   commentId: TElementId;
   closeModal: () => void;
+  rentalPlaceId: TElementId;
 };
 
-const EditComment: FC<TEditComment> = ({ commentId, closeModal }) => {
+const EditComment: FC<TEditComment> = ({
+  commentId,
+  closeModal,
+  rentalPlaceId,
+}) => {
   const {
     handleSubmit,
     register,
@@ -35,16 +38,25 @@ const EditComment: FC<TEditComment> = ({ commentId, closeModal }) => {
 
   const dispatch = useDispatch();
   const comment = watch('comment');
-  const dataComment = useSelector((state) => commentSelector(state));
+
+  // TODO: getComment no regresa data
+  // ===============================================================
+  const dataComment = useSelector(commentSelector);
 
   useEffect(() => {
-    dispatch(getComment(commentId));
+    const test = async () => {
+      await dispatch(getComment(rentalPlaceId, commentId));
+    };
+
+    test();
     reset({ comment: dataComment.comment });
-  }, [commentId, dataComment.comment, dispatch, reset]);
+  }, [commentId, dataComment.comment, dispatch, rentalPlaceId, reset]);
+
+  // ===============================================================
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    // TODO: Enviar más data necesaria
-    dispatch(updateComment(commentId, data as TEditComment));
+    await dispatch(updateComment(rentalPlaceId, commentId, data));
+    await dispatch(getAllComments(rentalPlaceId));
     closeModal();
   };
 

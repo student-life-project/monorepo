@@ -22,7 +22,7 @@ import {
   UPDATE_COMMENT_PENDING,
   UPDATE_COMMENT_SUCCESS,
 } from '@/store/types/comments';
-import { IQueryCommonFilters, TElementId } from '@/types';
+import { TElementId } from '@/types';
 
 // =============================================================================
 
@@ -48,12 +48,10 @@ export const getComment =
   async (dispatch) => {
     try {
       dispatch(getCommentPendingAction());
-      const { data } = await api.get(
-        `/rental-place/${id}/comments/${commentId}`,
-      );
 
-      // eslint-disable-next-line no-console
-      console.log('data', data);
+      const { data } = await api.get(
+        `/rental-place/${id as string}/comments/${commentId as string}`,
+      );
 
       dispatch(getCommentSuccessAction(data));
     } catch (error) {
@@ -89,13 +87,8 @@ export const createComment =
 
       const { data } = await api.post(
         `/rental-place/${id as string}/comments`,
-        {
-          comment,
-        },
+        comment,
       );
-
-      // eslint-disable-next-line no-console
-      console.log(data);
 
       dispatch(createCommentSuccessAction(data));
       toast.success(AlertMessage.created('comentario'));
@@ -124,17 +117,17 @@ export const updateCommentErrorAction = (error: AxiosError): any => ({
 export const updateComment =
   (
     id: TElementId,
+    commentId: TElementId,
     comment: unknown,
   ): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {
       dispatch(updateCommentPendingAction());
-      // const { data } = await api.put(`/comment/${id}`, { comment });
 
-      // TODO: Eliminar
-      const data = {};
-      // eslint-disable-next-line no-console
-      console.log(id, comment);
+      const { data } = await api.put(
+        `/rental-place/${id as string}/comments/${commentId as string}`,
+        comment,
+      );
 
       dispatch(updateCommentSuccessAction(data));
       toast.success(AlertMessage.updated('comentario'));
@@ -161,16 +154,16 @@ export const deleteCommentErrorAction = (error: AxiosError): any => ({
 });
 
 export const deleteComment =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    id: TElementId,
+    commentId: TElementId,
+  ): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {
       dispatch(deleteCommentPendingAction());
-      // const { data } = await api.delete(`/comment/${id}`);
-
-      // TODO: Eliminar
-      const data = {};
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.delete(
+        `/rental-place/${id as string}/comments/${commentId as string}`,
+      );
 
       dispatch(deleteCommentSuccessAction(data));
       toast.success(AlertMessage.deleted('comentario'));
@@ -197,24 +190,14 @@ export const getAllCommentsErrorAction = (error: AxiosError): any => ({
 });
 
 export const getAllComments =
-  ({ limit }: IQueryCommonFilters = {}): ThunkAction<
-    void,
-    TRootState,
-    unknown,
-    any
-  > =>
+  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {
       dispatch(getAllCommentsPendingAction());
-      // const limitQuery = limit ? `?limit=${limit}` : '';
-      // const { data } = await api.get(`/comment${limitQuery}`);
 
-      // TODO: Eliminar
-      // const data = dataComments;
-      // eslint-disable-next-line no-console
-      console.log(limit);
+      const { data } = await api.get(`/rental-place/${id as string}/comments`);
 
-      dispatch(getAllCommentsSuccessAction({}));
+      dispatch(getAllCommentsSuccessAction(data));
     } catch (error) {
       dispatch(getAllCommentsErrorAction(error));
       toast.error(AlertMessage.error);

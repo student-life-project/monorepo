@@ -4,7 +4,11 @@ import { useDispatch } from 'react-redux';
 import xw from 'xwind';
 
 import { confirmMessage, ErrorMessageInput, NameInput } from '@/constants';
-import { createComment, deleteComment } from '@/store/actions/comments';
+import {
+  createComment,
+  deleteComment,
+  getAllComments,
+} from '@/store/actions/comments';
 import { TElementId } from '@/types';
 
 import Button from '../common/Button';
@@ -44,9 +48,8 @@ const Comments: FC<TComments> = ({
   const comment = watch('comment');
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
     await dispatch(createComment(rentalPlaceId, data));
+    await dispatch(getAllComments(rentalPlaceId));
     reset();
   };
 
@@ -66,6 +69,11 @@ const Comments: FC<TComments> = ({
 
   const handleCloseModalDelete = () => {
     setShowModalDelete(false);
+  };
+
+  const handleDeleteComment = async () => {
+    await dispatch(deleteComment(rentalPlaceId, commentId));
+    await dispatch(getAllComments(rentalPlaceId));
   };
 
   return (
@@ -105,16 +113,19 @@ const Comments: FC<TComments> = ({
 
         <ItemComment
           userId={userId}
-          // TODO: NEED TO IMPLEMENT
-          comments={[comments]}
+          comments={comments}
           openUserReport={openUserReport}
-          openModalDelete={handleOpenModalDelete}
           openModalEdit={handleOpenModalEdit}
+          openModalDelete={handleOpenModalDelete}
         />
       </div>
 
       {showModalEdit && (
-        <EditComment commentId={commentId} closeModal={handleCloseModalEdit} />
+        <EditComment
+          commentId={commentId}
+          rentalPlaceId={rentalPlaceId}
+          closeModal={handleCloseModalEdit}
+        />
       )}
 
       {showModalDelete && (
@@ -123,7 +134,7 @@ const Comments: FC<TComments> = ({
           title={confirmMessage.titleDelete('comentario')}
           description={confirmMessage.descriptionDelete('comentario')}
           closeModal={handleCloseModalDelete}
-          action={() => dispatch(deleteComment(commentId))}
+          action={handleDeleteComment}
         />
       )}
     </>

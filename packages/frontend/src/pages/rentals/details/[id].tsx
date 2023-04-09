@@ -79,7 +79,7 @@ const Img = styled.img<TImg>`
 
 const Details: NextPage = () => {
   const userData = useSelector(userSelector);
-  const commentList = useSelector(commentsSelector);
+  const comments = useSelector(commentsSelector);
   const rentalPlace = useSelector(rentalPlaceDetailsSelector);
 
   const { address } = rentalPlace || {};
@@ -289,8 +289,8 @@ const Details: NextPage = () => {
               <p>{address?.reference}</p>
 
               <Comments
-                comments={commentList}
                 userId={userData?._id}
+                comments={comments?.data}
                 rentalPlaceId={rentalPlace?._id}
                 openUserReport={handleUserReport}
               />
@@ -333,7 +333,7 @@ Details.getInitialProps = async ({
   const rentalPlaceId = query.id;
 
   await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
-    getAllComments(),
+    getAllComments(rentalPlaceId as string),
   );
 
   await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
