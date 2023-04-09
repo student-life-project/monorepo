@@ -5,6 +5,7 @@ import { FC } from 'react';
 import xw from 'xwind';
 
 import { TElementId } from '@/types';
+import { formatDate } from '@/utils/managerDate';
 
 import Options from '../common/Options';
 import Avatar from '../profile/Avatar';
@@ -13,12 +14,10 @@ type TItemComment = {
   comments: any;
   userId: TElementId;
   openUserReport: () => void;
-  openModalDelete: (id: TElementId) => void;
   openModalEdit: (id: TElementId) => void;
+  openModalDelete: (id: TElementId) => void;
 };
 
-// TODO: Las opciones de editar y eliminar solo son para el owner.
-// TODO: En caso contrario se le puede mostrar la opción de reportar usuario.
 const ItemComment: FC<TItemComment> = ({
   userId,
   comments,
@@ -28,17 +27,23 @@ const ItemComment: FC<TItemComment> = ({
 }) => (
   <>
     {comments?.map((item) => (
-      <section key={item.id} css={xw`my-8`}>
+      <section key={item._id} css={xw`my-8`}>
         <div css={xw`w-full flex items-center`}>
           <div css={xw`w-full flex items-center gap-4`}>
-            <Avatar alt={item.name} url={item.userImage} small />
+            <Avatar
+              small
+              alt={item.ownerId.firstName}
+              url={item.ownerId.picture || '/images/avatar.png'}
+            />
 
-            <p>{item.name}</p>
+            <p>
+              {item.ownerId.firstName} {item.ownerId.lastName}
+            </p>
           </div>
 
           <div css={xw`relative`}>
             <Options>
-              {userId !== item.userId && (
+              {userId !== item.ownerId._id && (
                 <button type="button" onClick={openUserReport}>
                   <FontAwesomeIcon
                     icon={faBullhorn as IconProp}
@@ -48,15 +53,15 @@ const ItemComment: FC<TItemComment> = ({
                 </button>
               )}
 
-              {userId === item.userId && (
-                <button type="button" onClick={() => openModalEdit(item.id)}>
+              {userId === item.ownerId._id && (
+                <button type="button" onClick={() => openModalEdit(item._id)}>
                   <FontAwesomeIcon icon={faPen as IconProp} height="1.2rem" />
                   <span css={xw`ml-2`}>Editar</span>
                 </button>
               )}
 
-              {userId === item.userId && (
-                <button type="button" onClick={() => openModalDelete(item.id)}>
+              {userId === item.ownerId._id && (
+                <button type="button" onClick={() => openModalDelete(item._id)}>
                   <FontAwesomeIcon icon={faTrash as IconProp} height="1.2rem" />
                   <span css={xw`ml-2`}>Eliminar</span>
                 </button>
@@ -66,7 +71,9 @@ const ItemComment: FC<TItemComment> = ({
         </div>
 
         <p css={xw`mt-4 mb-1`}>{item.comment}</p>
-        <em css={xw`text-sm`}>{item.date}</em>
+        <em css={xw`text-sm`}>
+          {item.createdAt && formatDate(item.createdAt)}
+        </em>
       </section>
     ))}
   </>
