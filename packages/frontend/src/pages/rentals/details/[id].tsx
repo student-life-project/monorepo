@@ -127,7 +127,7 @@ const Details: NextPage = () => {
   }, [rentalPlace]);
 
   // TODO: Ver apartados sólo si existe una sesión iniciada.
-  // TODO: si el usuario califico se pone como activo el botón.
+  // TODO: Si el usuario califico se pone como activo el botón.
   const like = false;
 
   const street = address?.street.replace('#', '');
@@ -138,190 +138,203 @@ const Details: NextPage = () => {
       <NavBar allowRental allowLoginRegister />
       <Alert />
 
-      <BodyContainer css={xw`text-secondary-1`}>
-        <ContentGallery length={rentalPlaceImages.length}>
-          {rentalPlaceImages.map((img, index) => {
-            const key = index;
+      {rentalPlace?._id && userData?._id && comments?.data && (
+        <BodyContainer css={xw`text-secondary-1`}>
+          <ContentGallery length={rentalPlaceImages.length}>
+            {rentalPlaceImages.map((img, index) => {
+              const key = index;
 
-            return (
-              <>
-                {index < 5 && (
-                  <Img
-                    index={index}
-                    alt={img.name}
-                    key={`${img.name}-${key}`}
-                    length={rentalPlaceImages.length}
-                    src={`${process.env.PUBLIC_IMAGES}/${img?.fullpath}`}
-                  />
-                )}
-              </>
-            );
-          })}
-        </ContentGallery>
+              return (
+                <>
+                  {index < 5 && (
+                    <Img
+                      index={index}
+                      alt={img.name}
+                      key={`${img.name}-${key}`}
+                      length={rentalPlaceImages.length}
+                      src={`${process.env.PUBLIC_IMAGES}/${img?.fullpath}`}
+                    />
+                  )}
+                </>
+              );
+            })}
+          </ContentGallery>
 
-        {rentalPlaceImages.length > 1 && (
-          <div css={xw`relative`}>
-            <Button
-              FSecondary
-              type="button"
-              onClick={handleShowCarousel}
-              css={xw`w-full static mt-2 sm:w-auto sm:mt-0 sm:absolute sm:bottom-0 sm:right-0`}
-            >
-              Mostrar todas las fotos
-            </Button>
-          </div>
-        )}
-
-        <div
-          css={xw`flex flex-col-reverse mb-10 sm:mb-0 sm:flex-row sm:gap-10 sm:items-center`}
-        >
-          <Button BPrimary round active={like} css={xw`h-10`}>
-            <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
-            <span css={xw`ml-2`}>{rentalPlace?.likesCount || 0} Me gusta</span>
-          </Button>
-
-          <Title css={xw`my-5`}>
-            {formatter().format(rentalPlace?.price)} / mes, en{' '}
-            {rentalPlace?.title}
-          </Title>
-        </div>
-
-        <section css={xw`w-full flex flex-wrap mb-10 sm:mb-20`}>
-          <div css={xw`w-full lg:w-8/12`}>
-            <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
-              <div css={xw`flex`}>
-                <FontAwesomeIcon icon={faHome} height="1.2rem" />
-                <p css={xw`ml-2`}>{rentalPlace?.typeSpace}</p>
-              </div>
-
-              <div css={xw`flex`}>
-                <FontAwesomeIcon icon={faConciergeBell} height="1.2rem" />
-                <p css={xw`ml-2`}>
-                  {rentalPlace?.availability ? 'Disponible' : 'No Disponible'}
-                </p>
-              </div>
-
-              <div css={xw`flex`}>
-                <FontAwesomeIcon icon={faSearch} height="1.2rem" />
-                <p css={xw`ml-2`}>{rentalPlace?.reason}</p>
-              </div>
-            </div>
-
-            <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
-              <div css={xw`flex`}>
-                <FontAwesomeIcon icon={faUsers} height="1.2rem" />
-                <p css={xw`ml-2`}>{rentalPlace?.gender}</p>
-              </div>
-
-              {user?.id !== userData?._id && (
-                <div css={xw`flex`}>
-                  <ButtonLink
-                    type="button"
-                    css={xw`text-red-500`}
-                    onClick={handleRentalReport}
-                  >
-                    <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
-                    <p css={xw`ml-2`}>Reportar publicación</p>
-                  </ButtonLink>
-                </div>
-              )}
-            </div>
-
-            <div css={xw`w-full flex flex-wrap`}>
-              <div>
-                <h2 css={xw`w-full py-7 text-xl font-bold`}>
-                  Información de la vivienda
-                </h2>
-                <p css={xw`text-justify`}>{rentalPlace?.description}</p>
-              </div>
-
-              <h2 css={xw`w-full py-7 text-xl font-bold`}>Servicios</h2>
-              <ul css={xw`w-full list-disc flex flex-wrap`}>
-                {rentalPlace?.services?.map((item) => (
-                  <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <h2 css={xw`w-full py-7 text-xl font-bold`}>Reglas</h2>
-              <ul css={xw`w-full list-disc flex flex-wrap`}>
-                {rentalPlace?.rules?.map((item) => (
-                  <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <h2 css={xw`w-full py-7 text-xl font-bold`}>Seguridad</h2>
-              <ul css={xw`w-full list-disc flex flex-wrap`}>
-                {rentalPlace?.security?.map((item) => (
-                  <li key={item} css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <h2 css={xw`w-full py-7 text-xl font-bold`}>
-                Descripción de la zona
-              </h2>
-              <p>{address?.zone}</p>
-
-              <h2 css={xw`w-full py-7 text-xl font-bold`}>
-                Ubicación de la vivienda
-              </h2>
-              <p>
-                {address?.street}, Col. {address?.cologne}. C.P.{' '}
-                {address?.stateCode}. {address?.city}, {address?.state},{' '}
-                {address?.country}.
-              </p>
-
-              <Anchor
-                target="_black"
-                href={googleMapsLink}
-                css={xw`w-full flex gap-1 mt-2`}
+          {rentalPlaceImages.length > 1 && (
+            <div css={xw`relative`}>
+              <Button
+                FSecondary
+                type="button"
+                onClick={handleShowCarousel}
+                css={xw`w-full static mt-2 sm:w-auto sm:mt-0 sm:absolute sm:bottom-0 sm:right-0`}
               >
-                <FontAwesomeIcon icon={faMapMarkerAlt} height="1.2rem" />
-                Ver Mapa
-              </Anchor>
-
-              <h2 css={xw`w-full py-7 text-xl font-bold`}>Referencias</h2>
-              <p>{address?.reference}</p>
-
-              <Comments
-                userId={userData?._id}
-                comments={comments?.data}
-                rentalPlaceId={rentalPlace?._id}
-                openUserReport={handleUserReport}
-              />
+                Mostrar todas las fotos
+              </Button>
             </div>
+          )}
+
+          <div
+            css={xw`flex flex-col-reverse mb-10 sm:mb-0 sm:flex-row sm:gap-10 sm:items-center`}
+          >
+            <Button BPrimary round active={like} css={xw`h-10`}>
+              <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
+              <span css={xw`ml-2`}>
+                {rentalPlace?.likesCount || 0} Me gusta
+              </span>
+            </Button>
+
+            <Title css={xw`my-5`}>
+              {formatter().format(rentalPlace?.price)} / mes, en{' '}
+              {rentalPlace?.title}
+            </Title>
           </div>
 
-          <CardUser
-            user={user}
-            userId={userData?._id}
-            openUserReport={handleUserReport}
-            titlePublication={rentalPlace?.title}
-          />
-        </section>
+          <section css={xw`w-full flex flex-wrap mb-10 sm:mb-20`}>
+            <div css={xw`w-full lg:w-8/12`}>
+              <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
+                <div css={xw`flex`}>
+                  <FontAwesomeIcon icon={faHome} height="1.2rem" />
+                  <p css={xw`ml-2`}>{rentalPlace?.typeSpace}</p>
+                </div>
 
-        {rentalReport && (
-          <ModalReport type="Publicación" closeModal={handleRentalReport} />
-        )}
+                <div css={xw`flex`}>
+                  <FontAwesomeIcon icon={faConciergeBell} height="1.2rem" />
+                  <p css={xw`ml-2`}>
+                    {rentalPlace?.availability ? 'Disponible' : 'No Disponible'}
+                  </p>
+                </div>
 
-        {userReport && (
-          <ModalReport type="Usuario" closeModal={handleUserReport} />
-        )}
+                <div css={xw`flex`}>
+                  <FontAwesomeIcon icon={faSearch} height="1.2rem" />
+                  <p css={xw`ml-2`}>{rentalPlace?.reason}</p>
+                </div>
+              </div>
 
-        {showCarousel && (
-          <Carousel
-            images={rentalPlaceImages.map(
-              (item) => `${process.env.PUBLIC_IMAGES}/${item?.fullpath}`,
-            )}
-            close={handleShowCarousel}
-          />
-        )}
-      </BodyContainer>
+              <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
+                <div css={xw`flex`}>
+                  <FontAwesomeIcon icon={faUsers} height="1.2rem" />
+                  <p css={xw`ml-2`}>{rentalPlace?.gender}</p>
+                </div>
+
+                {user?.id !== userData?._id && (
+                  <div css={xw`flex`}>
+                    <ButtonLink
+                      type="button"
+                      css={xw`text-red-500`}
+                      onClick={handleRentalReport}
+                    >
+                      <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
+                      <p css={xw`ml-2`}>Reportar publicación</p>
+                    </ButtonLink>
+                  </div>
+                )}
+              </div>
+
+              <div css={xw`w-full flex flex-wrap`}>
+                <div>
+                  <h2 css={xw`w-full py-7 text-xl font-bold`}>
+                    Información de la vivienda
+                  </h2>
+                  <p css={xw`text-justify`}>{rentalPlace?.description}</p>
+                </div>
+
+                <h2 css={xw`w-full py-7 text-xl font-bold`}>Servicios</h2>
+                <ul css={xw`w-full list-disc flex flex-wrap`}>
+                  {rentalPlace?.services?.map((item) => (
+                    <li
+                      key={item}
+                      css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <h2 css={xw`w-full py-7 text-xl font-bold`}>Reglas</h2>
+                <ul css={xw`w-full list-disc flex flex-wrap`}>
+                  {rentalPlace?.rules?.map((item) => (
+                    <li
+                      key={item}
+                      css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <h2 css={xw`w-full py-7 text-xl font-bold`}>Seguridad</h2>
+                <ul css={xw`w-full list-disc flex flex-wrap`}>
+                  {rentalPlace?.security?.map((item) => (
+                    <li
+                      key={item}
+                      css={xw`list-inside w-full sm:w-1/2 lg:w-1/3`}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <h2 css={xw`w-full py-7 text-xl font-bold`}>
+                  Descripción de la zona
+                </h2>
+                <p>{address?.zone}</p>
+
+                <h2 css={xw`w-full py-7 text-xl font-bold`}>
+                  Ubicación de la vivienda
+                </h2>
+                <p>
+                  {address?.street}, Col. {address?.cologne}. C.P.{' '}
+                  {address?.stateCode}. {address?.city}, {address?.state},{' '}
+                  {address?.country}.
+                </p>
+
+                <Anchor
+                  target="_black"
+                  href={googleMapsLink}
+                  css={xw`w-full flex gap-1 mt-2`}
+                >
+                  <FontAwesomeIcon icon={faMapMarkerAlt} height="1.2rem" />
+                  Ver Mapa
+                </Anchor>
+
+                <h2 css={xw`w-full py-7 text-xl font-bold`}>Referencias</h2>
+                <p>{address?.reference}</p>
+
+                <Comments
+                  userId={userData?._id}
+                  comments={comments?.data}
+                  rentalPlaceId={rentalPlace?._id}
+                  openUserReport={handleUserReport}
+                />
+              </div>
+            </div>
+
+            <CardUser
+              user={user}
+              userId={userData?._id}
+              openUserReport={handleUserReport}
+              titlePublication={rentalPlace?.title}
+            />
+          </section>
+
+          {rentalReport && (
+            <ModalReport type="Publicación" closeModal={handleRentalReport} />
+          )}
+
+          {userReport && (
+            <ModalReport type="Usuario" closeModal={handleUserReport} />
+          )}
+
+          {showCarousel && (
+            <Carousel
+              images={rentalPlaceImages.map(
+                (item) => `${process.env.PUBLIC_IMAGES}/${item?.fullpath}`,
+              )}
+              close={handleShowCarousel}
+            />
+          )}
+        </BodyContainer>
+      )}
     </>
   );
 };

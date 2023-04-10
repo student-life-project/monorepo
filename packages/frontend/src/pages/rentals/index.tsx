@@ -116,35 +116,40 @@ const Rentals: NextPage = () => {
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-      <FilterAndSort
-        filters={filters}
-        sorts={orderRentals}
-        totalPlaces={count}
-        setItemsPerPage={onSetItemsPerPage}
-        onChangeSort={handleChangeSort}
-        onChangeFilters={handleChangeFilters}
-      />
 
-      <BodyContainer css={xw`pt-0`}>
-        <ContentRentals>
-          {rentalPlaces?.map((rentalPlace) => (
-            <div key={`rental_place${rentalPlace._id}`}>
-              <VerticalCard
-                id={rentalPlace._id}
-                likes={rentalPlace.likesCount}
-                title={rentalPlace.title}
-                pricePerMonth={parseFloat(rentalPlace.price || '0')}
-                imageUrl={`${process.env.PUBLIC_IMAGES}/${rentalPlace.images?.[0]?.fullpath}`}
-              />
-            </div>
-          ))}
-        </ContentRentals>
+      {rentalPlaces?.length > 0 && (
+        <>
+          <FilterAndSort
+            filters={filters}
+            sorts={orderRentals}
+            totalPlaces={count}
+            setItemsPerPage={onSetItemsPerPage}
+            onChangeSort={handleChangeSort}
+            onChangeFilters={handleChangeFilters}
+          />
 
-        <Pagination
-          pageCount={Math.ceil(count / itemsPerPage)}
-          handlePageClick={handlePageClick}
-        />
-      </BodyContainer>
+          <BodyContainer css={xw`pt-0`}>
+            <ContentRentals>
+              {rentalPlaces?.map((rentalPlace) => (
+                <div key={`rental_place${rentalPlace._id}`}>
+                  <VerticalCard
+                    id={rentalPlace._id}
+                    likes={rentalPlace.likesCount}
+                    title={rentalPlace.title}
+                    pricePerMonth={parseFloat(rentalPlace.price || '0')}
+                    imageUrl={`${process.env.PUBLIC_IMAGES}/${rentalPlace.images?.[0]?.fullpath}`}
+                  />
+                </div>
+              ))}
+            </ContentRentals>
+
+            <Pagination
+              pageCount={Math.ceil(count / itemsPerPage)}
+              handlePageClick={handlePageClick}
+            />
+          </BodyContainer>
+        </>
+      )}
     </>
   );
 };

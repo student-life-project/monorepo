@@ -6,7 +6,6 @@ import xw from 'xwind';
 import BodyContainer from '@/components/common/BodyContainer';
 import BreadCrumbs from '@/components/common/BreadCrumbs';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import PageLoader from '@/components/common/PageLoader';
 import PostDetails from '@/components/profile/PostDetails';
 import { ItemsPublicationDetails } from '@/constants';
 import { TStore } from '@/store';
@@ -20,11 +19,16 @@ const Details: NextPage = () => {
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-      <BreadCrumbs items={ItemsPublicationDetails(post?._id)} />
 
-      <BodyContainer css={xw`pt-16 sm:pt-8`}>
-        {!post ? <PageLoader contentHeight /> : <PostDetails values={post} />}
-      </BodyContainer>
+      {post && (
+        <>
+          <BreadCrumbs items={ItemsPublicationDetails(post?._id)} />
+
+          <BodyContainer css={xw`pt-16 sm:pt-8`}>
+            <PostDetails values={post} />
+          </BodyContainer>
+        </>
+      )}
     </>
   );
 };

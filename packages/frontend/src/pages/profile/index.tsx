@@ -19,7 +19,6 @@ import DoubleFormSpace from '@/components/common/DoubleFormSpace';
 import Input from '@/components/common/Input';
 import Label from '@/components/common/Label';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
-import PageLoader from '@/components/common/PageLoader';
 import Textarea from '@/components/common/Textarea';
 import Avatar from '@/components/profile/Avatar';
 import UpdateUser from '@/components/profile/UpdateUser';
@@ -144,9 +143,7 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
       <NavBar allowRental allowLoginRegister />
       <Alert />
 
-      {!Object.values(userFromStore).length ? (
-        <PageLoader />
-      ) : (
+      {Object.values(userFromStore).length && (
         <BodyContainer>
           <Content>
             <form css={xw`w-full lg:w-6/12`} onSubmit={handleSubmit(onSubmit)}>
