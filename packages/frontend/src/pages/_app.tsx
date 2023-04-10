@@ -4,9 +4,11 @@ import { UserProvider } from '@auth0/nextjs-auth0';
 import { css, Global } from '@emotion/react';
 import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
-import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 
+import PageLoader from '@/components/common/PageLoader';
 import { configServerSideCredentials } from '@/services/api';
 import withReduxStore, { Props } from '@/utils/with-redux';
 
@@ -16,6 +18,9 @@ function App({
   reduxStore,
   token,
 }: AppProps & Props & { token: string }): JSX.Element {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     (async () => {
       if (token) {
@@ -23,6 +28,15 @@ function App({
       }
     })();
   }, [token]);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 1500);
+
+    return () => {
+      setLoading(false);
+    };
+  }, [router.route]);
 
   return (
     <>
@@ -64,7 +78,7 @@ function App({
 
       <Provider store={reduxStore}>
         <UserProvider>
-          <Component {...pageProps} />
+          {loading ? <PageLoader large /> : <Component {...pageProps} />}
         </UserProvider>
       </Provider>
     </>
