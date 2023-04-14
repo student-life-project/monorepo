@@ -10,6 +10,7 @@ import Alert from '@/components/common/Alert';
 import BodyContainer from '@/components/common/BodyContainer';
 import Button from '@/components/common/Button';
 import NavBar from '@/components/common/NavBar/NavBarContainer';
+import PageLoader from '@/components/common/PageLoader';
 import BasicStep1 from '@/components/publications/BasicStep1';
 import PreviewStep4 from '@/components/publications/PreviewStep4';
 import RentalPlaceStep3 from '@/components/publications/RentalPlaceStep3';
@@ -63,6 +64,7 @@ const Post: NextPage = () => {
   const post = useSelector(publicationSelector);
 
   const [step, setStep] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<IImage[]>([]);
   const [steps, setSteps] = useState(PublicationSteps);
 
@@ -94,6 +96,8 @@ const Post: NextPage = () => {
   const rentalPlace = watch(['rentalPlace', 'services', 'rules']);
 
   const onSubmit: SubmitHandler<IPublicationData> = async (data) => {
+    setLoading(true);
+
     const redirectData: TRedirectData = {
       pathname: '/profile/publications',
       query: {},
@@ -196,91 +200,100 @@ const Post: NextPage = () => {
 
   return (
     <>
-      <NavBar allowRental allowLoginRegister />
-      <Steps steps={steps} stepCurrent={step} />
-      <Alert />
+      {loading ? (
+        <PageLoader large />
+      ) : (
+        <>
+          <NavBar allowRental allowLoginRegister />
+          <Steps steps={steps} stepCurrent={step} />
+          <Alert />
 
-      <BodyContainer css={xw`pt-8 sm:pt-16 px-0`}>
-        <form onSubmit={handleSubmit(onSubmit)} css={xw`w-full mx-auto px-4`}>
-          {step === EPublicationStep.BASIC_INFO && (
-            <BasicStep1
-              register={register}
-              errors={errors}
-              Controller={Controller}
-              control={control}
-            />
-          )}
+          <BodyContainer css={xw`pt-8 sm:pt-16 px-0`}>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              css={xw`w-full mx-auto px-4`}
+            >
+              {step === EPublicationStep.BASIC_INFO && (
+                <BasicStep1
+                  register={register}
+                  errors={errors}
+                  Controller={Controller}
+                  control={control}
+                />
+              )}
 
-          {step === EPublicationStep.LOCATION && (
-            <UbicationStep2
-              register={register}
-              errors={errors}
-              Controller={Controller}
-              control={control}
-              reference={location[5]?.length}
-              zone={location[6]?.length}
-              state={location[1]}
-            />
-          )}
+              {step === EPublicationStep.LOCATION && (
+                <UbicationStep2
+                  register={register}
+                  errors={errors}
+                  Controller={Controller}
+                  control={control}
+                  reference={location[5]?.length}
+                  zone={location[6]?.length}
+                  state={location[1]}
+                />
+              )}
 
-          {step === EPublicationStep.PLACE && (
-            <RentalPlaceStep3
-              register={register}
-              errors={errors}
-              rentalPlace={rentalPlace[0]?.length}
-              files={files as unknown as File[]}
-              setFiles={setFiles as unknown as any}
-            />
-          )}
+              {step === EPublicationStep.PLACE && (
+                <RentalPlaceStep3
+                  register={register}
+                  errors={errors}
+                  rentalPlace={rentalPlace[0]?.length}
+                  files={files as unknown as File[]}
+                  setFiles={setFiles as unknown as any}
+                />
+              )}
 
-          {step === EPublicationStep.DRAFT && (
-            <PreviewStep4
-              files={files as unknown as File[]}
-              getValues={getValues}
-            />
-          )}
+              {step === EPublicationStep.DRAFT && (
+                <PreviewStep4
+                  files={files as unknown as File[]}
+                  getValues={getValues}
+                />
+              )}
 
-          <div css={xw`flex justify-center mb-10`}>
-            <div css={xw`w-full lg:w-8/12`}>
-              <div
-                css={xw`flex justify-end flex-col-reverse sm:flex-row flex-wrap my-4`}
-              >
-                <Button
-                  BSecondary
-                  type="button"
-                  onClick={previousStep}
-                  css={xw`w-full sm:w-3/12 mb-5 sm:mr-5 sm:mb-0`}
-                >
-                  Regresar
-                </Button>
-
-                {!stepDraft && (
-                  <Button
-                    FPrimary
-                    type="button"
-                    onClick={nextStep}
-                    disabled={isValid}
-                    css={xw`w-full sm:w-3/12 mb-5 sm:mb-0`}
+              <div css={xw`flex justify-center mb-10`}>
+                <div css={xw`w-full lg:w-8/12`}>
+                  <div
+                    css={xw`flex justify-end flex-col-reverse sm:flex-row flex-wrap my-4`}
                   >
-                    Continuar
-                  </Button>
-                )}
+                    <Button
+                      BSecondary
+                      type="button"
+                      onClick={previousStep}
+                      css={xw`w-full sm:w-3/12 mb-5 sm:mr-5 sm:mb-0`}
+                    >
+                      Regresar
+                    </Button>
 
-                {stepDraft && (
-                  <Button
-                    FPrimary
-                    type="submit"
-                    disabled={isValid}
-                    css={xw`w-full sm:w-3/12 mb-5 sm:mb-0`}
-                  >
-                    Finalizar
-                  </Button>
-                )}
+                    {!stepDraft && (
+                      <Button
+                        FPrimary
+                        type="button"
+                        onClick={nextStep}
+                        disabled={isValid}
+                        css={xw`w-full sm:w-3/12 mb-5 sm:mb-0`}
+                      >
+                        Continuar
+                      </Button>
+                    )}
+
+                    {stepDraft && (
+                      <Button
+                        FPrimary
+                        type="submit"
+                        disabled={isValid}
+                        css={xw`w-full sm:w-3/12 mb-5 sm:mb-0`}
+                      >
+                        Finalizar
+                      </Button>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </form>
-      </BodyContainer>
+            </form>
+          </BodyContainer>
+        </>
+      )}
     </>
   );
 };

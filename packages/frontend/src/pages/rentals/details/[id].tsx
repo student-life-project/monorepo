@@ -126,7 +126,6 @@ const Details: NextPage = () => {
     return {};
   }, [rentalPlace]);
 
-  // TODO: Ver apartados sólo si existe una sesión iniciada.
   // TODO: Si el usuario califico se pone como activo el botón.
   const like = false;
 
