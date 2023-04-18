@@ -134,7 +134,7 @@ export class RentalPlaceCommand {
   createRandomLikes(rental: RentalPlace): CreateLikeDto {
     return {
       type: ERateType.PLACE,
-      placeId: rental,
+      placeId: rental?.id as string,
       ownerId: faker.random.numeric()
         ? 'auth0|621ae78a2fda510070202476'
         : faker.datatype.uuid(),

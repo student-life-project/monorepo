@@ -32,10 +32,11 @@ import {
 } from '@nestjs/swagger';
 import {
   EOrder,
+  ERateType,
   EUserType,
   IAuth0User,
   IPaginationParams,
-} from '@student_life/common/dist';
+} from '@student_life/common';
 // import { ValidationError } from 'class-validator';
 import { Request, Response } from 'express';
 import { createReadStream } from 'fs';
@@ -638,6 +639,9 @@ export class RentalPlaceController {
     file.pipe(res);
   }
 
+  /// ///////////////////////////////////////////////
+  // Comments
+  /// ///////////////////////////////////////////////
   @ApiOkResponse({
     description: 'adds a comment for the rental place',
     type: RentalPlace,
@@ -751,15 +755,179 @@ export class RentalPlaceController {
   }
 
   @ApiOkResponse({
-    description: 'deletes a comment from a publication',
+    description: 'gets a comment from a publication',
     type: RentalPlace,
   })
   @ApiNotFoundResponse({
     description: 'Rental place does not exists, not able to Update',
   })
-  @ApiTags('deletes a comment from the user for the publication')
+  @ApiTags('gets a comment from the user for the publication')
   @Get('/:id/comments/:commentId')
   async getCommentByIdFromPublication(@Param('commentId') commentId: string) {
     this.commentService.getByCommentId(commentId);
+  }
+
+  /// ///////////////////////////////////////////////
+  // Likes
+  /// ///////////////////////////////////////////////
+  @ApiOkResponse({
+    description: 'adds a like for the rental place',
+    type: RentalPlace,
+  })
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists, not able to Update',
+  })
+  @ApiTags('Add like from the user for the publication')
+  @Post('/:id/likes')
+  @Auth('create:rental-place')
+  async addLikeToPublication(
+    @Req() req: Request & { user: IAuth0User },
+    @Body() like: { like: boolean },
+    @Param('id') id: string,
+  ) {
+    const user = await this.userService.getOrCreateUserByEmail({
+      email: req.user.email,
+      firstName: req.user.name.toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
+      image: req.user.picture,
+      type: EUserType.OWNER,
+      birthDate: req.user.updated_at,
+      phoneNumber: '0',
+    });
+    const publication = await this.findRental(id);
+
+    if (!publication)
+      throw new NotFoundException('Rental place does not exists');
+
+    if (!user) throw new NotFoundException('User does not exists');
+
+    return this.likeService.create({
+      liked: like.like,
+      ownerId: user._id,
+      placeId: publication._id,
+      type: ERateType.PLACE,
+    });
+  }
+
+  @ApiOkResponse({
+    description: 'updates a like from a publication',
+    type: RentalPlace,
+  })
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists, not able to Update',
+  })
+  @ApiTags('updates a like from the user for the publication')
+  @Put('/:id/likes/:likeId')
+  @Auth('update:rental-place')
+  async updateLikeFromPublication(
+    @Req() req: Request & { user: IAuth0User },
+    @Body() like: { like: boolean },
+    @Param('id') id: string,
+    @Param('commentId') likeId: string,
+  ) {
+    const user = await this.userService.getOrCreateUserByEmail({
+      email: req.user.email,
+      firstName: req.user.name.toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
+      image: req.user.picture,
+      type: EUserType.OWNER,
+      birthDate: req.user.updated_at,
+      phoneNumber: '0',
+    });
+    const publication = await this.findRental(id);
+
+    if (!publication)
+      throw new NotFoundException('Rental place does not exists');
+
+    if (!user) throw new NotFoundException('User does not exists');
+
+    return this.likeService.updateLikeById(likeId, {
+      _id: likeId,
+      liked: like.like || false,
+      ownerId: user._id,
+      placeId: publication._id,
+      type: ERateType.PLACE,
+    });
+  }
+
+  @ApiOkResponse({
+    description: 'deletes a like from a publication',
+    type: RentalPlace,
+  })
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists, not able to Update',
+  })
+  @ApiTags('deletes a like from the user for the publication')
+  @Delete('/:id/likes/:likeId')
+  @Auth('delete:rental-place')
+  async deletelikeById(
+    @Param('id') id: string,
+    @Param('likeId') likeId: string,
+  ) {
+    const likeToDelete = await this.likeService.getByRentalPlaceId(id);
+    if (likeToDelete) {
+      await this.commentService.deleteById(likeId);
+    }
+
+    return likeToDelete;
+  }
+
+  @ApiOkResponse({
+    description: 'gets a likes list from a publication',
+    type: RentalPlace,
+  })
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists, not able to Update',
+  })
+  @ApiTags('gets a comments list from the publication')
+  @Get('/:id/likes')
+  async getLikesFromPublication(@Param('id') id: string) {
+    return this.likeService.getByRentalPlaceId(id);
+  }
+
+  @ApiOkResponse({
+    description: 'gets a like from a publication',
+    type: RentalPlace,
+  })
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists, not able to Update',
+  })
+  @ApiTags('gets a like from the user for the publication')
+  @Get('/:id/likes/likesme')
+  @Auth('read:rental-place')
+  async getLikedMePublication(
+    @Param('id') placeId: string,
+    @Req() req: Request & { user: IAuth0User },
+  ) {
+    const user = await this.userService.getOrCreateUserByEmail({
+      email: req.user.email,
+      firstName: req.user.name.toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
+      image: req.user.picture,
+      type: EUserType.OWNER,
+      birthDate: req.user.updated_at,
+      phoneNumber: '0',
+    });
+    const publication = await this.findRental(placeId);
+
+    if (!publication)
+      throw new NotFoundException('Rental place does not exists');
+
+    if (!user) throw new NotFoundException('User does not exists');
+
+    return this.likeService.getByOwnerIdAndPlaceId(placeId, user?._id);
+  }
+
+  @ApiOkResponse({
+    description: 'gets a like from a publication',
+    type: RentalPlace,
+  })
+  @ApiNotFoundResponse({
+    description: 'Rental place does not exists, not able to Update',
+  })
+  @ApiTags('gets a like from the user for the publication')
+  @Get('/:id/likes/:likeId')
+  async getLikeByIdFromPublication(@Param('likeId') likeId: string) {
+    this.likeService.getByLikeId(likeId);
   }
 }
