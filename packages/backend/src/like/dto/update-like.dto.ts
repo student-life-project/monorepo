@@ -1,7 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ERateType } from '@student_life/common';
 
-export class CreateLikeDto {
+export class UpdateLikeDto {
+  @ApiProperty({})
+  _id: string;
+
   @ApiProperty({
     example: ERateType.PLACE,
     enum: ERateType,

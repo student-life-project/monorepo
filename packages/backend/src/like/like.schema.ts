@@ -25,8 +25,16 @@ export class Like {
   placeId: string;
 
   @ApiProperty()
-  @Prop({ default: null })
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  })
   ownerId: string;
+
+  @ApiProperty()
+  @Prop({ default: false })
+  liked?: boolean;
 }
 
 export type LikeDocument = Like & Document;
