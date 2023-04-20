@@ -14,6 +14,9 @@ import {
   GET_ALL_RENTAL_PLACES_ERROR,
   GET_ALL_RENTAL_PLACES_PENDING,
   GET_ALL_RENTAL_PLACES_SUCCESS,
+  GET_LIKE_ME_RENTAL_PLACE_ERROR,
+  GET_LIKE_ME_RENTAL_PLACE_PENDING,
+  GET_LIKE_ME_RENTAL_PLACE_SUCCESS,
   GET_RENTAL_PLACE_ERROR,
   GET_RENTAL_PLACE_PENDING,
   GET_RENTAL_PLACE_SUCCESS,
@@ -101,11 +104,25 @@ interface ILikeRentalPlacePendingAction {
 
 interface ILikeRentalPlaceSuccessAction {
   type: typeof LIKE_RENTAL_PLACE_SUCCESS;
-  data: IRentalPlace;
+  data: any;
 }
 
 interface ILikeRentalPlaceErrorAction {
   type: typeof LIKE_RENTAL_PLACE_ERROR;
+  error: AxiosError;
+}
+
+interface IGetLikeMeRentalPlacePendingAction {
+  type: typeof GET_LIKE_ME_RENTAL_PLACE_PENDING;
+}
+
+interface IGetLikeMeRentalPlaceSuccessAction {
+  type: typeof GET_LIKE_ME_RENTAL_PLACE_SUCCESS;
+  data: any;
+}
+
+interface IGetLikeMeRentalPlaceErrorAction {
+  type: typeof GET_LIKE_ME_RENTAL_PLACE_ERROR;
   error: AxiosError;
 }
 
@@ -141,6 +158,9 @@ export type TRentalPlacesAction =
   | ILikeRentalPlacePendingAction
   | ILikeRentalPlaceSuccessAction
   | ILikeRentalPlaceErrorAction
+  | IGetLikeMeRentalPlacePendingAction
+  | IGetLikeMeRentalPlaceSuccessAction
+  | IGetLikeMeRentalPlaceErrorAction
   | IGetAllRentalPlacesPendingAction
   | IGetAllRentalPlacesSuccessAction
   | IGetAllRentalPlacesErrorAction;
@@ -324,7 +344,7 @@ export const likeRentalPlacePendingAction =
   });
 
 export const likeRentalPlaceSuccessAction = (
-  data: IRentalPlace,
+  data: any,
 ): ILikeRentalPlaceSuccessAction => ({
   type: LIKE_RENTAL_PLACE_SUCCESS,
   data,
@@ -342,12 +362,46 @@ export const likeRentalPlace =
   async (dispatch) => {
     try {
       dispatch(likeRentalPlacePendingAction());
-      // const { data } = await api.post(`/rental/${id}`);
 
-      // TODO: Eliminar
-      const data = {} as IRentalPlace;
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.post(`rental-place/${id}/likes`, {
+        like: true,
+      });
+
+      dispatch(likeRentalPlaceSuccessAction([data]));
+    } catch (error) {
+      dispatch(likeRentalPlaceErrorAction(error));
+      toast.error(AlertMessage.error);
+    }
+  };
+
+// =============================================================================
+
+export const getLikeMeRentalPlacePendingAction =
+  (): IGetLikeMeRentalPlacePendingAction => ({
+    type: GET_LIKE_ME_RENTAL_PLACE_PENDING,
+  });
+
+export const getLikeMeRentalPlaceSuccessAction = (
+  data: any,
+): IGetLikeMeRentalPlaceSuccessAction => ({
+  type: GET_LIKE_ME_RENTAL_PLACE_SUCCESS,
+  data,
+});
+
+export const getLikeMeRentalPlaceErrorAction = (
+  error: AxiosError,
+): IGetLikeMeRentalPlaceErrorAction => ({
+  type: GET_LIKE_ME_RENTAL_PLACE_ERROR,
+  error,
+});
+
+export const getLikeMeRentalPlace =
+  (id: string): ThunkAction<void, TRootState, unknown, TRentalPlacesAction> =>
+  async (dispatch) => {
+    try {
+      dispatch(likeRentalPlacePendingAction());
+
+      const { data } = await api.get(`rental-place/${id}/likes/likesme`);
 
       dispatch(likeRentalPlaceSuccessAction(data));
     } catch (error) {

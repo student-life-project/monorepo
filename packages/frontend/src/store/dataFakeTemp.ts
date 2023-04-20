@@ -5,7 +5,7 @@
 
 export const dataUsers = [
   {
-    id: 1,
+    _id: 1,
     role: 0,
     status: true,
     firstName: 'Alfredo',
@@ -19,7 +19,7 @@ export const dataUsers = [
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam!',
   },
   {
-    id: 2,
+    _id: 2,
     role: 1,
     status: false,
     firstName: 'Fernanda',
@@ -33,7 +33,7 @@ export const dataUsers = [
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui sequi, odit recusandae rerum fuga laboriosam modi, consequuntur, iste reprehenderit provident tenetur repellendus natus saepe ea perspiciatis quaerat molestiae maiores quam!',
   },
   {
-    id: 3,
+    _id: 3,
     role: 2,
     status: true,
     firstName: 'Victor',
@@ -46,7 +46,7 @@ export const dataUsers = [
     aboutMe: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
   },
   {
-    id: 4,
+    _id: 4,
     role: 2,
     status: true,
     firstName: 'Angelica',
@@ -59,7 +59,7 @@ export const dataUsers = [
     aboutMe: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
   },
   {
-    id: 5,
+    _id: 5,
     role: 1,
     status: false,
     firstName: 'Karla',
@@ -83,16 +83,16 @@ export const dataUserSearch = (text) => {
   return res;
 };
 
-export const dataUsersChangeStatus = (id) => {
+export const dataUsersChangeStatus = (_id) => {
   const res = dataUsers.map((item) =>
-    item.id === Number(id) ? { ...item, status: !item.status } : item,
+    item._id === Number(_id) ? { ...item, status: !item.status } : item,
   );
 
   return res;
 };
 
-export const dataUser = (id) => {
-  return dataUsers.filter((item) => item.id === Number(id))[0];
+export const dataUser = (_id) => {
+  return dataUsers.filter((item) => item._id === Number(_id))[0];
 };
 
 // * MANAGE PUBLICATIONS
@@ -100,7 +100,7 @@ export const dataUser = (id) => {
 
 export const dataPublications = [
   {
-    id: 1,
+    _id: 1,
     owner: 'Alfredo Carreón Urbano',
     date: '2022-03-11',
     gender: 'Hombre',
@@ -157,7 +157,7 @@ export const dataPublications = [
     ],
   },
   {
-    id: 2,
+    _id: 2,
     owner: 'Carlos Alberto Medina Vega',
     date: '2022-03-11',
     gender: 'Hombre',
@@ -192,7 +192,7 @@ export const dataPublications = [
     ],
   },
   {
-    id: 3,
+    _id: 3,
     owner: 'Karen Villalobos',
     date: '2022-03-11',
     gender: 'Hombre',
@@ -246,16 +246,16 @@ export const dataPublicationSearch = (text) => {
   return res;
 };
 
-export const dataPublicationChangeApproved = (id) => {
+export const dataPublicationChangeApproved = (_id) => {
   const res = dataPublications.map((item) =>
-    item.id === Number(id) ? { ...item, approved: !item.approved } : item,
+    item._id === Number(_id) ? { ...item, approved: !item.approved } : item,
   );
 
   return res;
 };
 
-export const dataPublication = (id) => {
-  return dataPublications.filter((item) => item.id === Number(id))[0];
+export const dataPublication = (_id) => {
+  return dataPublications.filter((item) => item._id === Number(_id))[0];
 };
 
 // * MANAGE REPORTS
@@ -263,7 +263,7 @@ export const dataPublication = (id) => {
 
 export const dataReports = [
   {
-    id: 1,
+    _id: 1,
     type: 'Usuario',
     to: 'Erick Mejia Blanco',
     from: 'Alfredo Carreón Urbano',
@@ -273,7 +273,7 @@ export const dataReports = [
     status: true,
   },
   {
-    id: 2,
+    _id: 2,
     type: 'Publicación',
     to: 'Casa por CUCEI',
     from: 'Juan Martinez Lora',
@@ -283,7 +283,7 @@ export const dataReports = [
     status: true,
   },
   {
-    id: 3,
+    _id: 3,
     type: 'Usuario',
     to: 'Cesar Armando Lopez',
     from: 'Marlena Hernandez Chavez',
@@ -293,7 +293,7 @@ export const dataReports = [
     status: false,
   },
   {
-    id: 4,
+    _id: 4,
     type: 'Publicación',
     to: 'Departamento cerca de CUCEA',
     from: 'Samantha Rivera',
@@ -303,7 +303,7 @@ export const dataReports = [
     status: false,
   },
   {
-    id: 5,
+    _id: 5,
     type: 'Publicación',
     to: 'Departamento cerca de CUCS',
     from: 'Ana Valencia',
@@ -325,16 +325,16 @@ export const dataReportsSearch = (text) => {
   return res;
 };
 
-export const dataReportsChangeStatus = (id) => {
+export const dataReportsChangeStatus = (_id) => {
   const res = dataReports.map((item) =>
-    item.id === Number(id) ? { ...item, status: !item.status } : item,
+    item._id === Number(_id) ? { ...item, status: !item.status } : item,
   );
 
   return res;
 };
 
-export const dataReport = (id) => {
-  return dataReports.filter((item) => item.id === Number(id))[0];
+export const dataReport = (_id) => {
+  return dataReports.filter((item) => item._id === Number(_id))[0];
 };
 
 // =============================================================================

@@ -54,7 +54,7 @@ const ItemComment: FC<TItemComment> = ({
               )}
 
               {userId === item.ownerId._id && (
-                <button type="button" onClick={() => openModalEdit(item._id)}>
+                <button type="button" onClick={() => openModalEdit(item)}>
                   <FontAwesomeIcon icon={faPen as IconProp} height="1.2rem" />
                   <span css={xw`ml-2`}>Editar</span>
                 </button>

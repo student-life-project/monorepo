@@ -13,7 +13,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NextPage, NextPageContext } from 'next';
 import { useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 
 import Comments from '@/components/comments/Comments';
@@ -29,10 +29,17 @@ import CardUser from '@/components/profile/CardUser';
 import ModalReport from '@/components/reports/ModalReport';
 import { TStore } from '@/store';
 import { getAllComments } from '@/store/actions/comments';
-import { getRentalPlace } from '@/store/actions/rentalPlaces';
+import {
+  getLikeMeRentalPlace,
+  getRentalPlace,
+  likeRentalPlace,
+} from '@/store/actions/rentalPlaces';
 import { TRootState } from '@/store/reducers';
 import { commentsSelector } from '@/store/selectors/comment';
-import { rentalPlaceDetailsSelector } from '@/store/selectors/rentalPlaces';
+import {
+  likeRentalPlaceSelector,
+  rentalPlaceDetailsSelector,
+} from '@/store/selectors/rentalPlaces';
 import { userSelector } from '@/store/selectors/user';
 import { formatDate } from '@/utils/managerDate';
 import { formatter } from '@/utils/numberFormat';
@@ -78,8 +85,10 @@ const Img = styled.img<TImg>`
 `;
 
 const Details: NextPage = () => {
+  const dispatch = useDispatch();
   const userData = useSelector(userSelector);
   const comments = useSelector(commentsSelector);
+  const infoLikes = useSelector(likeRentalPlaceSelector);
   const rentalPlace = useSelector(rentalPlaceDetailsSelector);
 
   const { address } = rentalPlace || {};
@@ -126,9 +135,12 @@ const Details: NextPage = () => {
     return {};
   }, [rentalPlace]);
 
-  // TODO: Si el usuario califico se pone como activo el botón.
-  const like = false;
+  const handleLikeRentalPlace = async () => {
+    await dispatch(likeRentalPlace(rentalPlace?._id));
+    await dispatch(getRentalPlace(rentalPlace?._id));
+  };
 
+  const like = infoLikes.length > 0;
   const street = address?.street.replace('#', '');
   const googleMapsLink = `https://maps.google.com/?q=${street}, ${address?.cologne}, ${address?.city}, ${address?.state}`;
 
@@ -175,7 +187,14 @@ const Details: NextPage = () => {
           <div
             css={xw`flex flex-col-reverse mb-10 sm:mb-0 sm:flex-row sm:gap-10 sm:items-center`}
           >
-            <Button BPrimary round active={like} css={xw`h-10`}>
+            <Button
+              round
+              BPrimary
+              active={like}
+              css={xw`h-10`}
+              disabled={like}
+              onClick={handleLikeRentalPlace}
+            >
               <FontAwesomeIcon icon={faThumbsUp} height="1.2rem" />
               <span css={xw`ml-2`}>
                 {rentalPlace?.likesCount || 0} Me gusta
@@ -350,6 +369,10 @@ Details.getInitialProps = async ({
 
   await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
     getRentalPlace(rentalPlaceId as string),
+  );
+
+  await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+    getLikeMeRentalPlace(rentalPlaceId as string),
   );
 
   return {};
