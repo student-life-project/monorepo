@@ -342,12 +342,10 @@ export const likeRentalPlace =
   async (dispatch) => {
     try {
       dispatch(likeRentalPlacePendingAction());
-      // const { data } = await api.post(`/rental/${id}`);
 
-      // TODO: Eliminar
-      const data = {} as IRentalPlace;
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.post(`rental-place/${id}/likes`, {
+        like: true,
+      });
 
       dispatch(likeRentalPlaceSuccessAction(data));
     } catch (error) {
