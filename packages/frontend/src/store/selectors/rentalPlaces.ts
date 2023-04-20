@@ -11,3 +11,6 @@ export const errorRentalPlacesSelector = (state: TRootState) =>
 
 export const rentalPlaceDetailsSelector = (state: TRootState) =>
   state.rentalPlaces.rentalPlace;
+
+export const likeRentalPlaceSelector = (state: TRootState) =>
+  state.rentalPlaces.infoLikes;

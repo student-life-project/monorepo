@@ -8,6 +8,9 @@ import {
   GET_ALL_RENTAL_PLACES_ERROR,
   GET_ALL_RENTAL_PLACES_PENDING,
   GET_ALL_RENTAL_PLACES_SUCCESS,
+  GET_LIKE_ME_RENTAL_PLACE_ERROR,
+  GET_LIKE_ME_RENTAL_PLACE_PENDING,
+  GET_LIKE_ME_RENTAL_PLACE_SUCCESS,
   GET_RENTAL_PLACE_ERROR,
   GET_RENTAL_PLACE_PENDING,
   GET_RENTAL_PLACE_SUCCESS,
@@ -29,6 +32,7 @@ import type { TRentalPlacesAction } from '../actions/rentalPlaces';
 export interface IState {
   rentalPlace: IRentalPlace | null;
   rentalPlaces: IRentalPlace[];
+  infoLikes: any;
   isFetching: boolean;
   error: AxiosError | null;
 }
@@ -36,6 +40,7 @@ export interface IState {
 const initialState: IState = {
   rentalPlace: null,
   rentalPlaces: [],
+  infoLikes: [],
   isFetching: false,
   error: null,
 };
@@ -130,18 +135,38 @@ const reducer = (
     case LIKE_RENTAL_PLACE_PENDING:
       return {
         ...state,
-        rentalPlaces: [],
+        infoLikes: [],
         isFetching: true,
         error: null,
       };
     case LIKE_RENTAL_PLACE_SUCCESS:
       return {
         ...state,
-        rentalPlace: payload.data,
+        infoLikes: payload.data,
         isFetching: false,
         error: null,
       };
     case LIKE_RENTAL_PLACE_ERROR:
+      return {
+        ...state,
+        isFetching: false,
+        error: payload.error,
+      };
+    case GET_LIKE_ME_RENTAL_PLACE_PENDING:
+      return {
+        ...state,
+        infoLikes: [],
+        isFetching: true,
+        error: null,
+      };
+    case GET_LIKE_ME_RENTAL_PLACE_SUCCESS:
+      return {
+        ...state,
+        infoLikes: payload.data,
+        isFetching: false,
+        error: null,
+      };
+    case GET_LIKE_ME_RENTAL_PLACE_ERROR:
       return {
         ...state,
         isFetching: false,

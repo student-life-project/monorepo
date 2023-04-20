@@ -30,6 +30,15 @@ export const LIKE_RENTAL_PLACE_ERROR = 'USER/LIKE_RENTAL_PLACE_ERROR';
 
 // =============================================================================
 
+export const GET_LIKE_ME_RENTAL_PLACE_PENDING =
+  'USER/GET_LIKE_ME_RENTAL_PLACE_PENDING';
+export const GET_LIKE_ME_RENTAL_PLACE_SUCCESS =
+  'USER/GET_LIKE_ME_RENTAL_PLACE_SUCCESS';
+export const GET_LIKE_ME_RENTAL_PLACE_ERROR =
+  'USER/GET_LIKE_ME_RENTAL_PLACE_ERROR';
+
+// =============================================================================
+
 export const GET_ALL_RENTAL_PLACES_PENDING =
   'USER/GET_ALL_RENTAL_PLACES_PENDING';
 export const GET_ALL_RENTAL_PLACES_SUCCESS =

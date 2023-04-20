@@ -29,10 +29,17 @@ import CardUser from '@/components/profile/CardUser';
 import ModalReport from '@/components/reports/ModalReport';
 import { TStore } from '@/store';
 import { getAllComments } from '@/store/actions/comments';
-import { getRentalPlace, likeRentalPlace } from '@/store/actions/rentalPlaces';
+import {
+  getLikeMeRentalPlace,
+  getRentalPlace,
+  likeRentalPlace,
+} from '@/store/actions/rentalPlaces';
 import { TRootState } from '@/store/reducers';
 import { commentsSelector } from '@/store/selectors/comment';
-import { rentalPlaceDetailsSelector } from '@/store/selectors/rentalPlaces';
+import {
+  likeRentalPlaceSelector,
+  rentalPlaceDetailsSelector,
+} from '@/store/selectors/rentalPlaces';
 import { userSelector } from '@/store/selectors/user';
 import { formatDate } from '@/utils/managerDate';
 import { formatter } from '@/utils/numberFormat';
@@ -81,6 +88,7 @@ const Details: NextPage = () => {
   const dispatch = useDispatch();
   const userData = useSelector(userSelector);
   const comments = useSelector(commentsSelector);
+  const infoLikes = useSelector(likeRentalPlaceSelector);
   const rentalPlace = useSelector(rentalPlaceDetailsSelector);
 
   const { address } = rentalPlace || {};
@@ -132,8 +140,7 @@ const Details: NextPage = () => {
     await dispatch(getRentalPlace(rentalPlace?._id));
   };
 
-  const like = false;
-
+  const like = infoLikes.length > 0;
   const street = address?.street.replace('#', '');
   const googleMapsLink = `https://maps.google.com/?q=${street}, ${address?.cologne}, ${address?.city}, ${address?.state}`;
 
@@ -362,6 +369,10 @@ Details.getInitialProps = async ({
 
   await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
     getRentalPlace(rentalPlaceId as string),
+  );
+
+  await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
+    getLikeMeRentalPlace(rentalPlaceId as string),
   );
 
   return {};
