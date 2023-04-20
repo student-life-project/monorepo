@@ -40,6 +40,7 @@ const Comments: FC<TComments> = ({
   } = useForm({ mode: 'all' });
 
   const dispatch = useDispatch();
+  const [commentText, setCommentText] = useState('');
   const [commentId, setCommentId] = useState<TElementId>(null);
 
   const [showModalEdit, setShowModalEdit] = useState(false);
@@ -53,9 +54,11 @@ const Comments: FC<TComments> = ({
     reset();
   };
 
-  const handleOpenModalEdit = (id: TElementId) => {
+  const handleOpenModalEdit = (item: any) => {
     setShowModalEdit(!showModalEdit);
-    setCommentId(id);
+
+    setCommentId(item._id);
+    setCommentText(item.comment);
   };
 
   const handleCloseModalEdit = () => {
@@ -123,6 +126,7 @@ const Comments: FC<TComments> = ({
       {showModalEdit && (
         <EditComment
           commentId={commentId}
+          commentText={commentText}
           rentalPlaceId={rentalPlaceId}
           closeModal={handleCloseModalEdit}
         />

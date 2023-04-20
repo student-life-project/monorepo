@@ -1,15 +1,10 @@
 import { FC, useEffect } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import xw from 'xwind';
 
 import { ErrorMessageInput, NameInput } from '@/constants';
-import {
-  getAllComments,
-  getComment,
-  updateComment,
-} from '@/store/actions/comments';
-import { commentSelector } from '@/store/selectors/comment';
+import { getAllComments, updateComment } from '@/store/actions/comments';
 import { TElementId } from '@/types';
 
 import Button from '../common/Button';
@@ -18,6 +13,7 @@ import Modal from '../common/Modal';
 import Textarea from '../common/Textarea';
 
 type TEditComment = {
+  commentText: string;
   commentId: TElementId;
   closeModal: () => void;
   rentalPlaceId: TElementId;
@@ -26,6 +22,7 @@ type TEditComment = {
 const EditComment: FC<TEditComment> = ({
   commentId,
   closeModal,
+  commentText,
   rentalPlaceId,
 }) => {
   const {
@@ -39,20 +36,9 @@ const EditComment: FC<TEditComment> = ({
   const dispatch = useDispatch();
   const comment = watch('comment');
 
-  // TODO: getComment no regresa data
-  // ===============================================================
-  const dataComment = useSelector(commentSelector);
-
   useEffect(() => {
-    const test = async () => {
-      await dispatch(getComment(rentalPlaceId, commentId));
-    };
-
-    test();
-    reset({ comment: dataComment.comment });
-  }, [commentId, dataComment.comment, dispatch, rentalPlaceId, reset]);
-
-  // ===============================================================
+    reset({ comment: commentText });
+  }, [commentText, reset]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     await dispatch(updateComment(rentalPlaceId, commentId, data));

@@ -40,6 +40,7 @@ export const getCommentErrorAction = (error: AxiosError): any => ({
   error,
 });
 
+// TODO: No regresa la data
 export const getComment =
   (
     id: TElementId,
