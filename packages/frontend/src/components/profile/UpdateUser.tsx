@@ -72,7 +72,6 @@ type TUpdateUser = {
   closeModal: () => void;
 };
 
-// TODO: si se registran con gmail, cargar en nombre y el apellido.
 const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
   const {
     reset,

@@ -27,7 +27,6 @@ import { AlertMessage } from '@/constants/alertMessage';
 import { api } from '@/services/api';
 import { fetchUserData } from '@/store/actions/users';
 import { userSelector } from '@/store/selectors/user';
-import { TFile } from '@/types';
 import { calculateAge, formatDate } from '@/utils/managerDate';
 import { rgxNumber } from '@/utils/validations';
 import withAuth from '@/utils/WithAuth';
@@ -66,8 +65,6 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
   const userFromStore = useSelector(userSelector);
   const { isLoading, user: oauthUser, error: authError } = useUser();
 
-  // TODO: mantender el estado con los archivos agregados. Subir de golpe.
-  const [files, setFiles] = useState<TFile[]>([]);
   const [updateUser, setUpdateUser] = useState(false);
 
   const handleUpdateUser = () => {
@@ -127,7 +124,7 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
       reset({
         firstName: userFromStore.firstName,
         lastName: userFromStore.lastName,
-        phone: userFromStore.phoneNumber,
+        phone: parseInt(userFromStore.phoneNumber, 10) || '',
         birthDate: formatedDate,
         aboutMe: userFromStore?.aboutMe || '',
         email: oauthUser.email,
@@ -150,11 +147,7 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
               <div css={xw`flex items-center justify-center flex-col`}>
                 <Avatar
                   large
-                  showDropzone
-                  files={files}
-                  setFiles={setFiles}
-                  // TODO: agregar imagen que pueda agregar el user.
-                  url={oauthUser?.picture || '/images/avatar.png'}
+                  url="/images/avatar.png"
                   alt={oauthUser ? (oauthUser.nickname as string) : ''}
                 />
               </div>
@@ -209,7 +202,6 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
                     defaultValue=""
                     control={control}
                     rules={{
-                      required: ErrorMessageInput.inputRequire(NameInput.phone),
                       pattern: {
                         value: rgxNumber,
                         message: ErrorMessageInput.notNumber,
@@ -305,7 +297,7 @@ const Profile: NextPage<{ accessToken: string }> = ({ accessToken }) => {
             </form>
           </Content>
 
-          {!Object.values(userFromStore).length && !updateUser && (
+          {!updateUser && !userFromStore.identityValidated && (
             <UpdateUser closeModal={handleUpdateUser} />
           )}
         </BodyContainer>
