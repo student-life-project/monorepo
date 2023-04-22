@@ -20,6 +20,9 @@ export class Report {
 
   @Prop({ default: () => new Date() })
   createdAt: Date;
+
+  @Prop({ required: false })
+  reportOriginUrl?: string;
 }
 
 export type ReportDocument = Report & Document;
