@@ -16,7 +16,7 @@ async function bootstrap() {
       optionsSuccessStatus: 200,
       preflightContinue: true,
       */
-      origin: 'http://localhost:4000',
+      origin: '*',
       credentials: true,
     },
   });
