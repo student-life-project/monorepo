@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 
 import {
   RentalPlace,
@@ -88,5 +88,20 @@ export class LikeService {
     const updatedLike = await like?.save();
 
     return updatedLike;
+  }
+
+  async getLikesCountsGroupedByfield(
+    field: string,
+    filter?: FilterQuery<LikeDocument>,
+  ) {
+    const likesCountGroupedAgregation = this.LikeModel.aggregate();
+
+    if (filter) {
+      likesCountGroupedAgregation.match(filter);
+    }
+
+    likesCountGroupedAgregation.sortByCount(field);
+
+    return likesCountGroupedAgregation;
   }
 }

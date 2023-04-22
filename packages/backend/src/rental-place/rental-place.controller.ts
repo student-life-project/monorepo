@@ -272,7 +272,7 @@ export class RentalPlaceController {
     },
   })
   @Get()
-  findAll(@Query() queries: IPaginationParams & { price: string }) {
+  async findAll(@Query() queries: IPaginationParams & { price: string }) {
     // TODO make sure retrive all need info rentals GET check if made TOP RATE AND MOST COMMENTED limit to 5 ¡¡DISPONIBLES!! (si todos igual random entre los top on different request
     console.log(queries);
 
@@ -284,8 +284,39 @@ export class RentalPlaceController {
     queries.sortBy = 'price';
     queries.order = queries.order || EOrder.desc;
 
-    // return this.rentalPlaceService.findAll();
-    return this.rentalPlaceService.find(query, queries);
+    const { data, ...restPagination } = await this.rentalPlaceService.find(
+      query,
+      queries,
+    );
+    const dataIds = data.map(
+      (place) => (place as unknown as { _id: string })._id,
+    );
+    const likesCountsGrouped =
+      await this.likeService.getLikesCountsGroupedByfield('placeId', {
+        placeId: { $in: dataIds },
+      });
+
+    const dataWithLikesCount = dataIds.map((placeId, idx) => {
+      const groupCount = likesCountsGrouped.find(
+        (group: { _id: string; count: number }) => {
+          return group._id.toString() === placeId.toString();
+        },
+      );
+      const dataObj = (data[idx] as any).toObject();
+
+      console.log({ dataObj, groupCount });
+
+      (dataObj as unknown as { likesCount: number }).likesCount = groupCount
+        ? groupCount.count
+        : 0;
+
+      return dataObj;
+    });
+
+    return {
+      ...restPagination,
+      data: dataWithLikesCount,
+    };
   }
 
   @ApiNotFoundResponse({
