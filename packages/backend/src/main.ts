@@ -7,10 +7,7 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(
-    AppModule,
-    /*
-    {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: {
       /*
       allowedHeaders: '*',
@@ -19,14 +16,12 @@ async function bootstrap() {
       optionsSuccessStatus: 200,
       preflightContinue: true,
       */
-    /*
-     // Two only needed params to run it locally
-      origin: '*', // replace it with the domain to test
+      // Two only needed params to run it locally
+      origin: 'https://student-life-97ghk.ondigitalocean.app', // replace it with the domain to test
+      // origin: 'http://localhost:4000',
       credentials: true,
     },
-  }
-  */
-  );
+  });
 
   // app.enableCors();
 
