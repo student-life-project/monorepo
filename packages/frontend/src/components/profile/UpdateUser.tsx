@@ -127,7 +127,11 @@ const UpdateUser: React.FC<TUpdateUser> = ({ closeModal }) => {
 
       if (dataIdValidated.response === 'true') {
         const { data } = await api.put('/user/profile', {
-          user: { ...dataToSend, identityValidated: true },
+          user: {
+            ...dataToSend,
+            identityValidated: true,
+            type: dataToSend.userType,
+          },
         });
 
         // eslint-disable-next-line no-console
