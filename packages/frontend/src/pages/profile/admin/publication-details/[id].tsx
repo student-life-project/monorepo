@@ -11,19 +11,24 @@ import { ItemsPublicationDetailsAdmin } from '@/constants';
 import { TStore } from '@/store';
 import { getPublication } from '@/store/actions/managePublications';
 import { TRootState } from '@/store/reducers';
-import { managePublicationsSelector } from '@/store/selectors/managePublications';
+import { managePublicationSelector } from '@/store/selectors/managePublications';
 
 const PublicationDetails: NextPage = () => {
-  const publication = useSelector((state) => managePublicationsSelector(state));
+  const post = useSelector(managePublicationSelector);
 
   return (
     <>
       <NavBar allowRental allowLoginRegister />
-      <BreadCrumbs items={ItemsPublicationDetailsAdmin(publication.id)} />
 
-      <BodyContainer css={xw`pt-16 sm:pt-8`}>
-        <PostDetails values={publication} admin />
-      </BodyContainer>
+      {post && (
+        <>
+          <BreadCrumbs items={ItemsPublicationDetailsAdmin(post?._id)} />
+
+          <BodyContainer css={xw`pt-16 sm:pt-8`}>
+            <PostDetails values={post} admin />
+          </BodyContainer>
+        </>
+      )}
     </>
   );
 };

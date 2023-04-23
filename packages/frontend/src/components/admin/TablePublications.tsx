@@ -25,9 +25,7 @@ const TablePublications: FC<TTablePublications> = ({ data }) => {
   const [showModalPost, setShowModalPost] = useState(false);
 
   const dispatch = useDispatch();
-  const loading = useSelector((state) =>
-    isFetchingManagePublicationsSelector(state),
-  );
+  const loading = useSelector(isFetchingManagePublicationsSelector);
 
   const handleChange = ({ target }) => {
     dispatch(searchPublication(target.value));

@@ -29,13 +29,9 @@ const Admin: NextPage = () => {
   const router = useRouter();
   const [tab, setTab] = useState(0);
 
-  const userList = useSelector((state) => manageUserSelector(state));
-
-  const publicationList = useSelector((state) =>
-    managePublicationsSelector(state),
-  );
-
-  const reportList = useSelector((state) => manageReportsSelector(state));
+  const userList = useSelector(manageUserSelector);
+  const reportList = useSelector(manageReportsSelector);
+  const publicationList = useSelector(managePublicationsSelector);
 
   const handleTab = (tabCurrent) => {
     setTab(tabCurrent);

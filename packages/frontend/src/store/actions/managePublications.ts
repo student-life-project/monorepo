@@ -118,32 +118,36 @@ export type TPublicationsAction =
 
 // =============================================================================
 
-export const getPublicationPendingAction = (): any => ({
-  type: GET_PUBLICATION_PENDING,
-});
+export const getPublicationPendingAction =
+  (): IGetPublicationPendingAction => ({
+    type: GET_PUBLICATION_PENDING,
+  });
 
-export const getPublicationSuccessAction = (data: unknown): any => ({
+export const getPublicationSuccessAction = (
+  data: IRentalPlace,
+): IGetPublicationSuccessAction => ({
   type: GET_PUBLICATION_SUCCESS,
   data,
 });
 
-export const getPublicationErrorAction = (error: AxiosError): any => ({
+export const getPublicationErrorAction = (
+  error: AxiosError,
+): IGetPublicationErrorAction => ({
   type: GET_PUBLICATION_ERROR,
   error,
 });
 
 export const getPublication =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    id: TElementId,
+  ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
       dispatch(getPublicationPendingAction());
 
-      // const { data } = await api.get(`/publication/${id}`);
-
-      // TODO: Eliminar
-      const data = {};
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.get<IRentalPlace>(
+        `/rental-place/${id as string}`,
+      );
 
       dispatch(getPublicationSuccessAction(data));
     } catch (error) {

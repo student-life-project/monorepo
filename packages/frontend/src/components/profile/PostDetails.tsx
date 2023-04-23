@@ -117,13 +117,15 @@ const PostDetails: FC<TPostDetails> = ({ admin, values }) => {
               <>
                 <div>
                   <SubTitle>{NameInput.ownerPost}</SubTitle>
-                  <p css={xw`font-bold mt-2`}>{values.owner}</p>
+                  <p css={xw`font-bold mt-2`}>
+                    {values.owner.firstName} {values.owner.lastName}
+                  </p>
                 </div>
 
                 <div>
                   <SubTitle>{NameInput.date}</SubTitle>
                   <p css={xw`font-bold mt-2`}>
-                    {values.date && formatDate(values.date)}
+                    {values.creationDate && formatDate(values.creationDate)}
                   </p>
                 </div>
               </>

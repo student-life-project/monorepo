@@ -165,7 +165,6 @@ export const ColumnsPublication = (
   approvePost: (_id: number) => any,
   handleOpenModalPost: (_id: number) => any,
 ): TColumns => [
-  { name: 'ID', selector: '_id', sortable: true },
   { name: 'Titulo', selector: 'title', sortable: true },
   {
     name: 'Precio',
