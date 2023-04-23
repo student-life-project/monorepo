@@ -277,35 +277,44 @@ export const getAllPublications =
 
 // =============================================================================
 
-export const changePublicationApprovalPendingAction = (): any => ({
-  type: CHANGE_PUBLICATION_APPROVAL_PENDING,
-});
+export const changePublicationApprovalPendingAction =
+  (): IChangePublicationApprovalPendingAction => ({
+    type: CHANGE_PUBLICATION_APPROVAL_PENDING,
+  });
 
-export const changePublicationApprovalSuccessAction = (data: unknown): any => ({
+export const changePublicationApprovalSuccessAction = (
+  data: IRentalPlace,
+): IChangePublicationApprovalSuccessAction => ({
   type: CHANGE_PUBLICATION_APPROVAL_SUCCESS,
   data,
 });
 
 export const changePublicationApprovalErrorAction = (
   error: AxiosError,
-): any => ({
+): IChangePublicationApprovalErrorAction => ({
   type: CHANGE_PUBLICATION_APPROVAL_ERROR,
   error,
 });
 
 export const changePublicationApproval =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    id: TElementId,
+    publication: IRentalPlace,
+  ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
       dispatch(changePublicationApprovalPendingAction());
-      // const { data } = await api.put(`/publication/${id}`);
 
-      // TODO: Eliminar
-      const data = {};
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.put<IRentalPlace>(`/rental-place/${id}`, {
+        publication,
+      });
 
-      dispatch(changePublicationApprovalSuccessAction(data));
+      const newData = {
+        ...data,
+        approved: publication.approved,
+      };
+
+      dispatch(changePublicationApprovalSuccessAction(newData));
       toast.success(AlertMessage.updated('aprobación'));
     } catch (error) {
       dispatch(changePublicationApprovalErrorAction(error));

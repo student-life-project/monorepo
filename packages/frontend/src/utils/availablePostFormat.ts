@@ -1,10 +1,9 @@
 import { IRentalPlace } from '@/types';
 
-export const availablePostFormat = (data: IRentalPlace): IRentalPlace => {
+const formatData = (data: IRentalPlace): IRentalPlace => {
   const newData = {
     ...data,
     ...data.address,
-    availability: !data.availability,
     neighborhood: data.address.cologne,
   };
 
@@ -13,3 +12,13 @@ export const availablePostFormat = (data: IRentalPlace): IRentalPlace => {
 
   return newData;
 };
+
+export const availablePostFormat = (data: IRentalPlace): IRentalPlace => ({
+  ...formatData(data),
+  availability: !data.availability,
+});
+
+export const approvalPostFormat = (data: IRentalPlace): IRentalPlace => ({
+  ...formatData(data),
+  approved: !data.approved,
+});

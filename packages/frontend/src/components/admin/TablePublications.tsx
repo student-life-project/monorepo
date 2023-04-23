@@ -16,6 +16,7 @@ import {
 } from '@/store/actions/managePublications';
 import { isFetchingManagePublicationsSelector } from '@/store/selectors/managePublications';
 import { TElementId } from '@/types';
+import { approvalPostFormat } from '@/utils/availablePostFormat';
 
 type TTablePublications = {
   data: any;
@@ -33,8 +34,14 @@ const TablePublications: FC<TTablePublications> = ({ data }) => {
     dispatch(searchPublication(target.value));
   };
 
-  const approvePost = (id: TElementId) => {
-    dispatch(changePublicationApproval(id));
+  const approvePost = async (id: TElementId) => {
+    const publicationSelected = data.find((item) => item._id === id);
+
+    await dispatch(
+      changePublicationApproval(id, approvalPostFormat(publicationSelected)),
+    );
+
+    await dispatch(getAllPublications());
   };
 
   const handleDeletePublication = async () => {
