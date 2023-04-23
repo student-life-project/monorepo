@@ -194,31 +194,34 @@ export const searchPublication =
 
 // =============================================================================
 
-export const deletePublicationPendingAction = (): any => ({
-  type: DELETE_PUBLICATION_PENDING,
-});
+export const deletePublicationPendingAction =
+  (): IDeletePublicationPendingAction => ({
+    type: DELETE_PUBLICATION_PENDING,
+  });
 
-export const deletePublicationSuccessAction = (data: unknown): any => ({
+export const deletePublicationSuccessAction = (
+  data: IRentalPlace,
+): IDeletePublicationSuccessAction => ({
   type: DELETE_PUBLICATION_SUCCESS,
   data,
 });
 
-export const deletePublicationErrorAction = (error: AxiosError): any => ({
+export const deletePublicationErrorAction = (
+  error: AxiosError,
+): IDeletePublicationErrorAction => ({
   type: DELETE_PUBLICATION_ERROR,
   error,
 });
 
 export const deletePublication =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    id: TElementId,
+  ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
       dispatch(deletePublicationPendingAction());
-      // const { data } = await api.delete(`/publication/${id}`);
 
-      // TODO: Eliminar
-      const data = {};
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.delete<IRentalPlace>(`/rental-place/${id}`);
 
       dispatch(deletePublicationSuccessAction(data));
       toast.success(AlertMessage.deleted('publicación'));

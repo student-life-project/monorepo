@@ -53,9 +53,13 @@ const Admin: NextPage = () => {
       } else if (deletedPost === 'true') {
         toast.success(AlertMessage.deleted('publicación'));
       }
-
-      router.replace('/profile/admin');
     }
+
+    const timer = setTimeout(() => router.replace('/profile/admin'), 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -11,6 +11,7 @@ import {
 import {
   changePublicationApproval,
   deletePublication,
+  getAllPublications,
   searchPublication,
 } from '@/store/actions/managePublications';
 import { isFetchingManagePublicationsSelector } from '@/store/selectors/managePublications';
@@ -21,10 +22,11 @@ type TTablePublications = {
 };
 
 const TablePublications: FC<TTablePublications> = ({ data }) => {
+  const dispatch = useDispatch();
+
   const [postId, setPostId] = useState<TElementId>(null);
   const [showModalPost, setShowModalPost] = useState(false);
 
-  const dispatch = useDispatch();
   const loading = useSelector(isFetchingManagePublicationsSelector);
 
   const handleChange = ({ target }) => {
@@ -33,6 +35,11 @@ const TablePublications: FC<TTablePublications> = ({ data }) => {
 
   const approvePost = (id: TElementId) => {
     dispatch(changePublicationApproval(id));
+  };
+
+  const handleDeletePublication = async () => {
+    await dispatch(deletePublication(postId));
+    await dispatch(getAllPublications());
   };
 
   const handleOpenModalPost = (id: TElementId) => {
@@ -65,7 +72,7 @@ const TablePublications: FC<TTablePublications> = ({ data }) => {
           title={confirmMessage.titleDelete('publicación')}
           description={confirmMessage.descriptionDelete('publicación')}
           closeModal={handleCloseModalPost}
-          action={() => dispatch(deletePublication(postId))}
+          action={handleDeletePublication}
         />
       )}
     </>

@@ -66,10 +66,8 @@ const PostDetails: FC<TPostDetails> = ({ admin, values }) => {
     setStatus(!status);
 
     if (admin) {
-      // * Admin puede aprobar o no aprobar la publicación. Se dejaría de mostrar en la página, pero no se elimina.
       await dispatch(changePublicationApproval(values._id));
     } else {
-      // * Arrendatario puede poner como disponible o no disponible la vivienda, pero se seguirá viendo en la página.
       await dispatch(
         changePublicationAvailability(values._id, availablePostFormat(values)),
       );
