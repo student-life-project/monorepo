@@ -26,7 +26,7 @@ async function bootstrap() {
     },
     // allowedHeaders: '*',
     // exposedHeaders: '*',
-    methods: '*',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
     // preflightContinue: true,
     credentials: true,
