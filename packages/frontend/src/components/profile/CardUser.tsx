@@ -50,7 +50,7 @@ const CardUser: FC<TCardUser> = ({
         </>
       )}
 
-      {user.phoneNumber && (
+      {user.phoneNumber.length > 1 && (
         <div css={xw`flex mt-5`}>
           <FontAwesomeIcon icon={faPhoneAlt} height="1.2rem" />
           <p css={xw`ml-2`}>{user.phoneNumber}</p>
