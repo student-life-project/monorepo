@@ -6,24 +6,31 @@ import { join } from 'path';
 
 import { AppModule } from './app.module';
 
-async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    cors: {
-      /*
-      allowedHeaders: '*',
-      exposedHeaders: '*',
-      methods: '*',
-      optionsSuccessStatus: 200,
-      preflightContinue: true,
-      */
-      // Two only needed params to run it locally
-      origin: 'https://student-life-97ghk.ondigitalocean.app', // replace it with the domain to test
-      // origin: 'http://localhost:4000',
-      credentials: true,
-    },
-  });
+const WHITE_LIST_DOMAINS = [
+  'http://localhost:4000',
+  'https://monorepo-seven-lemon.vercel.app',
+  'https://student-life-97ghk.ondigitalocean.app',
+  'http://localhost:3010',
+];
 
-  // app.enableCors();
+async function bootstrap() {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  app.enableCors({
+    origin(origin, callback) {
+      if (!origin || WHITE_LIST_DOMAINS.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    // allowedHeaders: '*',
+    // exposedHeaders: '*',
+    methods: '*',
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+    // preflightContinue: true,
+    credentials: true,
+  });
 
   app.useStaticAssets(join(__dirname, '..', 'public'), {
     prefix: '/public/',
