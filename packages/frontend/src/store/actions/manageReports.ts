@@ -23,7 +23,7 @@ import {
 } from '@/store/types/manageReports';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
-// TODO: ELIMINAR
+// TODO: Eliminar
 import {
   dataReport,
   dataReports,

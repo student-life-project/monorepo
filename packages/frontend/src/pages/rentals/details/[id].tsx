@@ -120,7 +120,6 @@ const Details: NextPage = () => {
 
       return {
         id: rentalPlace.owner?._id,
-        // TODO: Enviar imagen.
         userImage: '/images/avatar.png',
         firstName: rentalPlace.owner?.firstName,
         lastName: rentalPlace.owner?.lastName,

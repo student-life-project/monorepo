@@ -11,30 +11,42 @@ import {
 import {
   changePublicationApproval,
   deletePublication,
+  getAllPublications,
   searchPublication,
 } from '@/store/actions/managePublications';
 import { isFetchingManagePublicationsSelector } from '@/store/selectors/managePublications';
 import { TElementId } from '@/types';
+import { approvalPostFormat } from '@/utils/availablePostFormat';
 
 type TTablePublications = {
   data: any;
 };
 
 const TablePublications: FC<TTablePublications> = ({ data }) => {
+  const dispatch = useDispatch();
+
   const [postId, setPostId] = useState<TElementId>(null);
   const [showModalPost, setShowModalPost] = useState(false);
 
-  const dispatch = useDispatch();
-  const loading = useSelector((state) =>
-    isFetchingManagePublicationsSelector(state),
-  );
+  const loading = useSelector(isFetchingManagePublicationsSelector);
 
   const handleChange = ({ target }) => {
     dispatch(searchPublication(target.value));
   };
 
-  const approvePost = (id: TElementId) => {
-    dispatch(changePublicationApproval(id));
+  const approvePost = async (id: TElementId) => {
+    const publicationSelected = data.find((item) => item._id === id);
+
+    await dispatch(
+      changePublicationApproval(id, approvalPostFormat(publicationSelected)),
+    );
+
+    await dispatch(getAllPublications());
+  };
+
+  const handleDeletePublication = async () => {
+    await dispatch(deletePublication(postId));
+    await dispatch(getAllPublications());
   };
 
   const handleOpenModalPost = (id: TElementId) => {
@@ -67,7 +79,7 @@ const TablePublications: FC<TTablePublications> = ({ data }) => {
           title={confirmMessage.titleDelete('publicación')}
           description={confirmMessage.descriptionDelete('publicación')}
           closeModal={handleCloseModalPost}
-          action={() => dispatch(deletePublication(postId))}
+          action={handleDeletePublication}
         />
       )}
     </>

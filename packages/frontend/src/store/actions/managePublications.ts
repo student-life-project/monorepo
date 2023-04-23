@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { ThunkAction } from 'redux-thunk';
 
 import { AlertMessage } from '@/constants/alertMessage';
+import { api } from '@/services/api';
 import { TRootState } from '@/store/reducers';
 import {
   CHANGE_PUBLICATION_APPROVAL_ERROR,
@@ -21,44 +22,132 @@ import {
   SEARCH_PUBLICATION_PENDING,
   SEARCH_PUBLICATION_SUCCESS,
 } from '@/store/types/managePublications';
-import { IQueryCommonFilters, TElementId } from '@/types';
-
-// TODO: ELIMINAR
 import {
-  dataPublication,
-  dataPublicationChangeApproved,
-  dataPublications,
-  dataPublicationSearch,
-} from '../dataFakeTemp';
+  IPublications,
+  IQueryCommonFilters,
+  IRentalPlace,
+  TElementId,
+} from '@/types';
+
+interface IGetPublicationPendingAction {
+  type: typeof GET_PUBLICATION_PENDING;
+}
+
+interface IGetPublicationSuccessAction {
+  type: typeof GET_PUBLICATION_SUCCESS;
+  data: IRentalPlace;
+}
+
+interface IGetPublicationErrorAction {
+  type: typeof GET_PUBLICATION_ERROR;
+  error: AxiosError;
+}
+
+interface ISearchPublicationPendingAction {
+  type: typeof SEARCH_PUBLICATION_PENDING;
+}
+
+interface ISearchPublicationSuccessAction {
+  type: typeof SEARCH_PUBLICATION_SUCCESS;
+  data: IPublications;
+}
+
+interface ISearchPublicationErrorAction {
+  type: typeof SEARCH_PUBLICATION_ERROR;
+  error: AxiosError;
+}
+
+interface IDeletePublicationPendingAction {
+  type: typeof DELETE_PUBLICATION_PENDING;
+}
+
+interface IDeletePublicationSuccessAction {
+  type: typeof DELETE_PUBLICATION_SUCCESS;
+  data: IRentalPlace;
+}
+
+interface IDeletePublicationErrorAction {
+  type: typeof DELETE_PUBLICATION_ERROR;
+  error: AxiosError;
+}
+
+interface IGetAllPublicationPendingAction {
+  type: typeof GET_ALL_PUBLICATIONS_PENDING;
+}
+
+interface IGetAllPublicationSuccessAction {
+  type: typeof GET_ALL_PUBLICATIONS_SUCCESS;
+  data: IPublications;
+}
+
+interface IGetAllPublicationErrorAction {
+  type: typeof GET_ALL_PUBLICATIONS_ERROR;
+  error: AxiosError;
+}
+
+interface IChangePublicationApprovalPendingAction {
+  type: typeof CHANGE_PUBLICATION_APPROVAL_PENDING;
+}
+
+interface IChangePublicationApprovalSuccessAction {
+  type: typeof CHANGE_PUBLICATION_APPROVAL_SUCCESS;
+  data: IRentalPlace;
+}
+
+interface IChangePublicationApprovalErrorAction {
+  type: typeof CHANGE_PUBLICATION_APPROVAL_ERROR;
+  error: AxiosError;
+}
+
+export type TPublicationsAction =
+  | IGetPublicationPendingAction
+  | IGetPublicationSuccessAction
+  | IGetPublicationErrorAction
+  | IDeletePublicationPendingAction
+  | IDeletePublicationSuccessAction
+  | IDeletePublicationErrorAction
+  | IGetAllPublicationPendingAction
+  | IGetAllPublicationSuccessAction
+  | IGetAllPublicationErrorAction
+  | ISearchPublicationPendingAction
+  | ISearchPublicationSuccessAction
+  | ISearchPublicationErrorAction
+  | IChangePublicationApprovalPendingAction
+  | IChangePublicationApprovalSuccessAction
+  | IChangePublicationApprovalErrorAction;
 
 // =============================================================================
 
-export const getPublicationPendingAction = (): any => ({
-  type: GET_PUBLICATION_PENDING,
-});
+export const getPublicationPendingAction =
+  (): IGetPublicationPendingAction => ({
+    type: GET_PUBLICATION_PENDING,
+  });
 
-export const getPublicationSuccessAction = (data: unknown): any => ({
+export const getPublicationSuccessAction = (
+  data: IRentalPlace,
+): IGetPublicationSuccessAction => ({
   type: GET_PUBLICATION_SUCCESS,
   data,
 });
 
-export const getPublicationErrorAction = (error: AxiosError): any => ({
+export const getPublicationErrorAction = (
+  error: AxiosError,
+): IGetPublicationErrorAction => ({
   type: GET_PUBLICATION_ERROR,
   error,
 });
 
 export const getPublication =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    id: TElementId,
+  ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
       dispatch(getPublicationPendingAction());
 
-      // const { data } = await api.get(`/publication/${id}`);
-
-      // TODO: Eliminar
-      const data = dataPublication(id);
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.get<IRentalPlace>(
+        `/rental-place/${id as string}`,
+      );
 
       dispatch(getPublicationSuccessAction(data));
     } catch (error) {
@@ -92,7 +181,7 @@ export const searchPublication =
       // const { data } = await api.get(`/publication${filter}`);
 
       // TODO: Eliminar
-      const data = dataPublicationSearch(text);
+      const data = {};
       // eslint-disable-next-line no-console
       console.log(text);
 
@@ -105,31 +194,34 @@ export const searchPublication =
 
 // =============================================================================
 
-export const deletePublicationPendingAction = (): any => ({
-  type: DELETE_PUBLICATION_PENDING,
-});
+export const deletePublicationPendingAction =
+  (): IDeletePublicationPendingAction => ({
+    type: DELETE_PUBLICATION_PENDING,
+  });
 
-export const deletePublicationSuccessAction = (data: unknown): any => ({
+export const deletePublicationSuccessAction = (
+  data: IRentalPlace,
+): IDeletePublicationSuccessAction => ({
   type: DELETE_PUBLICATION_SUCCESS,
   data,
 });
 
-export const deletePublicationErrorAction = (error: AxiosError): any => ({
+export const deletePublicationErrorAction = (
+  error: AxiosError,
+): IDeletePublicationErrorAction => ({
   type: DELETE_PUBLICATION_ERROR,
   error,
 });
 
 export const deletePublication =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    id: TElementId,
+  ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
       dispatch(deletePublicationPendingAction());
-      // const { data } = await api.delete(`/publication/${id}`);
 
-      // TODO: Eliminar
-      const data = {};
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.delete<IRentalPlace>(`/rental-place/${id}`);
 
       dispatch(deletePublicationSuccessAction(data));
       toast.success(AlertMessage.deleted('publicación'));
@@ -141,16 +233,21 @@ export const deletePublication =
 
 // =============================================================================
 
-export const getAllPublicationsPendingAction = (): any => ({
-  type: GET_ALL_PUBLICATIONS_PENDING,
-});
+export const getAllPublicationPendingAction =
+  (): IGetAllPublicationPendingAction => ({
+    type: GET_ALL_PUBLICATIONS_PENDING,
+  });
 
-export const getAllPublicationsSuccessAction = (data: unknown): any => ({
+export const getAllPublicationSuccessAction = (
+  data: IPublications,
+): IGetAllPublicationSuccessAction => ({
   type: GET_ALL_PUBLICATIONS_SUCCESS,
   data,
 });
 
-export const getAllPublicationsErrorAction = (error: AxiosError): any => ({
+export const getAllPublicationErrorAction = (
+  error: AxiosError,
+): IGetAllPublicationErrorAction => ({
   type: GET_ALL_PUBLICATIONS_ERROR,
   error,
 });
@@ -160,57 +257,64 @@ export const getAllPublications =
     void,
     TRootState,
     unknown,
-    any
+    TPublicationsAction
   > =>
   async (dispatch) => {
     try {
-      dispatch(getAllPublicationsPendingAction());
-      // const limitQuery = limit ? `?limit=${limit}` : '';
-      // const { data } = await api.get(`/publication${limitQuery}`);
+      dispatch(getAllPublicationPendingAction());
 
-      // TODO: Eliminar
-      const data = dataPublications;
-      // eslint-disable-next-line no-console
-      console.log(limit);
+      const limitQuery = limit ? `?limit=${limit}` : '';
+      const { data } = await api.get<IPublications>(
+        `/rental-place/${limitQuery}`,
+      );
 
-      dispatch(getAllPublicationsSuccessAction(data));
+      dispatch(getAllPublicationSuccessAction(data));
     } catch (error) {
-      dispatch(getAllPublicationsErrorAction(error));
+      dispatch(getAllPublicationErrorAction(error));
       toast.error(AlertMessage.error);
     }
   };
 
 // =============================================================================
 
-export const changePublicationApprovalPendingAction = (): any => ({
-  type: CHANGE_PUBLICATION_APPROVAL_PENDING,
-});
+export const changePublicationApprovalPendingAction =
+  (): IChangePublicationApprovalPendingAction => ({
+    type: CHANGE_PUBLICATION_APPROVAL_PENDING,
+  });
 
-export const changePublicationApprovalSuccessAction = (data: unknown): any => ({
+export const changePublicationApprovalSuccessAction = (
+  data: IRentalPlace,
+): IChangePublicationApprovalSuccessAction => ({
   type: CHANGE_PUBLICATION_APPROVAL_SUCCESS,
   data,
 });
 
 export const changePublicationApprovalErrorAction = (
   error: AxiosError,
-): any => ({
+): IChangePublicationApprovalErrorAction => ({
   type: CHANGE_PUBLICATION_APPROVAL_ERROR,
   error,
 });
 
 export const changePublicationApproval =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    id: TElementId,
+    publication: IRentalPlace,
+  ): ThunkAction<void, TRootState, unknown, TPublicationsAction> =>
   async (dispatch) => {
     try {
       dispatch(changePublicationApprovalPendingAction());
-      // const { data } = await api.put(`/publication/${id}`);
 
-      // TODO: Eliminar
-      const data = dataPublicationChangeApproved(id);
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.put<IRentalPlace>(`/rental-place/${id}`, {
+        publication,
+      });
 
-      dispatch(changePublicationApprovalSuccessAction(data));
+      const newData = {
+        ...data,
+        approved: publication.approved,
+      };
+
+      dispatch(changePublicationApprovalSuccessAction(newData));
       toast.success(AlertMessage.updated('aprobación'));
     } catch (error) {
       dispatch(changePublicationApprovalErrorAction(error));

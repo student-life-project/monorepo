@@ -17,35 +17,46 @@ import {
   SEARCH_PUBLICATION_PENDING,
   SEARCH_PUBLICATION_SUCCESS,
 } from '@/store/types/managePublications';
+import { IPublications, IRentalPlace } from '@/types';
+
+import { TPublicationsAction } from '../actions/managePublications';
 
 export interface IState {
-  publications: any;
+  publications: IPublications;
+  publication: IRentalPlace | null;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
-  publications: [],
+  publications: {
+    count: 0,
+    current: 0,
+    data: [],
+    next: 0,
+    prev: 0,
+  },
+  publication: null,
   isFetching: false,
   error: null,
 };
 
 const reducer = (
   state: IState = initialState,
-  payload: { type: any; data: any; error: any },
+  payload: TPublicationsAction,
 ): IState => {
   switch (payload.type) {
     case GET_PUBLICATION_PENDING:
       return {
         ...state,
-        publications: [],
+        publication: null,
         isFetching: true,
         error: null,
       };
     case GET_PUBLICATION_SUCCESS:
       return {
         ...state,
-        publications: payload.data,
+        publication: payload.data,
         isFetching: false,
         error: null,
       };
@@ -58,7 +69,7 @@ const reducer = (
     case SEARCH_PUBLICATION_PENDING:
       return {
         ...state,
-        publications: [],
+        publications: initialState.publications,
         isFetching: true,
         error: null,
       };
@@ -78,14 +89,14 @@ const reducer = (
     case DELETE_PUBLICATION_PENDING:
       return {
         ...state,
-        publications: [],
+        publication: null,
         isFetching: true,
         error: null,
       };
     case DELETE_PUBLICATION_SUCCESS:
       return {
         ...state,
-        publications: payload.data,
+        publication: payload.data,
         isFetching: false,
         error: null,
       };
@@ -98,7 +109,7 @@ const reducer = (
     case GET_ALL_PUBLICATIONS_PENDING:
       return {
         ...state,
-        publications: [],
+        publications: initialState.publications,
         isFetching: true,
         error: null,
       };
@@ -118,14 +129,14 @@ const reducer = (
     case CHANGE_PUBLICATION_APPROVAL_PENDING:
       return {
         ...state,
-        publications: [],
+        publication: null,
         isFetching: true,
         error: null,
       };
     case CHANGE_PUBLICATION_APPROVAL_SUCCESS:
       return {
         ...state,
-        publications: payload.data,
+        publication: payload.data,
         isFetching: false,
         error: null,
       };

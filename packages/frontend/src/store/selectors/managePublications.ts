@@ -1,11 +1,16 @@
-export const stateManagePublicationsSelector = (state: any) =>
+import { TRootState } from '../reducers';
+
+export const stateManagePublicationsSelector = (state: TRootState) =>
   state.managePublications;
 
-export const managePublicationsSelector = (state: any) =>
-  state.managePublications.publications;
+export const managePublicationSelector = (state: TRootState) =>
+  state.managePublications.publication;
 
-export const isFetchingManagePublicationsSelector = (state: any) =>
+export const managePublicationsSelector = (state: TRootState) =>
+  state.managePublications.publications.data;
+
+export const isFetchingManagePublicationsSelector = (state: TRootState) =>
   state.managePublications.isFetching;
 
-export const errorManagePublicationsSelector = (state: any) =>
+export const errorManagePublicationsSelector = (state: TRootState) =>
   state.managePublications.error;

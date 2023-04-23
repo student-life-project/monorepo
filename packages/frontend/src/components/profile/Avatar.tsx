@@ -71,12 +71,6 @@ const Avatar: FC<TAvatar> = ({
     [setFiles],
   );
 
-  // TODO: Eliminar cuando ya no sea necesario.
-  useEffect(() => {
-    return () => files.forEach((file) => URL.revokeObjectURL(file.url));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const { getRootProps, getInputProps } = useDropzone({
     accept: '.jpg,.jpeg,.png',
     noKeyboard: true,
@@ -84,16 +78,21 @@ const Avatar: FC<TAvatar> = ({
     onDrop,
   });
 
+  useEffect(() => {
+    return () => files.forEach((file) => URL.revokeObjectURL(file.url));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Img
         alt={alt}
-        src={files[0]?.url || url} // TODO: temporal solo para maquetar.
+        src={files[0]?.url || url}
         small={small}
         medium={medium}
         large={large}
         onLoad={() => {
-          URL.revokeObjectURL(files[0]?.url || ''); // TODO: temporal solo para maquetar.
+          URL.revokeObjectURL(files[0]?.url || '');
         }}
       />
 

@@ -42,7 +42,7 @@ export const ItemsPublicationDetails = (id: TElementId): Array<any> => [
   ...ItemsPublications,
   {
     link: `/profile/publications/details/${id}`,
-    text: 'Detalles de la publiación',
+    text: 'Detalles de la publicación',
   },
 ];
 
@@ -50,7 +50,7 @@ export const ItemsPublicationDetailsAdmin = (id: TElementId): Array<any> => [
   ...ItemsAdmin,
   {
     link: `/profile/admin/publication-details/${id}`,
-    text: 'Detalles de la publiación',
+    text: 'Detalles de la publicación',
   },
 ];
 

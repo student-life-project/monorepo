@@ -29,13 +29,9 @@ const Admin: NextPage = () => {
   const router = useRouter();
   const [tab, setTab] = useState(0);
 
-  const userList = useSelector((state) => manageUserSelector(state));
-
-  const publicationList = useSelector((state) =>
-    managePublicationsSelector(state),
-  );
-
-  const reportList = useSelector((state) => manageReportsSelector(state));
+  const userList = useSelector(manageUserSelector);
+  const reportList = useSelector(manageReportsSelector);
+  const publicationList = useSelector(managePublicationsSelector);
 
   const handleTab = (tabCurrent) => {
     setTab(tabCurrent);
@@ -57,9 +53,13 @@ const Admin: NextPage = () => {
       } else if (deletedPost === 'true') {
         toast.success(AlertMessage.deleted('publicación'));
       }
-
-      router.replace('/profile/admin');
     }
+
+    const timer = setTimeout(() => router.replace('/profile/admin'), 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
