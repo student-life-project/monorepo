@@ -12,6 +12,7 @@ import {
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { EUserType } from '@student_life/common';
 import { NextPage, NextPageContext } from 'next';
 import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -140,8 +141,8 @@ const Details: NextPage = () => {
     await dispatch(getRentalPlace(rentalPlace?._id));
   };
 
-  const like = infoLikes.length > 0;
   const street = address?.street?.replace('#', '');
+  const like = infoLikes.length > 0 || userData?.type === EUserType.ADMIN;
   const googleMapsLink = `https://maps.google.com/?q=${street}, ${address?.cologne}, ${address?.city}, ${address?.state}`;
 
   return (
@@ -245,18 +246,19 @@ const Details: NextPage = () => {
                   <p css={xw`ml-2`}>{rentalPlace?.gender}</p>
                 </div>
 
-                {user?.id !== userData?._id && (
-                  <div css={xw`flex`}>
-                    <ButtonLink
-                      type="button"
-                      css={xw`text-red-500 flex items-center`}
-                      onClick={handleRentalReport}
-                    >
-                      <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
-                      <p css={xw`ml-2`}>Reportar publicación</p>
-                    </ButtonLink>
-                  </div>
-                )}
+                {user?.id !== userData?._id &&
+                  userData?.type !== EUserType.ADMIN && (
+                    <div css={xw`flex`}>
+                      <ButtonLink
+                        type="button"
+                        css={xw`text-red-500 flex items-center`}
+                        onClick={handleRentalReport}
+                      >
+                        <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
+                        <p css={xw`ml-2`}>Reportar publicación</p>
+                      </ButtonLink>
+                    </div>
+                  )}
               </div>
 
               <div css={xw`w-full flex flex-wrap`}>
@@ -331,6 +333,7 @@ const Details: NextPage = () => {
 
                 <Comments
                   userId={userData?._id}
+                  userType={userData?.type}
                   comments={comments?.data}
                   rentalPlaceId={rentalPlace?._id}
                   openUserReport={handleUserReport}
@@ -341,6 +344,7 @@ const Details: NextPage = () => {
             <CardUser
               user={user}
               userId={userData?._id}
+              userType={userData?.type}
               openUserReport={handleUserReport}
               titlePublication={rentalPlace?.title}
             />
