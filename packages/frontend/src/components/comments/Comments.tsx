@@ -1,3 +1,4 @@
+import { EUserType } from '@student_life/common';
 import { FC, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -21,6 +22,7 @@ import ItemComment from './ItemComment';
 type TComments = {
   comments: any;
   userId: TElementId;
+  userType: EUserType;
   rentalPlaceId: TElementId;
   openUserReport: () => void;
 };
@@ -28,6 +30,7 @@ type TComments = {
 const Comments: FC<TComments> = ({
   userId,
   comments,
+  userType,
   rentalPlaceId,
   openUserReport,
 }) => {
@@ -84,39 +87,42 @@ const Comments: FC<TComments> = ({
       <div css={xw`w-full`}>
         <h2 css={xw`w-full py-7 text-xl font-bold`}>Comentarios</h2>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Textarea
-            id="comment"
-            maxLength={255}
-            counter={comment?.length}
-            placeholder="Escribe un comentario..."
-            register={{
-              ...register('comment', {
-                required: ErrorMessageInput.inputRequire(NameInput.comment),
-                maxLength: {
-                  value: 500,
-                  message: ErrorMessageInput.max(500),
-                },
-              }),
-            }}
-            error={Boolean(errors.comment)}
-            messageError={errors.comment?.message as string}
-          />
+        {userType !== EUserType.ADMIN && (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Textarea
+              id="comment"
+              maxLength={255}
+              counter={comment?.length}
+              placeholder="Escribe un comentario..."
+              register={{
+                ...register('comment', {
+                  required: ErrorMessageInput.inputRequire(NameInput.comment),
+                  maxLength: {
+                    value: 500,
+                    message: ErrorMessageInput.max(500),
+                  },
+                }),
+              }}
+              error={Boolean(errors.comment)}
+              messageError={errors.comment?.message as string}
+            />
 
-          <DoubleSpace classNames={xw`sm:justify-end sm:gap-4 sm:mt-2`}>
-            <Button type="button" BDanger onClick={() => reset()}>
-              Cancelar
-            </Button>
+            <DoubleSpace classNames={xw`sm:justify-end sm:gap-4 sm:mt-2`}>
+              <Button type="button" BDanger onClick={() => reset()}>
+                Cancelar
+              </Button>
 
-            <Button type="submit" FPrimary css={xw`my-2 sm:my-0`}>
-              Enviar comentario
-            </Button>
-          </DoubleSpace>
-        </form>
+              <Button type="submit" FPrimary css={xw`my-2 sm:my-0`}>
+                Enviar comentario
+              </Button>
+            </DoubleSpace>
+          </form>
+        )}
 
         <ItemComment
           userId={userId}
           comments={comments}
+          userType={userType}
           openUserReport={openUserReport}
           openModalEdit={handleOpenModalEdit}
           openModalDelete={handleOpenModalDelete}
