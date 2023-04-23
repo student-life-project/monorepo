@@ -21,7 +21,7 @@ const Content = styled.div`
 const Icon = styled(FontAwesomeIcon)`
   ${xw`
     mr-1
-    text-gray-500
+    text-secondary-1
   `}
 `;
 
