@@ -72,7 +72,7 @@ const CardUser: FC<TCardUser> = ({
           <ButtonLink
             type="button"
             onClick={openUserReport}
-            css={xw`mt-5 text-red-500`}
+            css={xw`mt-5 text-red-500 items-center`}
           >
             <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
             <p css={xw`ml-2`}>Reportar usuario</p>

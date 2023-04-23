@@ -2,7 +2,7 @@
 import xw from 'xwind';
 import styled from '@emotion/styled';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 
@@ -15,6 +15,7 @@ const Content = styled.div`
     flex
     my-3
     w-full
+    items-center
   `}
 `;
 
@@ -23,7 +24,7 @@ const Icon = styled(FontAwesomeIcon)`
     mr-1
     stroke-1
     font-thin
-    text-gray-400
+    text-primary
   `}
 `;
 

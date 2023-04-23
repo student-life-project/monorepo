@@ -3,6 +3,7 @@ import xw from 'xwind';
 import styled from '@emotion/styled';
 import {
   faBullhorn,
+  faCheckCircle,
   faConciergeBell,
   faHome,
   faMapMarkerAlt,
@@ -140,7 +141,7 @@ const Details: NextPage = () => {
   };
 
   const like = infoLikes.length > 0;
-  const street = address?.street.replace('#', '');
+  const street = address?.street?.replace('#', '');
   const googleMapsLink = `https://maps.google.com/?q=${street}, ${address?.cologne}, ${address?.city}, ${address?.state}`;
 
   return (
@@ -206,29 +207,40 @@ const Details: NextPage = () => {
             </Title>
           </div>
 
+          {rentalPlace.approved && (
+            <div css={xw`w-full flex mb-5 items-center`}>
+              <FontAwesomeIcon
+                height="1.2rem"
+                icon={faCheckCircle}
+                css={xw`text-green-500`}
+              />
+              <p css={xw`ml-2 text-green-500`}>Aprobado por Student Life</p>
+            </div>
+          )}
+
           <section css={xw`w-full flex flex-wrap mb-10 sm:mb-20`}>
             <div css={xw`w-full lg:w-8/12`}>
               <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
-                <div css={xw`flex`}>
+                <div css={xw`flex items-center`}>
                   <FontAwesomeIcon icon={faHome} height="1.2rem" />
                   <p css={xw`ml-2`}>{rentalPlace?.typeSpace}</p>
                 </div>
 
-                <div css={xw`flex`}>
+                <div css={xw`flex items-center`}>
                   <FontAwesomeIcon icon={faConciergeBell} height="1.2rem" />
                   <p css={xw`ml-2`}>
                     {rentalPlace?.availability ? 'Disponible' : 'No Disponible'}
                   </p>
                 </div>
 
-                <div css={xw`flex`}>
+                <div css={xw`flex items-center`}>
                   <FontAwesomeIcon icon={faSearch} height="1.2rem" />
                   <p css={xw`ml-2`}>{rentalPlace?.reason}</p>
                 </div>
               </div>
 
               <div css={xw`w-full grid gap-4 mb-5 grid-cols-1 sm:grid-cols-3`}>
-                <div css={xw`flex`}>
+                <div css={xw`flex items-center`}>
                   <FontAwesomeIcon icon={faUsers} height="1.2rem" />
                   <p css={xw`ml-2`}>{rentalPlace?.gender}</p>
                 </div>
@@ -237,7 +249,7 @@ const Details: NextPage = () => {
                   <div css={xw`flex`}>
                     <ButtonLink
                       type="button"
-                      css={xw`text-red-500`}
+                      css={xw`text-red-500 flex items-center`}
                       onClick={handleRentalReport}
                     >
                       <FontAwesomeIcon icon={faBullhorn} height="1.2rem" />
