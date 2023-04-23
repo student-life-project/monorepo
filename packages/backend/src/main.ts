@@ -7,7 +7,10 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule,
+    /*
+    {
     cors: {
       /*
       allowedHeaders: '*',
@@ -16,10 +19,14 @@ async function bootstrap() {
       optionsSuccessStatus: 200,
       preflightContinue: true,
       */
-      origin: '*',
+    /*
+     // Two only needed params to run it locally
+      origin: '*', // replace it with the domain to test
       credentials: true,
     },
-  });
+  }
+  */
+  );
 
   // app.enableCors();
 
