@@ -48,7 +48,7 @@ const WebcamImage: FC<TWebcamImage> = ({
         <div
           css={xw`w-72 sm:w-80 h-80 flex flex-col items-center justify-center gap-5 border border-gray-200 rounded-lg`}
         >
-          <FontAwesomeIcon icon={icon} size="6x" />
+          <FontAwesomeIcon icon={icon} width="100px" />
 
           <p css={xw`text-sm text-gray-500 text-center`}>{description}</p>
 
