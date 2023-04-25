@@ -83,7 +83,7 @@ const ItemComment: FC<TItemComment> = ({
 
         <p css={xw`mt-4 mb-1`}>{item.comment}</p>
         <em css={xw`text-sm`}>
-          {item.createdAt && formatDate(item.createdAt)}
+          {item.creationDate && formatDate(item.creationDate)}
         </em>
       </section>
     ))}
