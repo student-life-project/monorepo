@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { ONLY_LOGGED_USERS_ROUTES } from '@/constants/onlyLoggedUserRoutes';
 import { fetchUserData, logoutAction } from '@/store/actions/users';
 import { tokenSessionSelector } from '@/store/selectors/session';
 import { userSelector } from '@/store/selectors/user';
@@ -36,8 +37,17 @@ const NavBarContainer: FC<INavBarContainer> = ({
   useEffect(() => {
     if (tokenSession) {
       dispatch(fetchUserData());
+      return;
     }
-  }, [tokenSession, dispatch]);
+
+    if (
+      ONLY_LOGGED_USERS_ROUTES.findIndex((route) =>
+        router.pathname.startsWith(route),
+      ) !== -1
+    ) {
+      router.push('/api/auth/logout');
+    }
+  }, [tokenSession, dispatch, router]);
 
   const onLogoutClick = () => {
     dispatch(logoutAction());
