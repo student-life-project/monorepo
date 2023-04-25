@@ -28,8 +28,12 @@ export class Comment {
   ownerId: string;
 
   @ApiProperty()
-  @Prop({ requered: true })
+  @Prop({ required: true })
   comment: string;
+
+  @ApiProperty()
+  @Prop({ required: false, default: () => new Date() })
+  creationDate?: Date;
 }
 
 export type CommentDocument = Comment & Document;
