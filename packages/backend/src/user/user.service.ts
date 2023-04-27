@@ -1,15 +1,16 @@
 import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { IUser } from '@student_life/common';
+import { IPagination, IPaginationParams, IUser } from '@student_life/common';
 import { AxiosResponse } from 'axios';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Observable } from 'rxjs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { map } from 'rxjs/operators';
 
 import { ResponseTokenDto } from '../authz/dto/response-token.dto';
 import { ImageService } from '../image/image.service';
+import { PaginationMoogooseService } from '../pagination/Pagination.service';
 import { ResponseRoleDto } from './dto/responseRole.dto';
 import { UserMetadataDto } from './dto/userMetadata.dto';
 import { User, UserDocument } from './user.schema';
@@ -27,6 +28,8 @@ export class UserService {
     private readonly UserModel: Model<UserDocument>,
     @Inject(ImageService.name)
     private readonly imageService: ImageService,
+    @Inject(PaginationMoogooseService.name)
+    private paginationService: PaginationMoogooseService<User>,
   ) {}
 
   isAdmin(user: any): boolean {
@@ -202,5 +205,32 @@ export class UserService {
       id,
       data as any,
     ) as unknown as IUser;
+  }
+
+  async deleteUserById(id: string) {
+    return this.UserModel.deleteOne({ _id: id });
+  }
+
+  async findUsers(
+    query?: FilterQuery<UserDocument>,
+    paginationParams: IPaginationParams = {},
+  ): Promise<IPagination<UserDocument>> {
+    const { dataQuery: usersFindedQuery, ...paginationData } =
+      await this.paginationService.paginate(
+        this.UserModel,
+        paginationParams,
+        query,
+      );
+
+    const usersFinded = await usersFindedQuery
+      .populate('photo')
+      .populate('reports')
+      .populate('studentInfo')
+      .populate('ownerInfo');
+
+    return {
+      data: usersFinded,
+      ...paginationData,
+    };
   }
 }
