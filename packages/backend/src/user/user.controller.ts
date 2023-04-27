@@ -1,11 +1,14 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
+  Param,
   Patch,
   Put,
   Req,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -135,5 +138,165 @@ export class UserController {
     );
 
     return updatedUserProfile;
+  }
+
+  @ApiOkResponse({
+    description: 'get the user list to be administrated by the admins',
+  })
+  @ApiNotFoundResponse({
+    description: 'users information not available',
+  })
+  @UseGuards(AuthGuard('jwt'))
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
+  @Get('/admin/user')
+  async getUsersInformation(@Req() req: Request & { user: IAuth0User }) {
+    const currentUserData = await this.userService.getOrCreateUserByEmail({
+      email: req.user.email,
+      firstName: (req.user.name || '').toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
+      image: req.user.picture,
+      type: EUserType.OWNER,
+      birthDate: req.user.updated_at,
+      phoneNumber: '0',
+    });
+
+    if (
+      currentUserData &&
+      currentUserData.type !== (EUserType.ADMIN as string)
+    ) {
+      throw UnauthorizedException;
+    }
+
+    const usersList = await this.userService.findUsers();
+
+    return usersList;
+  }
+
+  @ApiOkResponse({
+    description: 'get the user information to be administrated by the admins',
+  })
+  @ApiNotFoundResponse({
+    description: 'users information not available',
+  })
+  @UseGuards(AuthGuard('jwt'))
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
+  @Get('/admin/user/:id')
+  async getUserInformation(
+    @Req() req: Request & { user: IAuth0User },
+    @Param('id') userId: string,
+  ) {
+    const currentUserData = await this.userService.getOrCreateUserByEmail({
+      email: req.user.email,
+      firstName: (req.user.name || '').toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
+      image: req.user.picture,
+      type: EUserType.OWNER,
+      birthDate: req.user.updated_at,
+      phoneNumber: '0',
+    });
+
+    if (
+      currentUserData &&
+      currentUserData.type !== (EUserType.ADMIN as string)
+    ) {
+      throw UnauthorizedException;
+    }
+
+    const userInformation = await this.userService.getUserById(userId);
+
+    if (!userInformation?._id) {
+      throw NotFoundException;
+    }
+
+    return userInformation;
+  }
+
+  @ApiOkResponse({
+    description: 'update the user information by the admins',
+  })
+  @ApiNotFoundResponse({
+    description: 'users information not available',
+  })
+  @UseGuards(AuthGuard('jwt'))
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
+  @Put('/admin/user/:id')
+  async updateUserInformation(
+    @Req() req: Request & { user: IAuth0User },
+    @Param('id') userId: string,
+    @Body() newUserInformation: { user: IUser },
+  ) {
+    const currentUserData = await this.userService.getOrCreateUserByEmail({
+      email: req.user.email,
+      firstName: (req.user.name || '').toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
+      image: req.user.picture,
+      type: EUserType.OWNER,
+      birthDate: req.user.updated_at,
+      phoneNumber: '0',
+    });
+
+    if (
+      currentUserData &&
+      currentUserData.type !== (EUserType.ADMIN as string)
+    ) {
+      throw UnauthorizedException;
+    }
+
+    const currentUser = await this.userService.getUserById(userId);
+
+    if (!currentUser?._id) {
+      throw NotFoundException;
+    }
+
+    const updatedData = {
+      ...currentUser?.toObject(),
+      ...newUserInformation.user,
+    } as IUser;
+
+    const userInformation = await this.userService.updateUserProfile(
+      userId,
+      updatedData,
+    );
+
+    return userInformation;
+  }
+
+  @ApiOkResponse({
+    description: 'delete the user information by the admins',
+  })
+  @ApiNotFoundResponse({
+    description: 'users information not available',
+  })
+  @UseGuards(AuthGuard('jwt'))
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
+  @Delete('/admin/user/:id')
+  async deleteUserInformation(
+    @Req() req: Request & { user: IAuth0User },
+    @Param('id') userId: string,
+  ) {
+    const currentUserData = await this.userService.getOrCreateUserByEmail({
+      email: req.user.email,
+      firstName: (req.user.name || '').toLowerCase(),
+      lastName: (req.user?.family_name || '').toLowerCase(),
+      image: req.user.picture,
+      type: EUserType.OWNER,
+      birthDate: req.user.updated_at,
+      phoneNumber: '0',
+    });
+
+    if (
+      currentUserData &&
+      currentUserData.type !== (EUserType.ADMIN as string)
+    ) {
+      throw UnauthorizedException;
+    }
+
+    const userInformation = await this.userService.deleteUserById(userId);
+
+    return userInformation;
   }
 }

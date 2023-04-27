@@ -47,6 +47,9 @@ export class User {
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Owner', default: null })
   ownerInfo: Owner;
+
+  @Prop({ default: false })
+  isBanned?: boolean;
 }
 
 export type UserDocument = User & Document;

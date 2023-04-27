@@ -23,6 +23,9 @@ export class Report {
 
   @Prop({ required: false })
   reportOriginUrl?: string;
+
+  @Prop({ required: true })
+  reassson: string;
 }
 
 export type ReportDocument = Report & Document;
