@@ -32,7 +32,7 @@ import {
   publicationsSelector,
 } from '@/store/selectors/publications';
 import { TElementId } from '@/types';
-import { availablePostFormat } from '@/utils/availablePostFormat';
+import { availablePostFormat } from '@/utils/editPostFormat';
 
 const Publications: NextPage = () => {
   const router = useRouter();

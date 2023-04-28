@@ -205,7 +205,7 @@ export const getPublication =
       dispatch(getPublicationPendingAction());
 
       const { data } = await api.get<IRentalPlace>(
-        `/rental-place/${id as string}/from-user`,
+        `/rental-place/${id}/from-user`,
       );
 
       dispatch(getPublicationSuccessAction(data));

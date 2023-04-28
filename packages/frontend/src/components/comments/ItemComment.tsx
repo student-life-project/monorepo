@@ -35,8 +35,8 @@ const ItemComment: FC<TItemComment> = ({
           <div css={xw`w-full flex items-center gap-4`}>
             <Avatar
               small
+              url="/images/avatar.png"
               alt={item.ownerId.firstName}
-              url={item.ownerId.picture || '/images/avatar.png'}
             />
 
             <p>

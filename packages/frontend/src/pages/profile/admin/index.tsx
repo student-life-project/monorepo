@@ -23,13 +23,13 @@ import { getAllUser } from '@/store/actions/manageUsers';
 import { TRootState } from '@/store/reducers';
 import { managePublicationsSelector } from '@/store/selectors/managePublications';
 import { manageReportsSelector } from '@/store/selectors/manageReports';
-import { manageUserSelector } from '@/store/selectors/manageUsers';
+import { manageUsersSelector } from '@/store/selectors/manageUsers';
 
 const Admin: NextPage = () => {
   const router = useRouter();
   const [tab, setTab] = useState(0);
 
-  const userList = useSelector(manageUserSelector);
+  const userList = useSelector(manageUsersSelector);
   const reportList = useSelector(manageReportsSelector);
   const publicationList = useSelector(managePublicationsSelector);
 

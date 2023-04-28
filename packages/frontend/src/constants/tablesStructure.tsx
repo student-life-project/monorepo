@@ -7,10 +7,11 @@ import xw from 'xwind';
 
 import Options from '@/components/common/Options';
 import Status from '@/components/common/Status';
-import { IOption } from '@/types';
+import { IOption, TElementId } from '@/types';
 import { formatDate } from '@/utils/managerDate';
 import { formatter } from '@/utils/numberFormat';
 
+import { RoleName } from './rolesName';
 import {
   RentalApprovedStatus,
   RentalAvailabilityStatus,
@@ -31,15 +32,15 @@ export const HeaderPublicationUser = {
 };
 
 export const ColumnsPublicationUser = (
-  availablePost: (_id: number) => any,
-  handleOpenModal: (_id: number) => any,
+  availablePost: (_id: TElementId) => void,
+  handleOpenModal: (_id: TElementId) => void,
 ): TColumns => [
   { name: 'Titulo', selector: 'title', sortable: true },
   {
     name: 'Precio',
     selector: 'price',
     sortable: true,
-    cell: (row: { price: any }) => {
+    cell: (row: { price: string }) => {
       const { price } = row;
       return formatter('MXN').format(price);
     },
@@ -48,7 +49,7 @@ export const ColumnsPublicationUser = (
     name: 'Disponibilidad',
     selector: 'availability',
     sortable: true,
-    cell: (row: { availability: any }) => {
+    cell: (row: { availability: boolean }) => {
       const { availability } = row;
       return (
         <Status status={availability} options={RentalAvailabilityStatus} />
@@ -57,7 +58,7 @@ export const ColumnsPublicationUser = (
   },
   {
     name: 'Acciones',
-    cell: (row: { _id: any; availability: any }) => {
+    cell: (row: { _id: TElementId; availability: boolean }) => {
       const { _id, availability } = row;
 
       return (
@@ -111,41 +112,50 @@ export const HeaderReport = {
 };
 
 export const ColumnsUser = (
-  statusUser: (_id: number) => any,
-  handleOpenModalUser: (_id: number) => any,
+  statusUser: (_id: TElementId) => void,
+  handleOpenModalUser: (_id: TElementId) => void,
 ): TColumns => [
-  { name: 'ID', selector: '_id', sortable: true },
-  { name: 'Nombre', selector: 'fullName', sortable: true },
+  {
+    name: 'Nombre',
+    selector: 'fullName',
+    sortable: true,
+    cell: (row: { firstName: string; lastName: string }) => {
+      const { firstName, lastName } = row;
+      return (
+        <p>
+          {firstName} {lastName}
+        </p>
+      );
+    },
+  },
   { name: 'Correo', selector: 'email', sortable: true },
   {
     name: 'Rol',
     selector: 'role',
     sortable: true,
-    cell: (row: { role: any }) => {
-      const { role } = row;
-      const roleName = ['Admin', 'Estudiante', 'Arrendatario'];
-
-      return <p>{roleName[role]}</p>;
+    cell: (row: { type: string }) => {
+      const { type } = row;
+      return <p>{RoleName[type]}</p>;
     },
   },
   {
     name: 'Estatus',
     selector: 'status',
     sortable: true,
-    cell: (row: { status: any }) => {
-      const { status } = row;
-      return <Status status={status} options={UserActiveStatus} />;
+    cell: (row: { isBanned: boolean }) => {
+      const { isBanned } = row;
+      return <Status status={!isBanned} options={UserActiveStatus} />;
     },
   },
   {
     name: 'Acciones',
-    cell: (row: { _id: any; status: any }) => {
-      const { _id, status } = row;
+    cell: (row: { _id: TElementId; isBanned: boolean }) => {
+      const { _id, isBanned } = row;
 
       return (
         <Options>
           <button type="button" onClick={() => statusUser(_id)}>
-            <span css={xw`ml-2`}>{status ? 'Desactivar' : 'Activar'}</span>
+            <span css={xw`ml-2`}>{!isBanned ? 'Desactivar' : 'Activar'}</span>
           </button>
 
           <button type="button" onClick={() => handleOpenModalUser(_id)}>
@@ -162,15 +172,15 @@ export const ColumnsUser = (
 ];
 
 export const ColumnsPublication = (
-  approvePost: (_id: number) => any,
-  handleOpenModalPost: (_id: number) => any,
+  approvePost: (_id: TElementId) => void,
+  handleOpenModalPost: (_id: TElementId) => void,
 ): TColumns => [
   { name: 'Titulo', selector: 'title', sortable: true },
   {
     name: 'Precio',
     selector: 'price',
     sortable: true,
-    cell: (row: { price: any }) => {
+    cell: (row: { price: string }) => {
       const { price } = row;
       return formatter('MXN').format(price);
     },
@@ -179,7 +189,7 @@ export const ColumnsPublication = (
     name: 'Disponibilidad',
     selector: 'availability',
     sortable: true,
-    cell: (row: { availability: any }) => {
+    cell: (row: { availability: boolean }) => {
       const { availability } = row;
       return <p>{availability ? 'Disponible' : 'No disponible'}</p>;
     },
@@ -188,14 +198,14 @@ export const ColumnsPublication = (
     name: 'Aprobación',
     selector: 'approved',
     sortable: true,
-    cell: (row: { approved: any }) => {
+    cell: (row: { approved: boolean }) => {
       const { approved } = row;
       return <Status status={approved} options={RentalApprovedStatus} />;
     },
   },
   {
     name: 'Acciones',
-    cell: (row: { _id: any; approved: any }) => {
+    cell: (row: { _id: TElementId; approved: boolean }) => {
       const { _id, approved } = row;
 
       return (
@@ -218,8 +228,8 @@ export const ColumnsPublication = (
 ];
 
 export const ColumnsReport = (
-  solveReport: (_id: number) => any,
-  handleOpenModalReport: (_id: number) => any,
+  solveReport: (_id: TElementId) => void,
+  handleOpenModalReport: (_id: TElementId) => void,
 ): TColumns => [
   { name: 'ID', selector: '_id', sortable: true },
   { name: 'Tipo', selector: 'type', sortable: true },
@@ -228,7 +238,7 @@ export const ColumnsReport = (
     name: 'Fecha',
     selector: 'createdAt',
     sortable: true,
-    cell: (row: { createdAt: any }) => {
+    cell: (row: { createdAt: Date }) => {
       const { createdAt } = row;
       return formatDate(createdAt);
     },
@@ -244,7 +254,7 @@ export const ColumnsReport = (
   },
   {
     name: 'Acciones',
-    cell: (row: { _id: any; status: any }) => {
+    cell: (row: { _id: TElementId; status: boolean }) => {
       const { _id, status } = row;
 
       return (

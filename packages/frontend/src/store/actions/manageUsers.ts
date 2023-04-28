@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { ThunkAction } from 'redux-thunk';
 
 import { AlertMessage } from '@/constants/alertMessage';
+import { api } from '@/services/api';
 import { TRootState } from '@/store/reducers';
 import {
   CHANGE_USER_STATUS_ERROR,
@@ -21,28 +22,107 @@ import {
   SEARCH_USER_PENDING,
   SEARCH_USER_SUCCESS,
 } from '@/store/types/manageUsers';
-import { IQueryCommonFilters, TElementId } from '@/types';
+import { IQueryCommonFilters, IUsers, TElementId, TUser } from '@/types';
 
-// TODO: Eliminar
-import {
-  dataUser,
-  dataUsers,
-  dataUsersChangeStatus,
-  dataUserSearch,
-} from '../dataFakeTemp';
+interface IGetUserPendingAction {
+  type: typeof GET_USER_PENDING;
+}
+
+interface IGetUserSuccessAction {
+  type: typeof GET_USER_SUCCESS;
+  data: IUsers;
+}
+
+interface IGetUserErrorAction {
+  type: typeof GET_USER_ERROR;
+  error: AxiosError;
+}
+
+interface ISearchUserPendingAction {
+  type: typeof SEARCH_USER_PENDING;
+}
+
+interface ISearchUserSuccessAction {
+  type: typeof SEARCH_USER_SUCCESS;
+  data: IUsers;
+}
+
+interface ISearchUserErrorAction {
+  type: typeof SEARCH_USER_ERROR;
+  error: AxiosError;
+}
+
+interface IDeleteUserPendingAction {
+  type: typeof DELETE_USER_PENDING;
+}
+
+interface IDeleteUserSuccessAction {
+  type: typeof DELETE_USER_SUCCESS;
+  data: IUsers;
+}
+
+interface IDeleteUserErrorAction {
+  type: typeof DELETE_USER_ERROR;
+  error: AxiosError;
+}
+
+interface IGetAllUsersPendingAction {
+  type: typeof GET_ALL_USERS_PENDING;
+}
+
+interface IGetAllUsersSuccessAction {
+  type: typeof GET_ALL_USERS_SUCCESS;
+  data: IUsers;
+}
+
+interface IGetAllUsersErrorAction {
+  type: typeof GET_ALL_USERS_ERROR;
+  error: AxiosError;
+}
+
+interface IChangeUserStatusPendingAction {
+  type: typeof CHANGE_USER_STATUS_PENDING;
+}
+
+interface IChangeUserStatusSuccessAction {
+  type: typeof CHANGE_USER_STATUS_SUCCESS;
+  data: IUsers;
+}
+
+interface IChangeUserStatusErrorAction {
+  type: typeof CHANGE_USER_STATUS_ERROR;
+  error: AxiosError;
+}
+
+export type TUsersAction =
+  | IGetUserPendingAction
+  | IGetUserSuccessAction
+  | IGetUserErrorAction
+  | ISearchUserPendingAction
+  | ISearchUserSuccessAction
+  | ISearchUserErrorAction
+  | IDeleteUserPendingAction
+  | IDeleteUserSuccessAction
+  | IDeleteUserErrorAction
+  | IGetAllUsersPendingAction
+  | IGetAllUsersSuccessAction
+  | IGetAllUsersErrorAction
+  | IChangeUserStatusPendingAction
+  | IChangeUserStatusSuccessAction
+  | IChangeUserStatusErrorAction;
 
 // =============================================================================
 
-export const getUserPendingAction = (): any => ({
+export const getUserPendingAction = (): IGetUserPendingAction => ({
   type: GET_USER_PENDING,
 });
 
-export const getUserSuccessAction = (data: unknown): any => ({
+export const getUserSuccessAction = (data: IUsers): IGetUserSuccessAction => ({
   type: GET_USER_SUCCESS,
   data,
 });
 
-export const getUserErrorAction = (error: AxiosError): any => ({
+export const getUserErrorAction = (error: AxiosError): IGetUserErrorAction => ({
   type: GET_USER_ERROR,
   error,
 });
@@ -52,12 +132,8 @@ export const getUser =
   async (dispatch) => {
     try {
       dispatch(getUserPendingAction());
-      // const { data } = await api.get(`/user/${id}`);
 
-      // TODO: Eliminar
-      const data = dataUser(id);
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.get(`/user/admin/user/${id}`);
 
       dispatch(getUserSuccessAction(data));
     } catch (error) {
@@ -68,16 +144,20 @@ export const getUser =
 
 // =============================================================================
 
-export const searchUserPendingAction = (): any => ({
+export const searchUserPendingAction = (): ISearchUserPendingAction => ({
   type: SEARCH_USER_PENDING,
 });
 
-export const searchUserSuccessAction = (data: unknown): any => ({
+export const searchUserSuccessAction = (
+  data: IUsers,
+): ISearchUserSuccessAction => ({
   type: SEARCH_USER_SUCCESS,
   data,
 });
 
-export const searchUserErrorAction = (error: AxiosError): any => ({
+export const searchUserErrorAction = (
+  error: AxiosError,
+): ISearchUserErrorAction => ({
   type: SEARCH_USER_ERROR,
   error,
 });
@@ -91,11 +171,11 @@ export const searchUser =
       // const { data } = await api.get(`/user${filter}`);
 
       // TODO: Eliminar
-      const data = dataUserSearch(text);
+      const data = {};
       // eslint-disable-next-line no-console
       console.log(text);
 
-      dispatch(searchUserSuccessAction(data));
+      dispatch(searchUserSuccessAction(data as any));
     } catch (error) {
       dispatch(searchUserErrorAction(error));
       toast.error(AlertMessage.error);
@@ -104,16 +184,20 @@ export const searchUser =
 
 // =============================================================================
 
-export const deleteUserPendingAction = (): any => ({
+export const deleteUserPendingAction = (): IDeleteUserPendingAction => ({
   type: DELETE_USER_PENDING,
 });
 
-export const deleteUserSuccessAction = (data: unknown): any => ({
+export const deleteUserSuccessAction = (
+  data: IUsers,
+): IDeleteUserSuccessAction => ({
   type: DELETE_USER_SUCCESS,
   data,
 });
 
-export const deleteUserErrorAction = (error: AxiosError): any => ({
+export const deleteUserErrorAction = (
+  error: AxiosError,
+): IDeleteUserErrorAction => ({
   type: DELETE_USER_ERROR,
   error,
 });
@@ -123,12 +207,8 @@ export const deleteUser =
   async (dispatch) => {
     try {
       dispatch(deleteUserPendingAction());
-      // const { data } = await api.delete(`/user/${id}`);
 
-      // TODO: Eliminar
-      const data = {};
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.delete(`/user/admin/user/${id}`);
 
       dispatch(deleteUserSuccessAction(data));
       toast.success(AlertMessage.deleted('usuario'));
@@ -140,16 +220,20 @@ export const deleteUser =
 
 // =============================================================================
 
-export const getAllUserPendingAction = (): any => ({
+export const getAllUserPendingAction = (): IGetAllUsersPendingAction => ({
   type: GET_ALL_USERS_PENDING,
 });
 
-export const getAllUserSuccessAction = (data: unknown): any => ({
+export const getAllUserSuccessAction = (
+  data: IUsers,
+): IGetAllUsersSuccessAction => ({
   type: GET_ALL_USERS_SUCCESS,
   data,
 });
 
-export const getAllUserErrorAction = (error: AxiosError): any => ({
+export const getAllUserErrorAction = (
+  error: AxiosError,
+): IGetAllUsersErrorAction => ({
   type: GET_ALL_USERS_ERROR,
   error,
 });
@@ -164,13 +248,9 @@ export const getAllUser =
   async (dispatch) => {
     try {
       dispatch(getAllUserPendingAction());
-      // const limitQuery = limit ? `?limit=${limit}` : '';
-      // const { data } = await api.get(`/user${limitQuery}`);
 
-      // TODO: Eliminar
-      const data = dataUsers;
-      // eslint-disable-next-line no-console
-      console.log(limit);
+      const limitQuery = limit ? `?limit=${limit}` : '';
+      const { data } = await api.get(`/user/admin/user${limitQuery}`);
 
       dispatch(getAllUserSuccessAction(data));
     } catch (error) {
@@ -181,33 +261,39 @@ export const getAllUser =
 
 // =============================================================================
 
-export const changeUserStatusPendingAction = (): any => ({
-  type: CHANGE_USER_STATUS_PENDING,
-});
+export const changeUserStatusPendingAction =
+  (): IChangeUserStatusPendingAction => ({
+    type: CHANGE_USER_STATUS_PENDING,
+  });
 
-export const changeUserStatusSuccessAction = (data: unknown): any => ({
+export const changeUserStatusSuccessAction = (
+  data: IUsers,
+): IChangeUserStatusSuccessAction => ({
   type: CHANGE_USER_STATUS_SUCCESS,
   data,
 });
 
-export const changeUserStatusErrorAction = (error: AxiosError): any => ({
+export const changeUserStatusErrorAction = (
+  error: AxiosError,
+): IChangeUserStatusErrorAction => ({
   type: CHANGE_USER_STATUS_ERROR,
   error,
 });
 
 export const changeUserStatus =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (id: TElementId, user: TUser): ThunkAction<void, TRootState, unknown, any> =>
   async (dispatch) => {
     try {
       dispatch(changeUserStatusPendingAction());
-      // const { data } = await api.put(`/user/${id}`);
 
-      // TODO: Eliminar
-      const data = dataUsersChangeStatus(id);
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.put(`/user/admin/user/${id}`, { user });
 
-      dispatch(changeUserStatusSuccessAction(data));
+      const newData = {
+        ...data,
+        isBanned: user.isBanned,
+      };
+
+      dispatch(changeUserStatusSuccessAction(newData));
       toast.success(AlertMessage.updated('estatus'));
     } catch (error) {
       dispatch(changeUserStatusErrorAction(error));

@@ -16,7 +16,7 @@ import {
 } from '@/store/actions/managePublications';
 import { isFetchingManagePublicationsSelector } from '@/store/selectors/managePublications';
 import { TElementId } from '@/types';
-import { approvalPostFormat } from '@/utils/availablePostFormat';
+import { approvalPostFormat } from '@/utils/editPostFormat';
 
 type TTablePublications = {
   data: any;

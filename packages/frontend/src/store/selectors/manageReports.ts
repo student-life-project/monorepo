@@ -1,10 +1,7 @@
-export const stateManageReportsSelector = (state: any) => state.manageReports;
+import { TRootState } from '../reducers';
 
-export const manageReportsSelector = (state: any) =>
+export const manageReportsSelector = (state: TRootState) =>
   state.manageReports.reports;
 
-export const isFetchingManageReportsSelector = (state: any) =>
+export const isFetchingManageReportsSelector = (state: TRootState) =>
   state.manageReports.isFetching;
-
-export const errorManageReportsSelector = (state: any) =>
-  state.manageReports.error;

@@ -1,3 +1,4 @@
+import { IUser } from '@student_life/common';
 import { AxiosError } from 'axios';
 
 import {
@@ -17,35 +18,46 @@ import {
   SEARCH_USER_PENDING,
   SEARCH_USER_SUCCESS,
 } from '@/store/types/manageUsers';
+import { IUsers } from '@/types';
+
+import { TUsersAction } from '../actions/manageUsers';
 
 export interface IState {
-  users: any;
+  users: IUsers;
+  user: IUser | null | any;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
-  users: [],
+  users: {
+    count: 0,
+    current: 0,
+    data: [],
+    next: 0,
+    prev: 0,
+  },
+  user: null,
   isFetching: false,
   error: null,
 };
 
 const reducer = (
   state: IState = initialState,
-  payload: { type: any; data: any; error: any },
+  payload: TUsersAction,
 ): IState => {
   switch (payload.type) {
     case GET_USER_PENDING:
       return {
         ...state,
-        users: [],
+        user: null,
         isFetching: true,
         error: null,
       };
     case GET_USER_SUCCESS:
       return {
         ...state,
-        users: payload.data,
+        user: payload.data,
         isFetching: false,
         error: null,
       };
@@ -58,7 +70,7 @@ const reducer = (
     case SEARCH_USER_PENDING:
       return {
         ...state,
-        users: [],
+        users: initialState.users,
         isFetching: true,
         error: null,
       };
@@ -78,14 +90,14 @@ const reducer = (
     case DELETE_USER_PENDING:
       return {
         ...state,
-        users: [],
+        user: null,
         isFetching: true,
         error: null,
       };
     case DELETE_USER_SUCCESS:
       return {
         ...state,
-        users: payload.data,
+        user: payload.data,
         isFetching: false,
         error: null,
       };
@@ -98,7 +110,7 @@ const reducer = (
     case GET_ALL_USERS_PENDING:
       return {
         ...state,
-        users: [],
+        users: initialState.users,
         isFetching: true,
         error: null,
       };
@@ -118,14 +130,14 @@ const reducer = (
     case CHANGE_USER_STATUS_PENDING:
       return {
         ...state,
-        users: [],
+        user: null,
         isFetching: true,
         error: null,
       };
     case CHANGE_USER_STATUS_SUCCESS:
       return {
         ...state,
-        users: payload.data,
+        user: payload.data,
         isFetching: false,
         error: null,
       };

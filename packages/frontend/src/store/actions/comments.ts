@@ -51,7 +51,7 @@ export const getComment =
       dispatch(getCommentPendingAction());
 
       const { data } = await api.get(
-        `/rental-place/${id as string}/comments/${commentId as string}`,
+        `/rental-place/${id}/comments/${commentId}`,
       );
 
       dispatch(getCommentSuccessAction(data));
@@ -86,10 +86,7 @@ export const createComment =
     try {
       dispatch(createCommentPendingAction());
 
-      const { data } = await api.post(
-        `/rental-place/${id as string}/comments`,
-        comment,
-      );
+      const { data } = await api.post(`/rental-place/${id}/comments`, comment);
 
       dispatch(createCommentSuccessAction(data));
       toast.success(AlertMessage.created('comentario'));
@@ -126,7 +123,7 @@ export const updateComment =
       dispatch(updateCommentPendingAction());
 
       const { data } = await api.put(
-        `/rental-place/${id as string}/comments/${commentId as string}`,
+        `/rental-place/${id}/comments/${commentId}`,
         comment,
       );
 
@@ -163,7 +160,7 @@ export const deleteComment =
     try {
       dispatch(deleteCommentPendingAction());
       const { data } = await api.delete(
-        `/rental-place/${id as string}/comments/${commentId as string}`,
+        `/rental-place/${id}/comments/${commentId}`,
       );
 
       dispatch(deleteCommentSuccessAction(data));
@@ -196,7 +193,7 @@ export const getAllComments =
     try {
       dispatch(getAllCommentsPendingAction());
 
-      const { data } = await api.get(`/rental-place/${id as string}/comments`);
+      const { data } = await api.get(`/rental-place/${id}/comments`);
 
       dispatch(getAllCommentsSuccessAction(data));
     } catch (error) {
