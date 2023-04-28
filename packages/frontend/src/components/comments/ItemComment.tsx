@@ -42,18 +42,18 @@ const ItemComment: FC<TItemComment> = ({
               <Avatar
                 small
                 url="/images/avatar.png"
-                alt={item.ownerId.firstName}
+                alt={item.ownerId?.firstName}
               />
 
               <p>
-                {item.ownerId.firstName} {item.ownerId.lastName}
+                {item.ownerId?.firstName} {item.ownerId?.lastName}
               </p>
             </div>
 
             {isNotAdmin && (
               <div css={xw`relative`}>
                 <Options>
-                  {userId !== item.ownerId._id && (
+                  {userId !== item.ownerId?._id && (
                     <button type="button" onClick={openUserReport}>
                       <FontAwesomeIcon
                         icon={faBullhorn as IconProp}
@@ -63,7 +63,7 @@ const ItemComment: FC<TItemComment> = ({
                     </button>
                   )}
 
-                  {userId === item.ownerId._id && (
+                  {userId === item.ownerId?._id && (
                     <button type="button" onClick={() => openModalEdit(item)}>
                       <FontAwesomeIcon
                         icon={faPen as IconProp}
@@ -73,7 +73,7 @@ const ItemComment: FC<TItemComment> = ({
                     </button>
                   )}
 
-                  {userId === item.ownerId._id && (
+                  {userId === item.ownerId?._id && (
                     <button
                       type="button"
                       onClick={() => openModalDelete(item._id)}
