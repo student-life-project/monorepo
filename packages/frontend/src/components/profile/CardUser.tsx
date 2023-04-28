@@ -4,7 +4,6 @@ import {
   faPhoneAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { EUserType } from '@student_life/common';
 import { FC } from 'react';
 import xw from 'xwind';
 
@@ -18,7 +17,7 @@ import Avatar from './Avatar';
 type TCardUser = {
   user: any;
   userId: TElementId;
-  userType: EUserType;
+  isNotAdmin: boolean;
   titlePublication: string;
   openUserReport: () => void;
 };
@@ -26,7 +25,7 @@ type TCardUser = {
 const CardUser: FC<TCardUser> = ({
   user,
   userId,
-  userType,
+  isNotAdmin,
   titlePublication,
   openUserReport,
 }) => (
@@ -72,7 +71,7 @@ const CardUser: FC<TCardUser> = ({
             </Button>
           </a>
 
-          {userType !== EUserType.ADMIN && (
+          {isNotAdmin && (
             <ButtonLink
               type="button"
               onClick={openUserReport}

@@ -1,4 +1,3 @@
-import { EUserType } from '@student_life/common';
 import { FC, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -22,7 +21,7 @@ import ItemComment from './ItemComment';
 type TComments = {
   comments: any;
   userId: TElementId;
-  userType: EUserType;
+  isNotAdmin: boolean;
   rentalPlaceId: TElementId;
   openUserReport: () => void;
 };
@@ -30,7 +29,7 @@ type TComments = {
 const Comments: FC<TComments> = ({
   userId,
   comments,
-  userType,
+  isNotAdmin,
   rentalPlaceId,
   openUserReport,
 }) => {
@@ -87,7 +86,7 @@ const Comments: FC<TComments> = ({
       <div css={xw`w-full`}>
         <h2 css={xw`w-full py-7 text-xl font-bold`}>Comentarios</h2>
 
-        {userType !== EUserType.ADMIN && (
+        {isNotAdmin && (
           <form onSubmit={handleSubmit(onSubmit)}>
             <Textarea
               id="comment"
@@ -122,7 +121,7 @@ const Comments: FC<TComments> = ({
         <ItemComment
           userId={userId}
           comments={comments}
-          userType={userType}
+          isNotAdmin={isNotAdmin}
           openUserReport={openUserReport}
           openModalEdit={handleOpenModalEdit}
           openModalDelete={handleOpenModalDelete}
