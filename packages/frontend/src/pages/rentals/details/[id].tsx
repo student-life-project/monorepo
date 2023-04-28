@@ -141,8 +141,10 @@ const Details: NextPage = () => {
     await dispatch(getRentalPlace(rentalPlace?._id));
   };
 
+  const isValidAdmin = userData?.type === EUserType.ADMIN;
+  const like = infoLikes.length > 0 || isValidAdmin;
+
   const street = address?.street?.replace('#', '');
-  const like = infoLikes.length > 0 || userData?.type === EUserType.ADMIN;
   const googleMapsLink = `https://maps.google.com/?q=${street}, ${address?.cologne}, ${address?.city}, ${address?.state}`;
 
   return (
@@ -333,8 +335,8 @@ const Details: NextPage = () => {
 
                 <Comments
                   userId={userData?._id}
-                  userType={userData?.type}
                   comments={comments?.data}
+                  isNotAdmin={!isValidAdmin}
                   rentalPlaceId={rentalPlace?._id}
                   openUserReport={handleUserReport}
                 />
@@ -344,7 +346,7 @@ const Details: NextPage = () => {
             <CardUser
               user={user}
               userId={userData?._id}
-              userType={userData?.type}
+              isNotAdmin={!isValidAdmin}
               openUserReport={handleUserReport}
               titlePublication={rentalPlace?.title}
             />
