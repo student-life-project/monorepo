@@ -1,8 +1,9 @@
-export const stateManageUserSelector = (state: any) => state.manageUsers;
+import { TRootState } from '../reducers';
 
-export const manageUserSelector = (state: any) => state.manageUsers.users;
+export const manageUserSelector = (state: TRootState) => state.manageUsers.user;
 
-export const isFetchingManageUserSelector = (state: any) =>
+export const manageUsersSelector = (state: TRootState) =>
+  state.manageUsers.users.data;
+
+export const isFetchingManageUserSelector = (state: TRootState) =>
   state.manageUsers.isFetching;
-
-export const errorManageUserSelector = (state: any) => state.manageUsers.error;

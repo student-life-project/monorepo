@@ -21,7 +21,7 @@ import {
 import {
   approvalPostFormat,
   availablePostFormat,
-} from '@/utils/availablePostFormat';
+} from '@/utils/editPostFormat';
 import { formatDate } from '@/utils/managerDate';
 
 import Alert from '../common/Alert';

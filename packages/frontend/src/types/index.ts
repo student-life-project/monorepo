@@ -181,3 +181,13 @@ export interface IPublications {
   next: number;
   prev: number;
 }
+
+export interface IUsers {
+  count: number;
+  current: number;
+  data: IUser[];
+  next: number;
+  prev: number;
+}
+
+export type TUser = IUser & { isBanned: boolean };

@@ -145,9 +145,7 @@ export const getPublication =
     try {
       dispatch(getPublicationPendingAction());
 
-      const { data } = await api.get<IRentalPlace>(
-        `/rental-place/${id as string}`,
-      );
+      const { data } = await api.get<IRentalPlace>(`/rental-place/${id}`);
 
       dispatch(getPublicationSuccessAction(data));
     } catch (error) {

@@ -7,28 +7,38 @@ import { ColumnsUser, confirmMessage, HeaderUser } from '@/constants';
 import {
   changeUserStatus,
   deleteUser,
+  getAllUser,
   searchUser,
 } from '@/store/actions/manageUsers';
 import { isFetchingManageUserSelector } from '@/store/selectors/manageUsers';
 import { TElementId } from '@/types';
+import { isBannedUserFormat } from '@/utils/editUserFormat';
 
 type TTableUsers = {
   data: any;
 };
 
 const TableUsers: FC<TTableUsers> = ({ data }) => {
+  const dispatch = useDispatch();
+
   const [userId, setUserId] = useState<TElementId>(null);
   const [showModalUser, setShowModalUser] = useState(false);
 
-  const dispatch = useDispatch();
-  const loading = useSelector((state) => isFetchingManageUserSelector(state));
+  const loading = useSelector(isFetchingManageUserSelector);
 
   const handleChange = ({ target }) => {
     dispatch(searchUser(target.value));
   };
 
-  const statusUser = (id: TElementId) => {
-    dispatch(changeUserStatus(id));
+  const statusUser = async (id: TElementId) => {
+    const userSelected = data.find((item) => item._id === id);
+    await dispatch(changeUserStatus(id, isBannedUserFormat(userSelected)));
+    await dispatch(getAllUser());
+  };
+
+  const handleDeletePublication = async () => {
+    await dispatch(deleteUser(userId));
+    await dispatch(getAllUser());
   };
 
   const handleOpenModalUser = (id: TElementId) => {
@@ -61,7 +71,7 @@ const TableUsers: FC<TTableUsers> = ({ data }) => {
           title={confirmMessage.titleDelete('usuario')}
           description={confirmMessage.descriptionDelete('usuario')}
           closeModal={handleCloseModalUser}
-          action={() => dispatch(deleteUser(userId))}
+          action={handleDeletePublication}
         />
       )}
     </>
