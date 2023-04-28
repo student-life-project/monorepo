@@ -6,6 +6,7 @@ import { AddressModule } from '../address/address.module';
 import { AddressService } from '../address/address.service';
 import { ImageModule } from '../image/image.module';
 import { ImageService } from '../image/image.service';
+import { PaginationModule } from '../pagination/pagination.module';
 import { UserModule } from '../user/user.module';
 import { UserService } from '../user/user.service';
 import { SchoolController } from './school.controller';
@@ -19,6 +20,7 @@ import { SchoolService } from './school.service';
     HttpModule,
     UserModule,
     ImageModule,
+    PaginationModule,
   ],
   exports: [
     MongooseModule.forFeature([{ name: School.name, schema: SchoolSchema }]),
