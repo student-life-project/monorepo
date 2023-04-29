@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Put,
+  Query,
   Req,
   UnauthorizedException,
   UseGuards,
@@ -19,7 +20,13 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { EUserType, IAuth0User, IUser } from '@student_life/common';
+import {
+  EOrder,
+  EUserType,
+  IAuth0User,
+  IPaginationParams,
+  IUser,
+} from '@student_life/common';
 
 import { UserType } from '../helper/types';
 import { RoleDto } from './dto/role.dto';
@@ -150,7 +157,17 @@ export class UserController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiBearerAuth()
   @Get('/admin/user')
-  async getUsersInformation(@Req() req: Request & { user: IAuth0User }) {
+  async getUsersInformation(
+    @Req() req: Request & { user: IAuth0User },
+    @Query()
+    {
+      sortBy = 'email',
+      from = 0,
+      limit = 10,
+      order = EOrder.desc,
+      ...paginationParams
+    }: IPaginationParams = {},
+  ) {
     const currentUserData = await this.userService.getOrCreateUserByEmail({
       email: req.user.email,
       firstName: (req.user.name || '').toLowerCase(),
@@ -168,7 +185,12 @@ export class UserController {
       throw UnauthorizedException;
     }
 
-    const usersList = await this.userService.findUsers();
+    const usersList = await this.userService.findUsers(paginationParams, {
+      sortBy,
+      from,
+      limit,
+      order,
+    });
 
     return usersList;
   }
