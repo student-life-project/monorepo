@@ -4,6 +4,9 @@ export interface IReport {
   description: string;
   type: string;
   createdAt: string | Date;
+  approved: boolean;
+  reportOriginUrl?: string;
+  reassson: string;
 }
 
 export const PlaceReport = [
