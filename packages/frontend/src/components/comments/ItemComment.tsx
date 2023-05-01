@@ -46,7 +46,9 @@ const ItemComment: FC<TItemComment> = ({
               />
 
               <p>
-                {item.ownerId?.firstName} {item.ownerId?.lastName}
+                {item.ownerId
+                  ? `${item.ownerId?.firstName} ${item.ownerId?.lastName}`
+                  : 'Nombre no disponible'}
               </p>
             </div>
 
