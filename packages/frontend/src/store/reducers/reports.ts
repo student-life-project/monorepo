@@ -23,7 +23,7 @@ const initialState: IState = {
 
 const reducer = (
   state: IState = initialState,
-  payload: TReportsAction,
+  payload: TReportsAction | any,
 ): IState => {
   switch (payload.type) {
     case CREATE_REPORT_ERROR:
