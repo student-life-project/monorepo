@@ -25,7 +25,7 @@ enum ERentalType {
 }
 
 interface IReportData {
-  reason: IOption[];
+  reason: string;
   description: string;
 }
 
@@ -63,8 +63,16 @@ const ModalReport: FC<TModalReport> = ({ type, closeModal }) => {
   }, [reset]);
 
   const onSubmit: SubmitHandler<IReportData> = async (data) => {
-    // TODO: Enviar más data necesaria
-    dispatch(createReport(data));
+    const { reason, description: desc } = data;
+
+    const createData = {
+      type,
+      reassson: reason,
+      description: desc,
+      reportOriginUrl: window.location.pathname,
+    };
+
+    await dispatch(createReport(createData));
     closeModal();
   };
 

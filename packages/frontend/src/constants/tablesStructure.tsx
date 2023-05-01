@@ -117,7 +117,7 @@ export const ColumnsUser = (
 ): TColumns => [
   {
     name: 'Nombre',
-    selector: 'fullName',
+    selector: 'firstName',
     sortable: true,
     cell: (row: { firstName: string; lastName: string }) => {
       const { firstName, lastName } = row;
@@ -131,7 +131,7 @@ export const ColumnsUser = (
   { name: 'Correo', selector: 'email', sortable: true },
   {
     name: 'Rol',
-    selector: 'role',
+    selector: 'type',
     sortable: true,
     cell: (row: { type: string }) => {
       const { type } = row;
@@ -140,7 +140,7 @@ export const ColumnsUser = (
   },
   {
     name: 'Estatus',
-    selector: 'status',
+    selector: 'isBanned',
     sortable: true,
     cell: (row: { isBanned: boolean }) => {
       const { isBanned } = row;
@@ -245,22 +245,22 @@ export const ColumnsReport = (
   },
   {
     name: 'Estatus',
-    selector: 'status',
+    selector: 'approved',
     sortable: true,
-    cell: (row: { status: boolean }) => {
-      const { status } = row;
-      return <Status status={status} options={ReportStatus} />;
+    cell: (row: { approved: boolean }) => {
+      const { approved } = row;
+      return <Status status={approved} options={ReportStatus} />;
     },
   },
   {
     name: 'Acciones',
-    cell: (row: { _id: TElementId; status: boolean }) => {
-      const { _id, status } = row;
+    cell: (row: { _id: TElementId; approved: boolean }) => {
+      const { _id, approved } = row;
 
       return (
         <Options>
           <button type="button" onClick={() => solveReport(_id)}>
-            <span css={xw`ml-2`}>{status ? 'No resuelto' : 'Resuelto'}</span>
+            <span css={xw`ml-2`}>{approved ? 'No resuelto' : 'Resuelto'}</span>
           </button>
 
           <button type="button" onClick={() => handleOpenModalReport(_id)}>
