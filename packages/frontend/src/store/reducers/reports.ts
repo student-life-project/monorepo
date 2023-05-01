@@ -1,3 +1,4 @@
+import { IReport } from '@student_life/common';
 import { AxiosError } from 'axios';
 
 import {
@@ -6,34 +7,36 @@ import {
   CREATE_REPORT_SUCCESS,
 } from '@/store/types/reports';
 
+import { TReportsAction } from '../actions/reports';
+
 export interface IState {
-  reports: any;
+  report: IReport | null;
   isFetching: boolean;
   error: AxiosError | null;
 }
 
 const initialState: IState = {
-  reports: [],
+  report: null,
   isFetching: false,
   error: null,
 };
 
 const reducer = (
   state: IState = initialState,
-  payload: { type: any; data: any; error: any },
+  payload: TReportsAction,
 ): IState => {
   switch (payload.type) {
     case CREATE_REPORT_ERROR:
       return {
         ...state,
-        reports: [],
+        report: initialState.report,
         isFetching: true,
         error: null,
       };
     case CREATE_REPORT_PENDING:
       return {
         ...state,
-        reports: payload.data,
+        report: payload.data,
         isFetching: false,
         error: null,
       };

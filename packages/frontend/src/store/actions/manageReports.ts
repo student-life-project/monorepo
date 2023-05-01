@@ -1,8 +1,10 @@
+import { IReport } from '@student_life/common';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { ThunkAction } from 'redux-thunk';
 
 import { AlertMessage } from '@/constants/alertMessage';
+import { api } from '@/services/api';
 import { TRootState } from '@/store/reducers';
 import {
   CHANGE_REPORT_STATUS_ERROR,
@@ -23,41 +25,120 @@ import {
 } from '@/store/types/manageReports';
 import { IQueryCommonFilters, TElementId } from '@/types';
 
-// TODO: Eliminar
-import {
-  dataReport,
-  dataReports,
-  dataReportsChangeStatus,
-  dataReportsSearch,
-} from '../dataFakeTemp';
-
 // =============================================================================
 
-export const getReportPendingAction = (): any => ({
+interface IGetReportPendingAction {
+  type: typeof GET_REPORT_PENDING;
+}
+
+interface IGetReportSuccessAction {
+  type: typeof GET_REPORT_SUCCESS;
+  data: IReport;
+}
+
+interface IGetReportErrorAction {
+  type: typeof GET_REPORT_ERROR;
+  error: AxiosError;
+}
+
+interface ISearchReportPendingAction {
+  type: typeof SEARCH_REPORT_PENDING;
+}
+
+interface ISearchReportSuccessAction {
+  type: typeof SEARCH_REPORT_SUCCESS;
+  data: IReport;
+}
+
+interface ISearchReportErrorAction {
+  type: typeof SEARCH_REPORT_ERROR;
+  error: AxiosError;
+}
+
+interface IDeleteReportPendingAction {
+  type: typeof DELETE_REPORT_PENDING;
+}
+
+interface IDeleteReportSuccessAction {
+  type: typeof DELETE_REPORT_SUCCESS;
+  data: IReport;
+}
+
+interface IDeleteReportErrorAction {
+  type: typeof DELETE_REPORT_ERROR;
+  error: AxiosError;
+}
+
+interface IGetAllReportsPendingAction {
+  type: typeof GET_ALL_REPORTS_PENDING;
+}
+
+interface IGetAllReportsSuccessAction {
+  type: typeof GET_ALL_REPORTS_SUCCESS;
+  data: IReport;
+}
+
+interface IGetAllReportsErrorAction {
+  type: typeof GET_ALL_REPORTS_ERROR;
+  error: AxiosError;
+}
+
+interface IChangeReportStatusPendingAction {
+  type: typeof CHANGE_REPORT_STATUS_PENDING;
+}
+
+interface IChangeReportStatusSuccessAction {
+  type: typeof CHANGE_REPORT_STATUS_SUCCESS;
+  data: IReport;
+}
+
+interface IChangeReportStatusErrorAction {
+  type: typeof CHANGE_REPORT_STATUS_ERROR;
+  error: AxiosError;
+}
+
+export type TReportsAction =
+  | IGetReportPendingAction
+  | IGetReportSuccessAction
+  | IGetReportErrorAction
+  | ISearchReportPendingAction
+  | ISearchReportSuccessAction
+  | ISearchReportErrorAction
+  | IDeleteReportPendingAction
+  | IDeleteReportSuccessAction
+  | IDeleteReportErrorAction
+  | IGetAllReportsPendingAction
+  | IGetAllReportsSuccessAction
+  | IGetAllReportsErrorAction
+  | IChangeReportStatusPendingAction
+  | IChangeReportStatusSuccessAction
+  | IChangeReportStatusErrorAction;
+
+export const getReportPendingAction = (): IGetReportPendingAction => ({
   type: GET_REPORT_PENDING,
 });
 
-export const getReportSuccessAction = (data: unknown): any => ({
+export const getReportSuccessAction = (
+  data: IReport,
+): IGetReportSuccessAction => ({
   type: GET_REPORT_SUCCESS,
   data,
 });
 
-export const getReportErrorAction = (error: AxiosError): any => ({
+export const getReportErrorAction = (
+  error: AxiosError,
+): IGetReportErrorAction => ({
   type: GET_REPORT_ERROR,
   error,
 });
 
 export const getReport =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (id: TElementId): ThunkAction<void, TRootState, unknown, TReportsAction> =>
   async (dispatch) => {
     try {
       dispatch(getReportPendingAction());
-      // const { data } = await api.get(`/report/${id}`);
 
-      // TODO: Eliminar
-      const data = dataReport(id);
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.get(`/report/${id}`);
 
       dispatch(getReportSuccessAction(data));
     } catch (error) {
@@ -68,22 +149,26 @@ export const getReport =
 
 // =============================================================================
 
-export const searchReportPendingAction = (): any => ({
+export const searchReportPendingAction = (): ISearchReportPendingAction => ({
   type: SEARCH_REPORT_PENDING,
 });
 
-export const searchReportSuccessAction = (data: unknown): any => ({
+export const searchReportSuccessAction = (
+  data: IReport,
+): ISearchReportSuccessAction => ({
   type: SEARCH_REPORT_SUCCESS,
   data,
 });
 
-export const searchReportErrorAction = (error: AxiosError): any => ({
+export const searchReportErrorAction = (
+  error: AxiosError,
+): ISearchReportErrorAction => ({
   type: SEARCH_REPORT_ERROR,
   error,
 });
 
 export const searchReport =
-  (text = ''): ThunkAction<void, TRootState, unknown, any> =>
+  (text = ''): ThunkAction<void, TRootState, unknown, TReportsAction> =>
   async (dispatch) => {
     try {
       dispatch(searchReportPendingAction());
@@ -91,10 +176,11 @@ export const searchReport =
       // const { data } = await api.get(`/report${filter}`);
 
       // TODO: Eliminar
-      const data = dataReportsSearch(text);
+      const data = {};
       // eslint-disable-next-line no-console
+      console.log(text);
 
-      dispatch(searchReportSuccessAction(data));
+      dispatch(searchReportSuccessAction(data as any));
     } catch (error) {
       dispatch(searchReportErrorAction(error));
       toast.error(AlertMessage.error);
@@ -103,31 +189,31 @@ export const searchReport =
 
 // =============================================================================
 
-export const deleteReportPendingAction = (): any => ({
+export const deleteReportPendingAction = (): IDeleteReportPendingAction => ({
   type: DELETE_REPORT_PENDING,
 });
 
-export const deleteReportSuccessAction = (data: unknown): any => ({
+export const deleteReportSuccessAction = (
+  data: IReport,
+): IDeleteReportSuccessAction => ({
   type: DELETE_REPORT_SUCCESS,
   data,
 });
 
-export const deleteReportErrorAction = (error: AxiosError): any => ({
+export const deleteReportErrorAction = (
+  error: AxiosError,
+): IDeleteReportErrorAction => ({
   type: DELETE_REPORT_ERROR,
   error,
 });
 
 export const deleteReport =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (id: TElementId): ThunkAction<void, TRootState, unknown, TReportsAction> =>
   async (dispatch) => {
     try {
       dispatch(deleteReportPendingAction());
-      // const { data } = await api.delete(`/report/${id}`);
 
-      // TODO: Eliminar
-      const data = {};
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const { data } = await api.delete(`/report/${id}`);
 
       dispatch(deleteReportSuccessAction(data));
       toast.success(AlertMessage.deleted('reporte'));
@@ -139,16 +225,20 @@ export const deleteReport =
 
 // =============================================================================
 
-export const getAllReportsPendingAction = (): any => ({
+export const getAllReportsPendingAction = (): IGetAllReportsPendingAction => ({
   type: GET_ALL_REPORTS_PENDING,
 });
 
-export const getAllReportsSuccessAction = (data: unknown): any => ({
+export const getAllReportsSuccessAction = (
+  data: IReport,
+): IGetAllReportsSuccessAction => ({
   type: GET_ALL_REPORTS_SUCCESS,
   data,
 });
 
-export const getAllReportsErrorAction = (error: AxiosError): any => ({
+export const getAllReportsErrorAction = (
+  error: AxiosError,
+): IGetAllReportsErrorAction => ({
   type: GET_ALL_REPORTS_ERROR,
   error,
 });
@@ -158,18 +248,14 @@ export const getAllReports =
     void,
     TRootState,
     unknown,
-    any
+    TReportsAction
   > =>
   async (dispatch) => {
     try {
       dispatch(getAllReportsPendingAction());
-      // const limitQuery = limit ? `?limit=${limit}` : '';
-      // const { data } = await api.get(`/report${limitQuery}`);
 
-      // TODO: Eliminar
-      const data = dataReports;
-      // eslint-disable-next-line no-console
-      console.log(limit);
+      const limitQuery = limit ? `?limit=${limit}` : '';
+      const { data } = await api.get(`/report${limitQuery}`);
 
       dispatch(getAllReportsSuccessAction(data));
     } catch (error) {
@@ -180,33 +266,41 @@ export const getAllReports =
 
 // =============================================================================
 
-export const changeReportStatusPendingAction = (): any => ({
-  type: CHANGE_REPORT_STATUS_PENDING,
-});
+export const changeReportStatusPendingAction =
+  (): IChangeReportStatusPendingAction => ({
+    type: CHANGE_REPORT_STATUS_PENDING,
+  });
 
-export const changeReportStatusSuccessAction = (data: unknown): any => ({
+export const changeReportStatusSuccessAction = (
+  data: IReport,
+): IChangeReportStatusSuccessAction => ({
   type: CHANGE_REPORT_STATUS_SUCCESS,
   data,
 });
 
-export const changeReportStatusErrorAction = (error: AxiosError): any => ({
+export const changeReportStatusErrorAction = (
+  error: AxiosError,
+): IChangeReportStatusErrorAction => ({
   type: CHANGE_REPORT_STATUS_ERROR,
   error,
 });
 
 export const changeReportStatus =
-  (id: TElementId): ThunkAction<void, TRootState, unknown, any> =>
+  (
+    id: TElementId,
+    report: IReport,
+  ): ThunkAction<void, TRootState, unknown, TReportsAction> =>
   async (dispatch) => {
     try {
       dispatch(changeReportStatusPendingAction());
-      // const { data } = await api.put(`/report/${id}`);
+      const { data } = await api.put(`/report/${id}`, { report });
 
-      // TODO: Eliminar
-      const data = dataReportsChangeStatus(id);
-      // eslint-disable-next-line no-console
-      console.log(id);
+      const newData = {
+        ...data,
+        approved: report.approved,
+      };
 
-      dispatch(changeReportStatusSuccessAction(data));
+      dispatch(changeReportStatusSuccessAction(newData));
       toast.success(AlertMessage.updated('estatus'));
     } catch (error) {
       dispatch(changeReportStatusErrorAction(error));
