@@ -14,7 +14,7 @@ type TFilter = {
   closeModal: () => void;
 };
 
-// TODO: need to implement
+//! FILTERS WILL NOT BE DEVELOPED
 const Filters: FC<TFilter> = ({ filters, closeModal }) => {
   const { register, handleSubmit } = useForm({
     defaultValues: {
