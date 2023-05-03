@@ -237,10 +237,10 @@ export const searchRentalPlace =
   async (dispatch) => {
     try {
       dispatch(searchRentalPlacePendingAction());
+
+      //! WILL NOT BE DEVELOPED
       // const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
       // const { data } = await api.get(`/rental${filter}`);
-
-      // TODO: Eliminar
       const data = [];
       // eslint-disable-next-line no-console
       console.log(text);
@@ -278,10 +278,10 @@ export const orderRentalPlace =
   async (dispatch) => {
     try {
       dispatch(orderRentalPlacePendingAction());
+
+      //! WILL NOT BE DEVELOPED
       // const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
       // const { data } = await api.get(`/rental${filter}`);
-
-      // TODO: Eliminar
       const data = [];
       // eslint-disable-next-line no-console
       console.log(text);
@@ -319,12 +319,12 @@ export const filterRentalPlace =
   async (dispatch) => {
     try {
       dispatch(filterRentalPlacePendingAction());
+
+      //! WILL NOT BE DEVELOPED
       // const newFilter = text
       //   ? `?filter=${encodeURI(JSON.stringify(filter))}`
       //   : '';
       // const { data } = await api.get(`/rental${newFilter}`);
-
-      // TODO: Eliminar
       const data = [];
       // eslint-disable-next-line no-console
       console.log(filter);

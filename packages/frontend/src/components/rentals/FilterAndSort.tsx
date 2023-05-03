@@ -95,7 +95,7 @@ const FilterAndSort: FC<IFilterAndSort> = ({
         <Select
           id="order"
           name="order"
-          // ! ORDER LIKES WILL NOT BE DEVELOPED
+          //! ORDER LIKES WILL NOT BE DEVELOPED
           options={sorts.slice(1)}
           optionName="Ordenar por"
           onChange={handleOnChangeSort}
