@@ -457,6 +457,7 @@ export const searchPublication =
     try {
       dispatch(searchPublicationPendingAction());
 
+      //! FILTERS WILL NOT BE DEVELOPED
       const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
       const { data } = await api.get<IPublications>(`/publication${filter}`);
 

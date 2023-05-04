@@ -178,7 +178,7 @@ export const searchPublication =
       // const filter = text ? `?filter=${encodeURI(JSON.stringify(text))}` : '';
       // const { data } = await api.get(`/publication${filter}`);
 
-      // TODO: Eliminar
+      //! FILTERS WILL NOT BE DEVELOPED
       const data = {};
       // eslint-disable-next-line no-console
       console.log(text);
