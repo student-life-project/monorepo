@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ModalConfirm from '@/components/common/ModalConfirm';
@@ -12,7 +12,7 @@ import {
   changePublicationApproval,
   deletePublication,
   getAllPublications,
-  searchPublication,
+  // searchPublication,
 } from '@/store/actions/managePublications';
 import { isFetchingManagePublicationsSelector } from '@/store/selectors/managePublications';
 import { TElementId } from '@/types';
@@ -26,13 +26,28 @@ const TablePublications: FC<TTablePublications> = ({ data }) => {
   const dispatch = useDispatch();
 
   const [postId, setPostId] = useState<TElementId>(null);
+
   const [showModalPost, setShowModalPost] = useState(false);
 
   const loading = useSelector(isFetchingManagePublicationsSelector);
 
+  // ! QUICK SOLUTION ====================================================
+  const [filteredItems, setFilteredItems] = useState(data);
+
   const handleChange = ({ target }) => {
-    dispatch(searchPublication(target.value));
+    const res = data.filter(
+      (item) =>
+        item.title &&
+        item.title.toLowerCase().includes(target.value.toLowerCase()),
+    );
+
+    setFilteredItems(res);
   };
+
+  useEffect(() => {
+    setFilteredItems(data);
+  }, [data]);
+  // ! ===================================================================
 
   const approvePost = async (id: TElementId) => {
     const publicationSelected = data.find((item) => item._id === id);
@@ -66,7 +81,7 @@ const TablePublications: FC<TTablePublications> = ({ data }) => {
   return (
     <>
       <Table
-        data={data}
+        data={filteredItems}
         loading={loading}
         columns={ColumnsPublication(approvePost, handleOpenModalPost)}
         header={header}

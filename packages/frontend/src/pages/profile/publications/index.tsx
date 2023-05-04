@@ -24,7 +24,7 @@ import {
   changePublicationAvailability,
   deletePublication,
   getAllPublication,
-  searchPublication,
+  // searchPublication,
 } from '@/store/actions/publications';
 import { TRootState } from '@/store/reducers';
 import {
@@ -44,9 +44,23 @@ const Publications: NextPage = () => {
   const publicationList = useSelector(publicationsSelector);
   const loading = useSelector(isFetchingPublicationsSelector);
 
+  // ! QUICK SOLUTION ====================================================
+  const [filteredItems, setFilteredItems] = useState(publicationList);
+
   const handleChange = ({ target }) => {
-    dispatch(searchPublication(target.value));
+    const res = publicationList.filter(
+      (item) =>
+        item.title &&
+        item.title.toLowerCase().includes(target.value.toLowerCase()),
+    );
+
+    setFilteredItems(res);
   };
+
+  useEffect(() => {
+    setFilteredItems(publicationList);
+  }, [publicationList]);
+  // ! ===================================================================
 
   const availablePost = async (id: TElementId) => {
     const data = publicationList.find((item) => item._id === id);
@@ -102,7 +116,7 @@ const Publications: NextPage = () => {
 
       <BodyContainer css={xw`pt-0`}>
         <Table
-          data={publicationList}
+          data={filteredItems}
           loading={loading}
           columns={ColumnsPublicationUser(availablePost, handleOpenModal)}
           header={header}

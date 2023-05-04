@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ModalConfirm from '@/components/common/ModalConfirm';
@@ -8,7 +8,7 @@ import {
   changeUserStatus,
   deleteUser,
   getAllUser,
-  searchUser,
+  // searchUser,
 } from '@/store/actions/manageUsers';
 import { isFetchingManageUserSelector } from '@/store/selectors/manageUsers';
 import { TElementId } from '@/types';
@@ -26,9 +26,23 @@ const TableUsers: FC<TTableUsers> = ({ data }) => {
 
   const loading = useSelector(isFetchingManageUserSelector);
 
+  // ! QUICK SOLUTION ====================================================
+  const [filteredItems, setFilteredItems] = useState(data);
+
   const handleChange = ({ target }) => {
-    dispatch(searchUser(target.value));
+    const res = data.filter(
+      (item) =>
+        item.email &&
+        item.email.toLowerCase().includes(target.value.toLowerCase()),
+    );
+
+    setFilteredItems(res);
   };
+
+  useEffect(() => {
+    setFilteredItems(data);
+  }, [data]);
+  // ! ===================================================================
 
   const statusUser = async (id: TElementId) => {
     const userSelected = data.find((item) => item._id === id);
@@ -58,7 +72,7 @@ const TableUsers: FC<TTableUsers> = ({ data }) => {
   return (
     <>
       <Table
-        data={data}
+        data={filteredItems}
         loading={loading}
         columns={ColumnsUser(statusUser, handleOpenModalUser)}
         header={header}
