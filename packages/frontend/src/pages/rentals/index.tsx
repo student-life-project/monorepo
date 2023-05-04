@@ -55,7 +55,7 @@ const Rentals: NextPage = () => {
 
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortByState, setSortByState] = useState('title');
-  const [order, setOrder] = useState(EOrder.desc);
+  const [order, setOrder] = useState(EOrder.asc);
   const [, setFiltersState] = useState<Record<string, string>[]>([]);
   const changedFilters = useRef(false);
   const isFirstTimeRendered = useRef(false);
@@ -94,7 +94,7 @@ const Rentals: NextPage = () => {
     ScrollToAnimation();
   };
 
-  const handleChangeSort = (sortBy: string, newOrder = EOrder.desc) => {
+  const handleChangeSort = (sortBy: string, newOrder = EOrder.asc) => {
     setSortByState(sortBy);
     setOrder(newOrder);
     changedFilters.current = true;

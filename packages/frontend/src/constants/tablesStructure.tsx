@@ -231,8 +231,8 @@ export const ColumnsReport = (
   solveReport: (_id: TElementId) => void,
   handleOpenModalReport: (_id: TElementId) => void,
 ): TColumns => [
-  { name: 'ID', selector: '_id', sortable: true },
   { name: 'Tipo', selector: 'type', sortable: true },
+  { name: 'Razón', selector: 'reassson', sortable: true },
   { name: 'Descripción', selector: 'description', sortable: true },
   {
     name: 'Fecha',

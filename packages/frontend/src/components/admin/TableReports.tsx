@@ -1,5 +1,5 @@
 import { IReport } from '@student_life/common';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ModalConfirm from '@/components/common/ModalConfirm';
@@ -9,7 +9,7 @@ import {
   changeReportStatus,
   deleteReport,
   getAllReports,
-  searchReport,
+  // searchReport,
 } from '@/store/actions/manageReports';
 import { isFetchingManageReportsSelector } from '@/store/selectors/manageReports';
 import { TElementId } from '@/types';
@@ -27,9 +27,23 @@ const TableReports: FC<TTableReports> = ({ data }) => {
 
   const loading = useSelector(isFetchingManageReportsSelector);
 
+  // ! QUICK SOLUTION ====================================================
+  const [filteredItems, setFilteredItems] = useState(data);
+
   const handleChange = ({ target }) => {
-    dispatch(searchReport(target.value));
+    const res = data.filter(
+      (item) =>
+        item.reassson &&
+        item.reassson.toLowerCase().includes(target.value.toLowerCase()),
+    );
+
+    setFilteredItems(res);
   };
+
+  useEffect(() => {
+    setFilteredItems(data);
+  }, [data]);
+  // ! ===================================================================
 
   const solveReport = async (id: TElementId) => {
     const reportSelected = data.find((item) => item._id === id);
@@ -59,7 +73,7 @@ const TableReports: FC<TTableReports> = ({ data }) => {
   return (
     <>
       <Table
-        data={data}
+        data={filteredItems}
         loading={loading}
         columns={ColumnsReport(solveReport, handleOpenModalReport)}
         header={header}

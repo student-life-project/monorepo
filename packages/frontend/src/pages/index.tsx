@@ -73,7 +73,8 @@ export const Home: NextPage = () => {
         <HeroImage url="/images/home_hero.jpg" name="hero_banner" />
 
         <PlaceContent>
-          {rentalPlaces.map((rentalPlace) => (
+          {/* ! QUICK SOLUTION */}
+          {rentalPlaces?.slice(0, 8)?.map((rentalPlace) => (
             <div key={`rental_place${rentalPlace._id}`}>
               <VerticalCard
                 id={rentalPlace._id}
@@ -157,7 +158,7 @@ Home.getInitialProps = async ({
   reduxStore,
 }: NextPageContext & { reduxStore: TStore }) => {
   await (reduxStore.dispatch as ThunkDispatch<TRootState, unknown, any>)(
-    getAllRentalPlaces({ limit: 4, sortBy: 'score', order: EOrder.desc }),
+    getAllRentalPlaces({ limit: 8, sortBy: 'price', order: EOrder.asc }),
   );
 
   return {};

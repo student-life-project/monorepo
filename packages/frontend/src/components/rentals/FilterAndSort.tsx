@@ -1,16 +1,17 @@
 // eslint-disable-next-line simple-import-sort/imports
 import xw from 'xwind';
 import styled from '@emotion/styled';
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faFilter } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EOrder } from '@student_life/common';
-import { FC, useState } from 'react';
+// import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import { IFilters, IOption } from '@/types';
 
-import Button from '../common/Button';
+// import Button from '../common/Button';
 import Select from '../common/Select';
-import Filters from './Filters';
+// import Filters from './Filters';
 
 interface IFilterAndSort {
   sorts: IOption[];
@@ -39,17 +40,17 @@ const Container = styled.section`
 
 const FilterAndSort: FC<IFilterAndSort> = ({
   sorts,
-  filters,
+  // filters,
   totalPlaces,
   setItemsPerPage,
   onChangeSort,
 }) => {
   let items: Record<string, number>[] = [];
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
 
-  const handleShowModal = () => {
-    setShowModal(!showModal);
-  };
+  // const handleShowModal = () => {
+  //   setShowModal(!showModal);
+  // };
 
   const handleItemsPerPage = ({ target }) => {
     const total = parseInt(target.value, 10);
@@ -59,16 +60,17 @@ const FilterAndSort: FC<IFilterAndSort> = ({
   const handleOnChangeSort = ({ target }) => {
     const selectedSortGroup = target.value;
 
-    if (selectedSortGroup === 'Mejor calificación') {
-      onChangeSort('score', EOrder.asc);
-    }
+    //! ORDER LIKES WILL NOT BE DEVELOPED
+    // if (selectedSortGroup === 'Mejor calificación') {
+    //   onChangeSort('score', EOrder.asc);
+    // }
 
     if (selectedSortGroup === 'Menor precio') {
-      onChangeSort('price', EOrder.desc);
+      onChangeSort('price', EOrder.asc);
     }
 
     if (selectedSortGroup === 'Mayor precio') {
-      onChangeSort('price', EOrder.asc);
+      onChangeSort('price', EOrder.desc);
     }
   };
 
@@ -93,7 +95,8 @@ const FilterAndSort: FC<IFilterAndSort> = ({
         <Select
           id="order"
           name="order"
-          options={sorts}
+          //! ORDER LIKES WILL NOT BE DEVELOPED
+          options={sorts.slice(1)}
           optionName="Ordenar por"
           onChange={handleOnChangeSort}
         />
@@ -109,7 +112,7 @@ const FilterAndSort: FC<IFilterAndSort> = ({
         />
       </div>
 
-      <Button
+      {/* <Button
         BPrimary
         type="button"
         onClick={handleShowModal}
@@ -119,7 +122,7 @@ const FilterAndSort: FC<IFilterAndSort> = ({
         <FontAwesomeIcon icon={faFilter} height="1rem" />
       </Button>
 
-      {showModal && <Filters filters={filters} closeModal={handleShowModal} />}
+      {showModal && <Filters filters={filters} closeModal={handleShowModal} />} */}
     </Container>
   );
 };

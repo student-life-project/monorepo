@@ -28,7 +28,6 @@ const WebcamImage: FC<TWebcamImage> = ({
 }) => {
   const webcamRef = useRef<any>(null);
 
-  // TODO: voltear camara para cel.
   const videoConstraints = {
     width: 420,
     height: 420,

@@ -1,7 +1,6 @@
 // pages/api/auth/[...auth0].js
 import { handleAuth, handleLogin, handleLogout } from '@auth0/nextjs-auth0';
 
-// TODO: need to implement
 export default handleAuth({
   async login(req, res) {
     try {
